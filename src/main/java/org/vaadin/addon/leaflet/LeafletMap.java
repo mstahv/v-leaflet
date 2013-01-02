@@ -5,8 +5,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.vaadin.addon.leaflet.client.vaadin.LeafletMapState;
-import org.vaadin.addon.leaflet.client.vaadin.Point;
 import org.vaadin.addon.leaflet.shared.BaseLayer;
+import org.vaadin.addon.leaflet.shared.Point;
 
 import com.vaadin.ui.AbstractComponentContainer;
 import com.vaadin.ui.Component;

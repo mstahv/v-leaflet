@@ -1,9 +1,10 @@
 package org.vaadin.addon.vodatime.demoandtestapp;
 
+import org.vaadin.addon.leaflet.LeafletLayer.LeafletClickEvent;
+import org.vaadin.addon.leaflet.LeafletLayer.LeafletClickListener;
+import org.vaadin.addon.leaflet.LeafletCircle;
 import org.vaadin.addon.leaflet.LeafletMap;
 import org.vaadin.addon.leaflet.LeafletMarker;
-import org.vaadin.addon.leaflet.LeafletMarker.MarkerClickEvent;
-import org.vaadin.addon.leaflet.LeafletMarker.MarkerClickListener;
 import org.vaadin.addon.leaflet.shared.BaseLayer;
 
 import com.vaadin.ui.Component;
@@ -15,6 +16,14 @@ public class BasicTest extends AbstractTest {
 	public String getDescription() {
 		return "A simple test";
 	}
+	
+	LeafletClickListener listener = new LeafletClickListener() {
+		
+		@Override
+		public void onClick(LeafletClickEvent event) {
+			Notification.show("Clicked object (" + event.getConnector().getClass().getSimpleName() + ")");
+		}
+	};
 
 	@Override
 	Component getTestComponent() {
@@ -23,14 +32,13 @@ public class BasicTest extends AbstractTest {
 		leafletMap.setZoomLevel(15);
 
 		LeafletMarker leafletMarker = new LeafletMarker(60.4525, 22.301);
+		leafletMarker.addClickListener(listener);
 		leafletMap.addComponent(leafletMarker);
+		
+		LeafletCircle leafletCircle = new LeafletCircle(60.4525, 22.301, 300);
+		leafletCircle.addClickListener(listener);
+		leafletMap.addComponent(leafletCircle);
 
-		leafletMarker.addMarkerClickListener(new MarkerClickListener() {
-			@Override
-			public void onClick(MarkerClickEvent event) {
-				Notification.show("Clicked marker");
-			}
-		});
 
 		BaseLayer baselayer = new BaseLayer();
 		baselayer.setName("CloudMade");

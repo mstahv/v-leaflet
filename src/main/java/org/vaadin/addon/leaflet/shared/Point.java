@@ -1,4 +1,4 @@
-package org.vaadin.addon.leaflet.client.vaadin;
+package org.vaadin.addon.leaflet.shared;
 
 public class Point {
 	private Double lon;

@@ -5,7 +5,7 @@ import org.discotools.gwt.leaflet.client.events.MouseEvent;
 import org.discotools.gwt.leaflet.client.events.handler.EventHandler;
 import org.discotools.gwt.leaflet.client.events.handler.EventHandler.Events;
 import org.discotools.gwt.leaflet.client.events.handler.EventHandlerManager;
-import org.discotools.gwt.leaflet.client.marker.Marker;
+import org.discotools.gwt.leaflet.client.layers.vector.Circle;
 import org.discotools.gwt.leaflet.client.marker.MarkerOptions;
 import org.discotools.gwt.leaflet.client.types.LatLng;
 
@@ -14,14 +14,14 @@ import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.vaadin.client.communication.StateChangeEvent;
 import com.vaadin.shared.ui.Connect;
 
-@Connect(org.vaadin.addon.leaflet.LeafletMarker.class)
-public class LeafletMarkerConnector extends AbstractLeafletLayerConnector {
+@Connect(org.vaadin.addon.leaflet.LeafletCircle.class)
+public class LeafletCircleConnector extends AbstractLeafletLayerConnector {
 
-	private Marker marker;
+	private Circle marker;
 
 	@Override
-	public LeafletMarkerState getState() {
-		return (LeafletMarkerState) super.getState();
+	public LeafletCircleState getState() {
+		return (LeafletCircleState) super.getState();
 	}
 
 	@Override
@@ -38,11 +38,9 @@ public class LeafletMarkerConnector extends AbstractLeafletLayerConnector {
 				LatLng latlng = new LatLng(getState().point.getLat(),
 						getState().point.getLon());
 				Options options = new MarkerOptions();
-				// options.setProperty("color", "cyan");
-				// marker = new Circle(latlng, 200, options);
-				// MarkerOptions options1 = new MarkerOptions();
-				// Marker marker2 = new Marker(latlng, options);
-				marker = new Marker(latlng, options);
+				// FIXME hard coded color
+				options.setProperty("color", "cyan");
+				marker = new Circle(latlng, 200, options);
 				marker.addTo(getParent().getMap());
 
 				EventHandler<?> handler = new EventHandler<MouseEvent>() {
