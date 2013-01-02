@@ -10,4 +10,5 @@
 	<set-configuration-property name="devModeRedirectEnabled" value="true" />
 	
 	<source path="client/"></source>
+	<source path="shared/"></source>
 </module>

@@ -15,6 +15,8 @@
  */
 package org.vaadin.addon.leaflet.client.vaadin;
 
+import org.vaadin.addon.leaflet.shared.BaseLayer;
+
 import com.vaadin.shared.AbstractComponentState;
 
 /**
@@ -25,4 +27,17 @@ public class LeafletMapState extends AbstractComponentState {
 	
 	public Point center;
 	public Integer zoomLevel;
+	
+	private BaseLayer[] baseLayers;
+
+	public BaseLayer[] getBaseLayers() {
+		return baseLayers;
+	}
+	
+	public void setBaseLayers(BaseLayer[] baseLayers) {
+		this.baseLayers = baseLayers;
+	}
+	
+	
+	
 }

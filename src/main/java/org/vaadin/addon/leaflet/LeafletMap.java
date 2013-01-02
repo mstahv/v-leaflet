@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.vaadin.addon.leaflet.client.vaadin.LeafletMapState;
 import org.vaadin.addon.leaflet.client.vaadin.Point;
+import org.vaadin.addon.leaflet.shared.BaseLayer;
 
 import com.vaadin.ui.AbstractComponentContainer;
 import com.vaadin.ui.Component;
@@ -64,6 +65,14 @@ public class LeafletMap extends AbstractComponentContainer {
 
 	public void setZoomLevel(int zoomLevel) {
 		getState().zoomLevel = zoomLevel;
+	}
+	
+	public BaseLayer[] getBaseLayers() {
+		return getState().getBaseLayers();
+	}
+	
+	public void setBaseLayers(BaseLayer... baselayer) {
+		getState().setBaseLayers(baselayer);
 	}
 
 }
