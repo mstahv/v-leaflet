@@ -7,7 +7,7 @@ public class Point {
 	public Point() {
 	}
 	
-	public Point(double lon2, double lat2) {
+	public Point(double lat2, double lon2) {
 		lon = lon2;
 		lat = lat2;
 	}

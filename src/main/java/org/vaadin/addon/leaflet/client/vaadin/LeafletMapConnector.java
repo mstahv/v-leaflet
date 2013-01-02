@@ -20,13 +20,8 @@ import java.util.Set;
 
 import org.discotools.gwt.leaflet.client.LeafletResourceInjector;
 import org.discotools.gwt.leaflet.client.Options;
-import org.discotools.gwt.leaflet.client.controls.ControlOptions;
-import org.discotools.gwt.leaflet.client.controls.Position;
-import org.discotools.gwt.leaflet.client.controls.layers.Layers;
 import org.discotools.gwt.leaflet.client.controls.scale.Scale;
 import org.discotools.gwt.leaflet.client.controls.scale.ScaleOptions;
-import org.discotools.gwt.leaflet.client.controls.zoom.Zoom;
-import org.discotools.gwt.leaflet.client.controls.zoom.ZoomOptions;
 import org.discotools.gwt.leaflet.client.crs.epsg.EPSG3857;
 import org.discotools.gwt.leaflet.client.layers.ILayer;
 import org.discotools.gwt.leaflet.client.layers.raster.TileLayer;
@@ -37,7 +32,6 @@ import org.discotools.gwt.leaflet.client.widget.MapWidget;
 import org.vaadin.addon.leaflet.LeafletMap;
 import org.vaadin.addon.leaflet.shared.BaseLayer;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.ui.Widget;
@@ -116,7 +110,7 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector {
 			map = new Map(id, options);
 
 			setBaseLayers();
-			
+
 			// Add Scale Control
 			ScaleOptions scaleOptions = new ScaleOptions();
 			Scale scale = new Scale(scaleOptions);
@@ -125,7 +119,7 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector {
 			map.invalidateSize(false);
 
 		} else {
-			if(stateChangeEvent.getChangedProperties().contains("baseLayers")) {
+			if (stateChangeEvent.getChangedProperties().contains("baseLayers")) {
 				setBaseLayers();
 			}
 			if (stateChangeEvent.getChangedProperties().contains("center")
@@ -138,7 +132,7 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector {
 				// TODO
 			}
 		}
-		
+
 		// TODO check if this is really needed
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 			@Override
@@ -156,7 +150,7 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector {
 		layers.clear();
 		// add layers from state
 		BaseLayer[] baseLayers = getState().getBaseLayers();
-		if(baseLayers != null) {
+		if (baseLayers != null) {
 			for (BaseLayer baseLayer : baseLayers) {
 				Options tileOptions = new Options();
 				tileOptions.setProperty("attribution",
@@ -187,7 +181,7 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector {
 	@Override
 	public void onConnectorHierarchyChange(
 			ConnectorHierarchyChangeEvent connectorHierarchyChangeEvent) {
-		// TODO Auto-generated method stub
+		// TODO figure out a sane way to ensure the correct order of children
 
 	}
 

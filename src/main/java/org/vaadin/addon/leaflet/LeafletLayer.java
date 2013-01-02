@@ -1,11 +1,14 @@
 package org.vaadin.addon.leaflet;
 
 import java.lang.reflect.Method;
+import java.util.Map;
 
 import org.vaadin.addon.leaflet.client.vaadin.ClickServerRpc;
+import org.vaadin.addon.leaflet.client.vaadin.AbstractLeafletComponentState;
 
 import com.vaadin.event.ConnectorEvent;
 import com.vaadin.server.ClientConnector;
+import com.vaadin.shared.AbstractComponentState;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.util.ReflectTools;
 
@@ -25,6 +28,11 @@ public abstract class LeafletLayer extends AbstractComponent {
 			super(source);
 		}
 		
+	}
+	
+	@Override
+	protected AbstractLeafletComponentState getState() {
+		return (AbstractLeafletComponentState) super.getState();
 	}
 	
 	public interface LeafletClickListener {

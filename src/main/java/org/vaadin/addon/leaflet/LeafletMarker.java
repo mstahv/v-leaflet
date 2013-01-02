@@ -17,7 +17,7 @@ public class LeafletMarker extends LeafletLayer {
 	}
 
 	public LeafletMarker(double lat, double lon) {
-		getState().point = new Point(lon, lat);
+		getState().point = new Point(lat, lon);
 	}
 
 }

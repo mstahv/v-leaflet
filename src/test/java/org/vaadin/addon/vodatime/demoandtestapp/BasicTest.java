@@ -5,7 +5,9 @@ import org.vaadin.addon.leaflet.LeafletLayer.LeafletClickListener;
 import org.vaadin.addon.leaflet.LeafletCircle;
 import org.vaadin.addon.leaflet.LeafletMap;
 import org.vaadin.addon.leaflet.LeafletMarker;
+import org.vaadin.addon.leaflet.LeafletPolyline;
 import org.vaadin.addon.leaflet.shared.BaseLayer;
+import org.vaadin.addon.leaflet.shared.Point;
 
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Notification;
@@ -36,8 +38,16 @@ public class BasicTest extends AbstractTest {
 		leafletMap.addComponent(leafletMarker);
 		
 		LeafletCircle leafletCircle = new LeafletCircle(60.4525, 22.301, 300);
+		leafletCircle.setColor("cyan");
 		leafletCircle.addClickListener(listener);
 		leafletMap.addComponent(leafletCircle);
+		
+		LeafletPolyline leafletPolyline = new LeafletPolyline(new Point(60.45,22.295), new Point(60.4555,22.301), new Point(60.45,22.307));
+		leafletPolyline.setColor("magenta");
+		leafletPolyline.setFill(true);
+		leafletPolyline.setFillColor("green");
+		leafletPolyline.addClickListener(listener);
+		leafletMap.addComponent(leafletPolyline);
 
 
 		BaseLayer baselayer = new BaseLayer();

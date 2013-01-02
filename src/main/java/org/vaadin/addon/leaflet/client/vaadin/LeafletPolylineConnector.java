@@ -1,27 +1,27 @@
 package org.vaadin.addon.leaflet.client.vaadin;
 
-import org.discotools.gwt.leaflet.client.Options;
 import org.discotools.gwt.leaflet.client.events.MouseEvent;
 import org.discotools.gwt.leaflet.client.events.handler.EventHandler;
 import org.discotools.gwt.leaflet.client.events.handler.EventHandler.Events;
 import org.discotools.gwt.leaflet.client.events.handler.EventHandlerManager;
-import org.discotools.gwt.leaflet.client.marker.Marker;
-import org.discotools.gwt.leaflet.client.marker.MarkerOptions;
+import org.discotools.gwt.leaflet.client.layers.vector.Polyline;
+import org.discotools.gwt.leaflet.client.layers.vector.PolylineOptions;
 import org.discotools.gwt.leaflet.client.types.LatLng;
+import org.vaadin.addon.leaflet.shared.Point;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.vaadin.client.communication.StateChangeEvent;
 import com.vaadin.shared.ui.Connect;
 
-@Connect(org.vaadin.addon.leaflet.LeafletMarker.class)
-public class LeafletMarkerConnector extends AbstractLeafletLayerConnector<MarkerOptions> {
+@Connect(org.vaadin.addon.leaflet.LeafletPolyline.class)
+public class LeafletPolylineConnector extends AbstractLeafletLayerConnector<PolylineOptions> {
 
-	private Marker marker;
+	private Polyline marker;
 
 	@Override
-	public LeafletMarkerState getState() {
-		return (LeafletMarkerState) super.getState();
+	public LeafletPolylineState getState() {
+		return (LeafletPolylineState) super.getState();
 	}
 
 	@Override
@@ -35,11 +35,19 @@ public class LeafletMarkerConnector extends AbstractLeafletLayerConnector<Marker
 				if (marker != null) {
 					getParent().getMap().removeLayer(marker);
 				}
-				LatLng latlng = new LatLng(getState().point.getLat(),
-						getState().point.getLon());
-				Options options = createOptions();
+				if(getState().points == null) {
+					return;
+				}
 				
-				marker = new Marker(latlng, options);
+				LatLng[] latlngs = new LatLng[getState().points.length];
+				for (int i = 0; i < latlngs.length; i++) {
+					Point p = getState().points[i];
+					latlngs[i] = new LatLng(p.getLat(), p.getLon());
+				}
+				PolylineOptions options = createOptions();
+				
+				marker = new Polyline(latlngs, options);
+				
 				marker.addTo(getParent().getMap());
 
 				EventHandler<?> handler = new EventHandler<MouseEvent>() {
@@ -57,9 +65,13 @@ public class LeafletMarkerConnector extends AbstractLeafletLayerConnector<Marker
 	}
 
 	@Override
-	protected MarkerOptions createOptions() {
-		MarkerOptions markerOptions = new MarkerOptions();
-		return markerOptions;
+	protected PolylineOptions createOptions() {
+		PolylineOptions polylineOptions = new PolylineOptions();
+		polylineOptions.setColor(getState().color);
+		polylineOptions.setFill(getState().fill);
+		polylineOptions.setFillColor(getState().fillColor);
+		return polylineOptions;
 	}
 
+	
 }

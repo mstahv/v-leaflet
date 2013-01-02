@@ -4,7 +4,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.vaadin.client.communication.RpcProxy;
 import com.vaadin.client.ui.AbstractComponentConnector;
 
-public abstract class AbstractLeafletLayerConnector extends
+public abstract class AbstractLeafletLayerConnector<T> extends
 		AbstractComponentConnector {
 
 	protected ClickServerRpc rpc = RpcProxy.create(ClickServerRpc.class, this);
@@ -24,4 +24,5 @@ public abstract class AbstractLeafletLayerConnector extends
 		return (LeafletMapConnector) super.getParent();
 	}
 
+	protected abstract T createOptions();
 }
