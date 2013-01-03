@@ -16,6 +16,7 @@
 package org.vaadin.addon.leaflet.client.vaadin;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.discotools.gwt.leaflet.client.LeafletResourceInjector;
@@ -37,6 +38,7 @@ import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.ui.Widget;
 import com.vaadin.client.ComponentConnector;
 import com.vaadin.client.ConnectorHierarchyChangeEvent;
+import com.vaadin.client.ServerConnector;
 import com.vaadin.client.communication.RpcProxy;
 import com.vaadin.client.communication.StateChangeEvent;
 import com.vaadin.client.ui.AbstractHasComponentsConnector;
@@ -59,6 +61,7 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector {
 	private String id = "leafletmap" + count++;
 	private MapOptions options;
 	private Set<ILayer> layers = new HashSet<ILayer>();
+	private boolean updateChildren;
 	static private int count = 0;
 
 	@Override
@@ -116,8 +119,6 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector {
 			Scale scale = new Scale(scaleOptions);
 			scale.addTo(map);
 
-			map.invalidateSize(false);
-
 		} else {
 			if (stateChangeEvent.getChangedProperties().contains("baseLayers")) {
 				setBaseLayers();
@@ -132,8 +133,16 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector {
 				// TODO
 			}
 		}
+		
+		if(updateChildren) {
+			List<ServerConnector> children2 = getChildren();
+			for (ServerConnector serverConnector : children2) {
+				AbstractLeafletLayerConnector<?> c = (AbstractLeafletLayerConnector<?>) serverConnector;
+				c.update();
+			}
+		}
 
-		// TODO check if this is really needed
+		// Without this  it appears component is invalidly sized sometimes
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 			@Override
 			public void execute() {
@@ -181,8 +190,12 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector {
 	@Override
 	public void onConnectorHierarchyChange(
 			ConnectorHierarchyChangeEvent connectorHierarchyChangeEvent) {
-		// TODO figure out a sane way to ensure the correct order of children
-
+		List<ComponentConnector> oldChildren = connectorHierarchyChangeEvent.getOldChildren();
+		for (ComponentConnector componentConnector : oldChildren) {
+			AbstractLeafletLayerConnector<?> c = (AbstractLeafletLayerConnector<?>) componentConnector;
+			map.removeLayer(c.getLayer());
+		}
+		updateChildren = true;
 	}
 
 }

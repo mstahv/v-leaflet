@@ -5,6 +5,7 @@ import org.discotools.gwt.leaflet.client.events.MouseEvent;
 import org.discotools.gwt.leaflet.client.events.handler.EventHandler;
 import org.discotools.gwt.leaflet.client.events.handler.EventHandler.Events;
 import org.discotools.gwt.leaflet.client.events.handler.EventHandlerManager;
+import org.discotools.gwt.leaflet.client.layers.ILayer;
 import org.discotools.gwt.leaflet.client.marker.Marker;
 import org.discotools.gwt.leaflet.client.marker.MarkerOptions;
 import org.discotools.gwt.leaflet.client.types.LatLng;
@@ -32,28 +33,34 @@ public class LeafletMarkerConnector extends AbstractLeafletLayerConnector<Marker
 
 			@Override
 			public void execute() {
-				if (marker != null) {
-					getParent().getMap().removeLayer(marker);
-				}
-				LatLng latlng = new LatLng(getState().point.getLat(),
-						getState().point.getLon());
-				Options options = createOptions();
-				
-				marker = new Marker(latlng, options);
-				marker.addTo(getParent().getMap());
-
-				EventHandler<?> handler = new EventHandler<MouseEvent>() {
-					@Override
-					public void handle(MouseEvent event) {
-						rpc.onClick();
-					}
-				};
-
-				EventHandlerManager.addEventHandler(marker, Events.click,
-						handler);
+				update();
 
 			}
+
 		});
+	}
+	
+	@Override
+	protected void update() {
+		if (marker != null) {
+			getParent().getMap().removeLayer(marker);
+		}
+		LatLng latlng = new LatLng(getState().point.getLat(),
+				getState().point.getLon());
+		Options options = createOptions();
+		
+		marker = new Marker(latlng, options);
+		marker.addTo(getParent().getMap());
+		
+		EventHandler<?> handler = new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				rpc.onClick();
+			}
+		};
+		
+		EventHandlerManager.addEventHandler(marker, Events.click,
+				handler);
 	}
 
 	@Override
@@ -61,5 +68,11 @@ public class LeafletMarkerConnector extends AbstractLeafletLayerConnector<Marker
 		MarkerOptions markerOptions = new MarkerOptions();
 		return markerOptions;
 	}
+	
+	@Override
+	public ILayer getLayer() {
+		return marker;
+	}
+
 
 }

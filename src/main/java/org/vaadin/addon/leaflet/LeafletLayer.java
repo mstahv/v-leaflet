@@ -1,14 +1,12 @@
 package org.vaadin.addon.leaflet;
 
 import java.lang.reflect.Method;
-import java.util.Map;
 
-import org.vaadin.addon.leaflet.client.vaadin.ClickServerRpc;
 import org.vaadin.addon.leaflet.client.vaadin.AbstractLeafletComponentState;
+import org.vaadin.addon.leaflet.client.vaadin.ClickServerRpc;
 
 import com.vaadin.event.ConnectorEvent;
 import com.vaadin.server.ClientConnector;
-import com.vaadin.shared.AbstractComponentState;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.util.ReflectTools;
 

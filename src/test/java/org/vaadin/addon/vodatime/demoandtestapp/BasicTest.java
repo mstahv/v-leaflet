@@ -33,14 +33,7 @@ public class BasicTest extends AbstractTest {
 		leafletMap.setCenter(60.4525, 22.301);
 		leafletMap.setZoomLevel(15);
 
-		LeafletMarker leafletMarker = new LeafletMarker(60.4525, 22.301);
-		leafletMarker.addClickListener(listener);
-		leafletMap.addComponent(leafletMarker);
 		
-		LeafletCircle leafletCircle = new LeafletCircle(60.4525, 22.301, 300);
-		leafletCircle.setColor("cyan");
-		leafletCircle.addClickListener(listener);
-		leafletMap.addComponent(leafletCircle);
 		
 		LeafletPolyline leafletPolyline = new LeafletPolyline(new Point(60.45,22.295), new Point(60.4555,22.301), new Point(60.45,22.307));
 		leafletPolyline.setColor("magenta");
@@ -49,7 +42,15 @@ public class BasicTest extends AbstractTest {
 		leafletPolyline.addClickListener(listener);
 		leafletMap.addComponent(leafletPolyline);
 
+		LeafletCircle leafletCircle = new LeafletCircle(60.4525, 22.301, 300);
+		leafletCircle.setColor("cyan");
+		leafletCircle.addClickListener(listener);
+		leafletMap.addComponent(leafletCircle);
 
+		LeafletMarker leafletMarker = new LeafletMarker(60.4525, 22.301);
+		leafletMarker.addClickListener(listener);
+		leafletMap.addComponent(leafletMarker);
+		
 		BaseLayer baselayer = new BaseLayer();
 		baselayer.setName("CloudMade");
 
