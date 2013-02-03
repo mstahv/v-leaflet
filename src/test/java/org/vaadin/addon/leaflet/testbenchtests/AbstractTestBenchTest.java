@@ -1,4 +1,4 @@
-package org.vaadin.addon.vodatime.testbenchtests;
+package org.vaadin.addon.leaflet.testbenchtests;
 
 import java.io.File;
 
@@ -8,7 +8,7 @@ import org.junit.Before;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.vaadin.addon.vodatime.demoandtestapp.TServer;
+import org.vaadin.addon.leaflet.demoandtestapp.TServer;
 
 import com.vaadin.testbench.Parameters;
 import com.vaadin.testbench.TestBench;

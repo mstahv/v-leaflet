@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.vaadin.addon.leaflet.client.vaadin.LeafletMapServerRpc;
 import org.vaadin.addon.leaflet.client.vaadin.LeafletMapState;
 import org.vaadin.addon.leaflet.shared.BaseLayer;
 import org.vaadin.addon.leaflet.shared.Point;
@@ -20,6 +21,18 @@ public class LeafletMap extends AbstractComponentContainer {
 
 	public LeafletMap() {		
 		setSizeFull();
+		registerRpc(new LeafletMapServerRpc() {
+			@Override
+			public void onClick(Point p) {
+				fireEvent(new LeafletClickEvent(LeafletMap.this, p));
+			}
+
+			@Override
+			public void onMoveEnd(String bBoxString) {
+				fireEvent(new LeafletMoveEndEvent(LeafletMap.this, bBoxString));
+			}
+		});
+
 	}
 
 	@Override
@@ -73,6 +86,23 @@ public class LeafletMap extends AbstractComponentContainer {
 	
 	public void setBaseLayers(BaseLayer... baselayer) {
 		getState().setBaseLayers(baselayer);
+	}
+
+	public void addClickListener(LeafletClickListener listener) {
+		addListener(LeafletClickEvent.class, listener, LeafletClickListener.METHOD);
+	}
+	
+	public void removeMarkerClickListener(LeafletClickListener listener) {
+		removeListener(LeafletClickEvent.class, listener, LeafletClickListener.METHOD);
+	}
+
+	public void addMoveEndListener(LeafletMoveEndListener moveEndListener) {
+		addListener(LeafletMoveEndEvent.class, moveEndListener, LeafletMoveEndListener.METHOD);
+	}
+
+	
+	public void removeMoveEndListener(LeafletMoveEndListener moveEndListener) {
+		removeListener(LeafletMoveEndEvent.class, moveEndListener, LeafletMoveEndListener.METHOD);
 	}
 
 }

@@ -20,4 +20,12 @@ public class LeafletMarker extends LeafletLayer {
 		getState().point = new Point(lat, lon);
 	}
 
+	public void setIconSize(Point point) {
+		getState().iconSize = point;
+	}
+
+	public void setIconAnchor(Point point) {
+		getState().iconAnchor = point;
+	}
+
 }

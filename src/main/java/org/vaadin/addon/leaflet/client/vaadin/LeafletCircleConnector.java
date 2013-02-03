@@ -8,6 +8,7 @@ import org.discotools.gwt.leaflet.client.layers.ILayer;
 import org.discotools.gwt.leaflet.client.layers.vector.Circle;
 import org.discotools.gwt.leaflet.client.layers.vector.PathOptions;
 import org.discotools.gwt.leaflet.client.types.LatLng;
+import org.vaadin.addon.leaflet.shared.Point;
 
 import com.vaadin.shared.ui.Connect;
 
@@ -32,6 +33,7 @@ public class LeafletCircleConnector extends AbstractLeafletLayerConnector<PathOp
 	protected void update() {
 		if (marker != null) {
 			getParent().getMap().removeLayer(marker);
+			EventHandlerManager.clearEventHandler(marker, Events.click);
 		}
 		LatLng latlng = new LatLng(getState().point.getLat(),
 				getState().point.getLon());
@@ -42,7 +44,7 @@ public class LeafletCircleConnector extends AbstractLeafletLayerConnector<PathOp
 		EventHandler<?> handler = new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
-				rpc.onClick();
+				rpc.onClick(new Point(event.getLatLng().lat(), event.getLatLng().lng()));
 			}
 		};
 

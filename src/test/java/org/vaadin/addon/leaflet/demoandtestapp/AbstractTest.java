@@ -1,4 +1,4 @@
-package org.vaadin.addon.vodatime.demoandtestapp;
+package org.vaadin.addon.leaflet.demoandtestapp;
 
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.Component;

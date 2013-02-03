@@ -1,4 +1,4 @@
-package org.vaadin.addon.vodatime.testbenchtests;
+package org.vaadin.addon.leaflet.testbenchtests;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;

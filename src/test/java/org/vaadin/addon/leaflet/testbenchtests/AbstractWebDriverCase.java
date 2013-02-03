@@ -1,11 +1,11 @@
-package org.vaadin.addon.vodatime.testbenchtests;
+package org.vaadin.addon.leaflet.testbenchtests;
 
 import org.eclipse.jetty.server.Server;
 import org.junit.After;
 import org.junit.Before;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.vaadin.addon.vodatime.demoandtestapp.TServer;
+import org.vaadin.addon.leaflet.demoandtestapp.TServer;
 
 /**
  * This abstract class can be used if one e.g. cannot afford TestBench license.

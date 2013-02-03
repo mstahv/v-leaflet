@@ -7,9 +7,9 @@ public class Point {
 	public Point() {
 	}
 	
-	public Point(double lat2, double lon2) {
-		lon = lon2;
-		lat = lat2;
+	public Point(double lat, double lon) {
+		this.lon = lon;
+		this.lat = lat;
 	}
 	public Double getLon() {
 		return lon;
@@ -22,6 +22,11 @@ public class Point {
 	}
 	public void setLat(Double lat) {
 		this.lat = lat;
+	}
+	
+	@Override
+	public String toString() {
+		return lat + "," + lon;
 	}
 
 }

@@ -36,6 +36,7 @@ public class LeafletPolylineConnector extends
 	protected void update() {
 		if (marker != null) {
 			getParent().getMap().removeLayer(marker);
+			EventHandlerManager.clearEventHandler(marker, Events.click);
 		}
 		if (getState().points == null) {
 			return;
@@ -55,7 +56,7 @@ public class LeafletPolylineConnector extends
 		EventHandler<?> handler = new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
-				rpc.onClick();
+				rpc.onClick(new Point(event.getLatLng().lat(), event.getLatLng().lng()));
 			}
 		};
 

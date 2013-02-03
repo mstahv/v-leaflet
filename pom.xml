@@ -48,14 +48,32 @@
 					<target>1.6</target>
 				</configuration>
 			</plugin>
-
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>2.0</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+						<configuration>
+							<artifactSet>
+								<includes>
+									<include>org.discotools.gwt.leaflet:*</include>
+								</includes>
+							</artifactSet>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
 				<version>2.3.1</version>
 				<configuration>
 					<archive>
-						<index>true</index>
 						<manifest>
 							<addClasspath>true</addClasspath>
 							<!-- Implementation-Title and Implementation-Version come from the 
@@ -77,7 +95,6 @@
 					</excludes>
 				</configuration>
 			</plugin>
-
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
@@ -88,26 +105,6 @@
 						<goals>
 							<goal>jar</goal>
 						</goals>
-					</execution>
-				</executions>
-			</plugin>
-
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>copy-dependencies</id>
-						<phase>package</phase>
-						<goals>
-							<goal>copy-dependencies</goal>
-						</goals>
-						<configuration>
-							<includeScope>runtime</includeScope>
-							<outputDirectory>target/libs</outputDirectory>
-							<!-- configure the plugin here -->
-						</configuration>
 					</execution>
 				</executions>
 			</plugin>
@@ -145,6 +142,27 @@
 					</execution>
 				</executions>
 			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy-dependencies</id>
+						<phase>package</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<includeScope>runtime</includeScope>
+							<outputDirectory>target/libs</outputDirectory>
+							<!-- configure the plugin here -->
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+
 		</plugins>
 
 		<resources>
@@ -308,33 +326,33 @@
 		</dependency>
 		<dependency>
 			<groupId>org.discotools.gwt.leaflet</groupId>
-			<artifactId>gwtl-widget</artifactId>
+			<artifactId>gwtl-core</artifactId>
 			<version>0.3-SNAPSHOT</version>
 		</dependency>
-				<dependency>
-			<groupId>org.discotools.gwt.leaflet</groupId>
-			<artifactId>gwtl-proj4</artifactId>
-			<version>0.3-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>org.discotools.gwt.leaflet</groupId>
-			<artifactId>gwtl-search</artifactId>
-			<version>0.3-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-		    <groupId>org.discotools.gwt.leaflet</groupId>
-		    <artifactId>gwtl-label</artifactId>
-		    <version>0.3-SNAPSHOT</version>
-		</dependency>
-		
+		<!-- <dependency> -->
+		<!-- <groupId>org.discotools.gwt.leaflet</groupId> -->
+		<!-- <artifactId>gwtl-proj4</artifactId> -->
+		<!-- <version>0.3-SNAPSHOT</version> -->
+		<!-- <scope>provided</scope> -->
+		<!-- </dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>org.discotools.gwt.leaflet</groupId> -->
+		<!-- <artifactId>gwtl-search</artifactId> -->
+		<!-- <version>0.3-SNAPSHOT</version> -->
+		<!-- <scope>provided</scope> -->
+		<!-- </dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>org.discotools.gwt.leaflet</groupId> -->
+		<!-- <artifactId>gwtl-label</artifactId> -->
+		<!-- <version>0.3-SNAPSHOT</version> -->
+		<!-- <scope>provided</scope> -->
+		<!-- </dependency> -->
 		<dependency>
 			<groupId>com.vaadin</groupId>
 			<artifactId>vaadin-themes-compiled</artifactId>
 			<version>${vaadin.version}</version>
 			<scope>test</scope>
 		</dependency>
-
-
 		<dependency>
 			<groupId>org.eclipse.jetty</groupId>
 			<artifactId>jetty-webapp</artifactId>
@@ -347,7 +365,7 @@
 		<dependency>
 			<groupId>com.vaadin</groupId>
 			<artifactId>vaadin-testbench</artifactId>
-			<version>3.0.2</version>
+			<version>3.0.4</version>
 			<scope>test</scope>
 		</dependency>
 

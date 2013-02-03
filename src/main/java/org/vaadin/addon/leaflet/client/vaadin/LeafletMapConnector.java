@@ -24,14 +24,18 @@ import org.discotools.gwt.leaflet.client.Options;
 import org.discotools.gwt.leaflet.client.controls.scale.Scale;
 import org.discotools.gwt.leaflet.client.controls.scale.ScaleOptions;
 import org.discotools.gwt.leaflet.client.crs.epsg.EPSG3857;
+import org.discotools.gwt.leaflet.client.events.MouseEvent;
+import org.discotools.gwt.leaflet.client.events.handler.EventHandler;
+import org.discotools.gwt.leaflet.client.events.handler.EventHandler.Events;
+import org.discotools.gwt.leaflet.client.events.handler.EventHandlerManager;
 import org.discotools.gwt.leaflet.client.layers.ILayer;
 import org.discotools.gwt.leaflet.client.layers.raster.TileLayer;
 import org.discotools.gwt.leaflet.client.map.Map;
 import org.discotools.gwt.leaflet.client.map.MapOptions;
 import org.discotools.gwt.leaflet.client.types.LatLng;
-import org.discotools.gwt.leaflet.client.widget.MapWidget;
 import org.vaadin.addon.leaflet.LeafletMap;
 import org.vaadin.addon.leaflet.shared.BaseLayer;
+import org.vaadin.addon.leaflet.shared.Point;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
@@ -58,11 +62,9 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector {
 	LeafletMapServerRpc rpc = RpcProxy.create(LeafletMapServerRpc.class, this);
 	private Map map;
 	private EPSG3857 vCRS_EPSG3857 = new EPSG3857();
-	private String id = "leafletmap" + count++;
 	private MapOptions options;
 	private Set<ILayer> layers = new HashSet<ILayer>();
 	private boolean updateChildren;
-	static private int count = 0;
 
 	@Override
 	public MapWidget getWidget() {
@@ -76,8 +78,7 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector {
 
 	@Override
 	protected Widget createWidget() {
-		MapWidget mapWidget = new MapWidget(id);
-		mapWidget.setHeight("100%");
+		MapWidget mapWidget = new MapWidget();
 		return mapWidget;
 	}
 
@@ -110,7 +111,7 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector {
 				zoom = getState().zoomLevel;
 			}
 			options.setZoom(zoom);
-			map = new Map(id, options);
+			map = new Map(getWidget().getId(), options);
 
 			setBaseLayers();
 
@@ -118,6 +119,24 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector {
 			ScaleOptions scaleOptions = new ScaleOptions();
 			Scale scale = new Scale(scaleOptions);
 			scale.addTo(map);
+
+			EventHandler<?> handler = new EventHandler<MouseEvent>() {
+				@Override
+				public void handle(MouseEvent event) {
+					rpc.onClick(new Point(event.getLatLng().lat(), event.getLatLng()
+							.lng()));
+				}
+			};
+
+			EventHandlerManager.addEventHandler(map, Events.click, handler);
+
+			handler = new EventHandler<MouseEvent>() {
+				@Override
+				public void handle(MouseEvent event) {
+					rpc.onMoveEnd(map.getBounds().toBBoxString());
+				}
+			};
+			EventHandlerManager.addEventHandler(map, Events.moveend, handler);
 
 		} else {
 			if (stateChangeEvent.getChangedProperties().contains("baseLayers")) {
@@ -133,8 +152,8 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector {
 				// TODO
 			}
 		}
-		
-		if(updateChildren) {
+
+		if (updateChildren) {
 			List<ServerConnector> children2 = getChildren();
 			for (ServerConnector serverConnector : children2) {
 				AbstractLeafletLayerConnector<?> c = (AbstractLeafletLayerConnector<?>) serverConnector;
@@ -142,7 +161,7 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector {
 			}
 		}
 
-		// Without this  it appears component is invalidly sized sometimes
+		// Without this it appears component is invalidly sized sometimes
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 			@Override
 			public void execute() {
@@ -161,9 +180,15 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector {
 		BaseLayer[] baseLayers = getState().getBaseLayers();
 		if (baseLayers != null) {
 			for (BaseLayer baseLayer : baseLayers) {
+				// suck big time in V7, can't access the raw json, should use
+				// e.g. gson and serialize as string in state
 				Options tileOptions = new Options();
 				tileOptions.setProperty("attribution",
 						baseLayer.getAttributionString());
+				if (baseLayer.getDetectRetina() != null
+						&& baseLayer.getDetectRetina()) {
+					tileOptions.setProperty("detectRetina", true);
+				}
 				TileLayer layer = new TileLayer(baseLayer.getUrl(), tileOptions);
 				map.addLayer(layer);
 				layers.add(layer);
@@ -190,7 +215,8 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector {
 	@Override
 	public void onConnectorHierarchyChange(
 			ConnectorHierarchyChangeEvent connectorHierarchyChangeEvent) {
-		List<ComponentConnector> oldChildren = connectorHierarchyChangeEvent.getOldChildren();
+		List<ComponentConnector> oldChildren = connectorHierarchyChangeEvent
+				.getOldChildren();
 		for (ComponentConnector componentConnector : oldChildren) {
 			AbstractLeafletLayerConnector<?> c = (AbstractLeafletLayerConnector<?>) componentConnector;
 			map.removeLayer(c.getLayer());

@@ -1,10 +1,12 @@
 package org.vaadin.addon.leaflet.shared;
 
+
 public class BaseLayer {
 	
 	private String url;
 	private String name;
 	private String attributionString;
+	private Boolean detectRetina;
 	
 	public String getUrl() {
 		return url;
@@ -23,6 +25,12 @@ public class BaseLayer {
 	}
 	public void setAttributionString(String attributionString) {
 		this.attributionString = attributionString;
+	}
+	public Boolean getDetectRetina() {
+		return detectRetina;
+	}
+	public void setDetectRetina(Boolean detectRetina) {
+		this.detectRetina = detectRetina;
 	}
 
 }

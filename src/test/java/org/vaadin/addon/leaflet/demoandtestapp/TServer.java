@@ -1,4 +1,4 @@
-package org.vaadin.addon.vodatime.demoandtestapp;
+package org.vaadin.addon.leaflet.demoandtestapp;
 
 import java.io.File;
 

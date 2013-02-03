@@ -5,7 +5,6 @@
 	<inherits name="com.vaadin.terminal.gwt.DefaultWidgetSet" />
 	
 	<inherits name="org.discotools.gwt.leaflet.Core"/>
-	<inherits name="org.discotools.gwt.leaflet.Widget"/>
 
 	<set-configuration-property name="devModeRedirectEnabled" value="true" />
 	
