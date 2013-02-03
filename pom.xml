@@ -193,8 +193,8 @@
 						<hostedWebapp>${project.build.directory}/testwebapp</hostedWebapp>
 						<noServer>true</noServer>
 						<runTarget>http://localhost:9998/</runTarget>
-						<draftCompile>true</draftCompile>
-						<style>PRETTY</style>
+<!-- 						<draftCompile>true</draftCompile> -->
+<!-- 						<style>PRETTY</style> -->
 						<!-- We only need to compile the test widgetset, if not defined gwt 
 							module will also compile the add-on widgetset as well -->
 						<module>org.vaadin.addon.leaflet.demoandtestapp.TestWidgetset</module>

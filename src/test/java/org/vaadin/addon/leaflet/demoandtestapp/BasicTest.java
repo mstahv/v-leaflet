@@ -46,14 +46,14 @@ public class BasicTest extends AbstractTest {
 
 		LeafletPolyline leafletPolyline = new LeafletPolyline(new Point(60.45,
 				22.295), new Point(60.4555, 22.301), new Point(60.45, 22.307));
-		leafletPolyline.setColor("magenta");
+		leafletPolyline.setColor("#FF00FF");
 		leafletPolyline.setFill(true);
-		leafletPolyline.setFillColor("green");
+		leafletPolyline.setFillColor("#00FF00");
 		leafletPolyline.addClickListener(listener);
 		leafletMap.addComponent(leafletPolyline);
 
 		LeafletCircle leafletCircle = new LeafletCircle(60.4525, 22.301, 300);
-		leafletCircle.setColor("cyan");
+		leafletCircle.setColor("#00FFFF");
 		leafletCircle.addClickListener(listener);
 		leafletMap.addComponent(leafletCircle);
 
