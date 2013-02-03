@@ -18,7 +18,7 @@ import com.vaadin.client.communication.StateChangeEvent;
 import com.vaadin.shared.communication.URLReference;
 import com.vaadin.shared.ui.Connect;
 
-@Connect(org.vaadin.addon.leaflet.LeafletMarker.class)
+@Connect(org.vaadin.addon.leaflet.LMarker.class)
 public class LeafletMarkerConnector extends
 		AbstractLeafletLayerConnector<MarkerOptions> {
 

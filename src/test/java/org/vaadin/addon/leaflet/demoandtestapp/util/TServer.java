@@ -1,4 +1,4 @@
-package org.vaadin.addon.leaflet.demoandtestapp;
+package org.vaadin.addon.leaflet.demoandtestapp.util;
 
 import java.io.File;
 

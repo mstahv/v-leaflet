@@ -7,6 +7,6 @@
 
 	<!-- We can compile the default ws only for targets we actually test on, 
 		this speeds up development process -->
-<!-- 	<set-property name="user.agent" value="safari,gecko1_8" /> -->
+	<set-property name="user.agent" value="safari,gecko1_8" />
 
 </module>

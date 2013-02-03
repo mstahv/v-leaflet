@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.vaadin.addon.leaflet.demoandtestapp;
+package org.vaadin.addon.leaflet.demoandtestapp.util;
 
 import com.vaadin.server.UIClassSelectionEvent;
 import com.vaadin.server.UIProvider;

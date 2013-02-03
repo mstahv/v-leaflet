@@ -1,4 +1,4 @@
-package org.vaadin.addon.leaflet.demoandtestapp;
+package org.vaadin.addon.leaflet.demoandtestapp.util;
 
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.Component;
@@ -22,7 +22,7 @@ public abstract class AbstractTest extends UI {
         content.setExpandRatio(map, 1);
     }
 
-    abstract Component getTestComponent();
+    public abstract Component getTestComponent();
 
     @Override
     protected void init(VaadinRequest request) {

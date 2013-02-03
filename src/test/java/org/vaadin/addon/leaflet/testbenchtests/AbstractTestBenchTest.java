@@ -8,7 +8,7 @@ import org.junit.Before;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.vaadin.addon.leaflet.demoandtestapp.TServer;
+import org.vaadin.addon.leaflet.demoandtestapp.util.TServer;
 
 import com.vaadin.testbench.Parameters;
 import com.vaadin.testbench.TestBench;

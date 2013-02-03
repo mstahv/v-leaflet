@@ -12,7 +12,7 @@ import org.vaadin.addon.leaflet.shared.Point;
 
 import com.vaadin.shared.ui.Connect;
 
-@Connect(org.vaadin.addon.leaflet.LeafletPolyline.class)
+@Connect(org.vaadin.addon.leaflet.LPolyline.class)
 public class LeafletPolylineConnector extends
 		AbstractLeafletLayerConnector<PolylineOptions> {
 

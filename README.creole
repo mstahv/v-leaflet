@@ -1,12 +1,12 @@
 = v-leaflet Add-On project =
 
-This is a work in progress add-on to implement Leaflet support for Vaadin. Implementation relies on gwt-leaflet project. Currently my XS Iframe linker compatible branch is needed from: https://github.com/mstahv/gwt-leaflet/
+This is a work in progress add-on to implement Leaflet support for Vaadin. Implementation relies on gwt-leaflet project. Currently my XS Iframe linker compatible branch is needed for development from: https://github.com/mstahv/gwt-leaflet/ . For installation packages that is currently merged with the add-on jar using shade plugin.
 
 = Instructions for add-on developers = 
 
 Project is built with Maven so it should be IDE agnostic and you should manage with basic maven skills without instructions. Basic steps during development are discussed below. Most actions can be easily accessed via IDE. Eclipse users should install m2e plugin.
 
-I can already hear some of you asking "Why maven, I hate maven!?". All build systems have their weak parts and maven is not alone here. I have maven sometimes as well. Most often though maven is hated because developers are lazy and they don't want to understand the core concepts. If can dare you understand concepts of object oriented programming I could suggest you to at least try with Maven concepts. Here are some additional reasons:
+I can already hear some of you asking "Why maven, I hate maven!?". All build systems have their weak parts and maven is not alone here. I hate maven sometimes as well. Most often though maven is hated because developers are lazy and they don't want to understand the core concepts. If can dare you understand concepts of object oriented programming I could suggest you to at least try with Maven concepts. Here are some additional reasons:
 
  * Transient dependencies and massive library repository(ies)
  * It is not that hard

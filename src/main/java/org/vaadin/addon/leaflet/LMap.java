@@ -7,6 +7,8 @@ import java.util.List;
 import org.vaadin.addon.leaflet.client.vaadin.LeafletMapServerRpc;
 import org.vaadin.addon.leaflet.client.vaadin.LeafletMapState;
 import org.vaadin.addon.leaflet.shared.BaseLayer;
+import org.vaadin.addon.leaflet.shared.Bounds;
+import org.vaadin.addon.leaflet.shared.Control;
 import org.vaadin.addon.leaflet.shared.Point;
 
 import com.vaadin.ui.AbstractComponentContainer;
@@ -15,21 +17,21 @@ import com.vaadin.ui.Component;
 /**
  * 
  */
-public class LeafletMap extends AbstractComponentContainer {
+public class LMap extends AbstractComponentContainer {
 	
 	private List<Component> components = new ArrayList<Component>();
 
-	public LeafletMap() {		
+	public LMap() {		
 		setSizeFull();
 		registerRpc(new LeafletMapServerRpc() {
 			@Override
 			public void onClick(Point p) {
-				fireEvent(new LeafletClickEvent(LeafletMap.this, p));
+				fireEvent(new LeafletClickEvent(LMap.this, p));
 			}
 
 			@Override
-			public void onMoveEnd(String bBoxString) {
-				fireEvent(new LeafletMoveEndEvent(LeafletMap.this, bBoxString));
+			public void onMoveEnd(Bounds bounds) {
+				fireEvent(new LeafletMoveEndEvent(LMap.this, bounds));
 			}
 		});
 
@@ -72,8 +74,7 @@ public class LeafletMap extends AbstractComponentContainer {
 		Point point = new Point();
 		point.setLat(lat);
 		point.setLon(lon);
-		getState().center = point;
-		
+		setCenter(point);
 	}
 
 	public void setZoomLevel(int zoomLevel) {
@@ -92,7 +93,7 @@ public class LeafletMap extends AbstractComponentContainer {
 		addListener(LeafletClickEvent.class, listener, LeafletClickListener.METHOD);
 	}
 	
-	public void removeMarkerClickListener(LeafletClickListener listener) {
+	public void removeClickListener(LeafletClickListener listener) {
 		removeListener(LeafletClickEvent.class, listener, LeafletClickListener.METHOD);
 	}
 
@@ -103,6 +104,26 @@ public class LeafletMap extends AbstractComponentContainer {
 	
 	public void removeMoveEndListener(LeafletMoveEndListener moveEndListener) {
 		removeListener(LeafletMoveEndEvent.class, moveEndListener, LeafletMoveEndListener.METHOD);
+	}
+
+	public void setCenter(Bounds bounds) {
+		setCenter(bounds.getCenter());
+	}
+
+	public void setCenter(Point center) {
+		getState().center = center;
+	}
+
+	public void zoomToExtent(Bounds bounds) {
+		getState().center = bounds.getCenter();
+		getState().zoomToExtent = bounds;
+	}
+
+	public void setControls(Control... values) {
+		if(values == null) {
+			values = new Control[]{};
+		}
+		getState().controls = values;
 	}
 
 }

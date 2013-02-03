@@ -15,12 +15,12 @@
  */
 package org.vaadin.addon.leaflet.client.vaadin;
 
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 
 import org.discotools.gwt.leaflet.client.LeafletResourceInjector;
 import org.discotools.gwt.leaflet.client.Options;
+import org.discotools.gwt.leaflet.client.controls.layers.Layers;
 import org.discotools.gwt.leaflet.client.controls.scale.Scale;
 import org.discotools.gwt.leaflet.client.controls.scale.ScaleOptions;
 import org.discotools.gwt.leaflet.client.crs.epsg.EPSG3857;
@@ -28,15 +28,20 @@ import org.discotools.gwt.leaflet.client.events.MouseEvent;
 import org.discotools.gwt.leaflet.client.events.handler.EventHandler;
 import org.discotools.gwt.leaflet.client.events.handler.EventHandler.Events;
 import org.discotools.gwt.leaflet.client.events.handler.EventHandlerManager;
+import org.discotools.gwt.leaflet.client.jsobject.JSObject;
 import org.discotools.gwt.leaflet.client.layers.ILayer;
 import org.discotools.gwt.leaflet.client.layers.raster.TileLayer;
 import org.discotools.gwt.leaflet.client.map.Map;
 import org.discotools.gwt.leaflet.client.map.MapOptions;
 import org.discotools.gwt.leaflet.client.types.LatLng;
-import org.vaadin.addon.leaflet.LeafletMap;
+import org.discotools.gwt.leaflet.client.types.LatLngBounds;
+import org.vaadin.addon.leaflet.LMap;
 import org.vaadin.addon.leaflet.shared.BaseLayer;
+import org.vaadin.addon.leaflet.shared.Bounds;
+import org.vaadin.addon.leaflet.shared.Control;
 import org.vaadin.addon.leaflet.shared.Point;
 
+import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.ui.Widget;
@@ -52,7 +57,7 @@ import com.vaadin.shared.ui.Connect;
  * 
  * @author mattitahvonenitmill
  */
-@Connect(LeafletMap.class)
+@Connect(LMap.class)
 public class LeafletMapConnector extends AbstractHasComponentsConnector {
 
 	static {
@@ -63,7 +68,7 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector {
 	private Map map;
 	private EPSG3857 vCRS_EPSG3857 = new EPSG3857();
 	private MapOptions options;
-	private Set<ILayer> layers = new HashSet<ILayer>();
+	private java.util.Map<BaseLayer,ILayer> layers = new HashMap<BaseLayer, ILayer>();
 	private boolean updateChildren;
 
 	@Override
@@ -111,20 +116,42 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector {
 				zoom = getState().zoomLevel;
 			}
 			options.setZoom(zoom);
-			map = new Map(getWidget().getId(), options);
+			map = new Map(getWidget().getElement(), options);
 
 			setBaseLayers();
 
-			// Add Scale Control
-			ScaleOptions scaleOptions = new ScaleOptions();
-			Scale scale = new Scale(scaleOptions);
-			scale.addTo(map);
+			for (Control c : getState().controls) {
+				switch (c) {
+				case attribution:
+					// TODO how to remove this? Default.
+					break;
+				case layers:
+					Options opts = new Options();
+					for (BaseLayer l : layers.keySet()) {
+						opts.setProperty(l.getName(), layers.get(l));
+					}
+					Layers lControl = new Layers(opts, new Options(), new Options());
+					map.addControl(lControl);
+					break;
+				case scale:
+					// Add Scale Control
+					ScaleOptions scaleOptions = new ScaleOptions();
+					Scale scale = new Scale(scaleOptions);
+					map.addControl(scale);
+					break;
+				case zoom:
+					// TODO how to remove this? Default.
+					break;
+				default:
+					break;
+				}
+			}
 
 			EventHandler<?> handler = new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(MouseEvent event) {
-					rpc.onClick(new Point(event.getLatLng().lat(), event.getLatLng()
-							.lng()));
+					rpc.onClick(new Point(event.getLatLng().lat(), event
+							.getLatLng().lng()));
 				}
 			};
 
@@ -133,7 +160,7 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector {
 			handler = new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(MouseEvent event) {
-					rpc.onMoveEnd(map.getBounds().toBBoxString());
+					rpc.onMoveEnd(new Bounds(map.getBounds().toBBoxString()));
 				}
 			};
 			EventHandlerManager.addEventHandler(map, Events.moveend, handler);
@@ -142,14 +169,29 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector {
 			if (stateChangeEvent.getChangedProperties().contains("baseLayers")) {
 				setBaseLayers();
 			}
-			if (stateChangeEvent.getChangedProperties().contains("center")
+			if (stateChangeEvent.getChangedProperties()
+					.contains("zoomToExtent")) {
+				Bounds b = getState().zoomToExtent;
+				LatLng northEast = new LatLng(b.getNorthEastLat(),
+						b.getNorthEastLon());
+				LatLng southWest = new LatLng(b.getSouthWestLat(),
+						b.getSouthWestLon());
+				map.fitBounds(new LatLngBounds(southWest, northEast));
+			} else if (stateChangeEvent.getChangedProperties().contains(
+					"center")
 					&& getState().center != null) {
 				LatLng center = getCenterFromState();
-				map.setView(center, map.getZoom(), false);
-			}
-			if (stateChangeEvent.getChangedProperties().contains("zoomLevel")
+				int zoom = map.getZoom();
+				if (stateChangeEvent.getChangedProperties().contains(
+						"zoomLevel")
+						&& getState().zoomLevel != null) {
+					zoom = getState().zoomLevel;
+				}
+				map.setView(center, zoom, false);
+			} else if (stateChangeEvent.getChangedProperties().contains(
+					"zoomLevel")
 					&& getState().zoomLevel != null) {
-				// TODO
+				map.setZoom(getState().zoomLevel);
 			}
 		}
 
@@ -172,7 +214,7 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector {
 
 	private void setBaseLayers() {
 		// clear old layers
-		for (ILayer l : layers) {
+		for (ILayer l : layers.values()) {
 			map.removeLayer(l);
 		}
 		layers.clear();
@@ -189,9 +231,20 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector {
 						&& baseLayer.getDetectRetina()) {
 					tileOptions.setProperty("detectRetina", true);
 				}
+				if (baseLayer.getSubDomains() != null) {
+					JsArrayString domain = JsArrayString.createArray().cast();
+					for (String a : baseLayer.getSubDomains()) {
+						domain.push(a);
+					}
+					tileOptions.setProperty("subdomains",
+							(JSObject) domain.cast());
+				}
+				if (baseLayer.getMaxZoom() != null) {
+					tileOptions.setProperty("maxZoom", baseLayer.getMaxZoom());
+				}
 				TileLayer layer = new TileLayer(baseLayer.getUrl(), tileOptions);
 				map.addLayer(layer);
-				layers.add(layer);
+				layers.put(baseLayer, layer);
 			}
 		}
 	}

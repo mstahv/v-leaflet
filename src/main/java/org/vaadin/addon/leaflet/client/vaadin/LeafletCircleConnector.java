@@ -12,7 +12,7 @@ import org.vaadin.addon.leaflet.shared.Point;
 
 import com.vaadin.shared.ui.Connect;
 
-@Connect(org.vaadin.addon.leaflet.LeafletCircle.class)
+@Connect(org.vaadin.addon.leaflet.LCircle.class)
 public class LeafletCircleConnector extends AbstractLeafletLayerConnector<PathOptions> {
 
 	private Circle marker;

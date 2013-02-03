@@ -7,6 +7,8 @@ public class BaseLayer {
 	private String name;
 	private String attributionString;
 	private Boolean detectRetina;
+	private Integer maxZoom;
+	private String[] subDomains;
 	
 	public String getUrl() {
 		return url;
@@ -31,6 +33,26 @@ public class BaseLayer {
 	}
 	public void setDetectRetina(Boolean detectRetina) {
 		this.detectRetina = detectRetina;
+	}
+	public void setMaxZoom(Integer maxZoom) {
+		this.maxZoom = maxZoom;
+	}
+	
+	public Integer getMaxZoom() {
+		return maxZoom;
+	}
+	
+	public void setSubDomains(String... domains) {
+		this.subDomains = domains;
+	}
+	
+	public String[] getSubDomains() {
+		return subDomains;
+	}
+	
+	@Override
+	public String toString() {
+		return name != null ? name : "[BaseLayer]";
 	}
 
 }

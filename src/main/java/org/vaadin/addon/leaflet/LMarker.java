@@ -9,15 +9,26 @@ import org.vaadin.addon.leaflet.shared.Point;
  * extensions cannot have children -> needs to be componentcontainer)
  * 
  */
-public class LeafletMarker extends LeafletLayer {
+public class LMarker extends LeafletLayer {
 
 	@Override
 	protected LeafletMarkerState getState() {
 		return (LeafletMarkerState) super.getState();
 	}
 
-	public LeafletMarker(double lat, double lon) {
+	public LMarker(double lat, double lon) {
 		getState().point = new Point(lat, lon);
+	}
+
+	public LMarker() {
+	}
+	
+	public void setPoint(Point p) {
+		getState().point = p;
+	}
+	
+	public Point getPoint() {
+		return getState().point;
 	}
 
 	public void setIconSize(Point point) {

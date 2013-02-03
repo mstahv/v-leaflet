@@ -3,14 +3,14 @@ package org.vaadin.addon.leaflet;
 import org.vaadin.addon.leaflet.client.vaadin.LeafletPolylineState;
 import org.vaadin.addon.leaflet.shared.Point;
 
-public class LeafletPolyline extends AbstractLeafletVector {
+public class LPolyline extends AbstractLeafletVector {
 
 	@Override
 	protected LeafletPolylineState getState() {
 		return (LeafletPolylineState) super.getState();
 	}
 
-	public LeafletPolyline(Point... points) {
+	public LPolyline(Point... points) {
 		getState().points = points;
 	}
 
@@ -20,6 +20,10 @@ public class LeafletPolyline extends AbstractLeafletVector {
 
 	public void setFillColor(String fillColor) {
 		getState().fillColor = fillColor;
+	}
+
+	public void setPoints(Point[] array) {
+		getState().points = array;
 	}
 
 }

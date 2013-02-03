@@ -15,6 +15,7 @@
  */
 package org.vaadin.addon.leaflet.client.vaadin;
 
+import org.vaadin.addon.leaflet.shared.Bounds;
 import org.vaadin.addon.leaflet.shared.Point;
 
 import com.vaadin.shared.communication.ServerRpc;
@@ -27,6 +28,6 @@ public interface LeafletMapServerRpc extends ServerRpc {
     
 	void onClick(Point p);
 
-	void onMoveEnd(String bBoxString);
+	void onMoveEnd(Bounds bounds);
     
 }

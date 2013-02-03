@@ -5,7 +5,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.vaadin.addon.leaflet.demoandtestapp.TServer;
+import org.vaadin.addon.leaflet.demoandtestapp.util.TServer;
 
 /**
  * This abstract class can be used if one e.g. cannot afford TestBench license.

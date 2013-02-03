@@ -10,14 +10,14 @@ import org.vaadin.addon.leaflet.shared.Point;
  * componentcontainer)
  * 
  */
-public class LeafletCircle extends AbstractLeafletVector {
+public class LCircle extends AbstractLeafletVector {
 
 	@Override
 	protected LeafletCircleState getState() {
 		return (LeafletCircleState) super.getState();
 	}
 
-	public LeafletCircle(double lat, double lon, double radius) {
+	public LCircle(double lat, double lon, double radius) {
 		getState().point = new Point(lat, lon);
 		getState().radius = radius;
 	}
