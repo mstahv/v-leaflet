@@ -23,6 +23,10 @@ public class LMarker extends LeafletLayer {
 	public LMarker() {
 	}
 	
+	public LMarker(Point point) {
+		getState().point = point;
+	}
+
 	public void setPoint(Point p) {
 		getState().point = p;
 	}

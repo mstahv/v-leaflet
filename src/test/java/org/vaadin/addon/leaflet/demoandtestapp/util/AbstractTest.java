@@ -8,7 +8,7 @@ import com.vaadin.ui.VerticalLayout;
 
 public abstract class AbstractTest extends UI {
 
-    private VerticalLayout content;
+    protected VerticalLayout content;
 
     public AbstractTest() {
         content = new VerticalLayout();

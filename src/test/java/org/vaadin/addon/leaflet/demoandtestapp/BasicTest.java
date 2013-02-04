@@ -1,13 +1,14 @@
 package org.vaadin.addon.leaflet.demoandtestapp;
 
-import org.vaadin.addon.leaflet.LeafletClickEvent;
-import org.vaadin.addon.leaflet.LeafletClickListener;
 import org.vaadin.addon.leaflet.LCircle;
 import org.vaadin.addon.leaflet.LMap;
 import org.vaadin.addon.leaflet.LMarker;
+import org.vaadin.addon.leaflet.LPolyline;
+import org.vaadin.addon.leaflet.LeafletClickEvent;
+import org.vaadin.addon.leaflet.LeafletClickListener;
+import org.vaadin.addon.leaflet.LeafletLayer;
 import org.vaadin.addon.leaflet.LeafletMoveEndEvent;
 import org.vaadin.addon.leaflet.LeafletMoveEndListener;
-import org.vaadin.addon.leaflet.LPolyline;
 import org.vaadin.addon.leaflet.demoandtestapp.util.AbstractTest;
 import org.vaadin.addon.leaflet.shared.BaseLayer;
 import org.vaadin.addon.leaflet.shared.Bounds;
@@ -15,6 +16,7 @@ import org.vaadin.addon.leaflet.shared.Control;
 import org.vaadin.addon.leaflet.shared.Point;
 
 import com.vaadin.server.ClassResource;
+import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Notification.Type;
@@ -34,16 +36,28 @@ public class BasicTest extends AbstractTest {
 				Notification.show(String.format("Clicked %s @ %.4f,%.4f", event
 						.getConnector().getClass().getSimpleName(), event
 						.getPoint().getLat(), event.getPoint().getLon()));
+				
+				if(event.getSource() == leafletMap && addMarkers.getValue()) {
+					LMarker leafletMarker = new LMarker(event.getPoint());
+					leafletMarker.addClickListener(listener);
+					leafletMap.addComponent(leafletMarker);
+				}
 			} else {
 				Notification.show(String.format("Clicked %s", event
 						.getConnector().getClass().getSimpleName()));
 			}
+			if(delete.getValue() && event.getSource() instanceof LeafletLayer) {
+				leafletMap.removeComponent((Component) event.getConnector());
+			}
 		}
 	};
+	private LMap leafletMap;
+	private CheckBox addMarkers;
+	private CheckBox delete;
 
 	@Override
 	public Component getTestComponent() {
-		LMap leafletMap = new LMap();
+		leafletMap = new LMap();
 		leafletMap.setCenter(60.4525, 22.301);
 		leafletMap.setZoomLevel(15);
 
@@ -65,13 +79,14 @@ public class BasicTest extends AbstractTest {
 		LMarker leafletMarker = new LMarker(60.4525, 22.301);
 		leafletMarker.addClickListener(listener);
 		leafletMap.addComponent(leafletMarker);
-
+		
 		leafletMarker = new LMarker(60.4525, 22.301);
 		leafletMarker.setIcon(new ClassResource("testicon.png"));
 		leafletMarker.setIconSize(new Point(57, 52));
 		leafletMarker.setIconAnchor(new Point(57, 26));
 		leafletMarker.addClickListener(listener);
 		leafletMap.addComponent(leafletMarker);
+
 
 		BaseLayer baselayer = new BaseLayer();
 		baselayer.setName("CloudMade");
@@ -111,5 +126,16 @@ public class BasicTest extends AbstractTest {
 
 		return leafletMap;
 	}
+	
+	@Override
+	protected void setup() {
+		super.setup();
+		
+		addMarkers = new CheckBox("Add markers");
+		content.addComponentAsFirst(addMarkers);
 
+		delete = new CheckBox("Delete on click");
+		content.addComponentAsFirst(delete);
+
+	}
 }

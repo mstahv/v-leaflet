@@ -69,7 +69,9 @@ public class TListUi extends UI {
         IndexedContainer indexedContainer = new IndexedContainer();
         indexedContainer.addContainerProperty("name", String.class, "");
         indexedContainer.addContainerProperty("description", String.class, "");
-        File file = new File("src/test/java/" + getClass().getPackage().getName().replace('.', '/'));
+        String pkg = getClass().getPackage().getName();
+        pkg = pkg.substring(0, pkg.lastIndexOf("."));
+		File file = new File("src/test/java/" + pkg.replace('.', '/'));
         if (file.exists()) {
             File[] listFiles = file.listFiles();
             for (File f : listFiles) {

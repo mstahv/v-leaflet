@@ -15,6 +15,7 @@
  */
 package org.vaadin.addon.leaflet.client.vaadin;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -69,7 +70,7 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector {
 	private EPSG3857 vCRS_EPSG3857 = new EPSG3857();
 	private MapOptions options;
 	private java.util.Map<BaseLayer,ILayer> layers = new HashMap<BaseLayer, ILayer>();
-	private boolean updateChildren;
+	private ArrayList<ServerConnector> updateChildren;
 
 	@Override
 	public MapWidget getWidget() {
@@ -104,6 +105,7 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector {
 	public void onStateChanged(final StateChangeEvent stateChangeEvent) {
 		super.onStateChanged(stateChangeEvent);
 		if (map == null) {
+			updateChildren = new ArrayList<ServerConnector>(getChildren());
 			options = new MapOptions();
 			if (getState().center != null) {
 				options.setCenter(getCenterFromState());
@@ -195,12 +197,12 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector {
 			}
 		}
 
-		if (updateChildren) {
-			List<ServerConnector> children2 = getChildren();
-			for (ServerConnector serverConnector : children2) {
+		if (updateChildren != null) {
+			for (ServerConnector serverConnector : updateChildren) {
 				AbstractLeafletLayerConnector<?> c = (AbstractLeafletLayerConnector<?>) serverConnector;
 				c.update();
 			}
+			updateChildren = null;
 		}
 
 		// Without this it appears component is invalidly sized sometimes
@@ -270,11 +272,17 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector {
 			ConnectorHierarchyChangeEvent connectorHierarchyChangeEvent) {
 		List<ComponentConnector> oldChildren = connectorHierarchyChangeEvent
 				.getOldChildren();
+		updateChildren = new ArrayList<ServerConnector>();
+		for (ServerConnector componentConnector : getChildren()) {
+			if(!oldChildren.contains(componentConnector)) {
+				updateChildren.add(componentConnector);
+			}
+			oldChildren.remove(componentConnector);
+		}
 		for (ComponentConnector componentConnector : oldChildren) {
 			AbstractLeafletLayerConnector<?> c = (AbstractLeafletLayerConnector<?>) componentConnector;
 			map.removeLayer(c.getLayer());
 		}
-		updateChildren = true;
 	}
 
 }

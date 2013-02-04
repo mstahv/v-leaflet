@@ -58,6 +58,14 @@ public class LMap extends AbstractComponentContainer {
 	public void addComponent(Component c) {
 		super.addComponent(c);
 		components.add(c);
+		markAsDirty(); // ?? is this really needed
+	}
+	
+	@Override
+	public void removeComponent(Component c) {
+		super.removeComponent(c);
+		components.remove(c);
+		markAsDirty(); // ?? is this really needed
 	}
 
 	@Override

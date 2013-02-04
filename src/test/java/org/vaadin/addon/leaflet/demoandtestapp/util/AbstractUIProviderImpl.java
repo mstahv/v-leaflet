@@ -38,7 +38,9 @@ public class AbstractUIProviderImpl extends UIProvider {
         }
         if (!"".equals(name) && !name.contains(".ico") && name.matches("[A-Z][a-z].*")) {
             try {
-                String className = getClass().getPackage().getName() + "." + name;
+                String pkg = getClass().getPackage().getName();
+                pkg = pkg.substring(0, pkg.lastIndexOf("."));
+                String className = pkg + "." + name;
                 Class<? extends UI> forName = (Class<? extends UI>) Class.forName(className);
                 if (forName != null) {
                     dirtyHack = forName;
