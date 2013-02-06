@@ -9,3 +9,5 @@ target
 .gitignore~
 
 .DS_Store
+
+dependency-reduced-pom.xml

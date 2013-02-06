@@ -78,11 +78,10 @@ public class TListUi extends UI {
                 try {
                     String name = f.getName();
                     String simpleName = name.substring(0, name.indexOf(".java"));
-                    String fullname = getClass().getPackage().getName() + "." + simpleName;
+                    String fullname = pkg + "." + simpleName;
                     Class<?> forName = Class.forName(fullname);
                     addTest(indexedContainer, simpleName, forName);
                 } catch (Exception e) {
-                    // e.printStackTrace();
                     // e.printStackTrace();
                 }
             }
