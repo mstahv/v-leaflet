@@ -69,7 +69,7 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector {
 	private Map map;
 	private EPSG3857 vCRS_EPSG3857 = new EPSG3857();
 	private MapOptions options;
-	private java.util.Map<BaseLayer,ILayer> layers = new HashMap<BaseLayer, ILayer>();
+	private java.util.Map<BaseLayer, ILayer> layers = new HashMap<BaseLayer, ILayer>();
 	private ArrayList<ServerConnector> updateChildren;
 
 	@Override
@@ -132,7 +132,8 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector {
 					for (BaseLayer l : layers.keySet()) {
 						opts.setProperty(l.getName(), layers.get(l));
 					}
-					Layers lControl = new Layers(opts, new Options(), new Options());
+					Layers lControl = new Layers(opts, new Options(),
+							new Options());
 					map.addControl(lControl);
 					break;
 				case scale:
@@ -197,13 +198,7 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector {
 			}
 		}
 
-		if (updateChildren != null) {
-			for (ServerConnector serverConnector : updateChildren) {
-				AbstractLeafletLayerConnector<?> c = (AbstractLeafletLayerConnector<?>) serverConnector;
-				c.update();
-			}
-			updateChildren = null;
-		}
+		updateChildrens();
 
 		// Without this it appears component is invalidly sized sometimes
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
@@ -212,6 +207,19 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector {
 				map.invalidateSize(false);
 			}
 		});
+	}
+
+	private void updateChildrens() {
+		if (map == null) {
+			return;
+		}
+		if (updateChildren != null) {
+			for (ServerConnector serverConnector : updateChildren) {
+				AbstractLeafletLayerConnector<?> c = (AbstractLeafletLayerConnector<?>) serverConnector;
+				c.update();
+			}
+			updateChildren = null;
+		}
 	}
 
 	private void setBaseLayers() {
@@ -274,7 +282,7 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector {
 				.getOldChildren();
 		updateChildren = new ArrayList<ServerConnector>();
 		for (ServerConnector componentConnector : getChildren()) {
-			if(!oldChildren.contains(componentConnector)) {
+			if (!oldChildren.contains(componentConnector)) {
 				updateChildren.add(componentConnector);
 			}
 			oldChildren.remove(componentConnector);
@@ -283,6 +291,8 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector {
 			AbstractLeafletLayerConnector<?> c = (AbstractLeafletLayerConnector<?>) componentConnector;
 			map.removeLayer(c.getLayer());
 		}
+
+		updateChildrens();
 	}
 
 }
