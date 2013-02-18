@@ -60,7 +60,7 @@ public class Bounds {
 		setNorthEastLat(Math.max(getNorthEastLat(), point.getLat()));
 		setNorthEastLon(Math.max(getNorthEastLon(), point.getLon()));
 		setSouthWestLat(Math.min(getSouthWestLat(), point.getLat()));
-		setSouthWestLon(Math.min(getSouthWestLon(), point.getLat()));
+		setSouthWestLon(Math.min(getSouthWestLon(), point.getLon()));
 
 	}
 
