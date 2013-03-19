@@ -121,6 +121,10 @@ public class LMap extends AbstractComponentContainer {
 	public void setCenter(Point center) {
 		getState().center = center;
 	}
+	
+	public Integer getZoomLevel() {
+		return getState().zoomLevel;
+	}
 
 	public void zoomToExtent(Bounds bounds) {
 		getState().center = bounds.getCenter();
