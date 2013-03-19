@@ -75,6 +75,7 @@ public class LeafletMarkerConnector extends
 			Icon icon = new Icon(iconOptions);
 			options.setIcon(icon);
 		}
+		
 		marker = new Marker(latlng, options);
 		marker.addTo(getParent().getMap());
 

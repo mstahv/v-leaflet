@@ -16,6 +16,9 @@ import org.vaadin.addon.leaflet.shared.Control;
 import org.vaadin.addon.leaflet.shared.Point;
 
 import com.vaadin.server.ClassResource;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Notification;
@@ -73,7 +76,7 @@ public class BasicTest extends AbstractTest {
 
 		LCircle leafletCircle = new LCircle(60.4525, 22.301, 300);
 		leafletCircle.setColor("#00FFFF");
-		leafletCircle.addClickListener(listener);
+//		leafletCircle.addClickListener(listener);
 		leafletMap.addComponent(leafletCircle);
 
 		LMarker leafletMarker = new LMarker(60.4525, 22.301);
@@ -136,6 +139,29 @@ public class BasicTest extends AbstractTest {
 
 		delete = new CheckBox("Delete on click");
 		content.addComponentAsFirst(delete);
+		
+		Button button = new Button("Delete first component from map");
+		button.addClickListener(new ClickListener() {
+			
+			@Override
+			public void buttonClick(ClickEvent event) {
+				Component next = leafletMap.getComponentIterator().next();
+				leafletMap.removeComponent(next);
+			}
+		});
+		content.addComponentAsFirst(button);
+		
+		button = new Button("Add polyline to map");
+		button.addClickListener(new ClickListener() {
+			@Override
+			public void buttonClick(ClickEvent event) {
+				LPolyline lPolyline = new LPolyline(new Point(60.44, 22.30),
+						new Point(60.456, 22.304));
+				lPolyline.addClickListener(listener);
+				leafletMap.addComponent(lPolyline);
+			}
+		});
+		content.addComponentAsFirst(button);
 
 	}
 }
