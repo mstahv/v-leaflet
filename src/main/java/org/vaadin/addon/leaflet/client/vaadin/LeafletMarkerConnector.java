@@ -12,9 +12,7 @@ import org.discotools.gwt.leaflet.client.types.IconOptions;
 import org.discotools.gwt.leaflet.client.types.LatLng;
 import org.discotools.gwt.leaflet.client.types.Point;
 
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-import com.vaadin.client.communication.StateChangeEvent;
+import com.vaadin.client.VConsole;
 import com.vaadin.shared.communication.URLReference;
 import com.vaadin.shared.ui.Connect;
 
@@ -29,20 +27,6 @@ public class LeafletMarkerConnector extends
 		return (LeafletMarkerState) super.getState();
 	}
 
-	@Override
-	public void onStateChanged(StateChangeEvent stateChangeEvent) {
-		super.onStateChanged(stateChangeEvent);
-		// state change events are fired in random order
-		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-
-			@Override
-			public void execute() {
-				update();
-			}
-
-		});
-	}
-
 	EventHandler<?> handler = new EventHandler<MouseEvent>() {
 		@Override
 		public void handle(MouseEvent event) {
@@ -52,6 +36,7 @@ public class LeafletMarkerConnector extends
 	
 	@Override
 	protected void update() {
+		VConsole.error("update" + getConnectorId());
 		if (marker != null) {
 			getParent().getMap().removeLayer(marker);
 			EventHandlerManager.clearEventHandler(marker, Events.click);

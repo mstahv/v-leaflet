@@ -169,29 +169,28 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector {
 			EventHandlerManager.addEventHandler(map, Events.moveend, handler);
 
 		} else {
-			if (stateChangeEvent.getChangedProperties().contains("baseLayers")) {
+			if (stateChangeEvent.hasPropertyChanged("baseLayers")) {
 				setBaseLayers();
 			}
-			if (stateChangeEvent.getChangedProperties()
-					.contains("zoomToExtent")) {
+			if (stateChangeEvent.hasPropertyChanged("zoomToExtent")) {
 				Bounds b = getState().zoomToExtent;
 				LatLng northEast = new LatLng(b.getNorthEastLat(),
 						b.getNorthEastLon());
 				LatLng southWest = new LatLng(b.getSouthWestLat(),
 						b.getSouthWestLon());
 				map.fitBounds(new LatLngBounds(southWest, northEast));
-			} else if (stateChangeEvent.getChangedProperties().contains(
+			} else if (stateChangeEvent.hasPropertyChanged(
 					"center")
 					&& getState().center != null) {
 				LatLng center = getCenterFromState();
 				int zoom = map.getZoom();
-				if (stateChangeEvent.getChangedProperties().contains(
+				if (stateChangeEvent.hasPropertyChanged(
 						"zoomLevel")
 						&& getState().zoomLevel != null) {
 					zoom = getState().zoomLevel;
 				}
 				map.setView(center, zoom, false);
-			} else if (stateChangeEvent.getChangedProperties().contains(
+			} else if (stateChangeEvent.hasPropertyChanged(
 					"zoomLevel")
 					&& getState().zoomLevel != null) {
 				map.setZoom(getState().zoomLevel);
@@ -217,6 +216,7 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector {
 			for (ServerConnector serverConnector : updateChildren) {
 				AbstractLeafletLayerConnector<?> c = (AbstractLeafletLayerConnector<?>) serverConnector;
 				c.update();
+				c.markUpdated();
 			}
 			updateChildren = null;
 		}
