@@ -18,65 +18,64 @@ import com.vaadin.shared.ui.Connect;
 
 @Connect(org.vaadin.addon.leaflet.LMarker.class)
 public class LeafletMarkerConnector extends
-		AbstractLeafletLayerConnector<MarkerOptions> {
+        AbstractLeafletLayerConnector<MarkerOptions> {
 
-	private Marker marker;
+    private Marker marker;
 
-	@Override
-	public LeafletMarkerState getState() {
-		return (LeafletMarkerState) super.getState();
-	}
+    @Override
+    public LeafletMarkerState getState() {
+        return (LeafletMarkerState) super.getState();
+    }
 
-	EventHandler<?> handler = new EventHandler<MouseEvent>() {
-		@Override
-		public void handle(MouseEvent event) {
-			rpc.onClick(null);
-		}
-	};
-	
-	@Override
-	protected void update() {
-		VConsole.error("update" + getConnectorId());
-		if (marker != null) {
-			getParent().getMap().removeLayer(marker);
-			EventHandlerManager.clearEventHandler(marker, Events.click);
-		}
-		LatLng latlng = new LatLng(getState().point.getLat(),
-				getState().point.getLon());
-		MarkerOptions options = createOptions();
+    EventHandler<?> handler = new EventHandler<MouseEvent>() {
+        @Override
+        public void handle(MouseEvent event) {
+            rpc.onClick(null);
+        }
+    };
 
-		URLReference urlReference = getState().resources.get("icon");
-		if (urlReference != null) {
-			IconOptions iconOptions = new IconOptions();
-			iconOptions.setIconUrl(urlReference.getURL());
-			if (getState().iconAnchor != null) {
-				iconOptions.setIconAnchor(new Point(getState().iconAnchor
-						.getLat(), getState().iconAnchor.getLon()));
-			}
-			if (getState().iconSize != null) {
-				iconOptions.setIconSize(new Point(getState().iconSize.getLat(),
-						getState().iconSize.getLon()));
-			}
-			Icon icon = new Icon(iconOptions);
-			options.setIcon(icon);
-		}
-		
-		marker = new Marker(latlng, options);
-		marker.addTo(getParent().getMap());
+    @Override
+    protected void update() {
+        VConsole.error("update" + getConnectorId());
+        if (marker != null) {
+            removeFromParent(marker);
+            EventHandlerManager.clearEventHandler(marker, Events.click);
+        }
+        LatLng latlng = new LatLng(getState().point.getLat(),
+                getState().point.getLon());
+        MarkerOptions options = createOptions();
 
+        URLReference urlReference = getState().resources.get("icon");
+        if (urlReference != null) {
+            IconOptions iconOptions = new IconOptions();
+            iconOptions.setIconUrl(urlReference.getURL());
+            if (getState().iconAnchor != null) {
+                iconOptions.setIconAnchor(new Point(getState().iconAnchor
+                        .getLat(), getState().iconAnchor.getLon()));
+            }
+            if (getState().iconSize != null) {
+                iconOptions.setIconSize(new Point(getState().iconSize.getLat(),
+                        getState().iconSize.getLon()));
+            }
+            Icon icon = new Icon(iconOptions);
+            options.setIcon(icon);
+        }
 
-		EventHandlerManager.addEventHandler(marker, Events.click, handler);
-	}
+        marker = new Marker(latlng, options);
+        addToParent(marker);
 
-	@Override
-	protected MarkerOptions createOptions() {
-		MarkerOptions markerOptions = new MarkerOptions();
-		return markerOptions;
-	}
+        EventHandlerManager.addEventHandler(marker, Events.click, handler);
+    }
 
-	@Override
-	public ILayer getLayer() {
-		return marker;
-	}
+    @Override
+    protected MarkerOptions createOptions() {
+        MarkerOptions markerOptions = new MarkerOptions();
+        return markerOptions;
+    }
+
+    @Override
+    public ILayer getLayer() {
+        return marker;
+    }
 
 }

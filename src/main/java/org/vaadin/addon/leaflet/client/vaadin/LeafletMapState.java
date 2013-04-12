@@ -15,6 +15,9 @@
  */
 package org.vaadin.addon.leaflet.client.vaadin;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.vaadin.addon.leaflet.shared.BaseLayer;
 import org.vaadin.addon.leaflet.shared.Bounds;
 import org.vaadin.addon.leaflet.shared.Control;
@@ -28,20 +31,24 @@ import com.vaadin.shared.AbstractComponentState;
  */
 public class LeafletMapState extends AbstractComponentState {
 
-	public Point center;
-	public Integer zoomLevel;
+    public Point center;
+    public Integer zoomLevel;
 
-	private BaseLayer[] baseLayers;
-	public Bounds zoomToExtent;
-	public Control[] controls = new Control[] { Control.zoom,
-			Control.attribution };
+    private BaseLayer[] baseLayers;
+    public Bounds zoomToExtent;
+    public List<Control> controls = new ArrayList<Control>() {
+        {
+            add(Control.zoom);
+            add(Control.attribution);
+        }
+    };
 
-	public BaseLayer[] getBaseLayers() {
-		return baseLayers;
-	}
+    public BaseLayer[] getBaseLayers() {
+        return baseLayers;
+    }
 
-	public void setBaseLayers(BaseLayer[] baseLayers) {
-		this.baseLayers = baseLayers;
-	}
+    public void setBaseLayers(BaseLayer[] baseLayers) {
+        this.baseLayers = baseLayers;
+    }
 
 }

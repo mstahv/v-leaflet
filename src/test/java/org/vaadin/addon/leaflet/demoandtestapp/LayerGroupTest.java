@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.vaadin.addon.leaflet.LCircle;
+import org.vaadin.addon.leaflet.LLayerGroup;
 import org.vaadin.addon.leaflet.LMap;
 import org.vaadin.addon.leaflet.LMarker;
 import org.vaadin.addon.leaflet.LPolyline;
@@ -18,6 +19,8 @@ import org.vaadin.addon.leaflet.shared.Bounds;
 import org.vaadin.addon.leaflet.shared.Control;
 import org.vaadin.addon.leaflet.shared.Point;
 
+import com.vaadin.data.Property.ValueChangeEvent;
+import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.server.ClassResource;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -27,7 +30,7 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Notification.Type;
 
-public class BasicTest extends AbstractTest {
+public class LayerGroupTest extends AbstractTest {
 
     @Override
     public String getDescription() {
@@ -53,13 +56,25 @@ public class BasicTest extends AbstractTest {
                         .getConnector().getClass().getSimpleName()));
             }
             if (delete.getValue() && event.getSource() instanceof LeafletLayer) {
-                leafletMap.removeComponent((Component) event.getConnector());
+                Component component = (Component) event.getConnector();
+                if (leafletMap.hasComponent(component)) {
+                    leafletMap
+                            .removeComponent((Component) event.getConnector());
+                } else {
+                    Notification
+                            .show("Object inside a layer, will not be deleted");
+                }
+
             }
         }
     };
     private LMap leafletMap;
     private CheckBox addMarkers;
     private CheckBox delete;
+    private CheckBox showLayerGroupCB;
+    private LLayerGroup llg;
+    private LLayerGroup llgNested;
+    private LLayerGroup llg2;
 
     @Override
     public Component getTestComponent() {
@@ -70,15 +85,54 @@ public class BasicTest extends AbstractTest {
         leafletMap.setControls(new ArrayList<Control>(Arrays.asList(Control
                 .values())));
 
-        LPolyline leafletPolyline = new LPolyline(new Point(60.45, 22.295),
-                new Point(60.4555, 22.301), new Point(60.45, 22.307));
-        leafletPolyline.setColor("#FF00FF");
-        leafletPolyline.setFill(true);
-        leafletPolyline.setFillColor("#00FF00");
-        leafletPolyline.addClickListener(listener);
-        leafletMap.addComponent(leafletPolyline);
+        LPolyline leafletPolyline = null;
 
-        LCircle leafletCircle = new LCircle(60.4525, 22.301, 300);
+        // Adding to layergroup
+
+        llg = new LLayerGroup("Random stuff");
+        leafletPolyline = new LPolyline(new Point(60.45, 22.295), new Point(
+                60.4555, 22.301), new Point(60.45, 22.307));
+        leafletPolyline.setColor("#FF0000");
+        leafletPolyline.setFill(true);
+        leafletPolyline.setFillColor("#FFFFFF");
+        leafletPolyline.addClickListener(listener);
+        llg.addComponent(leafletPolyline);
+
+        leafletPolyline = new LPolyline(
+                new Point(60.45 + 0.005, 22.295 + 0.005), new Point(
+                        60.4555 + 0.005, 22.301 + 0.005), new Point(
+                        60.45 + 0.005, 22.307 + 0.005));
+        leafletPolyline.setColor("#FFFFFF");
+        leafletPolyline.setFill(true);
+        leafletPolyline.setFillColor("#FF0000");
+        leafletPolyline.addClickListener(listener);
+        llg.addComponent(leafletPolyline);
+
+        LCircle leafletCircle = new LCircle(60.4525 + 0.005, 22.301 + 0.005,
+                200);
+        leafletCircle.setColor("#FF0000");
+        llgNested = new LLayerGroup(null);
+        llgNested.addComponent(leafletCircle);
+        llg.addComponent(llgNested);
+
+        llg2 = new LLayerGroup("Small circles group");
+        leafletCircle = new LCircle(60.4525 - 0.005, 22.301 - 0.005, 20);
+        leafletCircle.setColor("#00FF00");
+        llg2.addComponent(leafletCircle);
+        leafletCircle = new LCircle(60.4525 - 0.008, 22.301 - 0.008, 20);
+        leafletCircle.setColor("#00FF00");
+        llg2.addComponent(leafletCircle);
+        leafletCircle = new LCircle(60.4525 - 0.011, 22.301 - 0.011, 20);
+        leafletCircle.setColor("#00FF00");
+        llg2.addComponent(leafletCircle);
+        leafletCircle = new LCircle(60.4525 - 0.014, 22.301 - 0.014, 20);
+        leafletCircle.setColor("#00FF00");
+        llg2.addComponent(leafletCircle);
+
+        leafletMap.addComponent(llg);
+        leafletMap.addComponent(llg2);
+
+        leafletCircle = new LCircle(60.4525, 22.301, 300);
         leafletCircle.setColor("#00FFFF");
         // leafletCircle.addClickListener(listener);
         leafletMap.addComponent(leafletCircle);
@@ -143,7 +197,34 @@ public class BasicTest extends AbstractTest {
         delete = new CheckBox("Delete on click");
         content.addComponentAsFirst(delete);
 
-        Button button = new Button("Delete first component from map");
+        showLayerGroupCB = new CheckBox(
+                "Show first layer (switch on/off from server side)");
+        showLayerGroupCB.setImmediate(true);
+        showLayerGroupCB.setValue(true);
+        content.addComponentAsFirst(showLayerGroupCB);
+
+        showLayerGroupCB.addValueChangeListener(new ValueChangeListener() {
+
+            @Override
+            public void valueChange(ValueChangeEvent event) {
+                Object value = event.getProperty().getValue();
+                if (value == null) {
+                    return;
+                }
+                boolean show = (Boolean) value;
+                if (show) {
+                    if (!leafletMap.hasComponent(llg)) {
+                        leafletMap.addComponent(llg);
+                    }
+                } else {
+                    leafletMap.removeComponent(llg);
+                }
+
+            }
+        });
+
+        Button button = new Button(
+                "Delete first component from map (may also be a layer containing many components)");
         button.addClickListener(new ClickListener() {
 
             @Override
