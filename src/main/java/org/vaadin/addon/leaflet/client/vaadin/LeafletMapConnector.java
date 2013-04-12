@@ -319,6 +319,9 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector {
             // TODO: This does not work atm.
             if (c instanceof LeafletLayerGroupConnector) {
                 String name = connectorIdToNameMap.remove(c.getConnectorId());
+                if (name == null) {
+                    continue;
+                }
                 Layers removed = lControl.removeLayer(name);
                 map.removeControl(lControl);
                 map.addControl(removed);
