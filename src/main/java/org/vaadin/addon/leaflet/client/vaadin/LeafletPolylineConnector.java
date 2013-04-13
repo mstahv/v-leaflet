@@ -42,7 +42,7 @@ public class LeafletPolylineConnector extends
     @Override
     protected void update() {
         if (marker != null) {
-            removeFromParent(marker);
+            removeLayerFromParent();
             EventHandlerManager.clearEventHandler(marker, Events.click);
         }
         if (getState().points == null) {

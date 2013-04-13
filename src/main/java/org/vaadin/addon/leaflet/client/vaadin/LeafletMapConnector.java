@@ -17,6 +17,7 @@ package org.vaadin.addon.leaflet.client.vaadin;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.discotools.gwt.leaflet.client.LeafletResourceInjector;
@@ -69,7 +70,7 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector {
     private Map map;
     private EPSG3857 vCRS_EPSG3857 = new EPSG3857();
     private MapOptions options;
-    private java.util.Map<BaseLayer, ILayer> layers = new HashMap<BaseLayer, ILayer>();
+    private java.util.Map<BaseLayer, ILayer> layers = new LinkedHashMap<BaseLayer, ILayer>();
     private ArrayList<ServerConnector> updateChildren;
     private HashMap<String, String> connectorIdToNameMap = new HashMap<String, String>();
 

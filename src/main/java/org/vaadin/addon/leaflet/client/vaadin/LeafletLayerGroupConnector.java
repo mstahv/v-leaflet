@@ -24,13 +24,12 @@ import org.discotools.gwt.leaflet.client.layers.others.LayerGroup;
 import org.vaadin.addon.leaflet.LLayerGroup;
 
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.user.client.ui.Label;
 import com.vaadin.client.ComponentConnector;
 import com.vaadin.client.ConnectorHierarchyChangeEvent;
 import com.vaadin.client.ConnectorHierarchyChangeEvent.ConnectorHierarchyChangeHandler;
+import com.vaadin.client.communication.StateChangeEvent;
 import com.vaadin.client.HasComponentsConnector;
 import com.vaadin.client.ServerConnector;
-import com.vaadin.client.communication.StateChangeEvent;
 import com.vaadin.shared.ui.Connect;
 
 /**
@@ -39,132 +38,104 @@ import com.vaadin.shared.ui.Connect;
  */
 @Connect(LLayerGroup.class)
 public class LeafletLayerGroupConnector extends
-        AbstractLeafletLayerConnector<Object> implements
-        HasComponentsConnector, ConnectorHierarchyChangeHandler {
+		AbstractLeafletLayerConnector<Object> implements
+		HasComponentsConnector, ConnectorHierarchyChangeHandler {
 
-    private ArrayList<ServerConnector> childrenToUpdate;
+	private LayerGroup layerGroup;
 
-    private LayerGroup layerGroup;
+	List<ComponentConnector> childComponents;
 
-    private boolean addedToParent = false;
+	private ArrayList<ComponentConnector> orphaned;
 
-    List<ComponentConnector> childComponents;
+	public LeafletLayerGroupConnector() {
+		super();
+		addConnectorHierarchyChangeHandler(this);
 
-    public LeafletLayerGroupConnector() {
-        super();
-        addConnectorHierarchyChangeHandler(this);
+	}
 
-    }
+	@Override
+	public void updateCaption(ComponentConnector connector) {
+		// skipped
+	}
 
-    @Override
-    protected void init() {
+	@Override
+	public LeafletLayerGroupState getState() {
+		return (LeafletLayerGroupState) super.getState();
+	}
+	
+	@Override
+	public void onStateChanged(StateChangeEvent stateChangeEvent) {
+		// NOP
+	}
+	
 
-    }
+	@Override
+	public void onConnectorHierarchyChange(
+			ConnectorHierarchyChangeEvent connectorHierarchyChangeEvent) {
+		orphaned = new ArrayList<ComponentConnector>(
+				connectorHierarchyChangeEvent.getOldChildren());
+		for (ServerConnector componentConnector : getChildren()) {
+			orphaned.remove(componentConnector);
+		}
+		deferUpdate();
+	}
 
-    @Override
-    public void updateCaption(ComponentConnector connector) {
-        // skipped
-    }
+	@Override
+	public void update() {
 
-    @Override
-    public Label getWidget() {
-        // no widget needed
-        return super.getWidget();
-    }
+		if (layerGroup == null) {
+			ILayer layers[] = {};
+			layerGroup = new LayerGroup(layers);
+			addToParent(layerGroup);
+		}
+		updateChildren();
 
-    @Override
-    public LeafletLayerGroupState getState() {
-        return (LeafletLayerGroupState) super.getState();
-    }
+	}
 
-    @Override
-    public void onStateChanged(StateChangeEvent stateChangeEvent) {
-        // if (!initialized) {
-        childrenToUpdate = new ArrayList<ServerConnector>(getChildren());
-        super.onStateChanged(stateChangeEvent);
-        // }
-        // update();
+	private void updateChildren() {
+		for (ServerConnector serverConnector : getChildComponents()) {
 
-    }
+			AbstractLeafletLayerConnector<?> c = (AbstractLeafletLayerConnector<?>) serverConnector;
+			c.update();
+			c.markUpdated();
+		}
+		if(orphaned != null) {
+			for (ComponentConnector c : orphaned) {
+				AbstractLeafletLayerConnector<?> lc = (AbstractLeafletLayerConnector<?>) c;
+				lc.removeLayerFromParent();
+			}
+		}
+	}
 
-    @Override
-    public void onConnectorHierarchyChange(
-            ConnectorHierarchyChangeEvent connectorHierarchyChangeEvent) {
-        List<ComponentConnector> oldChildren = connectorHierarchyChangeEvent
-                .getOldChildren();
-        childrenToUpdate = new ArrayList<ServerConnector>();
-        for (ServerConnector componentConnector : getChildren()) {
-            if (!oldChildren.contains(componentConnector)) {
-                childrenToUpdate.add(componentConnector);
-            }
-            oldChildren.remove(componentConnector);
-        }
-        /*
-         * for (ComponentConnector componentConnector : oldChildren) {
-         * AbstractLeafletLayerConnector<?> c =
-         * (AbstractLeafletLayerConnector<?>) componentConnector;
-         * map.removeLayer(c.getLayer()); }
-         */
+	@Override
+	public List<ComponentConnector> getChildComponents() {
+		if (childComponents == null) {
+			return Collections.emptyList();
+		}
 
-        // updateChildren();
-    }
+		return childComponents;
+	}
 
-    @Override
-    public void update() {
+	@Override
+	public void setChildComponents(List<ComponentConnector> childComponents) {
+		this.childComponents = childComponents;
+	}
 
-        if (!addedToParent) {
-            ILayer layers[] = {};
-            layerGroup = new LayerGroup(layers);
-            addToParent(layerGroup);
-            addedToParent = true;
-        }
-        updateChildren();
+	@Override
+	public HandlerRegistration addConnectorHierarchyChangeHandler(
+			ConnectorHierarchyChangeHandler handler) {
+		return ensureHandlerManager().addHandler(
+				ConnectorHierarchyChangeEvent.TYPE, handler);
+	}
 
-    }
+	@Override
+	protected Object createOptions() {
+		return null;
+	}
 
-    private void updateChildren() {
-
-        if (childrenToUpdate != null) {
-            for (ServerConnector serverConnector : childrenToUpdate) {
-
-                AbstractLeafletLayerConnector<?> c = (AbstractLeafletLayerConnector<?>) serverConnector;
-                c.update();
-                c.markUpdated();
-
-            }
-            childrenToUpdate = null;
-        }
-    }
-
-    @Override
-    public List<ComponentConnector> getChildComponents() {
-        if (childComponents == null) {
-            return Collections.emptyList();
-        }
-
-        return childComponents;
-    }
-
-    @Override
-    public void setChildComponents(List<ComponentConnector> childComponents) {
-        this.childComponents = childComponents;
-    }
-
-    @Override
-    public HandlerRegistration addConnectorHierarchyChangeHandler(
-            ConnectorHierarchyChangeHandler handler) {
-        return ensureHandlerManager().addHandler(
-                ConnectorHierarchyChangeEvent.TYPE, handler);
-    }
-
-    @Override
-    protected Object createOptions() {
-        return null;
-    }
-
-    @Override
-    public ILayer getLayer() {
-        return layerGroup;
-    }
+	@Override
+	public ILayer getLayer() {
+		return layerGroup;
+	}
 
 }

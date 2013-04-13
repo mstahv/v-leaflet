@@ -156,19 +156,7 @@ public class LayerGroupTest extends AbstractTest {
         baselayer
                 .setUrl("http://{s}.tile.cloudmade.com/a751804431c2443ab399100902c651e8/997/256/{z}/{x}/{y}.png");
 
-        // This will make everything sharper on "retina devices", but also text
-        // quite small
-        // baselayer.setDetectRetina(true);
-
-        BaseLayer pk = new BaseLayer();
-        pk.setName("Peruskartta");
-        pk.setUrl("http://{s}.kartat.kapsi.fi/peruskartta/{z}/{x}/{y}.png");
-        pk.setAttributionString("Maanmittauslaitos, hosted by kartat.kapsi.fi");
-        pk.setMaxZoom(18);
-        pk.setSubDomains("tile2");
-        pk.setDetectRetina(true);
-
-        leafletMap.setBaseLayers(baselayer, pk);
+        leafletMap.setBaseLayers(baselayer);
 
         leafletMap.addClickListener(listener);
 
@@ -229,20 +217,50 @@ public class LayerGroupTest extends AbstractTest {
 
             @Override
             public void buttonClick(ClickEvent event) {
-                Component next = leafletMap.getComponentIterator().next();
+                Component next = leafletMap.iterator().next();
                 leafletMap.removeComponent(next);
             }
         });
         content.addComponentAsFirst(button);
+        button = new Button(
+                "Delete first component from first layer group (may also be a layer containing many components)");
+        button.addClickListener(new ClickListener() {
 
-        button = new Button("Add polyline to map");
+            @Override
+            public void buttonClick(ClickEvent event) {
+            	LLayerGroup group = null;
+            	for(Component c : leafletMap) {
+            		if (c instanceof LLayerGroup) {
+            			group = (LLayerGroup) c;
+            			break;
+					}
+            	}
+            	Component next = group.iterator().next();
+            	group.removeComponent(next);
+            }
+        });
+        content.addComponentAsFirst(button);
+
+        button = new Button("Add polyline to first group on map (creates if does not exist)");
         button.addClickListener(new ClickListener() {
             @Override
             public void buttonClick(ClickEvent event) {
+            	LLayerGroup group = null;
+            	for(Component c : leafletMap) {
+            		if(c instanceof LLayerGroup) {
+            			group = (LLayerGroup) c;
+            			break;
+            		}
+            	}
+            	if(group == null) {
+            		group = new LLayerGroup("new group");
+            		leafletMap.addComponent(group);
+            	}
+            	
                 LPolyline lPolyline = new LPolyline(new Point(60.44, 22.30),
                         new Point(60.456, 22.304));
                 lPolyline.addClickListener(listener);
-                leafletMap.addComponent(lPolyline);
+                group.addComponent(lPolyline);
             }
         });
         content.addComponentAsFirst(button);

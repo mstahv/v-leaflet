@@ -114,7 +114,7 @@ public class BasicTest extends AbstractTest {
         pk.setSubDomains("tile2");
         pk.setDetectRetina(true);
 
-        leafletMap.setBaseLayers(baselayer, pk);
+        leafletMap.setBaseLayers(pk, baselayer);
 
         leafletMap.addClickListener(listener);
 

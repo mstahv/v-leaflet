@@ -17,6 +17,7 @@ public abstract class AbstractLeafletLayerConnector<T> extends
         AbstractComponentConnector {
 
     protected ClickServerRpc rpc = RpcProxy.create(ClickServerRpc.class, this);
+	private Object leafletParent;
 
     public AbstractLeafletLayerConnector() {
         super();
@@ -34,26 +35,29 @@ public abstract class AbstractLeafletLayerConnector<T> extends
             Map map = ((LeafletMapConnector) parent).getMap();
             // Something is wrong if map is null here
             map.addLayer(layer);
+            leafletParent = map;
         } else {
-            ((LayerGroup) (((LeafletLayerGroupConnector) parent).getLayer()))
+            LayerGroup layerGroup = (LayerGroup) (((LeafletLayerGroupConnector) parent).getLayer());
+			layerGroup
                     .addLayer(layer);
+			leafletParent = layerGroup;
         }
     }
 
-    public void removeFromParent(ILayer layer) {
-        HasComponentsConnector parent = getParent();
-        if (parent instanceof LeafletMapConnector) {
-            Map map = ((LeafletMapConnector) parent).getMap();
+    public void removeLayerFromParent() {
+    	ILayer layer = getLayer();
+        if (leafletParent instanceof LeafletMapConnector) {
+            Map map = (Map) leafletParent;
             // Something is wrong if map is null here
             map.removeLayer(layer);
         } else {
-            ((LayerGroup) (((LeafletLayerGroupConnector) parent).getLayer()))
+            ((LayerGroup) leafletParent)
                     .removeLayer(layer);
         }
     }
 
     /** Returns the map from the root of the hierarchy **/
-    public Map getdMap() {
+    public Map getMap() {
 
         ServerConnector parent = getParent();
 
@@ -81,7 +85,11 @@ public abstract class AbstractLeafletLayerConnector<T> extends
     @Override
     public void onStateChanged(StateChangeEvent stateChangeEvent) {
         super.onStateChanged(stateChangeEvent);
-        // state change events are fired in random order. To ensure correct
+        deferUpdate();
+    }
+
+	protected void deferUpdate() {
+		// state change events are fired in random order. To ensure correct
         // order and only one update (e.g. move of marker), we defer update here
         // and do it only if not forced by parent.
         Scheduler.get().scheduleDeferred(new ScheduledCommand() {
@@ -94,7 +102,7 @@ public abstract class AbstractLeafletLayerConnector<T> extends
                 updated = false;
             }
         });
-    }
+	}
 
     /**
      * Should be called by map if update is called by it during hierarchy change

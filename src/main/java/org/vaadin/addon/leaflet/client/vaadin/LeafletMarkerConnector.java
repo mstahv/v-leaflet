@@ -38,7 +38,7 @@ public class LeafletMarkerConnector extends
     protected void update() {
         VConsole.error("update" + getConnectorId());
         if (marker != null) {
-            removeFromParent(marker);
+            removeLayerFromParent();
             EventHandlerManager.clearEventHandler(marker, Events.click);
         }
         LatLng latlng = new LatLng(getState().point.getLat(),
