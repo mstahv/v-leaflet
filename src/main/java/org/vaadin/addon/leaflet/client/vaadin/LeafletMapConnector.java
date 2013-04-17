@@ -74,7 +74,7 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector {
     private ArrayList<ServerConnector> updateChildren;
     private HashMap<String, String> connectorIdToNameMap = new HashMap<String, String>();
 
-    // Must hace this one here, because of removal (and we want to preserve the
+    // Must have this one here, because of removal (and we want to preserve the
     // states)
     private Layers lControl;
 
@@ -198,7 +198,7 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector {
             case zoom:
                 // TODO how to remove this? Default.
                 break;
-            case layergroups:
+            case overlays:
                 // Lets not do anything here
 
             default:
@@ -206,17 +206,20 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector {
             }
         }
 
-        if (getState().controls.contains(Control.layergroups)) {
+        if (getState().controls.contains(Control.overlays)) {
             if (lControl == null) {
                 lControl = new Layers(new Options(), new Options(),
                         new Options());
             }
             for (ServerConnector connector : getChildren()) {
-                if (!(connector instanceof LeafletLayerGroupConnector)) {
+                if (!(connector instanceof AbstractLeafletLayerConnector<?>)) {
                     continue;
                 }
-                LeafletLayerGroupConnector layerGroupConnector = (LeafletLayerGroupConnector) connector;
+                AbstractLeafletLayerConnector<?> layerGroupConnector = (AbstractLeafletLayerConnector<?>) connector;
                 String name = layerGroupConnector.getState().name;
+                if (name == null) {
+                    continue;
+                }
                 connectorIdToNameMap.put(layerGroupConnector.getConnectorId(),
                         name);
                 lControl.addOverlay(layerGroupConnector.getLayer(), name);

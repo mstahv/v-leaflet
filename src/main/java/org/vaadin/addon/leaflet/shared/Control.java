@@ -1,5 +1,5 @@
 package org.vaadin.addon.leaflet.shared;
 
 public enum Control {
-    zoom, attribution, scale, baselayers, layergroups
+    zoom, attribution, scale, baselayers, overlays
 }

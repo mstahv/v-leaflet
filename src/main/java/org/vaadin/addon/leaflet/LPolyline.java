@@ -5,25 +5,26 @@ import org.vaadin.addon.leaflet.shared.Point;
 
 public class LPolyline extends AbstractLeafletVector {
 
-	@Override
-	protected LeafletPolylineState getState() {
-		return (LeafletPolylineState) super.getState();
-	}
+    @Override
+    protected LeafletPolylineState getState() {
+        return (LeafletPolylineState) super.getState();
+    }
 
-	public LPolyline(Point... points) {
-		getState().points = points;
-	}
+    public LPolyline(Point... points) {
+        super(null);
+        getState().points = points;
+    }
 
-	public void setFill(Boolean fill) {
-		getState().fill = fill;
-	}
+    public void setFill(Boolean fill) {
+        getState().fill = fill;
+    }
 
-	public void setFillColor(String fillColor) {
-		getState().fillColor = fillColor;
-	}
+    public void setFillColor(String fillColor) {
+        getState().fillColor = fillColor;
+    }
 
-	public void setPoints(Point[] array) {
-		getState().points = array;
-	}
+    public void setPoints(Point[] array) {
+        getState().points = array;
+    }
 
 }

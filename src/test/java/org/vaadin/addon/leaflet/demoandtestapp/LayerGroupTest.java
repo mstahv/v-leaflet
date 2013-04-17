@@ -89,7 +89,8 @@ public class LayerGroupTest extends AbstractTest {
 
         // Adding to layergroup
 
-        llg = new LLayerGroup("Random stuff");
+        llg = new LLayerGroup(); // Not creating a name -> not added to the
+                                 // overlay controller
         leafletPolyline = new LPolyline(new Point(60.45, 22.295), new Point(
                 60.4555, 22.301), new Point(60.45, 22.307));
         leafletPolyline.setColor("#FF0000");
@@ -228,35 +229,36 @@ public class LayerGroupTest extends AbstractTest {
 
             @Override
             public void buttonClick(ClickEvent event) {
-            	LLayerGroup group = null;
-            	for(Component c : leafletMap) {
-            		if (c instanceof LLayerGroup) {
-            			group = (LLayerGroup) c;
-            			break;
-					}
-            	}
-            	Component next = group.iterator().next();
-            	group.removeComponent(next);
+                LLayerGroup group = null;
+                for (Component c : leafletMap) {
+                    if (c instanceof LLayerGroup) {
+                        group = (LLayerGroup) c;
+                        break;
+                    }
+                }
+                Component next = group.iterator().next();
+                group.removeComponent(next);
             }
         });
         content.addComponentAsFirst(button);
 
-        button = new Button("Add polyline to first group on map (creates if does not exist)");
+        button = new Button(
+                "Add polyline to first group on map (creates if does not exist)");
         button.addClickListener(new ClickListener() {
             @Override
             public void buttonClick(ClickEvent event) {
-            	LLayerGroup group = null;
-            	for(Component c : leafletMap) {
-            		if(c instanceof LLayerGroup) {
-            			group = (LLayerGroup) c;
-            			break;
-            		}
-            	}
-            	if(group == null) {
-            		group = new LLayerGroup("new group");
-            		leafletMap.addComponent(group);
-            	}
-            	
+                LLayerGroup group = null;
+                for (Component c : leafletMap) {
+                    if (c instanceof LLayerGroup) {
+                        group = (LLayerGroup) c;
+                        break;
+                    }
+                }
+                if (group == null) {
+                    group = new LLayerGroup("new group");
+                    leafletMap.addComponent(group);
+                }
+
                 LPolyline lPolyline = new LPolyline(new Point(60.44, 22.30),
                         new Point(60.456, 22.304));
                 lPolyline.addClickListener(listener);

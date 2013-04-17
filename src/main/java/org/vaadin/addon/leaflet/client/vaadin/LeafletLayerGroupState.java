@@ -15,8 +15,6 @@
  */
 package org.vaadin.addon.leaflet.client.vaadin;
 
-import com.vaadin.shared.AbstractComponentState;
+public class LeafletLayerGroupState extends AbstractLeafletComponentState {
 
-public class LeafletLayerGroupState extends AbstractComponentState {
-    public String name;
 }

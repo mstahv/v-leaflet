@@ -17,7 +17,10 @@ public class LLayerGroup extends AbstractComponentContainer {
 
     public LLayerGroup(String name) {
         this.name = name;
+    }
 
+    public LLayerGroup() {
+        this(null);
     }
 
     @Override
