@@ -51,7 +51,7 @@ public abstract class AbstractLeafletLayerConnector<T> extends
 
     public void removeLayerFromParent() {
         ILayer layer = getLayer();
-        if (leafletParent instanceof LeafletMapConnector) {
+        if (leafletParent instanceof Map) {
             Map map = (Map) leafletParent;
             // Something is wrong if map is null here
             map.removeLayer(layer);
