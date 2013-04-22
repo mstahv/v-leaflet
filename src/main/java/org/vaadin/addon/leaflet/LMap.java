@@ -123,13 +123,12 @@ public class LMap extends AbstractComponentContainer {
     }
 
     public void addMoveEndListener(LeafletMoveEndListener moveEndListener) {
-        addListener(LeafletMoveEndEvent.class, moveEndListener,
+        addListener("moveend", LeafletMoveEndEvent.class, moveEndListener,
                 LeafletMoveEndListener.METHOD);
     }
 
     public void removeMoveEndListener(LeafletMoveEndListener moveEndListener) {
-        removeListener(LeafletMoveEndEvent.class, moveEndListener,
-                LeafletMoveEndListener.METHOD);
+        removeListener("moveend", LeafletMoveEndEvent.class, moveEndListener);
     }
 
     public void setCenter(Bounds bounds) {

@@ -62,278 +62,284 @@ import com.vaadin.shared.ui.Connect;
 @Connect(LMap.class)
 public class LeafletMapConnector extends AbstractHasComponentsConnector {
 
-    static {
-        LeafletResourceInjector.ensureInjected();
-    }
+	static {
+		LeafletResourceInjector.ensureInjected();
+	}
 
-    LeafletMapServerRpc rpc = RpcProxy.create(LeafletMapServerRpc.class, this);
-    private Map map;
-    private EPSG3857 vCRS_EPSG3857 = new EPSG3857();
-    private MapOptions options;
-    private java.util.Map<BaseLayer, ILayer> layers = new LinkedHashMap<BaseLayer, ILayer>();
-    private ArrayList<ServerConnector> updateChildren;
-    private HashMap<String, String> connectorIdToNameMap = new HashMap<String, String>();
+	LeafletMapServerRpc rpc = RpcProxy.create(LeafletMapServerRpc.class, this);
+	private Map map;
+	private EPSG3857 vCRS_EPSG3857 = new EPSG3857();
+	private MapOptions options;
+	private java.util.Map<BaseLayer, ILayer> layers = new LinkedHashMap<BaseLayer, ILayer>();
+	private ArrayList<ServerConnector> updateChildren;
+	private HashMap<String, String> connectorIdToNameMap = new HashMap<String, String>();
 
-    // Must have this one here, because of removal (and we want to preserve the
-    // states)
-    private Layers lControl;
+	// Must have this one here, because of removal (and we want to preserve the
+	// states)
+	private Layers lControl;
 
-    @Override
-    public MapWidget getWidget() {
-        return (MapWidget) super.getWidget();
-    }
+	@Override
+	public MapWidget getWidget() {
+		return (MapWidget) super.getWidget();
+	}
 
-    @Override
-    public LeafletMapState getState() {
-        return (LeafletMapState) super.getState();
-    }
+	@Override
+	public LeafletMapState getState() {
+		return (LeafletMapState) super.getState();
+	}
 
-    @Override
-    protected Widget createWidget() {
-        MapWidget mapWidget = new MapWidget();
-        return mapWidget;
-    }
+	@Override
+	protected Widget createWidget() {
+		MapWidget mapWidget = new MapWidget();
+		return mapWidget;
+	}
 
-    @Override
-    protected void init() {
-        super.init();
-        // getLayoutManager().addElementResizeListener(getWidget().getElement(),
-        // new ElementResizeListener() {
-        // @Override
-        // public void onElementResize(ElementResizeEvent e) {
-        // map.invalidateSize(false);
-        // }
-        // });
+	@Override
+	protected void init() {
+		super.init();
+		// getLayoutManager().addElementResizeListener(getWidget().getElement(),
+		// new ElementResizeListener() {
+		// @Override
+		// public void onElementResize(ElementResizeEvent e) {
+		// map.invalidateSize(false);
+		// }
+		// });
 
-    }
+	}
 
-    @Override
-    public void onStateChanged(final StateChangeEvent stateChangeEvent) {
-        super.onStateChanged(stateChangeEvent);
-        if (map == null) {
-            updateChildren = new ArrayList<ServerConnector>(getChildren());
-            options = new MapOptions();
-            if (getState().center != null) {
-                options.setCenter(getCenterFromState());
-            } else {
-                options.setCenter(new LatLng(0, 0));
-            }
-            options.setProperty("crs", vCRS_EPSG3857);
-            int zoom = 15;
-            if (getState().zoomLevel != null) {
-                zoom = getState().zoomLevel;
-            }
-            options.setZoom(zoom);
-            map = new Map(getWidget().getElement(), options);
+	@Override
+	public void onStateChanged(final StateChangeEvent stateChangeEvent) {
+		super.onStateChanged(stateChangeEvent);
+		if (map == null) {
+			updateChildren = new ArrayList<ServerConnector>(getChildren());
+			options = new MapOptions();
+			if (getState().center != null) {
+				options.setCenter(getCenterFromState());
+			} else {
+				options.setCenter(new LatLng(0, 0));
+			}
+			options.setProperty("crs", vCRS_EPSG3857);
+			int zoom = 15;
+			if (getState().zoomLevel != null) {
+				zoom = getState().zoomLevel;
+			}
+			options.setZoom(zoom);
+			map = new Map(getWidget().getElement(), options);
 
-            setBaseLayers();
+			setBaseLayers();
 
-            EventHandler<?> handler = new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent event) {
-                    rpc.onClick(new Point(event.getLatLng().lat(), event
-                            .getLatLng().lng()));
-                }
-            };
+			EventHandler<?> handler = new EventHandler<MouseEvent>() {
+				@Override
+				public void handle(MouseEvent event) {
+					rpc.onClick(new Point(event.getLatLng().lat(), event
+							.getLatLng().lng()));
+				}
+			};
 
-            EventHandlerManager.addEventHandler(map, Events.click, handler);
+			EventHandlerManager.addEventHandler(map, Events.click, handler);
 
-            handler = new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent event) {
-                    rpc.onMoveEnd(new Bounds(map.getBounds().toBBoxString()), map.getZoom());
-                }
-            };
-            EventHandlerManager.addEventHandler(map, Events.moveend, handler);
+			handler = new EventHandler<MouseEvent>() {
+				@Override
+				public void handle(MouseEvent event) {
+					rpc.onMoveEnd(new Bounds(map.getBounds().toBBoxString()),
+							map.getZoom());
+					if (getState().registeredEventListeners != null
+							&& getState().registeredEventListeners
+									.contains("moveend")) {
+						getConnection().sendPendingVariableChanges();
+					}
+				}
+			};
+			EventHandlerManager.addEventHandler(map, Events.moveend, handler);
 
-        } else {
-            if (stateChangeEvent.hasPropertyChanged("baseLayers")) {
-                setBaseLayers();
-            }
-            if (stateChangeEvent.hasPropertyChanged("zoomToExtent")) {
-                Bounds b = getState().zoomToExtent;
-                LatLng northEast = new LatLng(b.getNorthEastLat(),
-                        b.getNorthEastLon());
-                LatLng southWest = new LatLng(b.getSouthWestLat(),
-                        b.getSouthWestLon());
-                map.fitBounds(new LatLngBounds(southWest, northEast));
-            } else if (stateChangeEvent.hasPropertyChanged("center")
-                    && getState().center != null) {
-                LatLng center = getCenterFromState();
-                int zoom = map.getZoom();
-                if (stateChangeEvent.hasPropertyChanged("zoomLevel")
-                        && getState().zoomLevel != null) {
-                    zoom = getState().zoomLevel;
-                }
-                map.setView(center, zoom, false);
-            } else if (stateChangeEvent.hasPropertyChanged("zoomLevel")
-                    && getState().zoomLevel != null) {
-                map.setZoom(getState().zoomLevel);
-            }
-        }
+		} else {
+			if (stateChangeEvent.hasPropertyChanged("baseLayers")) {
+				setBaseLayers();
+			}
+			if (stateChangeEvent.hasPropertyChanged("zoomToExtent")) {
+				Bounds b = getState().zoomToExtent;
+				LatLng northEast = new LatLng(b.getNorthEastLat(),
+						b.getNorthEastLon());
+				LatLng southWest = new LatLng(b.getSouthWestLat(),
+						b.getSouthWestLon());
+				map.fitBounds(new LatLngBounds(southWest, northEast));
+			} else if (stateChangeEvent.hasPropertyChanged("center")
+					&& getState().center != null) {
+				LatLng center = getCenterFromState();
+				int zoom = map.getZoom();
+				if (stateChangeEvent.hasPropertyChanged("zoomLevel")
+						&& getState().zoomLevel != null) {
+					zoom = getState().zoomLevel;
+				}
+				map.setView(center, zoom, false);
+			} else if (stateChangeEvent.hasPropertyChanged("zoomLevel")
+					&& getState().zoomLevel != null) {
+				map.setZoom(getState().zoomLevel);
+			}
+		}
 
-        updateChildrens();
+		updateChildrens();
 
-        for (Control c : getState().controls) {
-            switch (c) {
-            case attribution:
-                // TODO how to remove this? Default.
-                break;
-            case baselayers:
-                Options opts = new Options();
-                for (BaseLayer l : layers.keySet()) {
-                    opts.setProperty(l.getName(), layers.get(l));
-                }
-                if (lControl == null) {
-                    lControl = new Layers(opts, new Options(), new Options());
-                }
-                map.addControl(lControl);
-                break;
-            case scale:
-                // Add Scale Control
-                ScaleOptions scaleOptions = new ScaleOptions();
-                Scale scale = new Scale(scaleOptions);
-                map.addControl(scale);
-                break;
-            case zoom:
-                // TODO how to remove this? Default.
-                break;
-            case overlays:
-                // Lets not do anything here
+		for (Control c : getState().controls) {
+			switch (c) {
+			case attribution:
+				// TODO how to remove this? Default.
+				break;
+			case baselayers:
+				Options opts = new Options();
+				for (BaseLayer l : layers.keySet()) {
+					opts.setProperty(l.getName(), layers.get(l));
+				}
+				if (lControl == null) {
+					lControl = new Layers(opts, new Options(), new Options());
+				}
+				map.addControl(lControl);
+				break;
+			case scale:
+				// Add Scale Control
+				ScaleOptions scaleOptions = new ScaleOptions();
+				Scale scale = new Scale(scaleOptions);
+				map.addControl(scale);
+				break;
+			case zoom:
+				// TODO how to remove this? Default.
+				break;
+			case overlays:
+				// Lets not do anything here
 
-            default:
-                break;
-            }
-        }
+			default:
+				break;
+			}
+		}
 
-        if (getState().controls.contains(Control.overlays)) {
-            if (lControl == null) {
-                lControl = new Layers(new Options(), new Options(),
-                        new Options());
-            }
-            for (ServerConnector connector : getChildren()) {
-                if (!(connector instanceof AbstractLeafletLayerConnector<?>)) {
-                    continue;
-                }
-                AbstractLeafletLayerConnector<?> layerGroupConnector = (AbstractLeafletLayerConnector<?>) connector;
-                String name = layerGroupConnector.getState().name;
-                if (name == null) {
-                    continue;
-                }
-                connectorIdToNameMap.put(layerGroupConnector.getConnectorId(),
-                        name);
-                lControl.addOverlay(layerGroupConnector.getLayer(), name);
-            }
+		if (getState().controls.contains(Control.overlays)) {
+			if (lControl == null) {
+				lControl = new Layers(new Options(), new Options(),
+						new Options());
+			}
+			for (ServerConnector connector : getChildren()) {
+				if (!(connector instanceof AbstractLeafletLayerConnector<?>)) {
+					continue;
+				}
+				AbstractLeafletLayerConnector<?> layerGroupConnector = (AbstractLeafletLayerConnector<?>) connector;
+				String name = layerGroupConnector.getState().name;
+				if (name == null) {
+					continue;
+				}
+				connectorIdToNameMap.put(layerGroupConnector.getConnectorId(),
+						name);
+				lControl.addOverlay(layerGroupConnector.getLayer(), name);
+			}
 
-        }
+		}
 
-        // Without this it appears component is invalidly sized sometimes
-        Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-            @Override
-            public void execute() {
-                map.invalidateSize(false);
-            }
-        });
-    }
+		// Without this it appears component is invalidly sized sometimes
+		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+			@Override
+			public void execute() {
+				map.invalidateSize(false);
+			}
+		});
+	}
 
-    private void updateChildrens() {
-        if (map == null) {
-            return;
-        }
-        if (updateChildren != null) {
-            for (ServerConnector serverConnector : updateChildren) {
+	private void updateChildrens() {
+		if (map == null) {
+			return;
+		}
+		if (updateChildren != null) {
+			for (ServerConnector serverConnector : updateChildren) {
 
-                AbstractLeafletLayerConnector<?> c = (AbstractLeafletLayerConnector<?>) serverConnector;
-                c.update();
-                c.markUpdated();
+				AbstractLeafletLayerConnector<?> c = (AbstractLeafletLayerConnector<?>) serverConnector;
+				c.update();
+				c.markUpdated();
 
-            }
-            updateChildren = null;
-        }
-    }
+			}
+			updateChildren = null;
+		}
+	}
 
-    private void setBaseLayers() {
-        // clear old layers
-        for (ILayer l : layers.values()) {
-            map.removeLayer(l);
-        }
-        layers.clear();
-        // add layers from state
-        BaseLayer[] baseLayers = getState().getBaseLayers();
-        if (baseLayers != null) {
-            for (BaseLayer baseLayer : baseLayers) {
-                // suck big time in V7, can't access the raw json, should use
-                // e.g. gson and serialize as string in state
-                Options tileOptions = new Options();
-                tileOptions.setProperty("attribution",
-                        baseLayer.getAttributionString());
-                if (baseLayer.getDetectRetina() != null
-                        && baseLayer.getDetectRetina()) {
-                    tileOptions.setProperty("detectRetina", true);
-                }
-                if (baseLayer.getSubDomains() != null) {
-                    JsArrayString domain = JsArrayString.createArray().cast();
-                    for (String a : baseLayer.getSubDomains()) {
-                        domain.push(a);
-                    }
-                    tileOptions.setProperty("subdomains",
-                            (JSObject) domain.cast());
-                }
-                if (baseLayer.getMaxZoom() != null) {
-                    tileOptions.setProperty("maxZoom", baseLayer.getMaxZoom());
-                }
-                TileLayer layer = new TileLayer(baseLayer.getUrl(), tileOptions);
-                map.addLayer(layer);
-                layers.put(baseLayer, layer);
-            }
-        }
-    }
+	private void setBaseLayers() {
+		// clear old layers
+		for (ILayer l : layers.values()) {
+			map.removeLayer(l);
+		}
+		layers.clear();
+		// add layers from state
+		BaseLayer[] baseLayers = getState().getBaseLayers();
+		if (baseLayers != null) {
+			for (BaseLayer baseLayer : baseLayers) {
+				// suck big time in V7, can't access the raw json, should use
+				// e.g. gson and serialize as string in state
+				Options tileOptions = new Options();
+				tileOptions.setProperty("attribution",
+						baseLayer.getAttributionString());
+				if (baseLayer.getDetectRetina() != null
+						&& baseLayer.getDetectRetina()) {
+					tileOptions.setProperty("detectRetina", true);
+				}
+				if (baseLayer.getSubDomains() != null) {
+					JsArrayString domain = JsArrayString.createArray().cast();
+					for (String a : baseLayer.getSubDomains()) {
+						domain.push(a);
+					}
+					tileOptions.setProperty("subdomains",
+							(JSObject) domain.cast());
+				}
+				if (baseLayer.getMaxZoom() != null) {
+					tileOptions.setProperty("maxZoom", baseLayer.getMaxZoom());
+				}
+				TileLayer layer = new TileLayer(baseLayer.getUrl(), tileOptions);
+				map.addLayer(layer);
+				layers.put(baseLayer, layer);
+			}
+		}
+	}
 
-    private LatLng getCenterFromState() {
-        LatLng center = new LatLng(getState().center.getLat(),
-                getState().center.getLon());
-        return center;
-    }
+	private LatLng getCenterFromState() {
+		LatLng center = new LatLng(getState().center.getLat(),
+				getState().center.getLon());
+		return center;
+	}
 
-    public Map getMap() {
-        return map;
-    }
+	public Map getMap() {
+		return map;
+	}
 
-    @Override
-    public void updateCaption(ComponentConnector connector) {
-        // TODO Auto-generated method stub
+	@Override
+	public void updateCaption(ComponentConnector connector) {
+		// TODO Auto-generated method stub
 
-    }
+	}
 
-    @Override
-    public void onConnectorHierarchyChange(
-            ConnectorHierarchyChangeEvent connectorHierarchyChangeEvent) {
-        List<ComponentConnector> oldChildren = connectorHierarchyChangeEvent
-                .getOldChildren();
-        updateChildren = new ArrayList<ServerConnector>();
-        for (ServerConnector componentConnector : getChildren()) {
-            if (!oldChildren.contains(componentConnector)) {
-                updateChildren.add(componentConnector);
-            }
-            oldChildren.remove(componentConnector);
-        }
-        for (ComponentConnector componentConnector : oldChildren) {
-            AbstractLeafletLayerConnector<?> c = (AbstractLeafletLayerConnector<?>) componentConnector;
-            map.removeLayer(c.getLayer());
-            // TODO: This does not work atm.
-            if (c instanceof LeafletLayerGroupConnector) {
-                String name = connectorIdToNameMap.remove(c.getConnectorId());
-                if (name == null) {
-                    continue;
-                }
-                Layers removed = lControl.removeLayer(name);
-                map.removeControl(lControl);
-                map.addControl(removed);
-                lControl = removed;
-            }
-        }
+	@Override
+	public void onConnectorHierarchyChange(
+			ConnectorHierarchyChangeEvent connectorHierarchyChangeEvent) {
+		List<ComponentConnector> oldChildren = connectorHierarchyChangeEvent
+				.getOldChildren();
+		updateChildren = new ArrayList<ServerConnector>();
+		for (ServerConnector componentConnector : getChildren()) {
+			if (!oldChildren.contains(componentConnector)) {
+				updateChildren.add(componentConnector);
+			}
+			oldChildren.remove(componentConnector);
+		}
+		for (ComponentConnector componentConnector : oldChildren) {
+			AbstractLeafletLayerConnector<?> c = (AbstractLeafletLayerConnector<?>) componentConnector;
+			map.removeLayer(c.getLayer());
+			// TODO: This does not work atm.
+			if (c instanceof LeafletLayerGroupConnector) {
+				String name = connectorIdToNameMap.remove(c.getConnectorId());
+				if (name == null) {
+					continue;
+				}
+				Layers removed = lControl.removeLayer(name);
+				map.removeControl(lControl);
+				map.addControl(removed);
+				lControl = removed;
+			}
+		}
 
-        updateChildrens();
-    }
+		updateChildrens();
+	}
 
 }

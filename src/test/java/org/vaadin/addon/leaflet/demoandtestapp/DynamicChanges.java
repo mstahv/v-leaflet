@@ -8,18 +8,23 @@ import org.vaadin.addon.leaflet.LMap;
 import org.vaadin.addon.leaflet.LPolyline;
 import org.vaadin.addon.leaflet.LeafletClickEvent;
 import org.vaadin.addon.leaflet.LeafletClickListener;
+import org.vaadin.addon.leaflet.LeafletMoveEndEvent;
+import org.vaadin.addon.leaflet.LeafletMoveEndListener;
 import org.vaadin.addon.leaflet.demoandtestapp.util.AbstractTest;
 import org.vaadin.addon.leaflet.shared.BaseLayer;
 import org.vaadin.addon.leaflet.shared.Bounds;
 import org.vaadin.addon.leaflet.shared.Point;
 
+import com.vaadin.data.Property.ValueChangeEvent;
+import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Notification;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.Notification.Type;
 
 public class DynamicChanges extends AbstractTest {
 
@@ -137,7 +142,29 @@ public class DynamicChanges extends AbstractTest {
             }
         });
         tools.addComponent(button);
+        
 
+        final LeafletMoveEndListener moveEndListener = new LeafletMoveEndListener() {
+			@Override
+			public void onMoveEnd(LeafletMoveEndEvent event) {
+				Notification.show("Moved or zoomed",Type.TRAY_NOTIFICATION);
+			}
+		};
+        
+        final CheckBox checkBox = new CheckBox("Toggle move listener");
+        checkBox.setImmediate(true);
+        checkBox.addValueChangeListener(new ValueChangeListener() {
+			@Override
+			public void valueChange(ValueChangeEvent event) {
+				if(checkBox.getValue()) {
+					leafletMap.addMoveEndListener(moveEndListener);
+				} else {
+					leafletMap.removeMoveEndListener(moveEndListener);
+				}
+				
+			}
+		});
+        tools.addComponent(checkBox);
 
         content.addComponentAsFirst(tools);
 

@@ -18,6 +18,7 @@ package org.vaadin.addon.leaflet.client.vaadin;
 import org.vaadin.addon.leaflet.shared.Bounds;
 import org.vaadin.addon.leaflet.shared.Point;
 
+import com.vaadin.shared.annotations.Delayed;
 import com.vaadin.shared.communication.ServerRpc;
 
 /**
@@ -28,6 +29,7 @@ public interface LeafletMapServerRpc extends ServerRpc {
     
 	void onClick(Point p);
 
+	@Delayed(lastOnly=true)
 	void onMoveEnd(Bounds bounds, int zoomlevel);
     
 }
