@@ -24,6 +24,13 @@ public class Bounds {
 		setNorthEastLon(point.getLon());
 	}
 
+	public Bounds(Point... points) {
+		this(points[0]);
+		for (Point point : points) {
+			extend(point);
+		}
+	}
+
 	public double getSouthWestLon() {
 		return southWestLng;
 	}

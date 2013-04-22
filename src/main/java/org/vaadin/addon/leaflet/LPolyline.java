@@ -27,4 +27,8 @@ public class LPolyline extends AbstractLeafletVector {
         getState().points = array;
     }
 
+	public Point[] getPoints() {
+		return getState().points;
+	}
+
 }
