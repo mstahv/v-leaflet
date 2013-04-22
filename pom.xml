@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.vaadin.addon</groupId>
 	<artifactId>v-leaflet</artifactId>
-	<version>0.0.3-SNAPSHOT</version>
+	<version>0.0.5-SNAPSHOT</version>
 	<name>V-Leaflet</name>
 
 	<organization>
@@ -64,6 +64,14 @@
 									<include>org.discotools.gwt.leaflet:*</include>
 								</includes>
 							</artifactSet>
+							<filters>
+								<filter>
+									<artifact>*:*</artifact>
+									<excludes>
+										<exclude>META-INF/maven/org.discotools.gwt.leaflet/</exclude>
+									</excludes>
+								</filter>
+							</filters>
 						</configuration>
 					</execution>
 				</executions>
@@ -186,15 +194,15 @@
 				<plugin>
 					<groupId>com.vaadin</groupId>
 					<artifactId>vaadin-maven-plugin</artifactId>
-					<version>7.0.0</version>
+					<version>${vaadin.version}</version>
 					<configuration>
 						<webappDirectory>${project.build.directory}/testwebapp/VAADIN/widgetsets</webappDirectory>
 						<extraJvmArgs>-Xmx1024M -Xss512m -XX:MaxPermSize=1024m</extraJvmArgs>
 						<hostedWebapp>${project.build.directory}/testwebapp</hostedWebapp>
 						<noServer>true</noServer>
 						<runTarget>http://localhost:9998/</runTarget>
-<!-- 						<draftCompile>true</draftCompile> -->
-<!-- 						<style>PRETTY</style> -->
+						<!-- <draftCompile>true</draftCompile> -->
+						<!-- <style>PRETTY</style> -->
 						<!-- We only need to compile the test widgetset, if not defined gwt 
 							module will also compile the add-on widgetset as well -->
 						<module>org.vaadin.addon.leaflet.demoandtestapp.TestWidgetset</module>
