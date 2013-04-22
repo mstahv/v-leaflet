@@ -28,6 +28,6 @@ public interface LeafletMapServerRpc extends ServerRpc {
     
 	void onClick(Point p);
 
-	void onMoveEnd(Bounds bounds);
+	void onMoveEnd(Bounds bounds, int zoomlevel);
     
 }

@@ -17,7 +17,9 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Component;
+import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Notification;
+import com.vaadin.ui.VerticalLayout;
 
 public class DynamicChanges extends AbstractTest {
 
@@ -71,6 +73,8 @@ public class DynamicChanges extends AbstractTest {
     @Override
     protected void setup() {
         super.setup();
+        
+        HorizontalLayout tools = new HorizontalLayout();
 
 
         Button button = new Button("Random new point");
@@ -83,7 +87,7 @@ public class DynamicChanges extends AbstractTest {
             	pl.setPoints(arrayList.toArray(new Point[0]));
             }
         });
-        content.addComponentAsFirst(button);
+        tools.addComponent(button);
 
         button = new Button("Zoom to polyline");
         button.addClickListener(new ClickListener() {
@@ -92,7 +96,7 @@ public class DynamicChanges extends AbstractTest {
             	leafletMap.zoomToExtent(new Bounds(pl.getPoints()));
             }
         });
-        content.addComponentAsFirst(button);
+        tools.addComponent(button);
         
         button = new Button("Center to last point ");
         button.addClickListener(new ClickListener() {
@@ -102,7 +106,7 @@ public class DynamicChanges extends AbstractTest {
             	leafletMap.setCenter(points[points.length -1]);
             }
         });
-        content.addComponentAsFirst(button);
+        tools.addComponent(button);
 
         button = new Button("Zoom to last point");
         button.addClickListener(new ClickListener() {
@@ -112,8 +116,30 @@ public class DynamicChanges extends AbstractTest {
 				leafletMap.zoomToExtent(new Bounds(points[points.length -1]));
             }
         });
-        content.addComponentAsFirst(button);
+        tools.addComponent(button);
+        
+        button = new Button("Show current zoom");
+        button.addClickListener(new ClickListener() {
+            @Override
+            public void buttonClick(ClickEvent event) {
+            	Integer zoomLevel = leafletMap.getZoomLevel();
+            	Notification.show("Zoomlevel is " + zoomLevel);
+            }
+        });
+        tools.addComponent(button);
 
+        
+        button = new Button("Show current center point");
+        button.addClickListener(new ClickListener() {
+            @Override
+            public void buttonClick(ClickEvent event) {
+            	Notification.show("Center point is " + leafletMap.getCenter());
+            }
+        });
+        tools.addComponent(button);
+
+
+        content.addComponentAsFirst(tools);
 
     }
 }

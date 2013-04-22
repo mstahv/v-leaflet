@@ -141,7 +141,7 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector {
             handler = new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
-                    rpc.onMoveEnd(new Bounds(map.getBounds().toBBoxString()));
+                    rpc.onMoveEnd(new Bounds(map.getBounds().toBBoxString()), map.getZoom());
                 }
             };
             EventHandlerManager.addEventHandler(map, Events.moveend, handler);

@@ -30,8 +30,10 @@ public class LMap extends AbstractComponentContainer {
             }
 
             @Override
-            public void onMoveEnd(Bounds bounds) {
-                fireEvent(new LeafletMoveEndEvent(LMap.this, bounds));
+            public void onMoveEnd(Bounds bounds, int zoomlevel) {
+            	getState(false).zoomLevel = zoomlevel;
+            	getState(false).center = bounds.getCenter();
+                fireEvent(new LeafletMoveEndEvent(LMap.this, bounds, zoomlevel));
             }
         });
 
@@ -42,6 +44,12 @@ public class LMap extends AbstractComponentContainer {
         super.beforeClientResponse(initial);
     }
 
+    
+    @Override
+    protected LeafletMapState getState(boolean markAsDirty) {
+    	return (LeafletMapState) super.getState(markAsDirty);
+    }
+    
     @Override
     protected LeafletMapState getState() {
         return (LeafletMapState) super.getState();
@@ -147,5 +155,9 @@ public class LMap extends AbstractComponentContainer {
         }
         getState().controls = values;
     }
+
+	public Point getCenter() {
+		return getState(false).center;
+	}
 
 }
