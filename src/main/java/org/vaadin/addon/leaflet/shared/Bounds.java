@@ -1,6 +1,8 @@
 package org.vaadin.addon.leaflet.shared;
 
-public class Bounds {
+import java.io.Serializable;
+
+public class Bounds implements Serializable {
 	private double southWestLng;
 	private double southWestLat;
 	private double northEastLng;

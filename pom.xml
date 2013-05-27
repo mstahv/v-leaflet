@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.vaadin.addon</groupId>
 	<artifactId>v-leaflet</artifactId>
-	<version>0.0.6-SNAPSHOT</version>
+	<version>0.0.7-SNAPSHOT</version>
 	<name>V-Leaflet</name>
 
 	<organization>
@@ -336,6 +336,7 @@
 			<groupId>org.discotools.gwt.leaflet</groupId>
 			<artifactId>gwtl-core</artifactId>
 			<version>0.3-SNAPSHOT</version>
+			<optional>true</optional>
 		</dependency>
 		<!-- <dependency> -->
 		<!-- <groupId>org.discotools.gwt.leaflet</groupId> -->

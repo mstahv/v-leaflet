@@ -1,7 +1,9 @@
 package org.vaadin.addon.leaflet.shared;
 
+import java.io.Serializable;
 
-public class BaseLayer {
+
+public class BaseLayer implements Serializable {
 	
 	private String url;
 	private String name;

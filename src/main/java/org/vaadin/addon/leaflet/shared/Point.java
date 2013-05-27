@@ -1,6 +1,8 @@
 package org.vaadin.addon.leaflet.shared;
 
-public class Point {
+import java.io.Serializable;
+
+public class Point implements Serializable {
 	private Double lon;
 	private Double lat;
 	
