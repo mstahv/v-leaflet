@@ -26,18 +26,18 @@ public class LeafletMarkerConnector extends
     private Marker marker;
 
 	LeafletMarkerClientRpc clientRpc = new LeafletMarkerClientRpc() {
-		
+
 		@Override
 		public void openPopup() {
 			marker.openPopup();
 		}
-		
+
 		@Override
 		public void closePopup() {
 			marker.closePopup();
 		}
 	};
-	
+
 	public LeafletMarkerConnector() {
 		registerRpc(LeafletMarkerClientRpc.class, clientRpc);
 	}
@@ -67,8 +67,8 @@ public class LeafletMarkerConnector extends
         URLReference urlReference = getState().resources.get("icon");
         String divIcon = getState().divIcon;
         if (divIcon != null) {
-        	DivIconOptions divIconOptions = new DivIconOptions();
-        	if (getState().iconAnchor != null) {
+            DivIconOptions divIconOptions = new DivIconOptions();
+            if (getState().iconAnchor != null) {
                 divIconOptions.setIconAnchor(new Point(getState().iconAnchor
                         .getLat(), getState().iconAnchor.getLon()));
             }
@@ -93,28 +93,28 @@ public class LeafletMarkerConnector extends
             Icon icon = new Icon(iconOptions);
             options.setIcon(icon);
         }
-        
+
         String title = getState().title;
         if(title != null){
-        	options.setTitle(title);
+            options.setTitle(title);
         }
         marker = new Marker(latlng, options);
         String popup = getState().popup;
         if(popup != null){
-        	PopupState popupState = getState().popupState;
-        	if(popupState != null){
-        		PopupOptions popupOptions = new PopupOptions();
-        		popupOptions.setMaxWidth(popupState.maxWidth);
-        		popupOptions.setMinWidth(popupState.minWidth);
-        		popupOptions.setProperty("autoPan", popupState.autoPan);
-        		popupOptions.setProperty("closeButton", popupState.closeButton);
-        		popupOptions.setProperty("offset", popupState.offset);
-        		popupOptions.setProperty("zoomAnimation", popupState.zoomAnimation);
-        		popupOptions.setProperty("autoPanPadding", popupState.autoPanPadding);
-        		marker.bindPopup(popup, popupOptions);
-        	} else {
-        		marker.bindPopup(popup);
-        	}
+            PopupState popupState = getState().popupState;
+            if(popupState != null){
+                PopupOptions popupOptions = new PopupOptions();
+                popupOptions.setMaxWidth(popupState.maxWidth);
+                popupOptions.setMinWidth(popupState.minWidth);
+                popupOptions.setProperty("autoPan", popupState.autoPan);
+                popupOptions.setProperty("closeButton", popupState.closeButton);
+                popupOptions.setProperty("offset", popupState.offset);
+                popupOptions.setProperty("zoomAnimation", popupState.zoomAnimation);
+                popupOptions.setProperty("autoPanPadding", popupState.autoPanPadding);
+                marker.bindPopup(popup, popupOptions);
+            } else {
+                marker.bindPopup(popup);
+            }
         }
         addToParent(marker);
 
