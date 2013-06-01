@@ -108,9 +108,16 @@ public class LeafletMarkerConnector extends
                 popupOptions.setMinWidth(popupState.minWidth);
                 popupOptions.setProperty("autoPan", popupState.autoPan);
                 popupOptions.setProperty("closeButton", popupState.closeButton);
-                popupOptions.setProperty("offset", popupState.offset);
+                if(popupState.offset != null) {
+                    popupOptions.setProperty("offset", new Point(popupState.offset.getLat(),
+                            popupState.offset.getLon()));
+                }
                 popupOptions.setProperty("zoomAnimation", popupState.zoomAnimation);
-                popupOptions.setProperty("autoPanPadding", popupState.autoPanPadding);
+                if(popupState.autoPanPadding != null) {
+                    popupOptions.setProperty("autoPanPadding", new Point(
+                            popupState.autoPanPadding.getLat(),
+                            popupState.autoPanPadding.getLon()));
+                }
                 marker.bindPopup(popup, popupOptions);
             } else {
                 marker.bindPopup(popup);

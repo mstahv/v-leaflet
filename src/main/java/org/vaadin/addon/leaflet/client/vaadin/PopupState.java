@@ -1,7 +1,6 @@
 package org.vaadin.addon.leaflet.client.vaadin;
 
-
-import org.discotools.gwt.leaflet.client.types.Point;
+import org.vaadin.addon.leaflet.shared.Point;
 
 public class PopupState {
 	public int maxWidth;
@@ -11,5 +10,5 @@ public class PopupState {
 	public boolean closeButton;
 	public Point offset;
 	public Point autoPanPadding;
-	public Point zoomAnimation;
+	public boolean zoomAnimation;
 }
