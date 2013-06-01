@@ -1,6 +1,8 @@
 package org.vaadin.addon.leaflet;
 
+import org.vaadin.addon.leaflet.client.vaadin.LeafletMarkerClientRpc;
 import org.vaadin.addon.leaflet.client.vaadin.LeafletMarkerState;
+import org.vaadin.addon.leaflet.client.vaadin.PopupState;
 import org.vaadin.addon.leaflet.shared.Point;
 
 /**
@@ -46,5 +48,28 @@ public class LMarker extends LeafletLayer {
     public void setIconAnchor(Point point) {
         getState().iconAnchor = point;
     }
-
+    
+    public void setTitle(String title){
+    	getState().title = title;
+    }
+    
+    public void setDivIcon(String divIcon){
+    	getState().divIcon = divIcon;
+    }
+    
+    public void setPopup(String popup){
+    	getState().popup = popup;
+    }
+    
+    public void setPopupState(PopupState popupState){
+    	getState().popupState = popupState;
+    }
+    
+    public void openPopup(){
+    	getRpcProxy(LeafletMarkerClientRpc.class).openPopup();
+    }
+    
+    public void closePopup(){
+    	getRpcProxy(LeafletMarkerClientRpc.class).closePopup();
+    }
 }

@@ -7,6 +7,9 @@ import org.discotools.gwt.leaflet.client.events.handler.EventHandlerManager;
 import org.discotools.gwt.leaflet.client.layers.ILayer;
 import org.discotools.gwt.leaflet.client.marker.Marker;
 import org.discotools.gwt.leaflet.client.marker.MarkerOptions;
+import org.discotools.gwt.leaflet.client.popup.PopupOptions;
+import org.discotools.gwt.leaflet.client.types.DivIcon;
+import org.discotools.gwt.leaflet.client.types.DivIconOptions;
 import org.discotools.gwt.leaflet.client.types.Icon;
 import org.discotools.gwt.leaflet.client.types.IconOptions;
 import org.discotools.gwt.leaflet.client.types.LatLng;
@@ -22,6 +25,22 @@ public class LeafletMarkerConnector extends
 
     private Marker marker;
 
+	LeafletMarkerClientRpc clientRpc = new LeafletMarkerClientRpc() {
+		
+		@Override
+		public void openPopup() {
+			marker.openPopup();
+		}
+		
+		@Override
+		public void closePopup() {
+			marker.closePopup();
+		}
+	};
+	
+	public LeafletMarkerConnector() {
+		registerRpc(LeafletMarkerClientRpc.class, clientRpc);
+	}
     @Override
     public LeafletMarkerState getState() {
         return (LeafletMarkerState) super.getState();
@@ -46,7 +65,21 @@ public class LeafletMarkerConnector extends
         MarkerOptions options = createOptions();
 
         URLReference urlReference = getState().resources.get("icon");
-        if (urlReference != null) {
+        String divIcon = getState().divIcon;
+        if (divIcon != null) {
+        	DivIconOptions divIconOptions = new DivIconOptions();
+        	if (getState().iconAnchor != null) {
+                divIconOptions.setIconAnchor(new Point(getState().iconAnchor
+                        .getLat(), getState().iconAnchor.getLon()));
+            }
+            if (getState().iconSize != null) {
+                divIconOptions.setIconSize(new Point(getState().iconSize.getLat(),
+                        getState().iconSize.getLon()));
+            }
+            divIconOptions.setHtml(divIcon);
+            DivIcon icon = new DivIcon(divIconOptions);
+            options.setIcon(icon);
+        } else if (urlReference != null) {
             IconOptions iconOptions = new IconOptions();
             iconOptions.setIconUrl(urlReference.getURL());
             if (getState().iconAnchor != null) {
@@ -60,8 +93,29 @@ public class LeafletMarkerConnector extends
             Icon icon = new Icon(iconOptions);
             options.setIcon(icon);
         }
-
+        
+        String title = getState().title;
+        if(title != null){
+        	options.setTitle(title);
+        }
         marker = new Marker(latlng, options);
+        String popup = getState().popup;
+        if(popup != null){
+        	PopupState popupState = getState().popupState;
+        	if(popupState != null){
+        		PopupOptions popupOptions = new PopupOptions();
+        		popupOptions.setMaxWidth(popupState.maxWidth);
+        		popupOptions.setMinWidth(popupState.minWidth);
+        		popupOptions.setProperty("autoPan", popupState.autoPan);
+        		popupOptions.setProperty("closeButton", popupState.closeButton);
+        		popupOptions.setProperty("offset", popupState.offset);
+        		popupOptions.setProperty("zoomAnimation", popupState.zoomAnimation);
+        		popupOptions.setProperty("autoPanPadding", popupState.autoPanPadding);
+        		marker.bindPopup(popup, popupOptions);
+        	} else {
+        		marker.bindPopup(popup);
+        	}
+        }
         addToParent(marker);
 
         EventHandlerManager.addEventHandler(marker, Events.click, handler);
