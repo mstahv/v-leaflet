@@ -6,6 +6,7 @@ import java.util.Arrays;
 import org.vaadin.addon.leaflet.LCircle;
 import org.vaadin.addon.leaflet.LMap;
 import org.vaadin.addon.leaflet.LMarker;
+import org.vaadin.addon.leaflet.LPolygon;
 import org.vaadin.addon.leaflet.LPolyline;
 import org.vaadin.addon.leaflet.LeafletClickEvent;
 import org.vaadin.addon.leaflet.LeafletClickListener;
@@ -60,6 +61,7 @@ public class BasicTest extends AbstractTest {
     private LMap leafletMap;
     private CheckBox addMarkers;
     private CheckBox delete;
+    private LMarker leafletMarker;
 
     @Override
     public Component getTestComponent() {
@@ -78,13 +80,24 @@ public class BasicTest extends AbstractTest {
         leafletPolyline.addClickListener(listener);
         leafletMap.addComponent(leafletPolyline);
 
+        LPolygon leafletPolygon = new LPolygon(new Point(60.455, 22.300),
+                new Point(60.456, 22.302), new Point(60.50, 22.308));
+        leafletPolygon.setColor("#FF00FF");
+        leafletPolygon.setFill(true);
+        leafletPolygon.setFillColor("#00FF00");
+        leafletPolygon.addClickListener(listener);
+        leafletMap.addComponent(leafletPolygon);
+
         LCircle leafletCircle = new LCircle(60.4525, 22.301, 300);
         leafletCircle.setColor("#00FFFF");
         // leafletCircle.addClickListener(listener);
         leafletMap.addComponent(leafletCircle);
 
-        LMarker leafletMarker = new LMarker(60.4525, 22.301);
+        leafletMarker = new LMarker(60.4525, 22.301);
         leafletMarker.addClickListener(listener);
+        leafletMarker.setTitle("this is marker two!");
+        // leafletMarker.setDivIcon("this is a <h1>fabulous</h1> <span style=\"color:red\">icon</span>");
+        leafletMarker.setPopup("Hello <b>world</b>");
         leafletMap.addComponent(leafletMarker);
 
         leafletMarker = new LMarker(60.4525, 22.301);
@@ -92,6 +105,7 @@ public class BasicTest extends AbstractTest {
         leafletMarker.setIconSize(new Point(57, 52));
         leafletMarker.setIconAnchor(new Point(57, 26));
         leafletMarker.addClickListener(listener);
+        leafletMarker.setTitle("this is marker one!");
         leafletMap.addComponent(leafletMarker);
 
         BaseLayer baselayer = new BaseLayer();
@@ -142,6 +156,24 @@ public class BasicTest extends AbstractTest {
 
         delete = new CheckBox("Delete on click");
         content.addComponentAsFirst(delete);
+
+        Button openPopup = new Button("Open popup", new ClickListener() {
+
+            @Override
+            public void buttonClick(ClickEvent event) {
+                leafletMarker.openPopup();
+            }
+        });
+
+        Button closePopup = new Button("Close popup", new ClickListener() {
+
+            @Override
+            public void buttonClick(ClickEvent event) {
+                leafletMarker.closePopup();
+            }
+        });
+        content.addComponentAsFirst(closePopup);
+        content.addComponentAsFirst(openPopup);
 
         Button button = new Button("Delete first component from map");
         button.addClickListener(new ClickListener() {
