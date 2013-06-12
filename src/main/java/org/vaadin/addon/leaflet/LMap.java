@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.vaadin.addon.leaflet.client.vaadin.LeafletMapClientRpc;
 import org.vaadin.addon.leaflet.client.vaadin.LeafletMapServerRpc;
 import org.vaadin.addon.leaflet.client.vaadin.LeafletMapState;
 import org.vaadin.addon.leaflet.shared.BaseLayer;
@@ -19,8 +20,10 @@ import com.vaadin.ui.Component;
  */
 public class LMap extends AbstractComponentContainer {
 
+	private boolean rendered = false;
+	
     private List<Component> components = new ArrayList<Component>();
-
+    
     public LMap() {
         setSizeFull();
         registerRpc(new LeafletMapServerRpc() {
@@ -41,7 +44,14 @@ public class LMap extends AbstractComponentContainer {
 
     @Override
     public void beforeClientResponse(boolean initial) {
+    	rendered = true;
         super.beforeClientResponse(initial);
+    }
+    
+    @Override
+    public void detach() {
+    	super.detach();
+    	rendered = false;
     }
 
     
@@ -101,7 +111,10 @@ public class LMap extends AbstractComponentContainer {
     }
 
     public void setZoomLevel(int zoomLevel) {
-        getState().zoomLevel = zoomLevel;
+        getState(!rendered).zoomLevel = zoomLevel;
+        if(rendered) {
+        	getRpcProxy(LeafletMapClientRpc.class).setCenter(null, null, zoomLevel);
+        }
     }
 
     public BaseLayer[] getBaseLayers() {
@@ -136,7 +149,10 @@ public class LMap extends AbstractComponentContainer {
     }
 
     public void setCenter(Point center) {
-        getState().center = center;
+        getState(!rendered).center = center;
+        if(rendered) {
+        	getRpcProxy(LeafletMapClientRpc.class).setCenter(center.getLat(), center.getLon(), null);
+        }
     }
 
     public Integer getZoomLevel() {
@@ -144,8 +160,11 @@ public class LMap extends AbstractComponentContainer {
     }
 
     public void zoomToExtent(Bounds bounds) {
-        getState().center = bounds.getCenter();
-        getState().zoomToExtent = bounds;
+        getState(!rendered).center = bounds.getCenter();
+        getState(!rendered).zoomToExtent = bounds;
+        if(rendered) {
+        	getRpcProxy(LeafletMapClientRpc.class).zoomToExtent(bounds);
+        }
     }
 
     public void setControls(List<Control> values) {

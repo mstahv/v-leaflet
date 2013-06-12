@@ -97,14 +97,39 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector {
 	@Override
 	protected void init() {
 		super.init();
-		// getLayoutManager().addElementResizeListener(getWidget().getElement(),
-		// new ElementResizeListener() {
-		// @Override
-		// public void onElementResize(ElementResizeEvent e) {
-		// map.invalidateSize(false);
-		// }
-		// });
+		/*
+		 * Working with state can be really painfull in some cases. E.g. if we
+		 * keep extent, center and stuff in state, we'll get false "changes" if
+		 * children are updated at the same time. In maps case we might get some
+		 * nasty rounding erros -> weird "effects". Thus we have to do all live
+		 * updates via RPC and store same stuff in state for initial renderings
+		 * and reattaches. It is sooo easy...
+		 */
+		registerRpc(LeafletMapClientRpc.class, new LeafletMapClientRpc() {
 
+			@Override
+			public void setCenter(Double lat, Double lon, Integer zoom) {
+				if(zoom == null) {
+					zoom = map.getZoom();
+				}
+				LatLng center;
+				if(lon == null) {
+					center = map.getBounds().getCenter();
+				} else {
+					center = new LatLng(lat, lon);
+				}
+				map.setView(center, zoom, false);
+			}
+
+			@Override
+			public void zoomToExtent(Bounds b) {
+				LatLng northEast = new LatLng(b.getNorthEastLat(),
+						b.getNorthEastLon());
+				LatLng southWest = new LatLng(b.getSouthWestLat(),
+						b.getSouthWestLon());
+				map.fitBounds(new LatLngBounds(southWest, northEast));
+			}
+		});
 	}
 
 	@Override
@@ -156,26 +181,7 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector {
 			if (stateChangeEvent.hasPropertyChanged("baseLayers")) {
 				setBaseLayers();
 			}
-			if (stateChangeEvent.hasPropertyChanged("zoomToExtent")) {
-				Bounds b = getState().zoomToExtent;
-				LatLng northEast = new LatLng(b.getNorthEastLat(),
-						b.getNorthEastLon());
-				LatLng southWest = new LatLng(b.getSouthWestLat(),
-						b.getSouthWestLon());
-				map.fitBounds(new LatLngBounds(southWest, northEast));
-			} else if (stateChangeEvent.hasPropertyChanged("center")
-					&& getState().center != null) {
-				LatLng center = getCenterFromState();
-				int zoom = map.getZoom();
-				if (stateChangeEvent.hasPropertyChanged("zoomLevel")
-						&& getState().zoomLevel != null) {
-					zoom = getState().zoomLevel;
-				}
-				map.setView(center, zoom, false);
-			} else if (stateChangeEvent.hasPropertyChanged("zoomLevel")
-					&& getState().zoomLevel != null) {
-				map.setZoom(getState().zoomLevel);
-			}
+			// extent, zoom etc, must not be updated here, see client rpc...
 		}
 
 		updateChildrens();
