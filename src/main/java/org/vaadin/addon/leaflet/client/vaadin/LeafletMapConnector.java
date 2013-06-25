@@ -56,7 +56,7 @@ import com.vaadin.client.ui.AbstractHasComponentsConnector;
 import com.vaadin.shared.ui.Connect;
 
 /**
- * 
+ *
  * @author mattitahvonenitmill
  */
 @Connect(LMap.class)
@@ -293,6 +293,10 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector {
 				}
 				if (baseLayer.getMaxZoom() != null) {
 					tileOptions.setProperty("maxZoom", baseLayer.getMaxZoom());
+				}
+				if(baseLayer.getTms() != null
+						&& baseLayer.getTms()) {
+					tileOptions.setProperty("tms", true);
 				}
 				TileLayer layer = new TileLayer(baseLayer.getUrl(), tileOptions);
 				map.addLayer(layer);

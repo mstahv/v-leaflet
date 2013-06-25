@@ -9,6 +9,7 @@ public class BaseLayer implements Serializable {
 	private String name;
 	private String attributionString;
 	private Boolean detectRetina;
+	private Boolean tms;
 	private Integer maxZoom;
 	private String[] subDomains;
 	
@@ -55,6 +56,14 @@ public class BaseLayer implements Serializable {
 	@Override
 	public String toString() {
 		return name != null ? name : "[BaseLayer]";
+	}
+	
+	public Boolean getTms() {
+		return tms;
+	}
+	
+	public void setTms(Boolean tms) {
+		this.tms = tms;
 	}
 
 }
