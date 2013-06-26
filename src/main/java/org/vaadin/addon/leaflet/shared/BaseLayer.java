@@ -12,6 +12,13 @@ public class BaseLayer implements Serializable {
 	private Boolean tms;
 	private Integer maxZoom;
 	private String[] subDomains;
+	private Boolean wms;
+	private String layers;
+	private String styles;
+	private String format;
+	private Boolean transparent;
+	private String version;
+	private Double opacity;
 	
 	public String getUrl() {
 		return url;
@@ -66,4 +73,59 @@ public class BaseLayer implements Serializable {
 		this.tms = tms;
 	}
 
+	public Boolean getWms() {
+		return wms;
+	}
+
+	public void setWms(Boolean wms) {
+		this.wms = wms;
+	}
+
+	public String getLayers() {
+		return layers;
+	}
+
+	public void setLayers(String layers) {
+		this.layers = layers;
+	}
+
+	public String getStyles() {
+		return styles;
+	}
+
+	public void setStyles(String styles) {
+		this.styles = styles;
+	}
+
+	public String getFormat() {
+		return format;
+	}
+
+	public void setFormat(String format) {
+		this.format = format;
+	}
+
+	public Boolean getTransparent() {
+		return transparent;
+	}
+
+	public void setTransparent(Boolean transparent) {
+		this.transparent = transparent;
+	}
+
+	public String getVersion() {
+		return version;
+	}
+
+	public void setVersion(String version) {
+		this.version = version;
+	}
+
+	public Double getOpacity() {
+		return opacity;
+	}
+
+	public void setOpacity(Double opacity) {
+		this.opacity = opacity;
+	}
 }

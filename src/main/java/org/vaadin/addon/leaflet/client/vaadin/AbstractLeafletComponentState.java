@@ -8,4 +8,5 @@ public class AbstractLeafletComponentState extends AbstractComponentState {
     // Used as caption for the control
     public String name;
 
+    public Boolean active;
 }
