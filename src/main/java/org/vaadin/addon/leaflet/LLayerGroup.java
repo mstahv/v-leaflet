@@ -14,9 +14,15 @@ public class LLayerGroup extends AbstractComponentContainer {
 
     private List<Component> components = new ArrayList<Component>();
     private final String name;
+    private Boolean active;
+
+    public LLayerGroup(String name, Boolean active) {
+        this.name = name;
+        this.active = active;
+    }
 
     public LLayerGroup(String name) {
-        this.name = name;
+        this(name, true);
     }
 
     public LLayerGroup() {
@@ -50,6 +56,7 @@ public class LLayerGroup extends AbstractComponentContainer {
     public void beforeClientResponse(boolean initial) {
         super.beforeClientResponse(initial);
         getState().name = name;
+        getState().active = active;
     }
 
     @Override
@@ -67,4 +74,8 @@ public class LLayerGroup extends AbstractComponentContainer {
         return components.iterator();
     }
 
+    public void setActive(Boolean active) {
+		this.active = active;
+		getState().active = active;
+    }
 }
