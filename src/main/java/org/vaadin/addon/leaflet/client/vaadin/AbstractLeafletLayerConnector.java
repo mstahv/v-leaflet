@@ -39,7 +39,9 @@ public abstract class AbstractLeafletLayerConnector<T> extends
         if (parent instanceof LeafletMapConnector) {
             Map map = ((LeafletMapConnector) parent).getMap();
             // Something is wrong if map is null here
-            map.addLayer(layer);
+            if(getState().active != null && getState().active) {
+				map.addLayer(layer);
+			}
             leafletParent = map;
         } else {
             LayerGroup layerGroup = (LayerGroup) (((LeafletLayerGroupConnector) parent)

@@ -33,6 +33,7 @@ import org.discotools.gwt.leaflet.client.events.handler.EventHandlerManager;
 import org.discotools.gwt.leaflet.client.jsobject.JSObject;
 import org.discotools.gwt.leaflet.client.layers.ILayer;
 import org.discotools.gwt.leaflet.client.layers.raster.TileLayer;
+import org.discotools.gwt.leaflet.client.layers.raster.WmsLayer;
 import org.discotools.gwt.leaflet.client.map.Map;
 import org.discotools.gwt.leaflet.client.map.MapOptions;
 import org.discotools.gwt.leaflet.client.types.LatLng;
@@ -298,9 +299,35 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector {
 						&& baseLayer.getTms()) {
 					tileOptions.setProperty("tms", true);
 				}
-				TileLayer layer = new TileLayer(baseLayer.getUrl(), tileOptions);
-				map.addLayer(layer);
-				layers.put(baseLayer, layer);
+				if (baseLayer.getOpacity() != null) {
+					tileOptions.setProperty("opacity", baseLayer.getOpacity());
+				}
+
+				if(baseLayer.getWms() != null &&  baseLayer.getWms() == true) {
+					if(baseLayer.getLayers() != null) {
+						tileOptions.setProperty("layers", baseLayer.getLayers());
+					}
+					if(baseLayer.getStyles() != null) {
+						tileOptions.setProperty("styles", baseLayer.getStyles());
+					}
+					if(baseLayer.getFormat() != null) {
+						tileOptions.setProperty("format", baseLayer.getFormat());
+					}
+					if(baseLayer.getTransparent() != null
+						&& baseLayer.getTransparent()) {
+						tileOptions.setProperty("transparent", true);
+					}
+					if(baseLayer.getVersion() != null) {
+						tileOptions.setProperty("version", baseLayer.getVersion());
+					}
+					WmsLayer layer = new WmsLayer(baseLayer.getUrl(), tileOptions);
+					map.addLayer(layer);
+					layers.put(baseLayer, layer);
+				} else {
+					TileLayer layer = new TileLayer(baseLayer.getUrl(), tileOptions);
+					map.addLayer(layer);
+					layers.put(baseLayer, layer);
+				}
 			}
 		}
 	}

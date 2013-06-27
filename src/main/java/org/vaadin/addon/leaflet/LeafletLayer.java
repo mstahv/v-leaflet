@@ -9,11 +9,17 @@ import com.vaadin.ui.AbstractComponent;
 public abstract class LeafletLayer extends AbstractComponent {
 
     private String name;
+    private Boolean active;
 
     public LeafletLayer(String name) {
+		this(name, true);
+    }
+
+    public LeafletLayer(String name, Boolean active) {
         // the idea of accessing the state from constructor may not be
         // a good idea(?)
         this.name = name;
+        this.active = active;
         registerRpc(new ClickServerRpc() {
             @Override
             public void onClick(Point p) {
@@ -26,6 +32,7 @@ public abstract class LeafletLayer extends AbstractComponent {
     public void beforeClientResponse(boolean initial) {
         super.beforeClientResponse(initial);
         getState().name = name;
+        getState().active = active;
     }
 
     @Override
@@ -41,5 +48,10 @@ public abstract class LeafletLayer extends AbstractComponent {
     public void removeMarkerClickListener(LeafletClickListener listener) {
         removeListener(LeafletClickEvent.class, listener,
                 LeafletClickListener.METHOD);
+    }
+
+    public void setActive(Boolean active) {
+		this.active = active;
+		getState().active = active;
     }
 }
