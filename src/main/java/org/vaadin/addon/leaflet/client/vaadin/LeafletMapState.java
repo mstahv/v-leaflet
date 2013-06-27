@@ -42,6 +42,8 @@ public class LeafletMapState extends AbstractComponentState {
             add(Control.attribution);
         }
     };
+    
+	public String attributionPrefix = "Leaflet";
 
     public BaseLayer[] getBaseLayers() {
         return baseLayers;

@@ -22,6 +22,7 @@ import java.util.List;
 
 import org.discotools.gwt.leaflet.client.LeafletResourceInjector;
 import org.discotools.gwt.leaflet.client.Options;
+import org.discotools.gwt.leaflet.client.controls.attribution.AttributionImpl;
 import org.discotools.gwt.leaflet.client.controls.layers.Layers;
 import org.discotools.gwt.leaflet.client.controls.scale.Scale;
 import org.discotools.gwt.leaflet.client.controls.scale.ScaleOptions;
@@ -57,7 +58,7 @@ import com.vaadin.client.ui.AbstractHasComponentsConnector;
 import com.vaadin.shared.ui.Connect;
 
 /**
- *
+ * 
  * @author mattitahvonenitmill
  */
 @Connect(LMap.class)
@@ -110,11 +111,11 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector {
 
 			@Override
 			public void setCenter(Double lat, Double lon, Integer zoom) {
-				if(zoom == null) {
+				if (zoom == null) {
 					zoom = map.getZoom();
 				}
 				LatLng center;
-				if(lon == null) {
+				if (lon == null) {
 					center = map.getBounds().getCenter();
 				} else {
 					center = new LatLng(lat, lon);
@@ -124,13 +125,22 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector {
 
 			@Override
 			public void zoomToExtent(Bounds b) {
-				LatLng northEast = new LatLng(b.getNorthEastLat(),
-						b.getNorthEastLon());
-				LatLng southWest = new LatLng(b.getSouthWestLat(),
-						b.getSouthWestLon());
+				LatLng northEast = new LatLng(b.getNorthEastLat(), b
+						.getNorthEastLon());
+				LatLng southWest = new LatLng(b.getSouthWestLat(), b
+						.getSouthWestLon());
 				map.fitBounds(new LatLngBounds(southWest, northEast));
 			}
 		});
+
+		// Without this it appears component is invalidly sized sometimes
+		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+			@Override
+			public void execute() {
+				map.invalidateSize(false);
+			}
+		});
+
 	}
 
 	@Override
@@ -145,14 +155,56 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector {
 				options.setCenter(new LatLng(0, 0));
 			}
 			options.setProperty("crs", vCRS_EPSG3857);
+
+			if (getState().attributionPrefix == null) {
+				options.setProperty("attributionControl", false);
+			}
 			int zoom = 15;
 			if (getState().zoomLevel != null) {
 				zoom = getState().zoomLevel;
 			}
 			options.setZoom(zoom);
-			map = new Map(getWidget().getElement(), options);
-
+			map = new Map(getWidget().getElement().getFirstChildElement(),
+					options);
+			if (getState().attributionPrefix != null) {
+				AttributionImpl.setPrefix(
+						map.getJSObject().getProperty("attributionControl"),
+						getState().attributionPrefix);
+			}
 			setBaseLayers();
+
+			for (Control c : getState().controls) {
+				switch (c) {
+				case attribution:
+					// NOP
+					break;
+				case baselayers:
+					Options opts = new Options();
+					for (BaseLayer l : layers.keySet()) {
+						opts.setProperty(l.getName(), layers.get(l));
+					}
+					if (lControl == null) {
+						lControl = new Layers(opts, new Options(),
+								new Options());
+					}
+					map.addControl(lControl);
+					break;
+				case scale:
+					// Add Scale Control
+					ScaleOptions scaleOptions = new ScaleOptions();
+					Scale scale = new Scale(scaleOptions);
+					map.addControl(scale);
+					break;
+				case zoom:
+					// TODO how to remove this? Default.
+					break;
+				case overlays:
+					// Lets not do anything here
+
+				default:
+					break;
+				}
+			}
 
 			EventHandler<?> handler = new EventHandler<MouseEvent>() {
 				@Override
@@ -187,38 +239,6 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector {
 
 		updateChildrens();
 
-		for (Control c : getState().controls) {
-			switch (c) {
-			case attribution:
-				// TODO how to remove this? Default.
-				break;
-			case baselayers:
-				Options opts = new Options();
-				for (BaseLayer l : layers.keySet()) {
-					opts.setProperty(l.getName(), layers.get(l));
-				}
-				if (lControl == null) {
-					lControl = new Layers(opts, new Options(), new Options());
-				}
-				map.addControl(lControl);
-				break;
-			case scale:
-				// Add Scale Control
-				ScaleOptions scaleOptions = new ScaleOptions();
-				Scale scale = new Scale(scaleOptions);
-				map.addControl(scale);
-				break;
-			case zoom:
-				// TODO how to remove this? Default.
-				break;
-			case overlays:
-				// Lets not do anything here
-
-			default:
-				break;
-			}
-		}
-
 		if (getState().controls.contains(Control.overlays)) {
 			if (lControl == null) {
 				lControl = new Layers(new Options(), new Options(),
@@ -240,13 +260,6 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector {
 
 		}
 
-		// Without this it appears component is invalidly sized sometimes
-		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-			@Override
-			public void execute() {
-				map.invalidateSize(false);
-			}
-		});
 	}
 
 	private void updateChildrens() {
@@ -295,36 +308,41 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector {
 				if (baseLayer.getMaxZoom() != null) {
 					tileOptions.setProperty("maxZoom", baseLayer.getMaxZoom());
 				}
-				if(baseLayer.getTms() != null
-						&& baseLayer.getTms()) {
+				if (baseLayer.getTms() != null && baseLayer.getTms()) {
 					tileOptions.setProperty("tms", true);
 				}
 				if (baseLayer.getOpacity() != null) {
 					tileOptions.setProperty("opacity", baseLayer.getOpacity());
 				}
 
-				if(baseLayer.getWms() != null &&  baseLayer.getWms() == true) {
-					if(baseLayer.getLayers() != null) {
-						tileOptions.setProperty("layers", baseLayer.getLayers());
+				if (baseLayer.getWms() != null && baseLayer.getWms() == true) {
+					if (baseLayer.getLayers() != null) {
+						tileOptions
+								.setProperty("layers", baseLayer.getLayers());
 					}
-					if(baseLayer.getStyles() != null) {
-						tileOptions.setProperty("styles", baseLayer.getStyles());
+					if (baseLayer.getStyles() != null) {
+						tileOptions
+								.setProperty("styles", baseLayer.getStyles());
 					}
-					if(baseLayer.getFormat() != null) {
-						tileOptions.setProperty("format", baseLayer.getFormat());
+					if (baseLayer.getFormat() != null) {
+						tileOptions
+								.setProperty("format", baseLayer.getFormat());
 					}
-					if(baseLayer.getTransparent() != null
-						&& baseLayer.getTransparent()) {
+					if (baseLayer.getTransparent() != null
+							&& baseLayer.getTransparent()) {
 						tileOptions.setProperty("transparent", true);
 					}
-					if(baseLayer.getVersion() != null) {
-						tileOptions.setProperty("version", baseLayer.getVersion());
+					if (baseLayer.getVersion() != null) {
+						tileOptions.setProperty("version",
+								baseLayer.getVersion());
 					}
-					WmsLayer layer = new WmsLayer(baseLayer.getUrl(), tileOptions);
+					WmsLayer layer = new WmsLayer(baseLayer.getUrl(),
+							tileOptions);
 					map.addLayer(layer);
 					layers.put(baseLayer, layer);
 				} else {
-					TileLayer layer = new TileLayer(baseLayer.getUrl(), tileOptions);
+					TileLayer layer = new TileLayer(baseLayer.getUrl(),
+							tileOptions);
 					map.addLayer(layer);
 					layers.put(baseLayer, layer);
 				}

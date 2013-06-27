@@ -107,10 +107,11 @@ public class BasicTest extends AbstractTest {
         leafletMarker.addClickListener(listener);
         leafletMarker.setTitle("this is marker one!");
         leafletMap.addComponent(leafletMarker);
+        leafletMap.setAttributionPrefix("Powered by Leaflet with v-leaflet");
 
         BaseLayer baselayer = new BaseLayer();
         baselayer.setName("CloudMade");
-
+        baselayer.setAttributionString("&copy;OpenStreetMap contributors");
         // Note, this url should only be used for testing purposes. If you wish
         // to use cloudmade base maps, get your own API key.
         baselayer

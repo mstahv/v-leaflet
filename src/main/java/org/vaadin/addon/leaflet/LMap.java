@@ -177,5 +177,13 @@ public class LMap extends AbstractComponentContainer {
 	public Point getCenter() {
 		return getState(false).center;
 	}
+	
+	public void setAttributionPrefix(String prefix) {
+		getState().attributionPrefix = prefix;
+	}
+	
+	public String getAttributionPrefix() {
+		return getState(false).attributionPrefix;
+	}
 
 }
