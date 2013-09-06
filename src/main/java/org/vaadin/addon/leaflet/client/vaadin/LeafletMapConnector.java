@@ -55,6 +55,8 @@ import com.vaadin.client.ServerConnector;
 import com.vaadin.client.communication.RpcProxy;
 import com.vaadin.client.communication.StateChangeEvent;
 import com.vaadin.client.ui.AbstractHasComponentsConnector;
+import com.vaadin.client.ui.layout.ElementResizeEvent;
+import com.vaadin.client.ui.layout.ElementResizeListener;
 import com.vaadin.shared.ui.Connect;
 
 /**
@@ -62,7 +64,7 @@ import com.vaadin.shared.ui.Connect;
  * @author mattitahvonenitmill
  */
 @Connect(LMap.class)
-public class LeafletMapConnector extends AbstractHasComponentsConnector {
+public class LeafletMapConnector extends AbstractHasComponentsConnector implements ElementResizeListener {
 
 	static {
 		LeafletResourceInjector.ensureInjected();
@@ -132,15 +134,15 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector {
 				map.fitBounds(new LatLngBounds(southWest, northEast));
 			}
 		});
+		
+		getLayoutManager().addElementResizeListener(getWidget().getElement(), this);
 
-		// Without this it appears component is invalidly sized sometimes
-		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-			@Override
-			public void execute() {
-				map.invalidateSize(false);
-			}
-		});
-
+	}
+	
+	@Override
+	public void onUnregister() {
+		super.onUnregister();
+		getLayoutManager().removeElementResizeListener(getWidget().getElement(), this);
 	}
 
 	@Override
@@ -395,6 +397,12 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector {
 		}
 
 		updateChildrens();
+	}
+
+	@Override
+	public void onElementResize(ElementResizeEvent e) {
+		// Without this it appears component is invalidly sized sometimes
+		map.invalidateSize(false);
 	}
 
 }
