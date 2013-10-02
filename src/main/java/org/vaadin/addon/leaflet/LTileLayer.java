@@ -2,11 +2,7 @@ package org.vaadin.addon.leaflet;
 
 import org.vaadin.addon.leaflet.client.vaadin.LeafletTileLayerState;
 
-public class LTileLayer extends LeafletLayer {
-
-	public LTileLayer(String name) {
-		super(name);
-	}
+public class LTileLayer extends AbstractLeafletLayer {
 
 	@Override
 	protected LeafletTileLayerState getState() {
@@ -19,14 +15,6 @@ public class LTileLayer extends LeafletLayer {
 
 	public void setUrl(String url) {
 		getState().url = url;
-	}
-
-	public String getName() {
-		return getState().name;
-	}
-
-	public void setName(String name) {
-		getState().name = name;
 	}
 
 	public String getAttributionString() {
@@ -65,8 +53,8 @@ public class LTileLayer extends LeafletLayer {
 		return getState().subDomains;
 	}
 
-	public void setSubDomains(String[] subDomains) {
-		getState().subDomains = subDomains;
+	public void setSubDomains(String... string) {
+		getState().subDomains = string;
 	}
 
 	public Double getOpacity() {

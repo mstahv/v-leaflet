@@ -18,7 +18,6 @@ public class LCircle extends AbstractLeafletVector {
     }
 
     public LCircle(double lat, double lon, double radius) {
-        super(null);
         getState().point = new Point(lat, lon);
         getState().radius = radius;
     }

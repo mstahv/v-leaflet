@@ -16,36 +16,28 @@
 package org.vaadin.addon.leaflet.client.vaadin;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.discotools.gwt.leaflet.client.LeafletResourceInjector;
-import org.discotools.gwt.leaflet.client.Options;
-import org.discotools.gwt.leaflet.client.controls.attribution.AttributionImpl;
-import org.discotools.gwt.leaflet.client.controls.layers.Layers;
-import org.discotools.gwt.leaflet.client.controls.scale.Scale;
-import org.discotools.gwt.leaflet.client.controls.scale.ScaleOptions;
-import org.discotools.gwt.leaflet.client.crs.epsg.EPSG3857;
-import org.discotools.gwt.leaflet.client.events.MouseEvent;
-import org.discotools.gwt.leaflet.client.events.handler.EventHandler;
-import org.discotools.gwt.leaflet.client.events.handler.EventHandler.Events;
-import org.discotools.gwt.leaflet.client.events.handler.EventHandlerManager;
-import org.discotools.gwt.leaflet.client.jsobject.JSObject;
-import org.discotools.gwt.leaflet.client.layers.ILayer;
-import org.discotools.gwt.leaflet.client.layers.raster.TileLayer;
-import org.discotools.gwt.leaflet.client.layers.raster.WmsLayer;
-import org.discotools.gwt.leaflet.client.map.Map;
-import org.discotools.gwt.leaflet.client.map.MapOptions;
-import org.discotools.gwt.leaflet.client.types.LatLng;
-import org.discotools.gwt.leaflet.client.types.LatLngBounds;
+import org.peimari.gleaflet.client.ClickListener;
+import org.peimari.gleaflet.client.Crs;
+import org.peimari.gleaflet.client.Event;
+import org.peimari.gleaflet.client.ILayer;
+import org.peimari.gleaflet.client.LatLng;
+import org.peimari.gleaflet.client.LatLngBounds;
+import org.peimari.gleaflet.client.Map;
+import org.peimari.gleaflet.client.MapOptions;
+import org.peimari.gleaflet.client.MouseEvent;
+import org.peimari.gleaflet.client.MoveEndListener;
+import org.peimari.gleaflet.client.Control.Layers;
+import org.peimari.gleaflet.client.Control.Scale;
+import org.peimari.gleaflet.client.Control.ScaleOptions;
+import org.peimari.gleaflet.client.resources.LeafletResourceInjector;
 import org.vaadin.addon.leaflet.LMap;
-import org.vaadin.addon.leaflet.shared.BaseLayer;
 import org.vaadin.addon.leaflet.shared.Bounds;
 import org.vaadin.addon.leaflet.shared.Control;
+import org.vaadin.addon.leaflet.shared.LayerControlInfo;
 import org.vaadin.addon.leaflet.shared.Point;
 
-import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.ui.Widget;
@@ -62,9 +54,11 @@ import com.vaadin.shared.ui.Connect;
 /**
  * 
  * @author mattitahvonenitmill
+ * @param <V>
  */
 @Connect(LMap.class)
-public class LeafletMapConnector extends AbstractHasComponentsConnector implements ElementResizeListener {
+public class LeafletMapConnector<V> extends AbstractHasComponentsConnector
+		implements ElementResizeListener {
 
 	static {
 		LeafletResourceInjector.ensureInjected();
@@ -72,15 +66,12 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector implemen
 
 	LeafletMapServerRpc rpc = RpcProxy.create(LeafletMapServerRpc.class, this);
 	private Map map;
-	private EPSG3857 vCRS_EPSG3857 = new EPSG3857();
 	private MapOptions options;
-	private java.util.Map<BaseLayer, ILayer> layers = new LinkedHashMap<BaseLayer, ILayer>();
 	private ArrayList<ServerConnector> updateChildren;
-	private HashMap<String, String> connectorIdToNameMap = new HashMap<String, String>();
 
 	// Must have this one here, because of removal (and we want to preserve the
 	// states)
-	private Layers lControl;
+	private Layers layerControl;
 
 	@Override
 	public MapWidget getWidget() {
@@ -120,29 +111,31 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector implemen
 				if (lon == null) {
 					center = map.getBounds().getCenter();
 				} else {
-					center = new LatLng(lat, lon);
+					center = LatLng.create(lat, lon);
 				}
-				map.setView(center, zoom, false);
+				map.setView(center, zoom);
 			}
 
 			@Override
 			public void zoomToExtent(Bounds b) {
-				LatLng northEast = new LatLng(b.getNorthEastLat(), b
-						.getNorthEastLon());
-				LatLng southWest = new LatLng(b.getSouthWestLat(), b
-						.getSouthWestLon());
-				map.fitBounds(new LatLngBounds(southWest, northEast));
+				LatLng northEast = LatLng.create(b.getNorthEastLat(),
+						b.getNorthEastLon());
+				LatLng southWest = LatLng.create(b.getSouthWestLat(),
+						b.getSouthWestLon());
+				map.fitBounds(LatLngBounds.create(southWest, northEast));
 			}
 		});
-		
-		getLayoutManager().addElementResizeListener(getWidget().getElement(), this);
+
+		getLayoutManager().addElementResizeListener(getWidget().getElement(),
+				this);
 
 	}
-	
+
 	@Override
 	public void onUnregister() {
 		super.onUnregister();
-		getLayoutManager().removeElementResizeListener(getWidget().getElement(), this);
+		getLayoutManager().removeElementResizeListener(
+				getWidget().getElement(), this);
 	}
 
 	@Override
@@ -150,30 +143,28 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector implemen
 		super.onStateChanged(stateChangeEvent);
 		if (map == null) {
 			updateChildren = new ArrayList<ServerConnector>(getChildren());
-			options = new MapOptions();
+			options = MapOptions.create();
 			if (getState().center != null) {
 				options.setCenter(getCenterFromState());
 			} else {
-				options.setCenter(new LatLng(0, 0));
+				options.setCenter(LatLng.create(0, 0));
 			}
-			options.setProperty("crs", vCRS_EPSG3857);
+			options.setCrs(Crs.EPSG3857());
 
 			if (getState().attributionPrefix == null) {
-				options.setProperty("attributionControl", false);
+				options.setAttributionControl(false);
 			}
 			int zoom = 15;
 			if (getState().zoomLevel != null) {
 				zoom = getState().zoomLevel;
 			}
 			options.setZoom(zoom);
-			map = new Map(getWidget().getElement().getFirstChildElement(),
+			map = Map.create(getWidget().getElement().getFirstChildElement(),
 					options);
 			if (getState().attributionPrefix != null) {
-				AttributionImpl.setPrefix(
-						map.getJSObject().getProperty("attributionControl"),
+				map.getAttributionControl().setPrefix(
 						getState().attributionPrefix);
 			}
-			setBaseLayers();
 
 			for (Control c : getState().controls) {
 				switch (c) {
@@ -181,20 +172,15 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector implemen
 					// NOP
 					break;
 				case baselayers:
-					Options opts = new Options();
-					for (BaseLayer l : layers.keySet()) {
-						opts.setProperty(l.getName(), layers.get(l));
+					if (layerControl == null) {
+						layerControl = Layers.create();
+						map.addControl(layerControl);
 					}
-					if (lControl == null) {
-						lControl = new Layers(opts, new Options(),
-								new Options());
-					}
-					map.addControl(lControl);
 					break;
 				case scale:
 					// Add Scale Control
-					ScaleOptions scaleOptions = new ScaleOptions();
-					Scale scale = new Scale(scaleOptions);
+					ScaleOptions scaleOptions = ScaleOptions.create();
+					Scale scale = Scale.create(scaleOptions);
 					map.addControl(scale);
 					break;
 				case zoom:
@@ -208,56 +194,66 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector implemen
 				}
 			}
 
-			EventHandler<?> handler = new EventHandler<MouseEvent>() {
+			map.addClickListener(new ClickListener() {
+				public void onClick(MouseEvent event) {
+					rpc.onClick(new Point(event.getLatLng().getLatitude(),
+							event.getLatLng().getLongitude()));
+				}
+			});
+
+			MoveEndListener moveEndListener = new MoveEndListener() {
+
 				@Override
-				public void handle(MouseEvent event) {
-					rpc.onClick(new Point(event.getLatLng().lat(), event
-							.getLatLng().lng()));
+				public void onMoveEnd(Event event) {
+					Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+
+						@Override
+						public void execute() {
+							rpc.onMoveEnd(new Bounds(map.getBounds()
+									.toBBoxString()), map.getZoom());
+							if (getState().registeredEventListeners != null
+									&& getState().registeredEventListeners
+											.contains("moveend")) {
+								getConnection().sendPendingVariableChanges();
+							}
+						}
+					});
 				}
 			};
 
-			EventHandlerManager.addEventHandler(map, Events.click, handler);
-
-			handler = new EventHandler<MouseEvent>() {
-				@Override
-				public void handle(MouseEvent event) {
-					rpc.onMoveEnd(new Bounds(map.getBounds().toBBoxString()),
-							map.getZoom());
-					if (getState().registeredEventListeners != null
-							&& getState().registeredEventListeners
-									.contains("moveend")) {
-						getConnection().sendPendingVariableChanges();
-					}
-				}
-			};
-			EventHandlerManager.addEventHandler(map, Events.moveend, handler);
+			map.addMoveEndListener(moveEndListener);
 
 		} else {
-			if (stateChangeEvent.hasPropertyChanged("baseLayers")) {
-				setBaseLayers();
-			}
 			// extent, zoom etc, must not be updated here, see client rpc...
 		}
 
 		updateChildrens();
 
 		if (getState().controls.contains(Control.overlays)) {
-			if (lControl == null) {
-				lControl = new Layers(new Options(), new Options(),
-						new Options());
+			if (layerControl == null) {
+				layerControl = Layers.create();
+				map.addControl(layerControl);
 			}
-			for (ServerConnector connector : getChildren()) {
-				if (!(connector instanceof AbstractLeafletLayerConnector<?>)) {
-					continue;
+			if (stateChangeEvent.hasPropertyChanged("layerContolInfo")) {
+
+				for (ServerConnector connector : getChildren()) {
+					if (!(connector instanceof AbstractLeafletLayerConnector<?>)) {
+						continue;
+					}
+					AbstractLeafletLayerConnector<?> layerConnector = (AbstractLeafletLayerConnector<?>) connector;
+					LayerControlInfo layerControlInfo = getState().layerContolInfo
+							.get(layerConnector);
+
+					if (layerControlInfo != null && layerControlInfo.name != null) {
+						if (layerControlInfo.baseLayer) {
+							layerControl.addBaseLayer(
+									layerConnector.getLayer(), layerControlInfo.name);
+						} else {
+							layerControl.addOverlay(layerConnector.getLayer(),
+									layerControlInfo.name);
+						}
+					}
 				}
-				AbstractLeafletLayerConnector<?> layerGroupConnector = (AbstractLeafletLayerConnector<?>) connector;
-				String name = layerGroupConnector.getState().name;
-				if (name == null) {
-					continue;
-				}
-				connectorIdToNameMap.put(layerGroupConnector.getConnectorId(),
-						name);
-				lControl.addOverlay(layerGroupConnector.getLayer(), name);
 			}
 
 		}
@@ -280,80 +276,8 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector implemen
 		}
 	}
 
-	private void setBaseLayers() {
-		// clear old layers
-		for (ILayer l : layers.values()) {
-			map.removeLayer(l);
-		}
-		layers.clear();
-		// add layers from state
-		BaseLayer[] baseLayers = getState().getBaseLayers();
-		if (baseLayers != null) {
-			for (BaseLayer baseLayer : baseLayers) {
-				// suck big time in V7, can't access the raw json, should use
-				// e.g. gson and serialize as string in state
-				Options tileOptions = new Options();
-				tileOptions.setProperty("attribution",
-						baseLayer.getAttributionString());
-				if (baseLayer.getDetectRetina() != null
-						&& baseLayer.getDetectRetina()) {
-					tileOptions.setProperty("detectRetina", true);
-				}
-				if (baseLayer.getSubDomains() != null) {
-					JsArrayString domain = JsArrayString.createArray().cast();
-					for (String a : baseLayer.getSubDomains()) {
-						domain.push(a);
-					}
-					tileOptions.setProperty("subdomains",
-							(JSObject) domain.cast());
-				}
-				if (baseLayer.getMaxZoom() != null) {
-					tileOptions.setProperty("maxZoom", baseLayer.getMaxZoom());
-				}
-				if (baseLayer.getTms() != null && baseLayer.getTms()) {
-					tileOptions.setProperty("tms", true);
-				}
-				if (baseLayer.getOpacity() != null) {
-					tileOptions.setProperty("opacity", baseLayer.getOpacity());
-				}
-
-				if (baseLayer.getWms() != null && baseLayer.getWms() == true) {
-					if (baseLayer.getLayers() != null) {
-						tileOptions
-								.setProperty("layers", baseLayer.getLayers());
-					}
-					if (baseLayer.getStyles() != null) {
-						tileOptions
-								.setProperty("styles", baseLayer.getStyles());
-					}
-					if (baseLayer.getFormat() != null) {
-						tileOptions
-								.setProperty("format", baseLayer.getFormat());
-					}
-					if (baseLayer.getTransparent() != null
-							&& baseLayer.getTransparent()) {
-						tileOptions.setProperty("transparent", true);
-					}
-					if (baseLayer.getVersion() != null) {
-						tileOptions.setProperty("version",
-								baseLayer.getVersion());
-					}
-					WmsLayer layer = new WmsLayer(baseLayer.getUrl(),
-							tileOptions);
-					map.addLayer(layer);
-					layers.put(baseLayer, layer);
-				} else {
-					TileLayer layer = new TileLayer(baseLayer.getUrl(),
-							tileOptions);
-					map.addLayer(layer);
-					layers.put(baseLayer, layer);
-				}
-			}
-		}
-	}
-
 	private LatLng getCenterFromState() {
-		LatLng center = new LatLng(getState().center.getLat(),
+		LatLng center = LatLng.create(getState().center.getLat(),
 				getState().center.getLon());
 		return center;
 	}
@@ -382,17 +306,10 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector implemen
 		}
 		for (ComponentConnector componentConnector : oldChildren) {
 			AbstractLeafletLayerConnector<?> c = (AbstractLeafletLayerConnector<?>) componentConnector;
-			map.removeLayer(c.getLayer());
-			// TODO: This does not work atm.
-			if (c instanceof LeafletLayerGroupConnector) {
-				String name = connectorIdToNameMap.remove(c.getConnectorId());
-				if (name == null) {
-					continue;
-				}
-				Layers removed = lControl.removeLayer(name);
-				map.removeControl(lControl);
-				map.addControl(removed);
-				lControl = removed;
+			ILayer layer = c.getLayer();
+			map.removeLayer(layer);
+			if (layerControl != null) {
+				layerControl.removeLayer(c.getLayer());
 			}
 		}
 
@@ -402,7 +319,7 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector implemen
 	@Override
 	public void onElementResize(ElementResizeEvent e) {
 		// Without this it appears component is invalidly sized sometimes
-		map.invalidateSize(false);
+		map.invalidateSize();
 	}
 
 }

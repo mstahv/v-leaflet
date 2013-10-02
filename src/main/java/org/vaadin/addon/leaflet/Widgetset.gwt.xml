@@ -4,7 +4,7 @@
 	<!-- WS Compiler: manually edited -->
 	<inherits name="com.vaadin.terminal.gwt.DefaultWidgetSet" />
 	
-	<inherits name="org.discotools.gwt.leaflet.Core"/>
+	<inherits name="org.peimari.gleaflet.GLeaflet"/>
 
 	<set-configuration-property name="devModeRedirectEnabled" value="true" />
 	

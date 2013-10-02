@@ -1,16 +1,12 @@
 package org.vaadin.addon.leaflet;
 
-import org.vaadin.addon.leaflet.client.vaadin.LeafletTileLayerWmsState;
+import org.vaadin.addon.leaflet.client.vaadin.LeafletWmsLayerState;
 
-public class LTileLayerWms extends LTileLayer {
-
-	public LTileLayerWms(String name) {
-		super(name);
-	}
+public class LWmsLayer extends LTileLayer {
 
 	@Override
-	protected LeafletTileLayerWmsState getState() {
-		return (LeafletTileLayerWmsState) super.getState();
+	protected LeafletWmsLayerState getState() {
+		return (LeafletWmsLayerState) super.getState();
 	}
 
 	public String getLayers() {

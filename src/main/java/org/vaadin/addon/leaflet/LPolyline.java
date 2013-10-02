@@ -11,7 +11,6 @@ public class LPolyline extends AbstractLeafletVector {
     }
 
     public LPolyline(Point... points) {
-        super(null);
         getState().points = points;
     }
 

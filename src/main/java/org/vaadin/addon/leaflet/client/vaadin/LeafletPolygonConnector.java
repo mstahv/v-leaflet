@@ -1,15 +1,14 @@
 package org.vaadin.addon.leaflet.client.vaadin;
 
-import org.discotools.gwt.leaflet.client.events.MouseEvent;
-import org.discotools.gwt.leaflet.client.events.handler.EventHandler;
-import org.discotools.gwt.leaflet.client.events.handler.EventHandler.Events;
-import org.discotools.gwt.leaflet.client.events.handler.EventHandlerManager;
-import org.discotools.gwt.leaflet.client.layers.ILayer;
-import org.discotools.gwt.leaflet.client.layers.vector.Polygon;
-import org.discotools.gwt.leaflet.client.layers.vector.PolylineOptions;
-import org.discotools.gwt.leaflet.client.types.LatLng;
+import org.peimari.gleaflet.client.ClickListener;
+import org.peimari.gleaflet.client.ILayer;
+import org.peimari.gleaflet.client.LatLng;
+import org.peimari.gleaflet.client.MouseEvent;
+import org.peimari.gleaflet.client.Polygon;
+import org.peimari.gleaflet.client.PolylineOptions;
 import org.vaadin.addon.leaflet.shared.Point;
 
+import com.google.gwt.core.client.JsArray;
 import com.vaadin.shared.ui.Connect;
 
 @Connect(org.vaadin.addon.leaflet.LPolygon.class)
@@ -21,31 +20,28 @@ public class LeafletPolygonConnector extends LeafletPolylineConnector {
     protected void update() {
         if (marker != null) {
             removeLayerFromParent();
-            EventHandlerManager.clearEventHandler(marker, Events.click);
+            marker.removeClickListener();
         }
         if (getState().points == null) {
             return;
         }
 
-        LatLng[] latlngs = new LatLng[getState().points.length];
-        for (int i = 0; i < latlngs.length; i++) {
-            Point p = getState().points[i];
-            latlngs[i] = new LatLng(p.getLat(), p.getLon());
-        }
+        JsArray<LatLng> latlngs = getLatLngsArray();
         PolylineOptions options = createOptions();
-
-        marker = new Polygon(latlngs, options);
-
+        marker = Polygon.create(latlngs, options);
         addToParent(marker);
 
-        EventHandler<?> handler = new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                rpc.onClick(new Point(event.getLatLng().lat(), event
-                        .getLatLng().lng()));
-            }
-        };
-
-        EventHandlerManager.addEventHandler(marker, Events.click, handler);
+        marker.addClickListener(new ClickListener() {
+			@Override
+			public void onClick(MouseEvent event) {
+              rpc.onClick(new Point(event.getLatLng().getLatitude(), event
+              .getLatLng().getLongitude()));
+			}
+		});
+    }
+    
+    @Override
+    public ILayer getLayer() {
+    	return marker;
     }
 }

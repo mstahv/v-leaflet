@@ -1,16 +1,14 @@
 package org.vaadin.addon.leaflet.client.vaadin;
 
-import org.discotools.gwt.leaflet.client.Options;
-import org.discotools.gwt.leaflet.client.jsobject.JSObject;
-import org.discotools.gwt.leaflet.client.layers.ILayer;
-import org.discotools.gwt.leaflet.client.layers.raster.TileLayer;
+import org.peimari.gleaflet.client.ILayer;
+import org.peimari.gleaflet.client.TileLayer;
+import org.peimari.gleaflet.client.TileLayerOptions;
 
-import com.google.gwt.core.client.JsArrayString;
 import com.vaadin.shared.ui.Connect;
 
 @Connect(org.vaadin.addon.leaflet.LTileLayer.class)
 public class LeafletTileLayerConnector extends
-		AbstractLeafletLayerConnector<Options> {
+		AbstractLeafletLayerConnector<TileLayerOptions> {
 
 	protected ILayer layer;
 
@@ -20,28 +18,24 @@ public class LeafletTileLayerConnector extends
 	}
 
 	@Override
-	protected Options createOptions() {
-		Options o = new Options();
+	protected TileLayerOptions createOptions() {
+		TileLayerOptions o = TileLayerOptions.create();
 		LeafletTileLayerState s = getState();
-		o.setProperty("attribution", s.url);
+		o.setAttribution(s.attributionString);
 		if (s.detectRetina != null && s.detectRetina) {
-			o.setProperty("detectRetina", true);
+			o.setDetectRetina(true);
 		}
 		if (s.subDomains != null) {
-			JsArrayString domain = JsArrayString.createArray().cast();
-			for (String a : s.subDomains) {
-				domain.push(a);
-			}
-			o.setProperty("subdomains", (JSObject) domain.cast());
+			o.setSubDomains(s.subDomains);
 		}
 		if (s.maxZoom != null) {
-			o.setProperty("maxZoom", s.maxZoom);
+			o.setMaxZoom(s.maxZoom);
 		}
 		if (s.tms != null && s.tms) {
-			o.setProperty("tms", true);
+			o.setTms(true);
 		}
 		if (s.opacity != null) {
-			o.setProperty("opacity", s.opacity);
+			o.setOpacity(s.opacity);
 		}
 		return o;
 	}
@@ -51,8 +45,8 @@ public class LeafletTileLayerConnector extends
 		if (layer != null) {
 			removeLayerFromParent();
 		}
-		Options o = createOptions();
-		layer = new TileLayer(getState().url, o);
+		TileLayerOptions o = createOptions();
+		layer = TileLayer.create(getState().url, o);
 		addToParent(layer);
 	}
 

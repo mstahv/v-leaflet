@@ -1,6 +1,6 @@
 package org.vaadin.addon.leaflet.client.vaadin;
 
-public class LeafletTileLayerWmsState extends LeafletTileLayerState {
+public class LeafletWmsLayerState extends LeafletTileLayerState {
 
 	public String layers;
 	public String layerStyles;

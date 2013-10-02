@@ -1,8 +1,9 @@
 package org.vaadin.addon.leaflet.client.vaadin;
 
-import org.discotools.gwt.leaflet.client.layers.ILayer;
-import org.discotools.gwt.leaflet.client.layers.others.LayerGroup;
-import org.discotools.gwt.leaflet.client.map.Map;
+
+import org.peimari.gleaflet.client.ILayer;
+import org.peimari.gleaflet.client.LayerGroup;
+import org.peimari.gleaflet.client.Map;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
@@ -54,7 +55,7 @@ public abstract class AbstractLeafletLayerConnector<T> extends
     public void removeLayerFromParent() {
         ILayer layer = getLayer();
         if (leafletParent instanceof Map) {
-            Map map = (Map) leafletParent;
+        	Map map = (Map) leafletParent;
             // Something is wrong if map is null here
             map.removeLayer(layer);
         } else {

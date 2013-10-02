@@ -1,31 +1,13 @@
 package org.vaadin.addon.leaflet.demoandtestapp;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Random;
 
 import org.vaadin.addon.leaflet.LMap;
-import org.vaadin.addon.leaflet.LPolyline;
-import org.vaadin.addon.leaflet.LeafletClickEvent;
-import org.vaadin.addon.leaflet.LeafletClickListener;
-import org.vaadin.addon.leaflet.LeafletMoveEndEvent;
-import org.vaadin.addon.leaflet.LeafletMoveEndListener;
+import org.vaadin.addon.leaflet.LTileLayer;
 import org.vaadin.addon.leaflet.demoandtestapp.util.AbstractTest;
-import org.vaadin.addon.leaflet.shared.BaseLayer;
-import org.vaadin.addon.leaflet.shared.Bounds;
-import org.vaadin.addon.leaflet.shared.Point;
 
-import com.vaadin.data.Property.ValueChangeEvent;
-import com.vaadin.data.Property.ValueChangeListener;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.Notification;
-import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.Window;
 
 public class SizeChangeInWindow extends AbstractTest {
@@ -41,11 +23,10 @@ public class SizeChangeInWindow extends AbstractTest {
     	final LMap map = new LMap();
     	     map.setCenter( 50.06465, 19.94498 );
     	
-    	      final BaseLayer baselayer = new BaseLayer();
-    	      baselayer.setName( "OpenStreetMap" );
+    	      final LTileLayer baselayer = new LTileLayer();
     	      baselayer.setAttributionString( "OpenStreetMap" );
     	      baselayer.setUrl( "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" );
-    	      map.setBaseLayers( baselayer );
+    	      map.addBaseLayer(baselayer, "OpenStreetMap");
     	  
     	      map.setImmediate( true );
     	      map.setSizeFull();

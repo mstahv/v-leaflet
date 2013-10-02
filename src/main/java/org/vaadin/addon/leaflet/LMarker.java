@@ -12,7 +12,7 @@ import org.vaadin.addon.leaflet.shared.Point;
  * componentcontainer)
  * 
  */
-public class LMarker extends LeafletLayer {
+public class LMarker extends AbstractLeafletLayer {
 
     @Override
     protected LeafletMarkerState getState() {
@@ -20,16 +20,13 @@ public class LMarker extends LeafletLayer {
     }
 
     public LMarker(double lat, double lon) {
-        super(null);
         getState().point = new Point(lat, lon);
     }
 
     public LMarker() {
-        super(null);
     }
 
     public LMarker(Point point) {
-        super(null);
         getState().point = point;
     }
 

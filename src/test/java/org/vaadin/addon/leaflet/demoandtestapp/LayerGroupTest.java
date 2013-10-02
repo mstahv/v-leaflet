@@ -3,18 +3,18 @@ package org.vaadin.addon.leaflet.demoandtestapp;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import org.vaadin.addon.leaflet.AbstractLeafletLayer;
 import org.vaadin.addon.leaflet.LCircle;
 import org.vaadin.addon.leaflet.LLayerGroup;
 import org.vaadin.addon.leaflet.LMap;
 import org.vaadin.addon.leaflet.LMarker;
 import org.vaadin.addon.leaflet.LPolyline;
+import org.vaadin.addon.leaflet.LTileLayer;
 import org.vaadin.addon.leaflet.LeafletClickEvent;
 import org.vaadin.addon.leaflet.LeafletClickListener;
-import org.vaadin.addon.leaflet.LeafletLayer;
 import org.vaadin.addon.leaflet.LeafletMoveEndEvent;
 import org.vaadin.addon.leaflet.LeafletMoveEndListener;
 import org.vaadin.addon.leaflet.demoandtestapp.util.AbstractTest;
-import org.vaadin.addon.leaflet.shared.BaseLayer;
 import org.vaadin.addon.leaflet.shared.Bounds;
 import org.vaadin.addon.leaflet.shared.Control;
 import org.vaadin.addon.leaflet.shared.Point;
@@ -55,7 +55,7 @@ public class LayerGroupTest extends AbstractTest {
                 Notification.show(String.format("Clicked %s", event
                         .getConnector().getClass().getSimpleName()));
             }
-            if (delete.getValue() && event.getSource() instanceof LeafletLayer) {
+            if (delete.getValue() && event.getSource() instanceof AbstractLeafletLayer) {
                 Component component = (Component) event.getConnector();
                 if (leafletMap.hasComponent(component)) {
                     leafletMap
@@ -116,7 +116,7 @@ public class LayerGroupTest extends AbstractTest {
         llgNested.addComponent(leafletCircle);
         llg.addComponent(llgNested);
 
-        llg2 = new LLayerGroup("Small circles group");
+        llg2 = new LLayerGroup();
         leafletCircle = new LCircle(60.4525 - 0.005, 22.301 - 0.005, 20);
         leafletCircle.setColor("#00FF00");
         llg2.addComponent(leafletCircle);
@@ -130,8 +130,8 @@ public class LayerGroupTest extends AbstractTest {
         leafletCircle.setColor("#00FF00");
         llg2.addComponent(leafletCircle);
 
-        leafletMap.addComponent(llg);
-        leafletMap.addComponent(llg2);
+        leafletMap.addOverlay(llg, null);
+        leafletMap.addOverlay(llg2, "Small circles group");
 
         leafletCircle = new LCircle(60.4525, 22.301, 300);
         leafletCircle.setColor("#00FFFF");
@@ -149,15 +149,12 @@ public class LayerGroupTest extends AbstractTest {
         leafletMarker.addClickListener(listener);
         leafletMap.addComponent(leafletMarker);
 
-        BaseLayer baselayer = new BaseLayer();
-        baselayer.setName("CloudMade");
-
         // Note, this url should only be used for testing purposes. If you wish
         // to use cloudmade base maps, get your own API key.
-        baselayer
-                .setUrl("http://{s}.tile.cloudmade.com/a751804431c2443ab399100902c651e8/997/256/{z}/{x}/{y}.png");
-
-        leafletMap.setBaseLayers(baselayer);
+        LTileLayer tileLayer = new LTileLayer();
+        tileLayer.setUrl("http://{s}.tile.cloudmade.com/a751804431c2443ab399100902c651e8/997/256/{z}/{x}/{y}.png");
+        
+        leafletMap.addBaseLayer(tileLayer, "CloudMade");
 
         leafletMap.addClickListener(listener);
 
@@ -218,8 +215,12 @@ public class LayerGroupTest extends AbstractTest {
 
             @Override
             public void buttonClick(ClickEvent event) {
-                Component next = leafletMap.iterator().next();
-                leafletMap.removeComponent(next);
+            	for (Component c : leafletMap) {
+            		if(!(c instanceof LTileLayer)) {
+            			leafletMap.removeComponent(c);
+            			break;
+            		}
+				}
             }
         });
         content.addComponentAsFirst(button);
@@ -255,8 +256,8 @@ public class LayerGroupTest extends AbstractTest {
                     }
                 }
                 if (group == null) {
-                    group = new LLayerGroup("new group");
-                    leafletMap.addComponent(group);
+                    group = new LLayerGroup();
+                    leafletMap.addOverlay(group, "new group");
                 }
 
                 LPolyline lPolyline = new LPolyline(new Point(60.44, 22.30),

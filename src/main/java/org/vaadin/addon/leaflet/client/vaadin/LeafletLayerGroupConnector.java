@@ -19,8 +19,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.discotools.gwt.leaflet.client.layers.ILayer;
-import org.discotools.gwt.leaflet.client.layers.others.LayerGroup;
+import org.peimari.gleaflet.client.ILayer;
+import org.peimari.gleaflet.client.LayerGroup;
 import org.vaadin.addon.leaflet.LLayerGroup;
 
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -84,8 +84,7 @@ public class LeafletLayerGroupConnector extends
 	public void update() {
 
 		if (layerGroup == null) {
-			ILayer layers[] = {};
-			layerGroup = new LayerGroup(layers);
+			layerGroup = LayerGroup.create();
 			addToParent(layerGroup);
 		}
 		updateChildren();

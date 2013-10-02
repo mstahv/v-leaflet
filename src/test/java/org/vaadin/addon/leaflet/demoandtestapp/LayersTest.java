@@ -5,9 +5,9 @@ import java.util.Arrays;
 
 import org.vaadin.addon.leaflet.LLayerGroup;
 import org.vaadin.addon.leaflet.LMap;
-import org.vaadin.addon.leaflet.LTileLayerWms;
+import org.vaadin.addon.leaflet.LTileLayer;
+import org.vaadin.addon.leaflet.LWmsLayer;
 import org.vaadin.addon.leaflet.demoandtestapp.util.AbstractTest;
-import org.vaadin.addon.leaflet.shared.BaseLayer;
 import org.vaadin.addon.leaflet.shared.Control;
 
 import com.vaadin.ui.Component;
@@ -30,22 +30,21 @@ public class LayersTest extends AbstractTest {
 		leafletMap.setControls(new ArrayList<Control>(Arrays.asList(Control
 				.values())));
 
-		BaseLayer baseLayerIgn = new BaseLayer();
-		baseLayerIgn.setWms(true);
-		baseLayerIgn.setName("IGN");
+		LWmsLayer baseLayerIgn = new LWmsLayer();
 		baseLayerIgn.setUrl("http://www.01.ign.es/wms-inspire/ign-base");
 		baseLayerIgn.setLayers("SombreadoPenBal");
 		baseLayerIgn.setTransparent(false);
 		baseLayerIgn.setFormat("image/jpeg");
 		baseLayerIgn.setOpacity(0.5);
+		leafletMap.addBaseLayer(baseLayerIgn, "IGN");
 
-		BaseLayer baseLayerOsm = new BaseLayer();
-		baseLayerOsm.setName("OSM");
+		LTileLayer baseLayerOsm = new LTileLayer();
 		baseLayerOsm.setUrl("http://{s}.tile.osm.org/{z}/{x}/{y}.png");
+		leafletMap.addBaseLayer(baseLayerOsm, "OSM");
 
-		LLayerGroup groupAreas = new LLayerGroup("Populated Areas & Water");
+		LLayerGroup groupAreas = new LLayerGroup();
 
-		LTileLayerWms layerWmsAreas = new LTileLayerWms(null);
+		LWmsLayer layerWmsAreas = new LWmsLayer();
 		layerWmsAreas.setUrl("http://www.01.ign.es/wms-inspire/ign-base");
 		layerWmsAreas.setLayers("NucleosPob_mayores,LugarInteres");
 		layerWmsAreas.setTransparent(true);
@@ -53,14 +52,14 @@ public class LayersTest extends AbstractTest {
 		layerWmsAreas.setOpacity(0.5);
 		groupAreas.addComponent(layerWmsAreas);
 
-		LTileLayerWms layerWmsWater = new LTileLayerWms(null);
+		LWmsLayer layerWmsWater = new LWmsLayer();
 		layerWmsWater.setUrl("http://www.01.ign.es/wms-inspire/ign-base");
 		layerWmsWater.setLayers("HY.PhysicalWaters.Waterbodies");
 		layerWmsWater.setTransparent(true);
 		layerWmsWater.setFormat("image/png");
 		groupAreas.addComponent(layerWmsWater);
 
-		LTileLayerWms layerWmsStreets = new LTileLayerWms("Streets");
+		LWmsLayer layerWmsStreets = new LWmsLayer();
 		layerWmsStreets.setUrl("http://www.01.ign.es/wms-inspire/ign-base");
 		layerWmsStreets
 				.setLayers("Autopista,Autopista_Autovia,VialUrbano,CarreteraAutonomica,"
@@ -69,10 +68,8 @@ public class LayersTest extends AbstractTest {
 		layerWmsStreets.setFormat("image/png");
 		layerWmsStreets.setActive(false);
 
-		leafletMap.addComponent(groupAreas);
-		leafletMap.addComponent(layerWmsStreets);
-
-		leafletMap.setBaseLayers(baseLayerOsm, baseLayerIgn);
+		leafletMap.addOverlay(groupAreas,"Populated Areas & Water");
+		leafletMap.addOverlay(layerWmsStreets, "Streets");
 
 		return leafletMap;
 	}
