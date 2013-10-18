@@ -184,6 +184,7 @@ public class LMap extends AbstractComponentContainer {
 		getState(!rendered).center = bounds.getCenter();
 		getState(!rendered).zoomToExtent = bounds;
 		if (rendered) {
+			// If already on the screen, use RPC instead to avoid "full paint"
 			getRpcProxy(LeafletMapClientRpc.class).zoomToExtent(bounds);
 		}
 	}

@@ -193,6 +193,15 @@ public class LeafletMapConnector<V> extends AbstractHasComponentsConnector
 					break;
 				}
 			}
+			
+			if(getState().zoomToExtent != null) {
+				Bounds b = getState().zoomToExtent;
+				LatLng northEast = LatLng.create(b.getNorthEastLat(),
+						b.getNorthEastLon());
+				LatLng southWest = LatLng.create(b.getSouthWestLat(),
+						b.getSouthWestLon());
+				map.fitBounds(LatLngBounds.create(southWest, northEast));
+			}
 
 			map.addClickListener(new ClickListener() {
 				public void onClick(MouseEvent event) {
