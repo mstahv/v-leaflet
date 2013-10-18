@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.vaadin.addon</groupId>
 	<artifactId>v-leaflet</artifactId>
-	<version>0.1.0-SNAPSHOT</version>
+	<version>0.1.0</version>
 	<name>V-Leaflet</name>
 
 	<organization>
@@ -295,7 +295,7 @@
 		<dependency>
 			<groupId>org.peimari</groupId>
 			<artifactId>g-leaflet</artifactId>
-			<version>0.2-SNAPSHOT</version>
+			<version>0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>com.vaadin</groupId>

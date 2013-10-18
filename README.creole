@@ -1,6 +1,11 @@
 = v-leaflet Add-On project =
 
-This is a work in progress add-on to implement Leaflet support for Vaadin. Implementation relies on gwt-leaflet project. Currently my XS Iframe linker compatible branch is needed for development from: https://github.com/mstahv/gwt-leaflet/ . For installation packages that is currently merged with the add-on jar using shade plugin.
+This is a work in progress add-on to implement Leaflet support for Vaadin. 
+
+Implementation depends on g-leaflet project. During development you'll most likely want to check out that as well. When using the add-on, dependency should be automatically resolved.
+
+https://github.com/mstahv/g-leaflet
+
 
 = Instructions for add-on developers = 
 
