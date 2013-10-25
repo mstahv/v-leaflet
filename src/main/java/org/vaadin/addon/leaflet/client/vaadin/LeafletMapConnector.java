@@ -53,11 +53,9 @@ import com.vaadin.shared.ui.Connect;
 
 /**
  * 
- * @author mattitahvonenitmill
- * @param <V>
  */
 @Connect(LMap.class)
-public class LeafletMapConnector<V> extends AbstractHasComponentsConnector
+public class LeafletMapConnector extends AbstractHasComponentsConnector
 		implements ElementResizeListener {
 
 	static {
