@@ -14,7 +14,7 @@ public class LPolyline extends AbstractLeafletVector {
         getState().points = points;
     }
 
-    public void setFill(Boolean fill) {
+    public void setFill(boolean fill) {
         getState().fill = fill;
     }
 
