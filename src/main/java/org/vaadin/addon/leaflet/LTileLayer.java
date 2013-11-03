@@ -4,6 +4,13 @@ import org.vaadin.addon.leaflet.client.vaadin.LeafletTileLayerState;
 
 public class LTileLayer extends AbstractLeafletLayer {
 
+	public LTileLayer() {
+	}
+
+	public LTileLayer(String url) {
+		setUrl(url);
+	}
+
 	@Override
 	protected LeafletTileLayerState getState() {
 		return (LeafletTileLayerState) super.getState();

@@ -50,35 +50,21 @@ public class LeafletDrawConnector extends AbstractControlConnector<Draw> {
 				/* type specific actions... */
 				switch (type) {
 				case marker:
-
 					Marker m = (Marker) event.getLayer();
-					LatLng latLng = m.getLatLng();
-					rpc.markerDrawn(new Point(latLng.getLatitude(), latLng
-							.getLongitude()));
+					rpc.markerDrawn(U.toPoint(m.getLatLng()));
 					return;
 				case circle:
 					Circle c = (Circle) event.getLayer();
-//					LatLng latLng = c.getLatLng();
-					double radius = c.getRadius();
-//					Window.alert("Created circle at " + latLng + " with "
-//							+ radius + "m radius. {"
-//							+ new JSONObject(c.toGeoJSON()).toString() + "}");
+					rpc.circleDrawn(U.toPoint(c.getLatLng()), c.getRadius());
 					break;
 				case polygon:
+				case rectangle:
 					Polygon p = (Polygon) event.getLayer();
-					LatLng[] latlngs = p.getLatLngs();
-					Window.alert("Created polygon: " + p.getRawLatLngs());
+					rpc.polygonDrawn(U.toPointArray(p.getLatLngs()));
 					break;
 				case polyline:
 					Polyline pl = (Polyline) event.getLayer();
-					LatLng[] latLngs2 = pl.getLatLngs();
-					Window.alert("Created polyline: " + pl.getRawLatLngs());
-					break;
-				case rectangle:
-					Rectangle r = (Rectangle) event.getLayer();
-					LatLng[] latLngs3 = r.getLatLngs();
-					LatLngBounds bounds = r.getBounds();
-					Window.alert("Created rectangle: " + r.getRawLatLngs());
+					rpc.polylineDrawn(U.toPointArray(pl.getLatLngs()));
 					break;
 				default:
 					break;

@@ -8,4 +8,10 @@ public interface LeafletDrawServerRcp extends ServerRpc {
 	
 	public void markerDrawn(Point p);
 
+	public void circleDrawn(Point point, double radius);
+
+	public void polygonDrawn(Point[] latLngs);
+
+	public void polylineDrawn(Point[] latLngs);
+
 }

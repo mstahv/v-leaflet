@@ -22,4 +22,9 @@ public class LCircle extends AbstractLeafletVector {
         getState().radius = radius;
     }
 
+	public LCircle(Point point, double radius) {
+		getState().point = point;
+		getState().radius = radius;
+	}
+
 }
