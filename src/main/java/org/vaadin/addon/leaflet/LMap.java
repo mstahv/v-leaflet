@@ -7,11 +7,15 @@ import java.util.List;
 import org.vaadin.addon.leaflet.client.vaadin.LeafletMapClientRpc;
 import org.vaadin.addon.leaflet.client.vaadin.LeafletMapServerRpc;
 import org.vaadin.addon.leaflet.client.vaadin.LeafletMapState;
+import org.vaadin.addon.leaflet.control.AbstractControl;
+import org.vaadin.addon.leaflet.control.LLayers;
+import org.vaadin.addon.leaflet.control.LScale;
+import org.vaadin.addon.leaflet.control.LZoom;
 import org.vaadin.addon.leaflet.shared.Bounds;
 import org.vaadin.addon.leaflet.shared.Control;
-import org.vaadin.addon.leaflet.shared.LayerControlInfo;
 import org.vaadin.addon.leaflet.shared.Point;
 
+import com.vaadin.server.Extension;
 import com.vaadin.ui.AbstractComponentContainer;
 import com.vaadin.ui.Component;
 
@@ -79,18 +83,33 @@ public class LMap extends AbstractComponentContainer {
 	 */
 	public void addBaseLayer(LeafletLayer baseLayer, String name) {
 		addLayer(baseLayer);
-		LayerControlInfo info = new LayerControlInfo();
-		info.baseLayer = true;
-		info.name = name;
-		getState().layerContolInfo.put(baseLayer, info);
+		LLayers control = getLayersControl();
+		if (control != null) {
+			control.addBaseLayer(baseLayer, name);
+		}
+	}
+
+	public LLayers getLayersControl() {
+		for (Extension e : getExtensions()) {
+			if (e instanceof LLayers) {
+				return (LLayers) e;
+			}
+		}
+		LLayers lLayers = new LLayers();
+		addExtension(lLayers);
+		return lLayers;
+	}
+	
+	public void addControl(AbstractControl control) {
+		addExtension(control);
 	}
 
 	public void addOverlay(LeafletLayer overlay, String name) {
 		addLayer(overlay);
-		LayerControlInfo info = new LayerControlInfo();
-		info.baseLayer = false;
-		info.name = name;
-		getState().layerContolInfo.put(overlay, info);
+		LLayers control = getLayersControl();
+		if (control != null) {
+			control.addOverlay(overlay, name);
+		}
 	}
 
 	public void addLayer(LeafletLayer layer) {
@@ -112,7 +131,10 @@ public class LMap extends AbstractComponentContainer {
 	public void removeComponent(Component c) {
 		super.removeComponent(c);
 		components.remove(c);
-		getState().layerContolInfo.remove(c);
+		LLayers layersControl = getLayersControl();
+		if (layersControl != null) {
+			layersControl.removeLayer((LeafletLayer) c);
+		}
 		markAsDirty(); // ?? is this really needed
 	}
 
@@ -189,11 +211,25 @@ public class LMap extends AbstractComponentContainer {
 		}
 	}
 
+	/**
+	 * @param values
+	 * @deprecated, use addControl() instead
+	 */
+	@Deprecated
 	public void setControls(List<Control> values) {
-		if (values == null) {
-			values = new ArrayList<Control>();
+		if (values != null) {
+			for (Control control : values) {
+				switch (control) {
+				case zoom:
+					addControl(new LZoom());
+					break;
+				case scale:
+					addControl(new LScale());
+				default:
+					break;
+				}
+			}
 		}
-		getState().controls = values;
 	}
 
 	public Point getCenter() {

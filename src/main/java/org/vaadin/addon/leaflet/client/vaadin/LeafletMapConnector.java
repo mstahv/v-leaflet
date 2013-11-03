@@ -29,13 +29,9 @@ import org.peimari.gleaflet.client.MapOptions;
 import org.peimari.gleaflet.client.MouseEvent;
 import org.peimari.gleaflet.client.MoveEndListener;
 import org.peimari.gleaflet.client.control.Layers;
-import org.peimari.gleaflet.client.control.Scale;
-import org.peimari.gleaflet.client.control.ScaleOptions;
 import org.peimari.gleaflet.client.resources.LeafletResourceInjector;
 import org.vaadin.addon.leaflet.LMap;
 import org.vaadin.addon.leaflet.shared.Bounds;
-import org.vaadin.addon.leaflet.shared.Control;
-import org.vaadin.addon.leaflet.shared.LayerControlInfo;
 import org.vaadin.addon.leaflet.shared.Point;
 
 import com.google.gwt.core.client.Scheduler;
@@ -66,10 +62,7 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector
 	private Map map;
 	private MapOptions options;
 	private ArrayList<ServerConnector> updateChildren;
-
-	// Must have this one here, because of removal (and we want to preserve the
-	// states)
-	private Layers layerControl;
+	private Layers layersControl;
 
 	@Override
 	public MapWidget getWidget() {
@@ -164,35 +157,7 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector
 						getState().attributionPrefix);
 			}
 
-			for (Control c : getState().controls) {
-				switch (c) {
-				case attribution:
-					// NOP
-					break;
-				case baselayers:
-					if (layerControl == null) {
-						layerControl = Layers.create();
-						map.addControl(layerControl);
-					}
-					break;
-				case scale:
-					// Add Scale Control
-					ScaleOptions scaleOptions = ScaleOptions.create();
-					Scale scale = Scale.create(scaleOptions);
-					map.addControl(scale);
-					break;
-				case zoom:
-					// TODO how to remove this? Default.
-					break;
-				case overlays:
-					// Lets not do anything here
-
-				default:
-					break;
-				}
-			}
-			
-			if(getState().zoomToExtent != null) {
+			if (getState().zoomToExtent != null) {
 				Bounds b = getState().zoomToExtent;
 				LatLng northEast = LatLng.create(b.getNorthEastLat(),
 						b.getNorthEastLon());
@@ -236,35 +201,6 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector
 
 		updateChildrens();
 
-		if (getState().controls.contains(Control.overlays)) {
-			if (layerControl == null) {
-				layerControl = Layers.create();
-				map.addControl(layerControl);
-			}
-			if (stateChangeEvent.hasPropertyChanged("layerContolInfo")) {
-
-				for (ServerConnector connector : getChildren()) {
-					if (!(connector instanceof AbstractLeafletLayerConnector<?>)) {
-						continue;
-					}
-					AbstractLeafletLayerConnector<?> layerConnector = (AbstractLeafletLayerConnector<?>) connector;
-					LayerControlInfo layerControlInfo = getState().layerContolInfo
-							.get(layerConnector);
-
-					if (layerControlInfo != null && layerControlInfo.name != null) {
-						if (layerControlInfo.baseLayer) {
-							layerControl.addBaseLayer(
-									layerConnector.getLayer(), layerControlInfo.name);
-						} else {
-							layerControl.addOverlay(layerConnector.getLayer(),
-									layerControlInfo.name);
-						}
-					}
-				}
-			}
-
-		}
-
 	}
 
 	private void updateChildrens() {
@@ -273,11 +209,11 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector
 		}
 		if (updateChildren != null) {
 			for (ServerConnector serverConnector : updateChildren) {
-
-				AbstractLeafletLayerConnector<?> c = (AbstractLeafletLayerConnector<?>) serverConnector;
-				c.update();
-				c.markUpdated();
-
+				if (serverConnector instanceof AbstractLeafletLayerConnector<?>) {
+					AbstractLeafletLayerConnector<?> c = (AbstractLeafletLayerConnector<?>) serverConnector;
+					c.update();
+					c.markUpdated();
+				}
 			}
 			updateChildren = null;
 		}
@@ -315,8 +251,8 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector
 			AbstractLeafletLayerConnector<?> c = (AbstractLeafletLayerConnector<?>) componentConnector;
 			ILayer layer = c.getLayer();
 			map.removeLayer(layer);
-			if (layerControl != null) {
-				layerControl.removeLayer(c.getLayer());
+			if (layersControl != null) {
+				layersControl.removeLayer(layer);
 			}
 		}
 
@@ -327,6 +263,10 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector
 	public void onElementResize(ElementResizeEvent e) {
 		// Without this it appears component is invalidly sized sometimes
 		map.invalidateSize();
+	}
+
+	public void setLayersControl(Layers l) {
+		this.layersControl = l;
 	}
 
 }
