@@ -1,5 +1,7 @@
 package org.vaadin.addon.leaflet.demoandtestapp;
 
+import java.util.Arrays;
+
 import org.vaadin.addon.leaflet.LFeatureGroup;
 import org.vaadin.addon.leaflet.LMap;
 import org.vaadin.addon.leaflet.LPolyline;
@@ -8,6 +10,8 @@ import org.vaadin.addon.leaflet.demoandtestapp.util.AbstractTest;
 import org.vaadin.addon.leaflet.draw.LDraw;
 import org.vaadin.addon.leaflet.draw.LDraw.FeatureDrawnEvent;
 import org.vaadin.addon.leaflet.draw.LDraw.FeatureDrawnListener;
+import org.vaadin.addon.leaflet.draw.LDraw.FeatureModifiedEvent;
+import org.vaadin.addon.leaflet.draw.LDraw.FeatureModifiedListener;
 import org.vaadin.addon.leaflet.shared.Point;
 
 import com.vaadin.ui.Component;
@@ -49,7 +53,19 @@ public class DrawTest extends AbstractTest {
 				Notification.show("Drawed " + event.getDrawnFeature().getClass().getSimpleName());
 			}
 		});
-
+		
+		draw.addFeatureModifiedListener(new FeatureModifiedListener() {
+			
+			@Override
+			public void featureModified(FeatureModifiedEvent event) {
+				Notification.show("Modified " + event.getModifiedFeature().getClass().getSimpleName());
+				if (event.getModifiedFeature() instanceof LPolyline) {
+					LPolyline pl = (LPolyline) event.getModifiedFeature();
+					Point[] points = pl.getPoints();
+					System.out.println(Arrays.toString(points));
+				}
+			}
+		});
 		return leafletMap;
 	}
 

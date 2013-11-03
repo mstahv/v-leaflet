@@ -15,6 +15,8 @@ import org.peimari.gleaflet.client.draw.DrawControlOptions;
 import org.peimari.gleaflet.client.draw.LayerCreatedEvent;
 import org.peimari.gleaflet.client.draw.LayerCreatedListener;
 import org.peimari.gleaflet.client.draw.LayerType;
+import org.peimari.gleaflet.client.draw.LayersEditedEvent;
+import org.peimari.gleaflet.client.draw.LayersEditedListener;
 import org.peimari.gleaflet.client.resources.LeafletDrawResourceInjector;
 import org.vaadin.addon.leaflet.draw.LDraw;
 import org.vaadin.addon.leaflet.shared.Point;
@@ -37,7 +39,7 @@ public class LeafletDrawConnector extends AbstractControlConnector<Draw> {
 	@Override
 	protected Draw createControl() {
 		DrawControlOptions options = DrawControlOptions.create();
-		LeafletFeatureGroupConnector fgc = (LeafletFeatureGroupConnector) getState().featureGroup;
+		final LeafletFeatureGroupConnector fgc = (LeafletFeatureGroupConnector) getState().featureGroup;
 		FeatureGroup layerGroup = (FeatureGroup) fgc.getLayer();
 		options.setEditableFeatureGroup(layerGroup);
 		Draw l = Draw.create(options);
@@ -68,6 +70,32 @@ public class LeafletDrawConnector extends AbstractControlConnector<Draw> {
 					break;
 				default:
 					break;
+				}
+			}
+		});
+		
+		getMap().addLayersEditedListener(new LayersEditedListener() {
+			
+			@Override
+			public void onCreated(LayersEditedEvent event) {
+				ILayer[] layers = event.getLayers().getLayers();
+				for (ILayer iLayer : layers) {
+					AbstractLeafletLayerConnector<?> c = fgc.getConnectorFor(iLayer);
+					if(c != null) {
+						if (c instanceof LeafletMarkerConnector) {
+							LeafletMarkerConnector mc = (LeafletMarkerConnector) c;
+							rpc.markerModified(mc, U.toPoint(((Marker) iLayer).getLatLng()));
+						} else if (c instanceof LeafletCircleConnector) {
+							LeafletCircleConnector cc = (LeafletCircleConnector) c;
+							Circle circle = (Circle) cc.getLayer();
+							rpc.circleModified(cc, U.toPoint(circle.getLatLng()), circle.getRadius());
+						} else if (c instanceof LeafletPolylineConnector) {
+							// polygon also gets here
+							LeafletPolylineConnector plc = (LeafletPolylineConnector) c;
+							Polyline polyline = (Polyline) plc.getLayer();
+							rpc.polylineModified(plc, U.toPointArray(polyline.getLatLngs()));
+						}
+					}
 				}
 			}
 		});

@@ -16,8 +16,10 @@
 package org.vaadin.addon.leaflet.client.vaadin;
 
 import org.peimari.gleaflet.client.FeatureGroup;
+import org.peimari.gleaflet.client.ILayer;
 import org.peimari.gleaflet.client.LayerGroup;
 
+import com.vaadin.client.ServerConnector;
 import com.vaadin.shared.ui.Connect;
 
 /**
@@ -29,6 +31,18 @@ public class LeafletFeatureGroupConnector extends LeafletLayerGroupConnector {
 	@Override
 	protected LayerGroup createLayerGroup() {
 		return FeatureGroup.create();
+	}
+
+	public AbstractLeafletLayerConnector<?> getConnectorFor(ILayer iLayer) {
+		for (ServerConnector c : getChildren()) {
+			if (c instanceof AbstractLeafletLayerConnector<?>) {
+				AbstractLeafletLayerConnector<?> lc = (AbstractLeafletLayerConnector<?>) c;
+				if(lc.getLayer() == iLayer) {
+					return lc;
+				}
+			}
+		}
+		return null;
 	}
 
 }
