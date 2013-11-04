@@ -1,6 +1,5 @@
 package org.vaadin.addon.leaflet.client.vaadin;
 
-import org.peimari.gleaflet.client.LatLng;
 import org.vaadin.addon.leaflet.shared.Point;
 
 import com.vaadin.shared.Connector;
@@ -23,5 +22,7 @@ public interface LeafletDrawServerRcp extends ServerRpc {
 
 	public void polylineModified(Connector plc,
 			Point[] pointArray);
+
+	public void layerDeleted(Connector c);
 
 }

@@ -44,6 +44,19 @@ public class LDraw extends AbstractControl {
 			return modifiedLayer;
 		}
 	}
+	
+	public static class FeatureDeletedEvent extends EventObject {
+		private LeafletLayer deleted;
+
+		public FeatureDeletedEvent(LDraw lDraw, LeafletLayer deletedLayer) {
+			super(lDraw);
+			this.deleted = deletedLayer;
+		}
+
+		public LeafletLayer getDeletedFeature() {
+			return deleted;
+		}
+	}
 
 	public interface FeatureDrawnListener {
 		public void featureDrawn(FeatureDrawnEvent event);
@@ -52,6 +65,14 @@ public class LDraw extends AbstractControl {
 	public interface FeatureModifiedListener {
 		public void featureModified(FeatureModifiedEvent event);
 	}
+
+	public interface FeatureDeletedListener {
+		public void featureDeleted(FeatureDeletedEvent event);
+	}
+
+	private static final Method deletedMethod = ReflectTools
+			.findMethod(FeatureDeletedListener.class, "featureDeleted",
+					FeatureDeletedEvent.class);
 
 	private static final Method modifiedMethod = ReflectTools
 			.findMethod(FeatureModifiedListener.class, "featureModified",
@@ -75,6 +96,14 @@ public class LDraw extends AbstractControl {
 	
 	public void removeFeatureModifiedListener(FeatureModifiedListener listener) {
 		removeListener(FeatureModifiedEvent.class, listener);
+	}
+
+	public void addFeatureDeletedListener(FeatureDeletedListener listener) {
+		addListener(FeatureDeletedEvent.class, listener, deletedMethod);
+	}
+	
+	public void removeFeatureDeletedListener(FeatureDeletedListener listener) {
+		removeListener(FeatureDeletedEvent.class, listener);
 	}
 
 	public LDraw() {
@@ -119,6 +148,11 @@ public class LDraw extends AbstractControl {
 				LPolyline pl = (LPolyline) plc;
 				pl.setPoints(pointArray);
 				fireEvent(new FeatureModifiedEvent(LDraw.this, pl));
+			}
+
+			@Override
+			public void layerDeleted(Connector c) {
+				fireEvent(new FeatureDeletedEvent(LDraw.this, (LeafletLayer) c));
 			}
 		});
 	}

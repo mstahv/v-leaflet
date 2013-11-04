@@ -15,6 +15,8 @@ import org.peimari.gleaflet.client.draw.DrawControlOptions;
 import org.peimari.gleaflet.client.draw.LayerCreatedEvent;
 import org.peimari.gleaflet.client.draw.LayerCreatedListener;
 import org.peimari.gleaflet.client.draw.LayerType;
+import org.peimari.gleaflet.client.draw.LayersDeletedEvent;
+import org.peimari.gleaflet.client.draw.LayersDeletedListener;
 import org.peimari.gleaflet.client.draw.LayersEditedEvent;
 import org.peimari.gleaflet.client.draw.LayersEditedListener;
 import org.peimari.gleaflet.client.resources.LeafletDrawResourceInjector;
@@ -47,7 +49,7 @@ public class LeafletDrawConnector extends AbstractControlConnector<Draw> {
 		getMap().addLayerCreatedListener(new LayerCreatedListener() {
 
 			@Override
-			public void onCreated(LayerCreatedEvent event) {
+			public void onCreate(LayerCreatedEvent event) {
 				LayerType type = event.getLayerType();
 				/* type specific actions... */
 				switch (type) {
@@ -77,7 +79,7 @@ public class LeafletDrawConnector extends AbstractControlConnector<Draw> {
 		getMap().addLayersEditedListener(new LayersEditedListener() {
 			
 			@Override
-			public void onCreated(LayersEditedEvent event) {
+			public void onEdit(LayersEditedEvent event) {
 				ILayer[] layers = event.getLayers().getLayers();
 				for (ILayer iLayer : layers) {
 					AbstractLeafletLayerConnector<?> c = fgc.getConnectorFor(iLayer);
@@ -99,6 +101,19 @@ public class LeafletDrawConnector extends AbstractControlConnector<Draw> {
 				}
 			}
 		});
+		
+		getMap().addLayersDeletedListener(new LayersDeletedListener() {
+			
+			@Override
+			public void onDelete(LayersDeletedEvent event) {
+				ILayer[] layers = event.getLayers().getLayers();
+				for (ILayer iLayer : layers) {
+					AbstractLeafletLayerConnector<?> c = fgc.getConnectorFor(iLayer);
+					rpc.layerDeleted(c);
+				}
+			}
+		});
+
 		return l;
 	}
 
