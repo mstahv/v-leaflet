@@ -15,22 +15,9 @@
  */
 package org.vaadin.addon.leaflet.client.vaadin;
 
-import org.vaadin.addon.leaflet.shared.Bounds;
-import org.vaadin.addon.leaflet.shared.Point;
-
-import com.vaadin.shared.AbstractComponentState;
 
 /**
- * 
- * @author mattitahvonenitmill
  */
-public class LeafletMapState extends AbstractComponentState {
-	
-	public Point center;
-	public Integer zoomLevel;
-
-	public Bounds zoomToExtent;
-	
-	public String attributionPrefix = "Leaflet";
-
+public class LeafletAttributionState extends LeafletControlState {
+	public String prefix;
 }

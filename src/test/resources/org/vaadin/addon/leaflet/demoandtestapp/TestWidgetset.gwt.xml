@@ -3,7 +3,7 @@
 <module>
 	<!-- WS Compiler: manually edited -->
 	<!-- USE THIS IF YOU DON'T WANT TO USE THE HOSTED OL API -->
-	<inherits name="org.vaadin.addon.leaflet.Widgetset" />
+	<inherits name="org.vaadin.addon.leaflet.DrawWidgetset" />
 
 	<!-- We can compile the default ws only for targets we actually test on, 
 		this speeds up development process -->

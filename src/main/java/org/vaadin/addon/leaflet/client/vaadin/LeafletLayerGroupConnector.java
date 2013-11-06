@@ -84,11 +84,15 @@ public class LeafletLayerGroupConnector extends
 	public void update() {
 
 		if (layerGroup == null) {
-			layerGroup = LayerGroup.create();
+			layerGroup = createLayerGroup();
 			addToParent(layerGroup);
 		}
 		updateChildren();
 
+	}
+
+	protected LayerGroup createLayerGroup() {
+		return LayerGroup.create();
 	}
 
 	private void updateChildren() {
