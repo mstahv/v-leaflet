@@ -4,8 +4,8 @@ import org.vaadin.addon.leaflet.shared.Point;
 
 import com.vaadin.shared.communication.ServerRpc;
 
-public interface ClickServerRpc extends ServerRpc {
+public interface DragEndServerRpc extends ServerRpc {
 	
-	void onClick(Point p);
-
+	void dragEnd(Point point);
+	
 }

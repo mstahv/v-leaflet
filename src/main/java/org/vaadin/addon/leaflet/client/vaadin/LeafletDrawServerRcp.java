@@ -15,6 +15,8 @@ public interface LeafletDrawServerRcp extends ServerRpc {
 
 	public void polylineDrawn(Point[] latLngs);
 
+	public void layerDeleted(Connector c);
+	
 	public void markerModified(Connector mc, Point newPoint);
 
 	public void circleModified(Connector cc, Point latLng,
@@ -23,6 +25,5 @@ public interface LeafletDrawServerRcp extends ServerRpc {
 	public void polylineModified(Connector plc,
 			Point[] pointArray);
 
-	public void layerDeleted(Connector c);
 
 }

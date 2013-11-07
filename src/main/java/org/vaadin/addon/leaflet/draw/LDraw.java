@@ -14,6 +14,7 @@ import org.vaadin.addon.leaflet.client.vaadin.LeafletDrawState;
 import org.vaadin.addon.leaflet.control.AbstractControl;
 import org.vaadin.addon.leaflet.shared.Point;
 
+import com.vaadin.server.AbstractClientConnector;
 import com.vaadin.shared.Connector;
 import com.vaadin.util.ReflectTools;
 
@@ -35,8 +36,9 @@ public class LDraw extends AbstractControl {
 	public static class FeatureModifiedEvent extends EventObject {
 		private LeafletLayer modifiedLayer;
 
-		public FeatureModifiedEvent(LDraw lDraw, LeafletLayer modifiedLayer) {
-			super(lDraw);
+		public FeatureModifiedEvent(AbstractClientConnector connector,
+				LeafletLayer modifiedLayer) {
+			super(connector);
 			this.modifiedLayer = modifiedLayer;
 		}
 
@@ -44,7 +46,7 @@ public class LDraw extends AbstractControl {
 			return modifiedLayer;
 		}
 	}
-	
+
 	public static class FeatureDeletedEvent extends EventObject {
 		private LeafletLayer deleted;
 
@@ -63,6 +65,10 @@ public class LDraw extends AbstractControl {
 	}
 
 	public interface FeatureModifiedListener {
+		public static final Method modifiedMethod = ReflectTools.findMethod(
+				FeatureModifiedListener.class, "featureModified",
+				FeatureModifiedEvent.class);
+
 		public void featureModified(FeatureModifiedEvent event);
 	}
 
@@ -70,13 +76,9 @@ public class LDraw extends AbstractControl {
 		public void featureDeleted(FeatureDeletedEvent event);
 	}
 
-	private static final Method deletedMethod = ReflectTools
-			.findMethod(FeatureDeletedListener.class, "featureDeleted",
-					FeatureDeletedEvent.class);
-
-	private static final Method modifiedMethod = ReflectTools
-			.findMethod(FeatureModifiedListener.class, "featureModified",
-					FeatureModifiedEvent.class);
+	private static final Method deletedMethod = ReflectTools.findMethod(
+			FeatureDeletedListener.class, "featureDeleted",
+			FeatureDeletedEvent.class);
 
 	private static final Method addedMethod = ReflectTools
 			.findMethod(FeatureDrawnListener.class, "featureDrawn",
@@ -85,15 +87,16 @@ public class LDraw extends AbstractControl {
 	public void addFeatureDrawnListener(FeatureDrawnListener listener) {
 		addListener(FeatureDrawnEvent.class, listener, addedMethod);
 	}
-	
+
 	public void removeFeatureDrawnListener(FeatureDrawnListener listener) {
 		removeListener(FeatureDrawnEvent.class, listener);
 	}
 
 	public void addFeatureModifiedListener(FeatureModifiedListener listener) {
-		addListener(FeatureModifiedEvent.class, listener, modifiedMethod);
+		addListener(FeatureModifiedEvent.class, listener,
+				FeatureModifiedListener.modifiedMethod);
 	}
-	
+
 	public void removeFeatureModifiedListener(FeatureModifiedListener listener) {
 		removeListener(FeatureModifiedEvent.class, listener);
 	}
@@ -101,7 +104,7 @@ public class LDraw extends AbstractControl {
 	public void addFeatureDeletedListener(FeatureDeletedListener listener) {
 		addListener(FeatureDeletedEvent.class, listener, deletedMethod);
 	}
-	
+
 	public void removeFeatureDeletedListener(FeatureDeletedListener listener) {
 		removeListener(FeatureDeletedEvent.class, listener);
 	}
@@ -115,17 +118,20 @@ public class LDraw extends AbstractControl {
 
 			@Override
 			public void circleDrawn(Point point, double radius) {
-				fireEvent(new FeatureDrawnEvent(LDraw.this, new LCircle(point, radius)));
+				fireEvent(new FeatureDrawnEvent(LDraw.this, new LCircle(point,
+						radius)));
 			}
 
 			@Override
 			public void polygonDrawn(Point[] latLngs) {
-				fireEvent(new FeatureDrawnEvent(LDraw.this, new LPolygon(latLngs)));
+				fireEvent(new FeatureDrawnEvent(LDraw.this, new LPolygon(
+						latLngs)));
 			}
 
 			@Override
 			public void polylineDrawn(Point[] latLngs) {
-				fireEvent(new FeatureDrawnEvent(LDraw.this, new LPolyline(latLngs)));
+				fireEvent(new FeatureDrawnEvent(LDraw.this, new LPolyline(
+						latLngs)));
 			}
 
 			@Override

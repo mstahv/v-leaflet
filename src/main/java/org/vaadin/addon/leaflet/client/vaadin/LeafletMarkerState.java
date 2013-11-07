@@ -12,5 +12,6 @@ public class LeafletMarkerState extends AbstractLeafletComponentState {
 	public String title;
 	public String popup;
 	public PopupState popupState;
+	public Boolean draggable;
 	
 }
