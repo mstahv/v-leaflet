@@ -54,7 +54,6 @@ public class LeafletMarkerConnector extends
 
 	@Override
 	protected void update() {
-		VConsole.error("update" + getConnectorId());
 		if (marker != null) {
 			removeLayerFromParent();
 			marker.removeClickListener();
