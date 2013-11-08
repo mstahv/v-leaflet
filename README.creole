@@ -1,10 +1,17 @@
 = v-leaflet Add-On project =
 
-This is a work in progress add-on to implement Leaflet support for Vaadin. 
+This is a Vaadin add-on that provides server side API for the amazing LeafletJS. For usage examples see tests in this project.
 
-Implementation depends on g-leaflet project. During development you'll most likely want to check out that as well. When using the add-on, dependency should be automatically resolved.
+The implementation depends on g-leaflet project. During development you'll most likely want to check out that as well. When using the add-on, dependency should be automatically resolved.
 
 https://github.com/mstahv/g-leaflet
+
+
+In addition to core Leaflet API, there is also preliminary support for Leaflet.Draw plugin. Its GWT bindings use g-leaflet-draw project. When using Draw releted stuff, developers must currently add following inherit rule manually to their .gwt.xml files: 
+
+{{{
+	<inherits name="org.vaadin.addon.leaflet.DrawWidgetset" />
+}}}
 
 
 = Instructions for add-on developers = 
