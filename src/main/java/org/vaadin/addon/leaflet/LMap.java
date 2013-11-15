@@ -11,6 +11,7 @@ import org.vaadin.addon.leaflet.control.AbstractControl;
 import org.vaadin.addon.leaflet.control.LLayers;
 import org.vaadin.addon.leaflet.control.LScale;
 import org.vaadin.addon.leaflet.control.LZoom;
+import org.vaadin.addon.leaflet.draw.LDraw;
 import org.vaadin.addon.leaflet.shared.Bounds;
 import org.vaadin.addon.leaflet.shared.Control;
 import org.vaadin.addon.leaflet.shared.Point;
@@ -102,6 +103,10 @@ public class LMap extends AbstractComponentContainer {
 	
 	public void addControl(AbstractControl control) {
 		addExtension(control);
+	}
+	
+	public void removeControl(AbstractControl control) {
+		control.remove();
 	}
 
 	public void addOverlay(LeafletLayer overlay, String name) {

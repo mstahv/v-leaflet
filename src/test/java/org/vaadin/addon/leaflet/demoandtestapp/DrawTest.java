@@ -111,7 +111,7 @@ public class DrawTest extends AbstractTest {
 				if(checkBox.getValue()) {
 					enableDrawing();
 				} else {
-					draw.remove();
+					leafletMap.removeControl(draw);
 				}
 			}
 		});
