@@ -13,6 +13,7 @@ public abstract class AbstractControlConnector<T extends Control> extends
 		AbstractExtensionConnector {
 
 	private T control;
+	private Map map;
 
 	@Override
 	protected void extend(final ServerConnector target) {
@@ -36,17 +37,16 @@ public abstract class AbstractControlConnector<T extends Control> extends
 
 	@Override
 	public void onUnregister() {
-		ServerConnector p = getParent();
-		if (p.isEnabled()) {
-			Map map = getMap();
-			map.removeControl(control);
-		}
 		super.onUnregister();
+		getMap().removeControl(control);
 	}
 
 	protected Map getMap() {
-		LeafletMapConnector p = (LeafletMapConnector) getParent();
-		return p.getMap();
+		if(map == null) {
+			LeafletMapConnector p = (LeafletMapConnector) getParent();
+			map = p.getMap();
+		}
+		return map;
 	}
 
 	@Override

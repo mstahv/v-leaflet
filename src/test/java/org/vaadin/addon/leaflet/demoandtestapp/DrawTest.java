@@ -16,6 +16,9 @@ import org.vaadin.addon.leaflet.draw.LDraw.FeatureModifiedEvent;
 import org.vaadin.addon.leaflet.draw.LDraw.FeatureModifiedListener;
 import org.vaadin.addon.leaflet.shared.Point;
 
+import com.vaadin.data.Property.ValueChangeEvent;
+import com.vaadin.data.Property.ValueChangeListener;
+import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Notification;
 
@@ -28,22 +31,31 @@ public class DrawTest extends AbstractTest {
 
 	private LMap leafletMap;
 	private LDraw draw = new LDraw();
+	private LFeatureGroup group;
 
 	@Override
 	public Component getTestComponent() {
+		
 		leafletMap = new LMap();
 		leafletMap.setCenter(0, 0);
 		leafletMap.setZoomLevel(0);
 		leafletMap.addLayer(new LTileLayer(
 				"http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"));
 
-		final LFeatureGroup group = new LFeatureGroup();
+		group = new LFeatureGroup();
 
 		group.addComponent(new LPolyline(new Point(-60, -30),
 				new Point(20, 10), new Point(40, 150)));
 
 		leafletMap.addLayer(group);
 
+		enableDrawing();
+
+		return leafletMap;
+	}
+
+	private void enableDrawing() {
+		draw = new LDraw();
 		draw.setEditableFeatureGroup(group);
 
 		leafletMap.addControl(draw);
@@ -83,13 +95,28 @@ public class DrawTest extends AbstractTest {
 						+ event.getDeletedFeature().getClass().getSimpleName());
 			}
 		});
-
-		return leafletMap;
 	}
 
 	@Override
 	protected void setup() {
 		super.setup();
+		
+		final CheckBox checkBox = new CheckBox("Drawing mode");
+		checkBox.setValue(true);
+		checkBox.setImmediate(true);
+		checkBox.addValueChangeListener(new ValueChangeListener() {
+			
+			@Override
+			public void valueChange(ValueChangeEvent event) {
+				if(checkBox.getValue()) {
+					enableDrawing();
+				} else {
+					draw.remove();
+				}
+			}
+		});
+		content.addComponent(checkBox);
+		
 
 	}
 }
