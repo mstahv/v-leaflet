@@ -2,9 +2,6 @@ package org.vaadin.addon.leaflet;
 
 import java.lang.reflect.Method;
 
-import org.peimari.gleaflet.client.DragEndListener;
-import org.peimari.gleaflet.client.Event;
-import org.vaadin.addon.leaflet.client.vaadin.ClickServerRpc;
 import org.vaadin.addon.leaflet.client.vaadin.DragEndServerRpc;
 import org.vaadin.addon.leaflet.client.vaadin.LeafletMarkerClientRpc;
 import org.vaadin.addon.leaflet.client.vaadin.LeafletMarkerState;
@@ -59,6 +56,7 @@ public class LMarker extends AbstractLeafletLayer {
     }
 
     public LMarker(Point point) {
+    	this();
         getState().point = point;
     }
 
