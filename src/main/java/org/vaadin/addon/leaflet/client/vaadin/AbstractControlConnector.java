@@ -38,13 +38,17 @@ public abstract class AbstractControlConnector<T extends Control> extends
 	@Override
 	public void onUnregister() {
 		super.onUnregister();
-		getMap().removeControl(control);
+		if (getMap() != null) {
+			getMap().removeControl(control);
+		}
 	}
 
 	protected Map getMap() {
-		if(map == null) {
+		if (map == null) {
 			LeafletMapConnector p = (LeafletMapConnector) getParent();
-			map = p.getMap();
+			if (p != null) {
+				map = p.getMap();
+			}
 		}
 		return map;
 	}
