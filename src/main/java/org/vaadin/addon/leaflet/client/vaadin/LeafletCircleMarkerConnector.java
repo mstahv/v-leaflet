@@ -1,7 +1,7 @@
 package org.vaadin.addon.leaflet.client.vaadin;
 
-import org.peimari.gleaflet.client.Circle;
-import org.peimari.gleaflet.client.CircleOptions;
+import org.peimari.gleaflet.client.CircleMarker;
+import org.peimari.gleaflet.client.CircleMarkerOptions;
 import org.peimari.gleaflet.client.ClickListener;
 import org.peimari.gleaflet.client.ILayer;
 import org.peimari.gleaflet.client.LatLng;
@@ -10,11 +10,21 @@ import org.vaadin.addon.leaflet.shared.Point;
 
 import com.vaadin.shared.ui.Connect;
 
-@Connect(org.vaadin.addon.leaflet.LCircle.class)
-public class LeafletCircleConnector extends
-        AbstractLeafletVectorConnector<LeafletCircleState, CircleOptions> {
+@Connect(org.vaadin.addon.leaflet.LCircleMarker.class)
+public class LeafletCircleMarkerConnector extends
+        AbstractLeafletVectorConnector<LeafletCircleState, CircleMarkerOptions> {
 
-    private Circle marker;
+    private CircleMarker marker;
+
+    @Override
+    protected CircleMarkerOptions createOptions() {
+   	 CircleMarkerOptions o = super.createOptions();
+        LeafletCircleState s = getState();
+        if (s.radius != null) {
+            o.setRadius(s.radius);
+        }
+        return o;
+    }
 
     @Override
     protected void update() {
@@ -24,8 +34,8 @@ public class LeafletCircleConnector extends
         }
         LatLng latlng = LatLng.create(getState().point.getLat(),
                 getState().point.getLon());
-        CircleOptions options = createOptions();
-        marker = Circle.create(latlng, getState().radius, options);
+        CircleMarkerOptions options = createOptions();
+        marker = CircleMarker.create(latlng, options);
         addToParent(marker);
 
         marker.addClickListener(new ClickListener() {

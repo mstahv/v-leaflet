@@ -5,6 +5,7 @@ import java.util.Arrays;
 
 import org.vaadin.addon.leaflet.AbstractLeafletLayer;
 import org.vaadin.addon.leaflet.LCircle;
+import org.vaadin.addon.leaflet.LCircleMarker;
 import org.vaadin.addon.leaflet.LMap;
 import org.vaadin.addon.leaflet.LMarker;
 import org.vaadin.addon.leaflet.LPolygon;
@@ -97,6 +98,11 @@ public class BasicTest extends AbstractTest {
 		// leafletCircle.addClickListener(listener);
 		leafletMap.addComponent(leafletCircle);
 		leafletCircle.addClickListener(listener);
+
+		LCircleMarker leafletCircleMarker = new LCircleMarker(60.4525, 22.301, 5);
+		leafletCircleMarker.setColor("#FFFF00");
+		leafletMap.addComponent(leafletCircleMarker);
+		leafletCircleMarker.addClickListener(listener);
 
 		leafletMarker = new LMarker(60.4525, 22.301);
 		leafletMarker.addClickListener(listener);

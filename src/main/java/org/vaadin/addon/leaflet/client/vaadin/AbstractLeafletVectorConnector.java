@@ -10,6 +10,9 @@ public abstract class AbstractLeafletVectorConnector<T extends AbstractLeafletVe
 	protected O createOptions() {
  		O o = (O) O.create();
 		AbstractLeafletVectorState s = getState();
+		if (s.color != null) {
+			o.setColor(s.color);
+		}
 		if (s.stroke != null) {
 			o.setStroke(s.stroke);
 		}
@@ -47,7 +50,7 @@ public abstract class AbstractLeafletVectorConnector<T extends AbstractLeafletVe
 	}
 
 	@Override
-	public AbstractLeafletVectorState getState() {
-		return (AbstractLeafletVectorState) super.getState();
+	public T getState() {
+		return (T) super.getState();
 	}
 }
