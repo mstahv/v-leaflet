@@ -5,6 +5,6 @@ import org.vaadin.addon.leaflet.shared.Point;
 
 public class LeafletCircleState extends AbstractLeafletVectorState {
 
-	public double radius;
+	public Double radius;
 	public Point point;
 }
