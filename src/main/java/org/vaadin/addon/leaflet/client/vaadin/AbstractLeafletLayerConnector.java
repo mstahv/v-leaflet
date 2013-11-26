@@ -87,11 +87,14 @@ public abstract class AbstractLeafletLayerConnector<T> extends
 
     }
 
-    private boolean updated = true;
+    private boolean updated = false;
 
     @Override
     public void onStateChanged(StateChangeEvent stateChangeEvent) {
         super.onStateChanged(stateChangeEvent);
+        if(!stateChangeEvent.isInitialStateChange()) {
+        	updated = false;
+        }
         deferUpdate();
     }
 
@@ -103,22 +106,19 @@ public abstract class AbstractLeafletLayerConnector<T> extends
 
             @Override
             public void execute() {
-                if (!updated) {
-                    update();
-                }
-                updated = false;
+                updateIfDirty();
             }
+
         });
     }
 
-    /**
-     * Should be called by map if update is called by it during hierarchy change
-     * event.
-     */
-    public void markUpdated() {
-        updated = true;
+    protected void updateIfDirty() {
+    	if (!updated) {
+    		update();
+    		updated = true;
+    	}
     }
-
+    
     protected abstract T createOptions();
 
     protected abstract void update();

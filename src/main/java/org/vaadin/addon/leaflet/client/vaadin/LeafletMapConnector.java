@@ -211,8 +211,7 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector
 			for (ServerConnector serverConnector : updateChildren) {
 				if (serverConnector instanceof AbstractLeafletLayerConnector<?>) {
 					AbstractLeafletLayerConnector<?> c = (AbstractLeafletLayerConnector<?>) serverConnector;
-					c.update();
-					c.markUpdated();
+					c.updateIfDirty();
 				}
 			}
 			updateChildren = null;

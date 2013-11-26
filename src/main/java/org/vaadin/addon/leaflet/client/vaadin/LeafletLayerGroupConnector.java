@@ -26,6 +26,7 @@ import org.vaadin.addon.leaflet.LLayerGroup;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.vaadin.client.ComponentConnector;
 import com.vaadin.client.ConnectorHierarchyChangeEvent;
+import com.vaadin.client.VConsole;
 import com.vaadin.client.ConnectorHierarchyChangeEvent.ConnectorHierarchyChangeHandler;
 import com.vaadin.client.communication.StateChangeEvent;
 import com.vaadin.client.HasComponentsConnector;
@@ -49,8 +50,6 @@ public class LeafletLayerGroupConnector extends
 
 	public LeafletLayerGroupConnector() {
 		super();
-		addConnectorHierarchyChangeHandler(this);
-
 	}
 
 	@Override
@@ -63,21 +62,15 @@ public class LeafletLayerGroupConnector extends
 		return (LeafletLayerGroupState) super.getState();
 	}
 	
+	
 	@Override
 	public void onStateChanged(StateChangeEvent stateChangeEvent) {
 		// NOP
 	}
-	
-
 	@Override
 	public void onConnectorHierarchyChange(
 			ConnectorHierarchyChangeEvent connectorHierarchyChangeEvent) {
-		orphaned = new ArrayList<ComponentConnector>(
-				connectorHierarchyChangeEvent.getOldChildren());
-		for (ServerConnector componentConnector : getChildren()) {
-			orphaned.remove(componentConnector);
-		}
-		deferUpdate();
+		VConsole.error("Real hierarchy change");
 	}
 
 	@Override
@@ -99,10 +92,9 @@ public class LeafletLayerGroupConnector extends
 		for (ServerConnector serverConnector : getChildComponents()) {
 
 			AbstractLeafletLayerConnector<?> c = (AbstractLeafletLayerConnector<?>) serverConnector;
-			c.update();
-			c.markUpdated();
+			updateIfDirty();
 		}
-		if(orphaned != null) {
+		if (orphaned != null) {
 			for (ComponentConnector c : orphaned) {
 				AbstractLeafletLayerConnector<?> lc = (AbstractLeafletLayerConnector<?>) c;
 				lc.removeLayerFromParent();
@@ -121,7 +113,16 @@ public class LeafletLayerGroupConnector extends
 
 	@Override
 	public void setChildComponents(List<ComponentConnector> childComponents) {
+		// Firing hierarchy changes events seems to be buggy in V7 :-(
+		// As a workaround do the things here
+		orphaned = new ArrayList<ComponentConnector>(getChildComponents());
 		this.childComponents = childComponents;
+		VConsole.error("Simulated hierarchy change");
+		for (ServerConnector componentConnector : getChildren()) {
+			orphaned.remove(componentConnector);
+		}
+		deferUpdate();
+
 	}
 
 	@Override

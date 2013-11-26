@@ -18,12 +18,16 @@ import com.vaadin.server.AbstractClientConnector;
 import com.vaadin.shared.Connector;
 import com.vaadin.util.ReflectTools;
 
+/**
+ * Draw "toolbar" that is added to the map. This allows users to draw and edit
+ * various feature types.
+ */
 public class LDraw extends AbstractControl {
 
 	public static class FeatureDrawnEvent extends EventObject {
 		private LeafletLayer drawnLayer;
 
-		public FeatureDrawnEvent(LDraw lDraw, LeafletLayer drawnLayer) {
+		public FeatureDrawnEvent(Connector lDraw, LeafletLayer drawnLayer) {
 			super(lDraw);
 			this.drawnLayer = drawnLayer;
 		}
@@ -61,6 +65,10 @@ public class LDraw extends AbstractControl {
 	}
 
 	public interface FeatureDrawnListener {
+		public static final Method drawnMethod = ReflectTools
+				.findMethod(FeatureDrawnListener.class, "featureDrawn",
+						FeatureDrawnEvent.class);
+
 		public void featureDrawn(FeatureDrawnEvent event);
 	}
 
@@ -80,12 +88,9 @@ public class LDraw extends AbstractControl {
 			FeatureDeletedListener.class, "featureDeleted",
 			FeatureDeletedEvent.class);
 
-	private static final Method addedMethod = ReflectTools
-			.findMethod(FeatureDrawnListener.class, "featureDrawn",
-					FeatureDrawnEvent.class);
 
 	public void addFeatureDrawnListener(FeatureDrawnListener listener) {
-		addListener(FeatureDrawnEvent.class, listener, addedMethod);
+		addListener(FeatureDrawnEvent.class, listener, FeatureDrawnListener.drawnMethod);
 	}
 
 	public void removeFeatureDrawnListener(FeatureDrawnListener listener) {
