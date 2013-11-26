@@ -19,27 +19,6 @@ public class LeafletPolylineConnector extends
 	private Polyline marker;
 
 	@Override
-	public LeafletPolylineState getState() {
-		return (LeafletPolylineState) super.getState();
-	}
-
-	@Override
-	protected PolylineOptions createOptions() {
-		PolylineOptions o = super.createOptions();
-		LeafletPolylineState s = getState();
-		if (s.color != null) {
-			o.setColor(s.color);
-		}
-		if (s.fill != null) {
-			o.setFill(s.fill);
-		}
-		if (s.fillColor != null) {
-			o.setFillColor(s.fillColor);
-		}
-		return o;
-	}
-
-	@Override
 	protected void update() {
 		if (marker != null) {
 			removeLayerFromParent();
