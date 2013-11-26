@@ -77,6 +77,10 @@ public class BasicTest extends AbstractTest {
 		leafletPolyline.setColor("#FF00FF");
 		leafletPolyline.setFill(true);
 		leafletPolyline.setFillColor("#00FF00");
+		leafletPolyline.setClickable(false);
+		leafletPolyline.setWeight(8);
+		leafletPolyline.setOpacity(0.5);
+		leafletPolyline.setDashArray("15, 10, 5, 10, 15");
 		leafletPolyline.addClickListener(listener);
 		leafletMap.addComponent(leafletPolyline);
 

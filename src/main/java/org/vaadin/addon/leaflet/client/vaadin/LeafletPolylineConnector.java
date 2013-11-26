@@ -14,7 +14,7 @@ import com.vaadin.shared.ui.Connect;
 
 @Connect(org.vaadin.addon.leaflet.LPolyline.class)
 public class LeafletPolylineConnector extends
-		AbstractLeafletLayerConnector<PolylineOptions> {
+		AbstractLeafletVectorConnector<LeafletPolylineState, PolylineOptions> {
 
 	private Polyline marker;
 
@@ -25,7 +25,7 @@ public class LeafletPolylineConnector extends
 
 	@Override
 	protected PolylineOptions createOptions() {
-		PolylineOptions o = PolylineOptions.create();
+		PolylineOptions o = super.createOptions();
 		LeafletPolylineState s = getState();
 		if (s.color != null) {
 			o.setColor(s.color);
@@ -60,7 +60,7 @@ public class LeafletPolylineConnector extends
 						.getLatLng().getLongitude()));
 			}
 		});
-		
+
 		addToParent(marker);
 	}
 
