@@ -1,6 +1,6 @@
 package org.vaadin.addon.leaflet;
 
-import org.vaadin.addon.leaflet.client.vaadin.LeafletTileLayerState;
+import org.vaadin.addon.leaflet.client.LeafletTileLayerState;
 
 public class LTileLayer extends AbstractLeafletLayer {
 

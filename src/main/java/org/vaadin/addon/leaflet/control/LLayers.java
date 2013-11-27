@@ -1,7 +1,7 @@
 package org.vaadin.addon.leaflet.control;
 
 import org.vaadin.addon.leaflet.LeafletLayer;
-import org.vaadin.addon.leaflet.client.vaadin.LeafletLayersState;
+import org.vaadin.addon.leaflet.client.LeafletLayersState;
 import org.vaadin.addon.leaflet.shared.LayerControlInfo;
 
 import com.vaadin.server.AbstractExtension;

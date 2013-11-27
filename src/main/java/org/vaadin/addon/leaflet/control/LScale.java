@@ -1,6 +1,6 @@
 package org.vaadin.addon.leaflet.control;
 
-import org.vaadin.addon.leaflet.client.vaadin.LeafletScaleState;
+import org.vaadin.addon.leaflet.client.LeafletScaleState;
 
 public class LScale extends AbstractControl {
 

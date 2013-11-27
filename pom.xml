@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.vaadin.addon</groupId>
 	<artifactId>v-leaflet</artifactId>
-	<version>0.3.1-SNAPSHOT</version>
+	<version>0.4.1-SNAPSHOT</version>
 	<name>V-Leaflet</name>
 
 	<organization>
@@ -66,7 +66,7 @@
 
 							<!-- Comma-separated list of widgetsets in the package -->
 							<!-- TODO figure out a way make this automatically configured -->
-							<Vaadin-Widgetsets>org.vaadin.addon.leaflet.Widgetset</Vaadin-Widgetsets>
+							<Vaadin-Widgetsets>org.vaadin.addon.leaflet.draw.DrawWidgetset</Vaadin-Widgetsets>
 						</manifestEntries>
 					</archive>
 					<excludes>
@@ -295,7 +295,11 @@
 		<dependency>
 			<groupId>org.peimari</groupId>
 			<artifactId>g-leaflet-draw</artifactId>
-			<version>0.3.1-SNAPSHOT</version>
+			<version>0.4.0</version>
+			<!-- Only needed during widgetset compilation, so provided scope would 
+				be great for this, but with it is left out from widgetset compilation by 
+				vaadin plugin -->
+			<!-- <scope>provided</scope> -->
 		</dependency>
 		<dependency>
 			<groupId>com.vaadin</groupId>

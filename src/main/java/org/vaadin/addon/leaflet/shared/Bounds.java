@@ -65,12 +65,13 @@ public class Bounds implements Serializable {
 		this.northEastLat = northEastLat;
 	}
 
-	public void extend(Point point) {
-		setNorthEastLat(Math.max(getNorthEastLat(), point.getLat()));
-		setNorthEastLon(Math.max(getNorthEastLon(), point.getLon()));
-		setSouthWestLat(Math.min(getSouthWestLat(), point.getLat()));
-		setSouthWestLon(Math.min(getSouthWestLon(), point.getLon()));
-
+	public void extend(Point... points) {
+		for (Point point : points) {
+			setNorthEastLat(Math.max(getNorthEastLat(), point.getLat()));
+			setNorthEastLon(Math.max(getNorthEastLon(), point.getLon()));
+			setSouthWestLat(Math.min(getSouthWestLat(), point.getLat()));
+			setSouthWestLon(Math.min(getSouthWestLon(), point.getLon()));
+		}
 	}
 
 	public Point getCenter() {

@@ -9,9 +9,9 @@ import org.vaadin.addon.leaflet.LMarker;
 import org.vaadin.addon.leaflet.LPolygon;
 import org.vaadin.addon.leaflet.LPolyline;
 import org.vaadin.addon.leaflet.LeafletLayer;
-import org.vaadin.addon.leaflet.client.vaadin.LeafletDrawServerRcp;
-import org.vaadin.addon.leaflet.client.vaadin.LeafletDrawState;
 import org.vaadin.addon.leaflet.control.AbstractControl;
+import org.vaadin.addon.leaflet.draw.client.LeafletDrawServerRcp;
+import org.vaadin.addon.leaflet.draw.client.LeafletDrawState;
 import org.vaadin.addon.leaflet.shared.Point;
 
 import com.vaadin.server.AbstractClientConnector;

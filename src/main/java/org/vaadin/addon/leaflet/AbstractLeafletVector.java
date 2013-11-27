@@ -1,6 +1,6 @@
 package org.vaadin.addon.leaflet;
 
-import org.vaadin.addon.leaflet.client.vaadin.AbstractLeafletVectorState;
+import org.vaadin.addon.leaflet.client.AbstractLeafletVectorState;
 
 public abstract class AbstractLeafletVector extends AbstractLeafletLayer {
 

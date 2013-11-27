@@ -2,8 +2,7 @@
 <!DOCTYPE module PUBLIC "-//Google Inc.//DTD Google Web Toolkit 1.7.0//EN" "http://google-web-toolkit.googlecode.com/svn/tags/1.7.0/distro-source/core/src/gwt-module.dtd">
 <module>
 	<!-- WS Compiler: manually edited -->
-	<!-- USE THIS IF YOU DON'T WANT TO USE THE HOSTED OL API -->
-	<inherits name="org.vaadin.addon.leaflet.DrawWidgetset" />
+	<inherits name="org.vaadin.addon.leaflet.draw.DrawWidgetset" />
 
 	<!-- We can compile the default ws only for targets we actually test on, 
 		this speeds up development process -->

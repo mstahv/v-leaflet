@@ -2,10 +2,10 @@ package org.vaadin.addon.leaflet;
 
 import java.lang.reflect.Method;
 
-import org.vaadin.addon.leaflet.client.vaadin.DragEndServerRpc;
-import org.vaadin.addon.leaflet.client.vaadin.LeafletMarkerClientRpc;
-import org.vaadin.addon.leaflet.client.vaadin.LeafletMarkerState;
-import org.vaadin.addon.leaflet.client.vaadin.PopupState;
+import org.vaadin.addon.leaflet.client.DragEndServerRpc;
+import org.vaadin.addon.leaflet.client.LeafletMarkerClientRpc;
+import org.vaadin.addon.leaflet.client.LeafletMarkerState;
+import org.vaadin.addon.leaflet.client.PopupState;
 import org.vaadin.addon.leaflet.shared.Point;
 
 import com.vaadin.util.ReflectTools;

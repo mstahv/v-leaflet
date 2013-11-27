@@ -1,7 +1,7 @@
 package org.vaadin.addon.leaflet;
 
-import org.vaadin.addon.leaflet.client.vaadin.AbstractLeafletComponentState;
-import org.vaadin.addon.leaflet.client.vaadin.ClickServerRpc;
+import org.vaadin.addon.leaflet.client.AbstractLeafletComponentState;
+import org.vaadin.addon.leaflet.client.ClickServerRpc;
 import org.vaadin.addon.leaflet.shared.Point;
 
 import com.vaadin.ui.AbstractComponent;

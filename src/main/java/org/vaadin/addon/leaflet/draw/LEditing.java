@@ -3,9 +3,9 @@ package org.vaadin.addon.leaflet.draw;
 import org.vaadin.addon.leaflet.AbstractLeafletVector;
 import org.vaadin.addon.leaflet.LCircle;
 import org.vaadin.addon.leaflet.LPolyline;
-import org.vaadin.addon.leaflet.client.vaadin.LeafletDrawEditingServerRcp;
 import org.vaadin.addon.leaflet.draw.LDraw.FeatureModifiedEvent;
 import org.vaadin.addon.leaflet.draw.LDraw.FeatureModifiedListener;
+import org.vaadin.addon.leaflet.draw.client.LeafletDrawEditingServerRcp;
 import org.vaadin.addon.leaflet.shared.Point;
 
 import com.vaadin.server.AbstractExtension;

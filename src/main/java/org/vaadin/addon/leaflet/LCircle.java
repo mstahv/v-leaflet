@@ -1,6 +1,6 @@
 package org.vaadin.addon.leaflet;
 
-import org.vaadin.addon.leaflet.client.vaadin.LeafletCircleState;
+import org.vaadin.addon.leaflet.client.LeafletCircleState;
 import org.vaadin.addon.leaflet.shared.Point;
 
 /**

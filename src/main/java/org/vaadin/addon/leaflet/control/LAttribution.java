@@ -1,6 +1,6 @@
 package org.vaadin.addon.leaflet.control;
 
-import org.vaadin.addon.leaflet.client.vaadin.LeafletAttributionState;
+import org.vaadin.addon.leaflet.client.LeafletAttributionState;
 
 public class LAttribution extends AbstractDefaultControl {
 
