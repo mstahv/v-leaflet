@@ -173,13 +173,12 @@ public class LMap extends AbstractComponentContainer {
 	}
 
 	public void addClickListener(LeafletClickListener listener) {
-		addListener(LeafletClickEvent.class, listener,
+		addListener("click", LeafletClickEvent.class, listener,
 				LeafletClickListener.METHOD);
 	}
 
 	public void removeClickListener(LeafletClickListener listener) {
-		removeListener(LeafletClickEvent.class, listener,
-				LeafletClickListener.METHOD);
+		removeListener("click", LeafletClickEvent.class, listener);
 	}
 
 	public void addMoveEndListener(LeafletMoveEndListener moveEndListener) {

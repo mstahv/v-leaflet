@@ -168,8 +168,10 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector
 
 			map.addClickListener(new ClickListener() {
 				public void onClick(MouseEvent event) {
-					rpc.onClick(new Point(event.getLatLng().getLatitude(),
-							event.getLatLng().getLongitude()));
+					if (hasEventListener("click")) {
+						rpc.onClick(new Point(event.getLatLng().getLatitude(),
+								event.getLatLng().getLongitude()));
+					}
 				}
 			});
 
