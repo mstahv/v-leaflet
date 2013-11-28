@@ -26,7 +26,6 @@ import org.vaadin.addon.leaflet.LLayerGroup;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.vaadin.client.ComponentConnector;
 import com.vaadin.client.ConnectorHierarchyChangeEvent;
-import com.vaadin.client.VConsole;
 import com.vaadin.client.ConnectorHierarchyChangeEvent.ConnectorHierarchyChangeHandler;
 import com.vaadin.client.communication.StateChangeEvent;
 import com.vaadin.client.HasComponentsConnector;
@@ -70,7 +69,6 @@ public class LeafletLayerGroupConnector extends
 	@Override
 	public void onConnectorHierarchyChange(
 			ConnectorHierarchyChangeEvent connectorHierarchyChangeEvent) {
-		VConsole.error("Real hierarchy change");
 	}
 
 	@Override
@@ -90,9 +88,8 @@ public class LeafletLayerGroupConnector extends
 
 	private void updateChildren() {
 		for (ServerConnector serverConnector : getChildComponents()) {
-
 			AbstractLeafletLayerConnector<?> c = (AbstractLeafletLayerConnector<?>) serverConnector;
-			updateIfDirty();
+			c.updateIfDirty();
 		}
 		if (orphaned != null) {
 			for (ComponentConnector c : orphaned) {
@@ -117,12 +114,11 @@ public class LeafletLayerGroupConnector extends
 		// As a workaround do the things here
 		orphaned = new ArrayList<ComponentConnector>(getChildComponents());
 		this.childComponents = childComponents;
-		VConsole.error("Simulated hierarchy change");
-		for (ServerConnector componentConnector : getChildren()) {
+		for (ServerConnector componentConnector : childComponents) {
 			orphaned.remove(componentConnector);
 		}
+		markDirty();
 		deferUpdate();
-
 	}
 
 	@Override

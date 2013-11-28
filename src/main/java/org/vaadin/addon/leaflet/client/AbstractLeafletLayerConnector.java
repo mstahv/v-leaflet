@@ -93,9 +93,13 @@ public abstract class AbstractLeafletLayerConnector<T> extends
     public void onStateChanged(StateChangeEvent stateChangeEvent) {
         super.onStateChanged(stateChangeEvent);
         if(!stateChangeEvent.isInitialStateChange()) {
-        	updated = false;
+        	markDirty();
         }
         deferUpdate();
+    }
+    
+    protected void markDirty() {
+    	updated = false;
     }
 
     protected void deferUpdate() {

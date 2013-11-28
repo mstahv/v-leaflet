@@ -237,8 +237,12 @@ public class LayerGroupTest extends AbstractTest {
                         break;
                     }
                 }
-                Component next = group.iterator().next();
-                group.removeComponent(next);
+                if(group.getComponentCount() > 0) {
+                	Component next = group.iterator().next();
+                	group.removeComponent(next);
+                } else {
+                	Notification.show("No component in first component group");
+                }
             }
         });
         content.addComponentAsFirst(button);
