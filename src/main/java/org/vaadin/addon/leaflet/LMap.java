@@ -164,7 +164,22 @@ public class LMap extends AbstractComponentContainer {
 		setCenter(point);
 	}
 
-	public void setZoomLevel(int zoomLevel) {
+	public void setCenter(Point center) {
+    	getState(!rendered).center = center;
+    	if (rendered) {
+    		getRpcProxy(LeafletMapClientRpc.class).setCenter(center.getLat(),
+    				center.getLon(), null);
+    	}
+    }
+
+    public void setCenter(com.vividsolutions.jts.geom.Point jtsPoint) {
+		Point point = new Point();
+		point.setLat(jtsPoint.getY());
+		point.setLon(jtsPoint.getX());
+		setCenter(point);
+    }
+
+    public void setZoomLevel(int zoomLevel) {
 		getState(!rendered).zoomLevel = zoomLevel;
 		if (rendered) {
 			getRpcProxy(LeafletMapClientRpc.class).setCenter(null, null,
@@ -192,14 +207,6 @@ public class LMap extends AbstractComponentContainer {
 
 	public void setCenter(Bounds bounds) {
 		setCenter(bounds.getCenter());
-	}
-
-	public void setCenter(Point center) {
-		getState(!rendered).center = center;
-		if (rendered) {
-			getRpcProxy(LeafletMapClientRpc.class).setCenter(center.getLat(),
-					center.getLon(), null);
-		}
 	}
 
 	public Integer getZoomLevel() {
