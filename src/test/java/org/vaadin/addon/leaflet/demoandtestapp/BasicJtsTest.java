@@ -2,35 +2,23 @@ package org.vaadin.addon.leaflet.demoandtestapp;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 
-import org.vaadin.addon.leaflet.AbstractLeafletLayer;
-import org.vaadin.addon.leaflet.LCircle;
-import org.vaadin.addon.leaflet.LCircleMarker;
 import org.vaadin.addon.leaflet.LFeatureGroup;
 import org.vaadin.addon.leaflet.LMap;
-import org.vaadin.addon.leaflet.LMarker;
-import org.vaadin.addon.leaflet.LPolygon;
-import org.vaadin.addon.leaflet.LPolyline;
-import org.vaadin.addon.leaflet.LTileLayer;
-import org.vaadin.addon.leaflet.LeafletClickEvent;
-import org.vaadin.addon.leaflet.LeafletClickListener;
-import org.vaadin.addon.leaflet.LeafletMoveEndEvent;
-import org.vaadin.addon.leaflet.LeafletMoveEndListener;
+import org.vaadin.addon.leaflet.LeafletLayer;
 import org.vaadin.addon.leaflet.demoandtestapp.util.AbstractTest;
-import org.vaadin.addon.leaflet.shared.Bounds;
 import org.vaadin.addon.leaflet.shared.Control;
-import org.vaadin.addon.leaflet.shared.Point;
+import org.vaadin.addon.leaflet.shared.JTSUtil;
 
-import com.vaadin.server.ClassResource;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.Notification;
-import com.vaadin.ui.Notification.Type;
 import com.vividsolutions.jts.geom.LineString;
+import com.vividsolutions.jts.geom.MultiLineString;
 import com.vividsolutions.jts.geom.MultiPolygon;
+import com.vividsolutions.jts.geom.Polygon;
 import com.vividsolutions.jts.io.ParseException;
 import com.vividsolutions.jts.io.WKTReader;
 
@@ -45,11 +33,19 @@ public class BasicJtsTest extends AbstractTest {
     private LFeatureGroup lfg;
     private  WKTReader wkt = new WKTReader();
 
+    private Polygon getPolygon() {
+        try {
+            return (Polygon) wkt.read("POLYGON ((20 64, 21 64, 21 65, 20 64))");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     private MultiPolygon getMultiPolygon() {
         try {
             return (MultiPolygon) wkt.read("MULTIPOLYGON (((20 60, 21 60, 21 61, 20 60)), ((21 60, 22 60, 22 61, 21 60)))");
         } catch (ParseException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return null;
@@ -59,11 +55,18 @@ public class BasicJtsTest extends AbstractTest {
         try {
             return (LineString) wkt.read("LINESTRING (20 62, 21 62, 22 63)");
         } catch (ParseException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return null;
+    }
 
+    private  MultiLineString getMultiLineString() {
+        try {
+            return (MultiLineString) wkt.read("MULTILINESTRING ((20 62, 21 62, 22 63), (20 64, 21 65, 22 66))");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
     
 	@Override
@@ -78,7 +81,11 @@ public class BasicJtsTest extends AbstractTest {
 
         MultiPolygon multiPolygon = getMultiPolygon();
 
-        lfg.addMultiPolygon(multiPolygon);
+        Collection<LeafletLayer> lMultiPoly = JTSUtil.toLayers(multiPolygon);
+
+        for (LeafletLayer leafletLayer : lMultiPoly) {
+            lfg.addComponents(leafletLayer);
+        }
 
 
 		leafletMap.setZoomLevel(5);
@@ -110,9 +117,13 @@ public class BasicJtsTest extends AbstractTest {
 			@Override
 			public void buttonClick(ClickEvent event) {
 			    
-			    LineString ls = getLineString();
+			    MultiLineString multiLineString = getMultiLineString();
 			    
-			    lfg.addLineString(ls);
+			    Collection<LeafletLayer> layers = JTSUtil.toLayers(multiLineString);
+			    
+			    for (LeafletLayer leafletLayer : layers) {
+			        lfg.addComponent(leafletLayer);
+                }
 
 			}
 		});
