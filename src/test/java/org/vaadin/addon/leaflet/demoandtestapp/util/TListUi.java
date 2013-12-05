@@ -65,11 +65,11 @@ public class TListUi extends UI {
         setContent(table);
     }
 
-    private Container listTestClasses() {
+    public static Container listTestClasses() {
         IndexedContainer indexedContainer = new IndexedContainer();
         indexedContainer.addContainerProperty("name", String.class, "");
         indexedContainer.addContainerProperty("description", String.class, "");
-        String pkg = getClass().getPackage().getName();
+        String pkg = TListUi.class.getPackage().getName();
         pkg = pkg.substring(0, pkg.lastIndexOf("."));
 		File file = new File("src/test/java/" + pkg.replace('.', '/'));
         if (file.exists()) {
@@ -90,7 +90,7 @@ public class TListUi extends UI {
         return indexedContainer;
     }
 
-    private void addTest(IndexedContainer indexedContainer, String simpleName, Class<?> forName) throws InstantiationException, IllegalAccessException {
+    private static void addTest(IndexedContainer indexedContainer, String simpleName, Class<?> forName) throws InstantiationException, IllegalAccessException {
         if (AbstractTest.class.isAssignableFrom(forName)) {
             AbstractTest newInstance = (AbstractTest) forName.newInstance();
             Object id = indexedContainer.addItem();
