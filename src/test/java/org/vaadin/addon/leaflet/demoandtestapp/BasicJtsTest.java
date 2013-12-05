@@ -6,7 +6,7 @@ import org.vaadin.addon.leaflet.LFeatureGroup;
 import org.vaadin.addon.leaflet.LMap;
 import org.vaadin.addon.leaflet.LeafletLayer;
 import org.vaadin.addon.leaflet.demoandtestapp.util.AbstractTest;
-import org.vaadin.addon.leaflet.shared.JTSUtil;
+import org.vaadin.addon.leaflet.util.JTSUtil;
 
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;

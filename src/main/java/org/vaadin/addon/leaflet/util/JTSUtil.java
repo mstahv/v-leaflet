@@ -1,4 +1,4 @@
-package org.vaadin.addon.leaflet.shared;
+package org.vaadin.addon.leaflet.util;
 
 import java.util.Collection;
 import java.util.HashSet;
