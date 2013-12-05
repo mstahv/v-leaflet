@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.HashSet;
 
 import org.peimari.gleaflet.client.Polyline;
+import org.vaadin.addon.leaflet.LLayerGroup;
 import org.vaadin.addon.leaflet.LMarker;
 import org.vaadin.addon.leaflet.LPolygon;
 import org.vaadin.addon.leaflet.LPolyline;
@@ -52,20 +53,22 @@ public class JTSUtil {
             layers.add(lPolyline);
 
         } else if (geom instanceof MultiPolygon) {
-
+        	LLayerGroup group = new LLayerGroup();
             for (int i = 0; i < geom.getNumGeometries(); i++) {
                 Polygon polygon = (Polygon) geom.getGeometryN(i);
                 LPolygon lPolygon = toPolygon(polygon);
-                layers.add(lPolygon);
+                group.addComponent(lPolygon);
             }
+            layers.add(group);
 
         } else if (geom instanceof MultiLineString) {
-
+        	LLayerGroup group = new LLayerGroup();
             for (int i = 0; i < geom.getNumGeometries(); i++) {
                 LineString lineString = (LineString) geom.getGeometryN(i);
                 LPolyline lPolyline = toPolyline(lineString);
-                layers.add(lPolyline);
+                group.addComponent(lPolyline);
             }
+            layers.add(group);
 
         } else if (geom instanceof com.vividsolutions.jts.geom.Point) {
 
@@ -74,14 +77,15 @@ public class JTSUtil {
             layers.add(lMarker);
 
         } else if (geom instanceof MultiPoint) {
+        	LLayerGroup group = new LLayerGroup();
             for (int i = 0; i < geom.getNumGeometries(); i++) {
 
                 com.vividsolutions.jts.geom.Point point = (com.vividsolutions.jts.geom.Point) geom
                         .getGeometryN(i);
                 LMarker lMarker = toLMarker(point);
-                layers.add(lMarker);
-
+                group.addComponent(lMarker);
             }
+            layers.add(group);
         }
 
         return layers;
