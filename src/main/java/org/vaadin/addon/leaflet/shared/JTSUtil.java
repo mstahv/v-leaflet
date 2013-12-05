@@ -42,20 +42,20 @@ public class JTSUtil {
         if (geom instanceof Polygon) {
 
             Polygon polygon = (Polygon) geom;
-            LPolygon lPolygon = getPolygon(polygon);
+            LPolygon lPolygon = toPolygon(polygon);
             layers.add(lPolygon);
             return layers;
 
         } else if (geom instanceof LineString) {
 
-            LPolyline lPolyline = getPolyline((LineString) geom);
+            LPolyline lPolyline = toPolyline((LineString) geom);
             layers.add(lPolyline);
 
         } else if (geom instanceof MultiPolygon) {
 
             for (int i = 0; i < geom.getNumGeometries(); i++) {
                 Polygon polygon = (Polygon) geom.getGeometryN(i);
-                LPolygon lPolygon = getPolygon(polygon);
+                LPolygon lPolygon = toPolygon(polygon);
                 layers.add(lPolygon);
             }
 
@@ -63,27 +63,54 @@ public class JTSUtil {
 
             for (int i = 0; i < geom.getNumGeometries(); i++) {
                 LineString lineString = (LineString) geom.getGeometryN(i);
-                LPolyline lPolyline = getPolyline(lineString);
+                LPolyline lPolyline = toPolyline(lineString);
                 layers.add(lPolyline);
             }
 
-            // FIXME: Not entirely sure what to do with these two
         } else if (geom instanceof com.vividsolutions.jts.geom.Point) {
 
-        } else if (geom instanceof MultiPoint) {
+            com.vividsolutions.jts.geom.Point point = (com.vividsolutions.jts.geom.Point) geom;
+            LMarker lMarker = toLMarker(point);
+            layers.add(lMarker);
 
+        } else if (geom instanceof MultiPoint) {
+            for (int i = 0; i < geom.getNumGeometries(); i++) {
+
+                com.vividsolutions.jts.geom.Point point = (com.vividsolutions.jts.geom.Point) geom
+                        .getGeometryN(i);
+                LMarker lMarker = toLMarker(point);
+                layers.add(lMarker);
+
+            }
         }
 
         return layers;
     }
 
     /**
-     * Translates between a JTS {@link LineString} and a v-leaflet {@link Polyline}
+     * Translates between a {@link com.vividsolutions.jts.geom.Point} and a
+     * {@link LMarker}
+     * 
+     * @param point
+     * @return
+     */
+    private static LMarker toLMarker(com.vividsolutions.jts.geom.Point point) {
+        LMarker lMarker = new LMarker();
+        Point lPoint = new Point();
+        lPoint.setLat(point.getY());
+        lPoint.setLon(point.getX());
+        lMarker.setPoint(lPoint);
+        return lMarker;
+    }
+
+    /**
+     * Translates between a JTS {@link LineString} and a v-leaflet
+     * {@link Polyline}
      * 
      * @param lineString
      * @return
      */
-    private static LPolyline getPolyline(LineString lineString) {
+    private static LPolyline toPolyline(LineString lineString) {
 
         Coordinate[] coords = lineString.getCoordinates();
         Point[] points = toPointArray(coords);
@@ -97,7 +124,7 @@ public class JTSUtil {
      * @param polygon
      * @return
      */
-    private static LPolygon getPolygon(Polygon polygon) {
+    private static LPolygon toPolygon(Polygon polygon) {
         Coordinate[] coords = polygon.getBoundary().getCoordinates();
         Point[] points = toPointArray(coords);
 
@@ -106,7 +133,8 @@ public class JTSUtil {
     }
 
     /**
-     * Translates between an array of v-leaflet {@link Point}s and JTS {@link Coordinate}s
+     * Translates between an array of v-leaflet {@link Point}s and JTS
+     * {@link Coordinate}s
      * 
      * @param coords
      * @return
@@ -119,7 +147,6 @@ public class JTSUtil {
         }
         return points;
     }
-    
 
     public static org.vaadin.addon.leaflet.shared.Point[] toLeafletPointArray(
             LineString path) {
