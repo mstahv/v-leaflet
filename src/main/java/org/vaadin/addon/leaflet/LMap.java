@@ -1,6 +1,7 @@
 package org.vaadin.addon.leaflet;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -14,12 +15,14 @@ import org.vaadin.addon.leaflet.control.LZoom;
 import org.vaadin.addon.leaflet.shared.Bounds;
 import org.vaadin.addon.leaflet.shared.Control;
 import org.vaadin.addon.leaflet.shared.Point;
+import org.vaadin.addon.leaflet.util.JTSUtil;
 
 import com.vaadin.server.Extension;
 import com.vaadin.ui.AbstractComponentContainer;
 import com.vaadin.ui.Component;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
+import com.vividsolutions.jts.geom.GeometryFactory;
 
 /**
  * 
@@ -101,11 +104,11 @@ public class LMap extends AbstractComponentContainer {
 		addExtension(lLayers);
 		return lLayers;
 	}
-	
+
 	public void addControl(AbstractControl control) {
 		addExtension(control);
 	}
-	
+
 	public void removeControl(AbstractControl control) {
 		control.remove();
 	}
@@ -166,21 +169,21 @@ public class LMap extends AbstractComponentContainer {
 	}
 
 	public void setCenter(Point center) {
-    	getState(!rendered).center = center;
-    	if (rendered) {
-    		getRpcProxy(LeafletMapClientRpc.class).setCenter(center.getLat(),
-    				center.getLon(), null);
-    	}
-    }
+		getState(!rendered).center = center;
+		if (rendered) {
+			getRpcProxy(LeafletMapClientRpc.class).setCenter(center.getLat(),
+					center.getLon(), null);
+		}
+	}
 
-    public void setCenter(com.vividsolutions.jts.geom.Point jtsPoint) {
+	public void setCenter(com.vividsolutions.jts.geom.Point jtsPoint) {
 		Point point = new Point();
 		point.setLat(jtsPoint.getY());
 		point.setLon(jtsPoint.getX());
 		setCenter(point);
-    }
+	}
 
-    public void setZoomLevel(int zoomLevel) {
+	public void setZoomLevel(int zoomLevel) {
 		getState(!rendered).zoomLevel = zoomLevel;
 		if (rendered) {
 			getRpcProxy(LeafletMapClientRpc.class).setCenter(null, null,
@@ -222,14 +225,25 @@ public class LMap extends AbstractComponentContainer {
 			getRpcProxy(LeafletMapClientRpc.class).zoomToExtent(bounds);
 		}
 	}
-	
+
 	public void zoomToExtent(Geometry geometry) {
-		Bounds bounds = new Bounds();
-		Geometry envelope = geometry.getEnvelope();
-		for(Coordinate c : envelope.getCoordinates()) {
-			bounds.extend(new Point(c.y,c.x));
-		}
+		Bounds bounds = JTSUtil.getBounds(geometry);
 		zoomToExtent(bounds);
+	}
+	
+	/**
+	 * Calculates extent of all contained components that are not "baselayers".
+	 */
+	public void zoomToContent() {
+		Collection<Geometry> gc = new ArrayList<Geometry>();
+		for (Component c : this) {
+			LeafletLayer l = (LeafletLayer) c;
+			Geometry geometry = l.getGeometry();
+			if(geometry != null) {
+				gc.add(geometry);
+			}
+		}
+		zoomToExtent(new GeometryFactory().buildGeometry(gc));
 	}
 
 	/**

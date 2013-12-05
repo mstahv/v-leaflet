@@ -2,6 +2,8 @@ package org.vaadin.addon.leaflet;
 
 import org.vaadin.addon.leaflet.client.LeafletTileLayerState;
 
+import com.vividsolutions.jts.geom.Geometry;
+
 public class LTileLayer extends AbstractLeafletLayer {
 
 	public LTileLayer() {
@@ -70,5 +72,10 @@ public class LTileLayer extends AbstractLeafletLayer {
 
 	public void setOpacity(Double opacity) {
 		getState().opacity = opacity;
+	}
+
+	@Override
+	public Geometry getGeometry() {
+		return null;
 	}
 }

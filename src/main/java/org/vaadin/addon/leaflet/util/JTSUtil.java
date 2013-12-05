@@ -9,6 +9,7 @@ import org.vaadin.addon.leaflet.LMarker;
 import org.vaadin.addon.leaflet.LPolygon;
 import org.vaadin.addon.leaflet.LPolyline;
 import org.vaadin.addon.leaflet.LeafletLayer;
+import org.vaadin.addon.leaflet.shared.Bounds;
 import org.vaadin.addon.leaflet.shared.Point;
 
 import com.vividsolutions.jts.geom.Coordinate;
@@ -27,7 +28,30 @@ import com.vividsolutions.jts.geom.Polygon;
  */
 public class JTSUtil {
 
-    /**
+	/**
+	 * Translates a JTS {@link Geometry} to a {@link LeafletLayer}.
+	 * If given geometry maps to multiple LeafletLayers they are returned in a
+	 * LLayerGroup.
+	 * 
+	 * @param geom
+	 *            {@link Geometry}
+	 * 
+	 * @return
+	 */
+	public static LeafletLayer toLayer(Geometry geom) {
+		Collection<LeafletLayer> layers = toLayers(geom);
+		if (layers.size() != 1) {
+			LLayerGroup group = new LLayerGroup();
+			for (LeafletLayer l : layers) {
+				group.addComponent(l);
+			}
+			return group;
+		} else {
+			return layers.iterator().next();
+		}
+	}
+
+	/**
      * Translates between a JTS {@link Geometry} and one or more
      * {@link LeafletLayer}s
      * 
@@ -197,5 +221,10 @@ public class JTSUtil {
                 location.getY(), location.getX());
         return p;
     }
+
+	public static Bounds getBounds(Geometry geometry) {
+		Geometry envelope = geometry.getEnvelope();
+		return new Bounds(toPointArray(envelope.getCoordinates()));
+	}
 
 }

@@ -2,6 +2,9 @@ package org.vaadin.addon.leaflet;
 
 import org.vaadin.addon.leaflet.client.LeafletPolylineState;
 import org.vaadin.addon.leaflet.shared.Point;
+import org.vaadin.addon.leaflet.util.JTSUtil;
+
+import com.vividsolutions.jts.geom.Geometry;
 
 public class LPolyline extends AbstractLeafletVector {
 
@@ -11,15 +14,24 @@ public class LPolyline extends AbstractLeafletVector {
     }
 
     public LPolyline(Point... points) {
-        getState().points = points;
+    	setPoints(points);
     }
 
-    public void setPoints(Point[] array) {
+    public LPolyline(com.vividsolutions.jts.geom.LineString jtsLineString) {
+    	this(JTSUtil.toLeafletPointArray(jtsLineString));
+    }
+
+    public void setPoints(Point... array) {
         getState().points = array;
     }
-
+ 
 	public Point[] getPoints() {
 		return getState().points;
+	}
+
+	@Override
+	public Geometry getGeometry() {
+		return JTSUtil.toLineString(this);
 	}
 
 }

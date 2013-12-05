@@ -8,6 +8,8 @@ import org.vaadin.addon.leaflet.client.LeafletLayerGroupState;
 
 import com.vaadin.ui.AbstractComponentContainer;
 import com.vaadin.ui.Component;
+import com.vividsolutions.jts.geom.Geometry;
+import com.vividsolutions.jts.geom.GeometryFactory;
 
 public class LLayerGroup extends AbstractComponentContainer implements
 		LeafletLayer {
@@ -71,5 +73,15 @@ public class LLayerGroup extends AbstractComponentContainer implements
 	public void setActive(Boolean active) {
 		this.active = active;
 		getState().active = active;
+	}
+
+	@Override
+	public Geometry getGeometry() {
+		ArrayList<Geometry> gl = new ArrayList<Geometry>();
+		for (Component c : this) {
+			LeafletLayer l = (LeafletLayer) c;
+			gl.add(l.getGeometry());
+		}
+		return new GeometryFactory().buildGeometry(gl);
 	}
 }

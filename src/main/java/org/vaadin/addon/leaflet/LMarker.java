@@ -7,8 +7,10 @@ import org.vaadin.addon.leaflet.client.LeafletMarkerClientRpc;
 import org.vaadin.addon.leaflet.client.LeafletMarkerState;
 import org.vaadin.addon.leaflet.client.PopupState;
 import org.vaadin.addon.leaflet.shared.Point;
+import org.vaadin.addon.leaflet.util.JTSUtil;
 
 import com.vaadin.util.ReflectTools;
+import com.vividsolutions.jts.geom.Geometry;
 
 /**
  * Prototype. This might be technically easier to implement as an extension with
@@ -59,6 +61,10 @@ public class LMarker extends AbstractLeafletLayer {
     	this();
         getState().point = point;
     }
+    
+    public LMarker(com.vividsolutions.jts.geom.Point jtsPoint) {
+    	this(JTSUtil.toLeafletPoint(jtsPoint));
+    }
 
     public void setPoint(Point p) {
         getState().point = p;
@@ -107,6 +113,11 @@ public class LMarker extends AbstractLeafletLayer {
 	
 	public void removeDragEndListener(DragEndListener listener) {
 		removeListener("dragend", DragEndEvent.class, listener);
+	}
+
+	@Override
+	public Geometry getGeometry() {
+		return JTSUtil.toPoint(this);
 	}
 
 
