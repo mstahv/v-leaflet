@@ -325,6 +325,12 @@
 			<version>7.2.2.v20101205</version>
 			<scope>test</scope>
 		</dependency>
+		
+		<dependency>
+			<groupId>com.vividsolutions</groupId>
+			<artifactId>jts</artifactId>
+			<version>1.13</version>
+		</dependency>
 
 		<!-- If you have testbench licence, use that instead of raw selenium. Much 
 			more robust results -->
