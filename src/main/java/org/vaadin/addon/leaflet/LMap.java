@@ -18,6 +18,8 @@ import org.vaadin.addon.leaflet.shared.Point;
 import com.vaadin.server.Extension;
 import com.vaadin.ui.AbstractComponentContainer;
 import com.vaadin.ui.Component;
+import com.vividsolutions.jts.geom.Coordinate;
+import com.vividsolutions.jts.geom.Geometry;
 
 /**
  * 
@@ -219,6 +221,15 @@ public class LMap extends AbstractComponentContainer {
 			// If already on the screen, use RPC instead to avoid "full paint"
 			getRpcProxy(LeafletMapClientRpc.class).zoomToExtent(bounds);
 		}
+	}
+	
+	public void zoomToExtent(Geometry geometry) {
+		Bounds bounds = new Bounds();
+		Geometry envelope = geometry.getEnvelope();
+		for(Coordinate c : envelope.getCoordinates()) {
+			bounds.extend(new Point(c.y,c.x));
+		}
+		zoomToExtent(bounds);
 	}
 
 	/**
