@@ -20,7 +20,6 @@ import org.vaadin.addon.leaflet.util.JTSUtil;
 import com.vaadin.server.Extension;
 import com.vaadin.ui.AbstractComponentContainer;
 import com.vaadin.ui.Component;
-import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryFactory;
 
