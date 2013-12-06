@@ -12,7 +12,7 @@ import org.vaadin.addon.leaflet.shared.Point;
 
 import com.vividsolutions.jts.geom.LinearRing;
 
-public class LinearRingField extends JTSField<LinearRing> {
+public class LinearRingField extends AbstractJTSField<LinearRing> {
 
 	private LPolygon lPolygon;
 

@@ -12,7 +12,7 @@ import org.vaadin.addon.leaflet.shared.Point;
 
 import com.vividsolutions.jts.geom.LineString;
 
-public class LineStringField extends JTSField<LineString> {
+public class LineStringField extends AbstractJTSField<LineString> {
 
 	private LPolyline lPolyline;
 

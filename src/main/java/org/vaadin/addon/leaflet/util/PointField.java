@@ -9,7 +9,7 @@ import org.vaadin.addon.leaflet.draw.LDrawMarker;
 
 import com.vividsolutions.jts.geom.Point;
 
-public class PointField extends JTSField<Point> {
+public class PointField extends AbstractJTSField<Point> {
 
 	private LMarker marker;
 
