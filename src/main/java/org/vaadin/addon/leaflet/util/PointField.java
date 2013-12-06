@@ -13,6 +13,15 @@ public class PointField extends JTSField<Point> {
 
 	private LMarker marker;
 
+	public PointField() {
+		
+	}
+	public PointField(String caption) {
+		this();
+		setCaption(caption);
+	}
+	
+
 	@Override
 	public Class<? extends Point> getType() {
 		return Point.class;
