@@ -1,12 +1,8 @@
 package org.vaadin.addon.leaflet.demoandtestapp;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import org.vaadin.addon.leaflet.LMap;
 import org.vaadin.addon.leaflet.LPolyline;
 import org.vaadin.addon.leaflet.demoandtestapp.util.AbstractTest;
-import org.vaadin.addon.leaflet.shared.Control;
 import org.vaadin.addon.leaflet.shared.Point;
 
 import com.vaadin.server.Page;
