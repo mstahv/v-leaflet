@@ -7,8 +7,6 @@ import org.vaadin.addon.leaflet.util.LineStringField;
 import org.vaadin.addon.leaflet.util.LinearRingField;
 import org.vaadin.addon.leaflet.util.PointField;
 
-import com.vaadin.data.Property.ValueChangeEvent;
-import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.data.fieldgroup.BeanFieldGroup;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.shared.ui.label.ContentMode;
@@ -19,8 +17,7 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.DateField;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.OptionGroup;
-import com.vaadin.ui.Panel;
+import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vividsolutions.jts.geom.LineString;
@@ -114,7 +111,7 @@ public class JtsFieldTest extends AbstractTest {
 	@Override
 	public Component getTestComponent() {
 		content.setMargin(true);
-		
+
 		display.setContentMode(ContentMode.PREFORMATTED);
 		display.setCaption("Pojo state:");
 		display.setValue(pojo.toString());
@@ -128,44 +125,15 @@ public class JtsFieldTest extends AbstractTest {
 		editorform.setSpacing(true);
 		editorform.setCaption("Edit JTS pojo:");
 
-		// TabSheet is just so f&€&ed up, TODO fill Vaadin bug report
-		// TabSheet jtsFields = new TabSheet(point,lineString,linearRing);
-		// jtsFields.setCaption("JTS fiels:");
-		// jtsFields.setSizeFull();
-		// editorform.addComponents(new HorizontalLayout(name, date), jtsFields
-		// // ,polygon
-		// );
-		// editorform.setExpandRatio(jtsFields, 1);
+		TabSheet jtsFields = new TabSheet(point, lineString, linearRing);
+		jtsFields.setCaption("JTS fiels:");
+		jtsFields.setSizeFull();
+		editorform.addComponents(new HorizontalLayout(name, date), jtsFields
+		// ,polygon
+				);
+		editorform.setExpandRatio(jtsFields, 1);
 
-		OptionGroup group = new OptionGroup("Select JTS field to edit:");
-		group.addItem(point);
-		group.addItem(lineString);
-		group.addItem(linearRing);
-		// WTF, prkl, please!! TODO add enhancement ticket
-		// group.addItems(point,lineString,linearRing);
-
-		// "caption provider" for selects NOW! TODO add enhancement ticket
-		group.setItemCaption(point, "point");
-		group.setItemCaption(lineString, "lineString");
-		group.setItemCaption(linearRing, "linearRing");
-		group.setValue(point);
-		group.setImmediate(true); // prkl tätäkin vielä tarvii // TODO fix this
-
-		final Panel panel = new Panel();
-		panel.setContent(point);
-		panel.setSizeFull();
-		group.addValueChangeListener(new ValueChangeListener() {
-
-			@Override
-			public void valueChange(ValueChangeEvent event) {
-				panel.setContent((Component) event.getProperty().getValue());
-			}
-		});
-
-		editorform
-				.addComponents(new HorizontalLayout(name, date), group, panel);
-		editorform.setExpandRatio(panel, 1);
-
+		// TODO switch to helper in Vaadin when available http://dev.vaadin.com/ticket/13068
 		final BeanFieldGroup<JtsPojo> beanFieldGroup = new BeanFieldGroup<JtsPojo>(
 				JtsPojo.class);
 		beanFieldGroup.setItemDataSource(pojo);
@@ -179,7 +147,6 @@ public class JtsFieldTest extends AbstractTest {
 					beanFieldGroup.commit();
 					display.setValue(pojo.toString());
 				} catch (CommitException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}

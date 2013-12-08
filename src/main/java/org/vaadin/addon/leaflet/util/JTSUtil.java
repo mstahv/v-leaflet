@@ -23,9 +23,8 @@ import com.vividsolutions.jts.geom.MultiPolygon;
 import com.vividsolutions.jts.geom.Polygon;
 
 /**
- * Helper methods to convert between JTS and v-leaflet objects.
+ * Helper methods to convert between JTS geometry types and v-leaflet objects.
  * 
- * Implementing: https://github.com/mstahv/v-leaflet/issues/18
  */
 public class JTSUtil {
 
@@ -104,7 +103,6 @@ public class JTSUtil {
 		} else if (geom instanceof MultiPoint) {
 			LLayerGroup group = new LLayerGroup();
 			for (int i = 0; i < geom.getNumGeometries(); i++) {
-
 				com.vividsolutions.jts.geom.Point point = (com.vividsolutions.jts.geom.Point) geom
 						.getGeometryN(i);
 				LMarker lMarker = toLMarker(point);
