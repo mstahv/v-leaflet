@@ -242,7 +242,9 @@ public class LMap extends AbstractComponentContainer {
 				gc.add(geometry);
 			}
 		}
-		zoomToExtent(new GeometryFactory().buildGeometry(gc));
+		if(!gc.isEmpty()) {
+			zoomToExtent(new GeometryFactory().buildGeometry(gc));
+		}
 	}
 
 	/**
