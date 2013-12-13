@@ -18,7 +18,6 @@ In addition to core Leaflet API, there is also supports Leaflet.Draw plugin. Its
 	<inherits name="org.vaadin.addon.leaflet.Widgetset" />
 }}}
 
-
 = Instructions for add-on developers = 
 
 Project is built with Maven so it should be IDE agnostic and you should manage with basic maven skills without instructions. Basic steps during development are discussed below. Most actions can be easily accessed via IDE. Eclipse users should install m2e plugin.
