@@ -11,8 +11,10 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.vaadin.addon.leaflet.demoandtestapp.util.TServer;
 
 import com.vaadin.testbench.Parameters;
+import com.vaadin.testbench.ScreenshotOnFailureRule;
 import com.vaadin.testbench.TestBench;
 import com.vaadin.testbench.commands.TestBenchCommands;
+import org.openqa.selenium.phantomjs.PhantomJSDriver;
 
 public class AbstractTestBenchTest {
 
@@ -24,16 +26,14 @@ public class AbstractTestBenchTest {
     protected WebDriver driver;
     protected TestBenchCommands testBench;
     private Server server;
-
+    
     public AbstractTestBenchTest() {
         super();
     }
 
     @Before
     public void setUp() {
-        Parameters.setScreenshotReferenceDirectory("src/test/resources/screenshots");
-        Parameters.setScreenshotErrorDirectory("target");
-        Parameters.setCaptureScreenshotOnFailure(true);
+        
         try {
             server = TServer.startServer(TESTPORT);
         } catch (Exception e) {
@@ -58,7 +58,8 @@ public class AbstractTestBenchTest {
     }
 
     protected void startBrowser() {
-        driver = TestBench.createDriver(new FirefoxDriver());
+        // Change to Firefox/Chrome/Safari for local debugging
+        driver = TestBench.createDriver(new PhantomJSDriver());
         // dimension includes browser chrome
         driver.manage().window().setSize(new Dimension(800, 600));
         testBench = (TestBenchCommands) driver;
