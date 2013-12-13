@@ -48,7 +48,7 @@ Optionally you might wish to do "clean build" by calling clean target before:
 mvn clean install
 }}}
 
-During the install process tests are run automatically. As it requires GWT compiling test widgetset (if not up to date) and running TestBench/Selenium tests it might take a while. If you wish to bypass tests run following command:
+During the install process tests are run automatically. As it requires GWT compiling test widgetset (if not up to date) and running TestBench/Selenium tests it might take a while. Tests are run with PhantomJS, so it must be available on your path. If you wish to bypass tests run following command:
 {{{
 mvn install -DskipTests
 }}}
