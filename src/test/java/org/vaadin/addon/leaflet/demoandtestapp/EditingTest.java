@@ -14,12 +14,16 @@ import org.vaadin.addon.leaflet.draw.LDraw.FeatureModifiedEvent;
 import org.vaadin.addon.leaflet.draw.LDraw.FeatureModifiedListener;
 import org.vaadin.addon.leaflet.draw.LEditing;
 import org.vaadin.addon.leaflet.shared.Point;
+import org.vaadin.addon.leaflet.util.AbstractJTSField;
+import org.vaadin.addon.leaflet.util.JTSUtil;
+import org.vaadin.addon.leaflet.util.LinearRingField;
 
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Notification;
+import com.vividsolutions.jts.geom.LinearRing;
 
 public class EditingTest extends AbstractTest implements
 		FeatureModifiedListener {
@@ -85,6 +89,18 @@ public class EditingTest extends AbstractTest implements
 				content.addComponent(button);
 			}
 		}
+		
+		AbstractJTSField<LinearRing> c = new LinearRingField("Linear ring");
+		LPolygon polygon = new LPolygon(new Point(0, 0), new Point(30, 30),
+				new Point(30, 0));
+		LinearRing ring = JTSUtil.toLinearRing(polygon);
+		c.setValue(ring);
+		c.setHeight("200px");
+		c.setWidth("200px");
+
+        content.addComponent(c);
+		
+		
 
 		content.addComponent(new Button("Stop editing",
 				new Button.ClickListener() {

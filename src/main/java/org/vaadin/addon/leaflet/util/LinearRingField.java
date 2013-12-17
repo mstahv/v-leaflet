@@ -29,7 +29,7 @@ public class LinearRingField extends AbstractJTSField<LinearRing> {
 		return LinearRing.class;
 	}
 
-	protected void prapareEditing() {
+	protected void prepareEditing() {
 		if (lPolygon == null) {
 			lPolygon = new LPolygon();
 			map.addLayer(lPolygon);

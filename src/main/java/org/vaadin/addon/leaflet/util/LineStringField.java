@@ -29,7 +29,7 @@ public class LineStringField extends AbstractJTSField<LineString> {
 		return LineString.class;
 	}
 
-	protected void prapareEditing() {
+	protected void prepareEditing() {
 		if(lPolyline == null ) {
 			lPolyline = new LPolyline();
 			map.addLayer(lPolyline);
