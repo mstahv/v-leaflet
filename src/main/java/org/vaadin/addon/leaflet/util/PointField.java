@@ -14,13 +14,13 @@ public class PointField extends AbstractJTSField<Point> {
 	private LMarker marker;
 
 	public PointField() {
-		
+
 	}
 	public PointField(String caption) {
 		this();
 		setCaption(caption);
 	}
-	
+
 
 	@Override
 	public Class<? extends Point> getType() {
@@ -29,12 +29,14 @@ public class PointField extends AbstractJTSField<Point> {
 
 	protected void prepareEditing() {
 		if (marker == null) {
-			marker = new LMarker(JTSUtil.toLeafletPoint(getInternalValue()));
+			marker = new LMarker(JTSUtil.toLeafletPoint(getCRFTranslator()
+					.toPresentation(getInternalValue())));
 			marker.addDragEndListener(new DragEndListener() {
 
 				@Override
 				public void dragEnd(DragEndEvent event) {
-					setValue(JTSUtil.toPoint(marker));
+					setValue(getCRFTranslator()
+							.toModel(JTSUtil.toPoint(marker)));
 				}
 			});
 			map.addLayer(marker);
@@ -48,7 +50,8 @@ public class PointField extends AbstractJTSField<Point> {
 
 			@Override
 			public void featureDrawn(FeatureDrawnEvent event) {
-				setValue(JTSUtil.toPoint((LMarker) event.getDrawnFeature()));
+				setValue(getCRFTranslator().toModel(
+						JTSUtil.toPoint((LMarker) event.getDrawnFeature())));
 			}
 		});
 
