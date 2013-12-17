@@ -151,7 +151,7 @@ public class JTSUtil {
 	 * @param polygon
 	 * @return
 	 */
-	private static LPolygon toPolygon(Polygon polygon) {
+	public static LPolygon toPolygon(Polygon polygon) {
 		Coordinate[] coords = polygon.getBoundary().getCoordinates();
 		Point[] points = toPointArray(coords);
 
@@ -206,6 +206,11 @@ public class JTSUtil {
 	public static LinearRing toLinearRing(LPolygon polygon) {
 		Point[] points = polygon.getPoints();
 		return toLinearRing(points);
+	}
+
+	public static Polygon toPolygon(LPolygon polygon) {
+		Point[] points = polygon.getPoints();
+		return new Polygon(toLinearRing(points), null, new GeometryFactory());
 	}
 
 	private static LinearRing toLinearRing(Point[] points) {

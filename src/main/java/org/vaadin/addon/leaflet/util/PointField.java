@@ -27,7 +27,7 @@ public class PointField extends AbstractJTSField<Point> {
 		return Point.class;
 	}
 
-	protected void prapareEditing() {
+	protected void prepareEditing() {
 		if (marker == null) {
 			marker = new LMarker(JTSUtil.toLeafletPoint(getInternalValue()));
 			marker.addDragEndListener(new DragEndListener() {

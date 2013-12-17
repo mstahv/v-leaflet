@@ -4,6 +4,7 @@ import org.vaadin.addon.leaflet.LMap;
 import org.vaadin.addon.leaflet.LTileLayer;
 
 import com.vaadin.client.ui.Field;
+import com.vaadin.data.Property;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
 import com.vividsolutions.jts.geom.Geometry;
@@ -56,6 +57,16 @@ public abstract class AbstractJTSField<T extends Geometry> extends
 	protected LMap map = new LMap();
 
 	private Configurator configurator;
+	
+	private int srid = 4326;
+	
+	/**
+	 * Set the EPSG Spatial Reference Identifier (SRID)
+	 * which defaults to 4326.
+	 */
+	public void setSrid(int srid) {
+        this.srid = srid;
+    }
 
 	public AbstractJTSField() {
 		super();
@@ -93,11 +104,19 @@ public abstract class AbstractJTSField<T extends Geometry> extends
 		if (newValue == null) {
 			prepareDrawing();
 		} else {
-			prapareEditing();
+			prepareEditing();
 		}
 	}
-
-	protected abstract void prapareEditing();
+	
+	@Override
+	public void setValue(T value) {
+	    if (value != null) {
+	        value.setSRID(srid);
+	    }
+	    super.setValue(value);
+	}
+	
+	protected abstract void prepareEditing();
 
 	protected abstract void prepareDrawing();
 
