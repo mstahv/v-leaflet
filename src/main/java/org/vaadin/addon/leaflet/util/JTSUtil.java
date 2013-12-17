@@ -21,10 +21,13 @@ import com.vividsolutions.jts.geom.MultiLineString;
 import com.vividsolutions.jts.geom.MultiPoint;
 import com.vividsolutions.jts.geom.MultiPolygon;
 import com.vividsolutions.jts.geom.Polygon;
+import com.vividsolutions.jts.geom.PrecisionModel;
 
 /**
  * Helper methods to convert between JTS geometry types and v-leaflet objects.
- * 
+ * <p>
+ * The CRF is expected to be WGS84 (~EPSG:4326 ~ GPS coordinates) in both
+ * directions.
  */
 public class JTSUtil {
 
@@ -189,7 +192,7 @@ public class JTSUtil {
 
 	public static LineString toLineString(
 			org.vaadin.addon.leaflet.shared.Point[] points) {
-		GeometryFactory factory = new GeometryFactory();
+		GeometryFactory factory = getGeometryFactory();
 		Coordinate[] coordinates = new Coordinate[points.length];
 		for (int i = 0; i < coordinates.length; i++) {
 			Point p = points[i];
@@ -210,12 +213,10 @@ public class JTSUtil {
 
 	public static Polygon toPolygon(LPolygon polygon) {
 		Point[] points = polygon.getPoints();
-		return new Polygon(toLinearRing(points), null, new GeometryFactory());
+		return getGeometryFactory().createPolygon(toLinearRing(points));
 	}
 
 	private static LinearRing toLinearRing(Point[] points) {
-		GeometryFactory factory = new GeometryFactory();
-
 		boolean closed = points[0].equals(points[points.length - 1]);
 
 		Coordinate[] coordinates = new Coordinate[points.length
@@ -227,12 +228,18 @@ public class JTSUtil {
 		if (!closed) {
 			coordinates[coordinates.length - 1] = coordinates[0];
 		}
-		return factory.createLinearRing(coordinates);
+		return getGeometryFactory().createLinearRing(coordinates);
+	}
+
+	private static GeometryFactory getGeometryFactory() {
+		GeometryFactory factory = new GeometryFactory(new PrecisionModel(),
+				4326);
+		return factory;
 	}
 
 	public static com.vividsolutions.jts.geom.Point toPoint(
 			org.vaadin.addon.leaflet.shared.Point p) {
-		com.vividsolutions.jts.geom.Point point = new GeometryFactory()
+		com.vividsolutions.jts.geom.Point point = getGeometryFactory()
 				.createPoint(new Coordinate(p.getLon(), p.getLat()));
 		return point;
 	}

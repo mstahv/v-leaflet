@@ -18,7 +18,7 @@ public class LineStringField extends AbstractJTSField<LineString> {
 
 	public LineStringField() {
 	}
-	
+
 	public LineStringField(String caption) {
 		this();
 		setCaption(caption);
@@ -30,18 +30,20 @@ public class LineStringField extends AbstractJTSField<LineString> {
 	}
 
 	protected void prepareEditing() {
-		if(lPolyline == null ) {
+		if (lPolyline == null) {
 			lPolyline = new LPolyline();
 			map.addLayer(lPolyline);
 		}
-		Point[] lPointArray = JTSUtil.toLeafletPointArray(getInternalValue());
+		Point[] lPointArray = JTSUtil.toLeafletPointArray(getCRFTranslator()
+				.toPresentation(getInternalValue()));
 		lPolyline.setPoints(lPointArray);
 		LEditing editing = new LEditing(lPolyline);
 		editing.addFeatureModifiedListener(new FeatureModifiedListener() {
 
 			@Override
 			public void featureModified(FeatureModifiedEvent event) {
-				setValue(JTSUtil.toLineString(lPolyline));
+				setValue(getCRFTranslator().toModel(
+						JTSUtil.toLineString(lPolyline)));
 			}
 		});
 		map.zoomToExtent(new Bounds(lPolyline.getPoints()));
@@ -50,10 +52,12 @@ public class LineStringField extends AbstractJTSField<LineString> {
 	protected void prepareDrawing() {
 		LDrawPolyline drawPolyline = new LDrawPolyline(map);
 		drawPolyline.addFeatureDrawnListener(new FeatureDrawnListener() {
-			
+
 			@Override
 			public void featureDrawn(FeatureDrawnEvent event) {
-				setValue(JTSUtil.toLineString((LPolyline)event.getDrawnFeature()));
+				setValue(getCRFTranslator().toModel(
+						JTSUtil.toLineString((LPolyline) event
+								.getDrawnFeature())));
 			}
 		});
 

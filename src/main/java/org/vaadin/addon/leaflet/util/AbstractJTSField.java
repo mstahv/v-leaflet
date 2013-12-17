@@ -4,7 +4,6 @@ import org.vaadin.addon.leaflet.LMap;
 import org.vaadin.addon.leaflet.LTileLayer;
 
 import com.vaadin.client.ui.Field;
-import com.vaadin.data.Property;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
 import com.vividsolutions.jts.geom.Geometry;
@@ -53,20 +52,47 @@ public abstract class AbstractJTSField<T extends Geometry> extends
 		}
 		defaultConfigurator = configurator;
 	}
+	
+	public interface CRFTranslator<T> {
+
+		T toPresentation(T geom);
+
+		T toModel(T geom);
+	}
+
+	private static CRFTranslator<Geometry> defaultCRFTranslator = new CRFTranslator<Geometry>() {
+
+		@Override
+		public Geometry toPresentation(Geometry geom) {
+			assert geom.getSRID() == 0 || geom.getSRID() == 4326;
+			return geom;
+		}
+
+		@Override
+		public Geometry toModel(Geometry geom) {
+			assert geom.getSRID() == 0 || geom.getSRID() == 4326;
+			return geom;
+		}
+	};
+
+	/**
+	 * Sets the default CRFTranslator to convert values to and from presentation in WSG86 (EPSG:4326).
+	 * 
+	 * @param configurator
+	 */
+	@SuppressWarnings("unchecked")
+	public static void setDefaultCRFTranslator(CRFTranslator<? extends Geometry> translator) {
+		if (translator == null) {
+			throw new IllegalArgumentException();
+		}
+		defaultCRFTranslator = (CRFTranslator<Geometry>) translator;
+	}
 
 	protected LMap map = new LMap();
 
 	private Configurator configurator;
-	
-	private int srid = 4326;
-	
-	/**
-	 * Set the EPSG Spatial Reference Identifier (SRID)
-	 * which defaults to 4326.
-	 */
-	public void setSrid(int srid) {
-        this.srid = srid;
-    }
+
+	private CRFTranslator<T> cRFTranslator;
 
 	public AbstractJTSField() {
 		super();
@@ -107,15 +133,7 @@ public abstract class AbstractJTSField<T extends Geometry> extends
 			prepareEditing();
 		}
 	}
-	
-	@Override
-	public void setValue(T value) {
-	    if (value != null) {
-	        value.setSRID(srid);
-	    }
-	    super.setValue(value);
-	}
-	
+		
 	protected abstract void prepareEditing();
 
 	protected abstract void prepareDrawing();
@@ -126,6 +144,19 @@ public abstract class AbstractJTSField<T extends Geometry> extends
 
 	public void setConfigurator(Configurator configurator) {
 		this.configurator = configurator;
+	}
+
+	@SuppressWarnings("unchecked")
+	public CRFTranslator<T> getCRFTranslator() {
+		if(cRFTranslator == null) {
+			return (CRFTranslator<T>) defaultCRFTranslator;
+		}
+		return cRFTranslator;
+	}
+
+	@SuppressWarnings("unchecked")
+	public void setCRFTranslator(CRFTranslator<Geometry> cRFTranslator) {
+		this.cRFTranslator = (CRFTranslator<T>) cRFTranslator;
 	}
 
 }
