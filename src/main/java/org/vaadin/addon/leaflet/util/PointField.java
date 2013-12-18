@@ -29,13 +29,13 @@ public class PointField extends AbstractJTSField<Point> {
 
 	protected void prepareEditing() {
 		if (marker == null) {
-			marker = new LMarker(JTSUtil.toLeafletPoint(getCRFTranslator()
+			marker = new LMarker(JTSUtil.toLeafletPoint(getCrsTranslator()
 					.toPresentation(getInternalValue())));
 			marker.addDragEndListener(new DragEndListener() {
 
 				@Override
 				public void dragEnd(DragEndEvent event) {
-					setValue(getCRFTranslator()
+					setValue(getCrsTranslator()
 							.toModel(JTSUtil.toPoint(marker)));
 				}
 			});
@@ -50,7 +50,7 @@ public class PointField extends AbstractJTSField<Point> {
 
 			@Override
 			public void featureDrawn(FeatureDrawnEvent event) {
-				setValue(getCRFTranslator().toModel(
+				setValue(getCrsTranslator().toModel(
 						JTSUtil.toPoint((LMarker) event.getDrawnFeature())));
 			}
 		});

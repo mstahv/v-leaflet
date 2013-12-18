@@ -34,7 +34,7 @@ public class LinearRingField extends AbstractJTSField<LinearRing> {
 			lPolygon = new LPolygon();
 			map.addLayer(lPolygon);
 		}
-		Point[] lPointArray = JTSUtil.toLeafletPointArray(getCRFTranslator()
+		Point[] lPointArray = JTSUtil.toLeafletPointArray(getCrsTranslator()
 				.toPresentation(getInternalValue()));
 		lPolygon.setPoints(lPointArray);
 		LEditing editing = new LEditing(lPolygon);
@@ -42,7 +42,7 @@ public class LinearRingField extends AbstractJTSField<LinearRing> {
 
 			@Override
 			public void featureModified(FeatureModifiedEvent event) {
-				setValue(getCRFTranslator().toModel(
+				setValue(getCrsTranslator().toModel(
 						JTSUtil.toLinearRing(lPolygon)));
 			}
 		});
@@ -58,7 +58,7 @@ public class LinearRingField extends AbstractJTSField<LinearRing> {
 				// TODO fill Vaadin bug report: exception from here has horrible
 				// stack trace (non informative), even more horrible than the
 				// usual that has some irrelevant stuff in front
-				setValue(getCRFTranslator()
+				setValue(getCrsTranslator()
 						.toModel(
 								JTSUtil.toLinearRing((LPolygon) event
 										.getDrawnFeature())));
