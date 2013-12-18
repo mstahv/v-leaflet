@@ -52,15 +52,8 @@ public abstract class AbstractJTSField<T extends Geometry> extends
 		}
 		defaultConfigurator = configurator;
 	}
-	
-	public interface CRFTranslator<T> {
 
-		T toPresentation(T geom);
-
-		T toModel(T geom);
-	}
-
-	private static CRFTranslator<Geometry> defaultCRFTranslator = new CRFTranslator<Geometry>() {
+	private static CRSTranslator<Geometry> defaultCRSTranslator = new CRSTranslator<Geometry>() {
 
 		@Override
 		public Geometry toPresentation(Geometry geom) {
@@ -76,23 +69,25 @@ public abstract class AbstractJTSField<T extends Geometry> extends
 	};
 
 	/**
-	 * Sets the default CRFTranslator to convert values to and from presentation in WSG86 (EPSG:4326).
+	 * Sets the default CRFTranslator to convert values to and from presentation
+	 * in WSG86 (EPSG:4326).
 	 * 
 	 * @param configurator
 	 */
 	@SuppressWarnings("unchecked")
-	public static void setDefaultCRFTranslator(CRFTranslator<? extends Geometry> translator) {
+	public static void setDefaultCRFTranslator(
+			CRSTranslator<? extends Geometry> translator) {
 		if (translator == null) {
 			throw new IllegalArgumentException();
 		}
-		defaultCRFTranslator = (CRFTranslator<Geometry>) translator;
+		defaultCRSTranslator = (CRSTranslator<Geometry>) translator;
 	}
 
 	protected LMap map = new LMap();
 
 	private Configurator configurator;
 
-	private CRFTranslator<T> cRFTranslator;
+	private CRSTranslator<T> crsTranslator;
 
 	public AbstractJTSField() {
 		super();
@@ -133,7 +128,7 @@ public abstract class AbstractJTSField<T extends Geometry> extends
 			prepareEditing();
 		}
 	}
-		
+
 	protected abstract void prepareEditing();
 
 	protected abstract void prepareDrawing();
@@ -147,16 +142,16 @@ public abstract class AbstractJTSField<T extends Geometry> extends
 	}
 
 	@SuppressWarnings("unchecked")
-	public CRFTranslator<T> getCRFTranslator() {
-		if(cRFTranslator == null) {
-			return (CRFTranslator<T>) defaultCRFTranslator;
+	public CRSTranslator<T> getCrsTranslator() {
+		if (crsTranslator == null) {
+			return (CRSTranslator<T>) defaultCRSTranslator;
 		}
-		return cRFTranslator;
+		return crsTranslator;
 	}
 
-	@SuppressWarnings("unchecked")
-	public void setCRFTranslator(CRFTranslator<Geometry> cRFTranslator) {
-		this.cRFTranslator = (CRFTranslator<T>) cRFTranslator;
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public void setCRSTranslator(CRSTranslator crsTranslator) {
+		this.crsTranslator = crsTranslator;
 	}
 
 }

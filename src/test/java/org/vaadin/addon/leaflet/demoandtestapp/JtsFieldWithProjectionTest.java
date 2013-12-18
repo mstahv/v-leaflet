@@ -12,7 +12,7 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
 import org.opengis.referencing.operation.MathTransform;
 import org.opengis.referencing.operation.TransformException;
 import org.vaadin.addon.leaflet.demoandtestapp.util.AbstractTest;
-import org.vaadin.addon.leaflet.util.AbstractJTSField.CRFTranslator;
+import org.vaadin.addon.leaflet.util.CRSTranslator;
 import org.vaadin.addon.leaflet.util.LineStringField;
 import org.vaadin.addon.leaflet.util.LinearRingField;
 import org.vaadin.addon.leaflet.util.PointField;
@@ -147,7 +147,7 @@ public class JtsFieldWithProjectionTest extends AbstractTest {
 			final MathTransform toModel = toWsg86.inverse();
 			
 			// Build the actual v-leaflet JTS field translator
-			CRFTranslator<Geometry> translator = new CRFTranslator<Geometry>() {
+			CRSTranslator<Geometry> translator = new CRSTranslator<Geometry>() {
 
 				@Override
 				public Geometry toPresentation(Geometry geom) {
@@ -167,9 +167,9 @@ public class JtsFieldWithProjectionTest extends AbstractTest {
 					}
 				}
 			};
-			point.setCRFTranslator(translator);
-			linearRing.setCRFTranslator(translator);
-			lineString.setCRFTranslator(translator);
+			point.setCRSTranslator(translator);
+			linearRing.setCRSTranslator(translator);
+			lineString.setCRSTranslator(translator);
 			// Also can be set web app global CRFTranslator
 			// AbstractJTSField.setDefaultCRFTranslator(translator);
 		} catch (NoSuchAuthorityCodeException e) {
@@ -216,7 +216,7 @@ public class JtsFieldWithProjectionTest extends AbstractTest {
 		beanFieldGroup.setItemDataSource(pojo);
 		beanFieldGroup.bindMemberFields(this);
 
-		editorform.addComponent(new Button("Save", new ClickListener() {
+		Button c = new Button("Save", new ClickListener() {
 
 			@Override
 			public void buttonClick(ClickEvent event) {
@@ -227,7 +227,10 @@ public class JtsFieldWithProjectionTest extends AbstractTest {
 					e.printStackTrace();
 				}
 			}
-		}));
+		});
+		c.setImmediate(true);
+		c.setId("SSS");
+		editorform.addComponent(c);
 
 		horizontalLayout.addComponents(editorform, display);
 		horizontalLayout.setExpandRatio(editorform, 1);

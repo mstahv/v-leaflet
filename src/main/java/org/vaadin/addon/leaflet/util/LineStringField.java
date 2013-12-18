@@ -34,7 +34,7 @@ public class LineStringField extends AbstractJTSField<LineString> {
 			lPolyline = new LPolyline();
 			map.addLayer(lPolyline);
 		}
-		Point[] lPointArray = JTSUtil.toLeafletPointArray(getCRFTranslator()
+		Point[] lPointArray = JTSUtil.toLeafletPointArray(getCrsTranslator()
 				.toPresentation(getInternalValue()));
 		lPolyline.setPoints(lPointArray);
 		LEditing editing = new LEditing(lPolyline);
@@ -42,7 +42,7 @@ public class LineStringField extends AbstractJTSField<LineString> {
 
 			@Override
 			public void featureModified(FeatureModifiedEvent event) {
-				setValue(getCRFTranslator().toModel(
+				setValue(getCrsTranslator().toModel(
 						JTSUtil.toLineString(lPolyline)));
 			}
 		});
@@ -55,7 +55,7 @@ public class LineStringField extends AbstractJTSField<LineString> {
 
 			@Override
 			public void featureDrawn(FeatureDrawnEvent event) {
-				setValue(getCRFTranslator().toModel(
+				setValue(getCrsTranslator().toModel(
 						JTSUtil.toLineString((LPolyline) event
 								.getDrawnFeature())));
 			}
