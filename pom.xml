@@ -6,13 +6,6 @@
 	<version>0.5.3-SNAPSHOT</version>
 	<name>V-Leaflet</name>
 
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<vaadin.version>7.1.8</vaadin.version>
-		<g-leaflet-draw-version>0.4.3-SNAPSHOT</g-leaflet-draw-version>
-		<geotools.version>10.2</geotools.version>
-	</properties>
-
 
 	<organization>
 		<name>Vaadin Community</name>
@@ -40,6 +33,13 @@
 			<comments>A business-friendly OSS license</comments>
 		</license>
 	</licenses>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<vaadin.version>7.1.8</vaadin.version>
+		<g-leaflet-draw-version>0.4.3-SNAPSHOT</g-leaflet-draw-version>
+		<geotools.version>10.2</geotools.version>
+	</properties>
 
 	<build>
 		<plugins>
@@ -326,7 +326,6 @@
 			<version>${vaadin.version}</version>
 			<scope>provided</scope>
 		</dependency>
-
 		<dependency>
 			<groupId>com.vaadin</groupId>
 			<artifactId>vaadin-themes</artifactId>
