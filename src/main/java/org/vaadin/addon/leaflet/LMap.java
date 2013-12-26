@@ -229,7 +229,7 @@ public class LMap extends AbstractComponentContainer {
 		Bounds bounds = JTSUtil.getBounds(geometry);
 		zoomToExtent(bounds);
 	}
-	
+
 	/**
 	 * Calculates extent of all contained components that are not "baselayers".
 	 */
@@ -238,11 +238,11 @@ public class LMap extends AbstractComponentContainer {
 		for (Component c : this) {
 			LeafletLayer l = (LeafletLayer) c;
 			Geometry geometry = l.getGeometry();
-			if(geometry != null) {
+			if (geometry != null) {
 				gc.add(geometry);
 			}
 		}
-		if(!gc.isEmpty()) {
+		if (!gc.isEmpty()) {
 			zoomToExtent(new GeometryFactory().buildGeometry(gc));
 		}
 	}
@@ -278,6 +278,13 @@ public class LMap extends AbstractComponentContainer {
 
 	public String getAttributionPrefix() {
 		return getState(false).attributionPrefix;
+	}
+
+	public void zoomToContent(LeafletLayer l) {
+		Geometry geometry = l.getGeometry();
+		if(geometry != null) {
+			zoomToExtent(geometry);
+		}
 	}
 
 }
