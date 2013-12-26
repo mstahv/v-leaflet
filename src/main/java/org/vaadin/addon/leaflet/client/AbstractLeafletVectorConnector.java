@@ -13,29 +13,29 @@ public abstract class AbstractLeafletVectorConnector<T extends AbstractLeafletVe
 		if (s.color != null) {
 			o.setColor(s.color);
 		}
-		if (s.stroke != null) {
-			o.setStroke(s.stroke);
+		if (s.getVectorStyle().getStroke() != null) {
+			o.setStroke(s.getVectorStyle().getStroke());
 		}
-		if (s.fill != null) {
-			o.setFill(s.fill);
+		if (s.getVectorStyle().getFill() != null) {
+			o.setFill(s.getVectorStyle().getFill());
 		}
-		if (s.fillColor != null) {
-			o.setFillColor(s.fillColor);
+		if (s.getVectorStyle().getFillColor() != null) {
+			o.setFillColor(s.getVectorStyle().getFillColor());
 		}
-		if (s.weight != null) {
-			o.setWeight(s.weight);
+		if (s.getVectorStyle().getWeight() != null) {
+			o.setWeight(s.getVectorStyle().getWeight());
 		}
-		if (s.opacity != null) {
-			o.setOpacity(s.opacity);
+		if (s.getVectorStyle().getOpacity() != null) {
+			o.setOpacity(s.getVectorStyle().getOpacity());
 		}
-		if (s.dashArray != null) {
-			o.setDashArray(s.dashArray);
+		if (s.getVectorStyle().getDashArray() != null) {
+			o.setDashArray(s.getVectorStyle().getDashArray());
 		}
-		if (s.lineCap != null) {
-			o.setLineCap(s.lineCap);
+		if (s.getVectorStyle().getLineCap() != null) {
+			o.setLineCap(s.getVectorStyle().getLineCap());
 		}
-		if (s.lineJoin != null) {
-			o.setLineJoin(s.lineJoin);
+		if (s.getVectorStyle().getLineJoin() != null) {
+			o.setLineJoin(s.getVectorStyle().getLineJoin());
 		}
 		if (s.clickable != null) {
 			o.setClickable(s.clickable);
