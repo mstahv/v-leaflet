@@ -21,12 +21,12 @@ public class PointField extends AbstractJTSField<Point> {
 		setCaption(caption);
 	}
 
-
 	@Override
 	public Class<? extends Point> getType() {
 		return Point.class;
 	}
 
+        @Override
 	protected void prepareEditing() {
 		if (marker == null) {
 			marker = new LMarker(JTSUtil.toLeafletPoint(getCrsTranslator()
@@ -44,6 +44,7 @@ public class PointField extends AbstractJTSField<Point> {
 		}
 	}
 
+        @Override
 	protected void prepareDrawing() {
 		LDrawMarker draw = new LDrawMarker(map);
 		draw.addFeatureDrawnListener(new FeatureDrawnListener() {
@@ -57,4 +58,8 @@ public class PointField extends AbstractJTSField<Point> {
 
 	}
 
+    protected LMarker getMarker() {
+        return marker;
+    }
+    
 }
