@@ -8,6 +8,8 @@ import org.vaadin.addon.leaflet.draw.LDraw.FeatureDrawnListener;
 import org.vaadin.addon.leaflet.draw.LDrawMarker;
 
 import com.vividsolutions.jts.geom.Point;
+import org.vaadin.addon.leaflet.LeafletClickEvent;
+import org.vaadin.addon.leaflet.LeafletClickListener;
 
 public class PointField extends AbstractJTSField<Point> {
 
@@ -39,6 +41,16 @@ public class PointField extends AbstractJTSField<Point> {
 							.toModel(JTSUtil.toPoint(marker)));
 				}
 			});
+            map.addClickListener(new LeafletClickListener() {
+
+                @Override
+                public void onClick(LeafletClickEvent event) {
+                    setValue(getCrsTranslator().toModel(
+                            JTSUtil.toPoint(event.getPoint())));
+                    marker.setPoint(event.getPoint());
+                }
+            });
+            
 			map.addLayer(marker);
 			map.setCenter(marker.getPoint());
 		}
