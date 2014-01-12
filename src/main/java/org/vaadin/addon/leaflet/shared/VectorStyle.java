@@ -9,6 +9,8 @@ public class VectorStyle implements Serializable {
     private Boolean fill;
 
     private String fillColor;
+    
+    private Double fillOpacity;
 
     private Integer weight;
 
@@ -45,6 +47,14 @@ public class VectorStyle implements Serializable {
 	public String getFillColor() {
 		return fillColor;
 	}
+
+    public Double getFillOpacity() {
+        return fillOpacity;
+    }
+
+    public void setFillOpacity(Double fillOpacity) {
+        this.fillOpacity = fillOpacity;
+    }
 	
 	public void setWeight(Integer weight) {
 		this.weight = weight;

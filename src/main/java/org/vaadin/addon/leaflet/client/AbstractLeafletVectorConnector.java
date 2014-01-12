@@ -22,6 +22,9 @@ public abstract class AbstractLeafletVectorConnector<T extends AbstractLeafletVe
 		if (s.getVectorStyle().getFillColor() != null) {
 			o.setFillColor(s.getVectorStyle().getFillColor());
 		}
+		if (s.getVectorStyle().getFillOpacity() != null) {
+			o.setFillOpacity(s.getVectorStyle().getFillOpacity());
+		}
 		if (s.getVectorStyle().getWeight() != null) {
 			o.setWeight(s.getVectorStyle().getWeight());
 		}
