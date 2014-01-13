@@ -9,4 +9,5 @@ public class LeafletTileLayerState extends AbstractLeafletComponentState {
 	public Integer maxZoom;
 	public String[] subDomains;
 	public Double opacity;
+	public Integer zIndex;
 }
