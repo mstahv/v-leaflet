@@ -32,6 +32,8 @@ public class LMap extends AbstractComponentContainer {
 
 	private List<Component> components = new ArrayList<Component>();
 
+	private boolean useDefaultLayersControl = true;
+	
 	public LMap() {
 		setSizeFull();
 		registerRpc(new LeafletMapServerRpc() {
@@ -50,6 +52,11 @@ public class LMap extends AbstractComponentContainer {
 
 	}
 
+	public LMap(boolean useDefaultLayersControl) {
+		this();
+		this.useDefaultLayersControl = useDefaultLayersControl;
+	}
+	
 	@Override
 	public void beforeClientResponse(boolean initial) {
 		rendered = true;
@@ -94,6 +101,9 @@ public class LMap extends AbstractComponentContainer {
 	}
 
 	public LLayers getLayersControl() {
+		if (!useDefaultLayersControl) {
+			return null;
+		}
 		for (Extension e : getExtensions()) {
 			if (e instanceof LLayers) {
 				return (LLayers) e;
@@ -287,4 +297,7 @@ public class LMap extends AbstractComponentContainer {
 		}
 	}
 
+	public void setUseDefaultLayersControl(boolean useDefault) {
+		this.useDefaultLayersControl = useDefault;
+	}
 }
