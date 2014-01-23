@@ -124,6 +124,10 @@ public class LMap extends AbstractComponentContainer {
 		addComponent(layer);
 	}
 
+	public void removeLayer(LeafletLayer layer) {
+		removeComponent(layer);
+	}
+	
 	@Override
 	public void addComponent(Component c) {
 		if (!(c instanceof LeafletLayer)) {
@@ -139,10 +143,12 @@ public class LMap extends AbstractComponentContainer {
 	public void removeComponent(Component c) {
 		super.removeComponent(c);
 		components.remove(c);
-		LLayers layersControl = getLayersControl();
-		if (layersControl != null) {
-			layersControl.removeLayer((LeafletLayer) c);
-		}
+		if (hasControl(LLayers.class)) {
+			LLayers layersControl = getLayersControl();
+			if (layersControl != null) {
+				layersControl.removeLayer((LeafletLayer) c);
+			}
+		}	
 		markAsDirty(); // ?? is this really needed
 	}
 
@@ -151,6 +157,15 @@ public class LMap extends AbstractComponentContainer {
 		return components.size();
 	}
 
+	public boolean hasControl(Class<? extends AbstractControl> leafletControl) {
+		for (Extension e : getExtensions()) {
+			if (leafletControl.isInstance(e)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	public boolean hasComponent(Component component) {
 		return components.contains(component);
 	}
@@ -286,5 +301,5 @@ public class LMap extends AbstractComponentContainer {
 			zoomToExtent(geometry);
 		}
 	}
-
 }
+
