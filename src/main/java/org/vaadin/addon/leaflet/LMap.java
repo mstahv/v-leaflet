@@ -175,19 +175,26 @@ public class LMap extends AbstractComponentContainer {
 		return components.iterator();
 	}
 
-	public void setCenter(double lat, double lon) {
-		Point point = new Point();
-		point.setLat(lat);
-		point.setLon(lon);
-		setCenter(point);
+	public void setView(Double lat, Double lon, Integer zoom) {
+		getState(!rendered).center = new Point(lat, lon);
+		if (zoom != null) {
+			getState().zoomLevel = zoom;
+		}
+		if (rendered) {
+			getRpcProxy(LeafletMapClientRpc.class).setCenter(lat, lon, zoom);
+		}
 	}
 
+	public void setCenter(double lat, double lon) {
+		setView(lat, lon, null);
+	}
+
+	public void setCenter(Point center, Integer  zoom) {
+		setView(center.getLat(), center.getLon(), zoom);
+	}
+	
 	public void setCenter(Point center) {
-		getState(!rendered).center = center;
-		if (rendered) {
-			getRpcProxy(LeafletMapClientRpc.class).setCenter(center.getLat(),
-					center.getLon(), null);
-		}
+		setCenter(center, null);
 	}
 
 	public void setCenter(com.vividsolutions.jts.geom.Point jtsPoint) {
