@@ -1,5 +1,7 @@
 package org.vaadin.addon.leaflet.demoandtestapp;
 
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickListener;
 import org.vaadin.addon.leaflet.LMap;
 import org.vaadin.addon.leaflet.LMarker;
 import org.vaadin.addon.leaflet.LTileLayer;
@@ -8,6 +10,7 @@ import org.vaadin.addon.leaflet.demoandtestapp.util.AbstractTest;
 import com.vaadin.ui.Component;
 
 public class SimpleMarkerTest extends AbstractTest {
+    private LMarker lMarker;
 
 	@Override
 	public String getDescription() {
@@ -32,7 +35,11 @@ public class SimpleMarkerTest extends AbstractTest {
 
 		leafletMap.setCenter(60.4525, 22.301);
 		leafletMap.setZoomLevel(15);
-		leafletMap.addComponent(new LMarker(60.4525, 22.301));
+        lMarker = new LMarker(60.4525, 22.301);
+        lMarker.setPopup("Popupstring");
+		leafletMap.addComponent(lMarker);
+        
+        lMarker.openPopup();
 	    
 		return leafletMap;
 
@@ -41,7 +48,14 @@ public class SimpleMarkerTest extends AbstractTest {
 	@Override
 	protected void setup() {
 		super.setup();
+        content.addComponentAsFirst(new Button("Open popup", new ClickListener(){
 
+            @Override
+            public void buttonClick(Button.ClickEvent event) {
+                lMarker.setPopup("dadaa");
+                lMarker.openPopup();
+            }
+        }));
 
 	}
 }

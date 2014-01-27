@@ -7,6 +7,7 @@ import org.vaadin.addon.leaflet.shared.Point;
 
 import com.vaadin.server.Page;
 import com.vaadin.ui.Component;
+import org.vaadin.addon.leaflet.LCircleMarker;
 
 public class TransparentMap extends AbstractTest {
 
@@ -29,9 +30,14 @@ public class TransparentMap extends AbstractTest {
 
 		LPolyline lPolyline = new LPolyline(new Point(-30, -30), new Point(0, 30), new Point(30, 0));
 		lPolyline.setColor("red");
-		lPolyline.setFill(false);
+		lPolyline.setFill(true);
+        lPolyline.getStyle().setFillOpacity(1.0);
 		
 		leafletMap.addLayer(lPolyline);
+                
+        LCircleMarker lCircleMarker = new LCircleMarker(30, 30, 40);
+        lCircleMarker.getStyle().setFillOpacity(0.05);
+        leafletMap.addLayer(lCircleMarker);
 
 		return leafletMap;
 	}

@@ -124,6 +124,10 @@ public class LMap extends AbstractComponentContainer {
 		addComponent(layer);
 	}
 
+	public void removeLayer(LeafletLayer layer) {
+		removeComponent(layer);
+	}
+	
 	@Override
 	public void addComponent(Component c) {
 		if (!(c instanceof LeafletLayer)) {
@@ -139,10 +143,12 @@ public class LMap extends AbstractComponentContainer {
 	public void removeComponent(Component c) {
 		super.removeComponent(c);
 		components.remove(c);
-		LLayers layersControl = getLayersControl();
-		if (layersControl != null) {
-			layersControl.removeLayer((LeafletLayer) c);
-		}
+		if (hasControl(LLayers.class)) {
+			LLayers layersControl = getLayersControl();
+			if (layersControl != null) {
+				layersControl.removeLayer((LeafletLayer) c);
+			}
+		}	
 		markAsDirty(); // ?? is this really needed
 	}
 
@@ -151,6 +157,15 @@ public class LMap extends AbstractComponentContainer {
 		return components.size();
 	}
 
+	public boolean hasControl(Class<? extends AbstractControl> leafletControl) {
+		for (Extension e : getExtensions()) {
+			if (leafletControl.isInstance(e)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	public boolean hasComponent(Component component) {
 		return components.contains(component);
 	}
@@ -160,19 +175,26 @@ public class LMap extends AbstractComponentContainer {
 		return components.iterator();
 	}
 
-	public void setCenter(double lat, double lon) {
-		Point point = new Point();
-		point.setLat(lat);
-		point.setLon(lon);
-		setCenter(point);
+	public void setView(Double lat, Double lon, Integer zoom) {
+		getState(!rendered).center = new Point(lat, lon);
+		if (zoom != null) {
+			getState().zoomLevel = zoom;
+		}
+		if (rendered) {
+			getRpcProxy(LeafletMapClientRpc.class).setCenter(lat, lon, zoom);
+		}
 	}
 
+	public void setCenter(double lat, double lon) {
+		setView(lat, lon, null);
+	}
+
+	public void setCenter(Point center, Integer  zoom) {
+		setView(center.getLat(), center.getLon(), zoom);
+	}
+	
 	public void setCenter(Point center) {
-		getState(!rendered).center = center;
-		if (rendered) {
-			getRpcProxy(LeafletMapClientRpc.class).setCenter(center.getLat(),
-					center.getLon(), null);
-		}
+		setCenter(center, null);
 	}
 
 	public void setCenter(com.vividsolutions.jts.geom.Point jtsPoint) {
@@ -229,7 +251,7 @@ public class LMap extends AbstractComponentContainer {
 		Bounds bounds = JTSUtil.getBounds(geometry);
 		zoomToExtent(bounds);
 	}
-	
+
 	/**
 	 * Calculates extent of all contained components that are not "baselayers".
 	 */
@@ -238,11 +260,11 @@ public class LMap extends AbstractComponentContainer {
 		for (Component c : this) {
 			LeafletLayer l = (LeafletLayer) c;
 			Geometry geometry = l.getGeometry();
-			if(geometry != null) {
+			if (geometry != null) {
 				gc.add(geometry);
 			}
 		}
-		if(!gc.isEmpty()) {
+		if (!gc.isEmpty()) {
 			zoomToExtent(new GeometryFactory().buildGeometry(gc));
 		}
 	}
@@ -280,4 +302,11 @@ public class LMap extends AbstractComponentContainer {
 		return getState(false).attributionPrefix;
 	}
 
+	public void zoomToContent(LeafletLayer l) {
+		Geometry geometry = l.getGeometry();
+		if(geometry != null) {
+			zoomToExtent(geometry);
+		}
+	}
 }
+

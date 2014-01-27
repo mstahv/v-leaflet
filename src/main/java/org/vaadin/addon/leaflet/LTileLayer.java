@@ -73,6 +73,14 @@ public class LTileLayer extends AbstractLeafletLayer {
 	public void setOpacity(Double opacity) {
 		getState().opacity = opacity;
 	}
+	
+	public Integer getZindex() {
+		return getState().zIndex;
+	}
+	
+	public void setZindex(int zIndex) {
+		getState().zIndex = zIndex;
+	}
 
 	@Override
 	public Geometry getGeometry() {

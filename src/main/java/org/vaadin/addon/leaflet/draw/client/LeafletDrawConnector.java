@@ -76,40 +76,46 @@ public class LeafletDrawConnector extends AbstractControlConnector<Draw> {
 				}
 			}
 		});
-		
+
 		getMap().addLayersEditedListener(new LayersEditedListener() {
-			
+
 			@Override
 			public void onEdit(LayersEditedEvent event) {
 				ILayer[] layers = event.getLayers().getLayers();
 				for (ILayer iLayer : layers) {
-					AbstractLeafletLayerConnector<?> c = fgc.getConnectorFor(iLayer);
-					if(c != null) {
+					AbstractLeafletLayerConnector<?> c = fgc
+							.getConnectorFor(iLayer);
+					if (c != null) {
 						if (c instanceof LeafletMarkerConnector) {
 							LeafletMarkerConnector mc = (LeafletMarkerConnector) c;
-							rpc.markerModified(mc, U.toPoint(((Marker) iLayer).getLatLng()));
+							rpc.markerModified(mc,
+									U.toPoint(((Marker) iLayer).getLatLng()));
 						} else if (c instanceof LeafletCircleConnector) {
 							LeafletCircleConnector cc = (LeafletCircleConnector) c;
 							Circle circle = (Circle) cc.getLayer();
-							rpc.circleModified(cc, U.toPoint(circle.getLatLng()), circle.getRadius());
+							rpc.circleModified(cc,
+									U.toPoint(circle.getLatLng()),
+									circle.getRadius());
 						} else if (c instanceof LeafletPolylineConnector) {
 							// polygon also gets here
 							LeafletPolylineConnector plc = (LeafletPolylineConnector) c;
 							Polyline polyline = (Polyline) plc.getLayer();
-							rpc.polylineModified(plc, U.toPointArray(polyline.getLatLngs()));
+							rpc.polylineModified(plc,
+									U.toPointArray(polyline.getLatLngs()));
 						}
 					}
 				}
 			}
 		});
-		
+
 		getMap().addLayersDeletedListener(new LayersDeletedListener() {
-			
+
 			@Override
 			public void onDelete(LayersDeletedEvent event) {
 				ILayer[] layers = event.getLayers().getLayers();
 				for (ILayer iLayer : layers) {
-					AbstractLeafletLayerConnector<?> c = fgc.getConnectorFor(iLayer);
+					AbstractLeafletLayerConnector<?> c = fgc
+							.getConnectorFor(iLayer);
 					rpc.layerDeleted(c);
 				}
 			}
