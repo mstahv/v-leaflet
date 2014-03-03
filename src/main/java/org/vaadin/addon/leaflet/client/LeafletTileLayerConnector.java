@@ -37,6 +37,9 @@ public class LeafletTileLayerConnector extends
 		if (s.opacity != null) {
 			o.setOpacity(s.opacity);
 		}
+		if (s.zIndex != null) {
+			o.setZindex(s.zIndex);
+		}
 		return o;
 	}
 
@@ -44,9 +47,11 @@ public class LeafletTileLayerConnector extends
 	protected void update() {
 		if (layer != null) {
 			removeLayerFromParent();
+		} else {
+			TileLayerOptions o = createOptions();
+			layer = TileLayer.create(getState().url, o);
 		}
-		TileLayerOptions o = createOptions();
-		layer = TileLayer.create(getState().url, o);
+		
 		addToParent(layer);
 	}
 

@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.vaadin.addon</groupId>
 	<artifactId>v-leaflet</artifactId>
-	<version>0.5.3-SNAPSHOT</version>
+	<version>0.5.5-SNAPSHOT</version>
 	<name>V-Leaflet</name>
 
 
@@ -184,7 +184,7 @@
 						<module>org.vaadin.addon.leaflet.demoandtestapp.TestWidgetset</module>
 						<!-- If you do lots of e.g. plain css changes and don't wish to use 
 							hosted mode, you can force compile easily with uncommenting following rule -->
-						<force>true</force>
+<!-- 						<force>true</force> -->
 						<strict>true</strict>
 					</configuration>
 				</plugin>

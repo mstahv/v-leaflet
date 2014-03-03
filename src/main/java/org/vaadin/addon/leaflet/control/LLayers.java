@@ -6,7 +6,7 @@ import org.vaadin.addon.leaflet.shared.LayerControlInfo;
 
 import com.vaadin.server.AbstractExtension;
 
-public class LLayers extends AbstractExtension {
+public class LLayers extends AbstractControl {
 
 	public void addOverlay(LeafletLayer overlay, String name) {
 		LayerControlInfo info = new LayerControlInfo();
