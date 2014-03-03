@@ -38,6 +38,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<vaadin.version>7.1.8</vaadin.version>
 		<g-leaflet-draw-version>0.4.3-SNAPSHOT</g-leaflet-draw-version>
+		<g-leaflet-markercluster-version>0.4.3-SNAPSHOT</g-leaflet-markercluster-version>
 		<geotools.version>10.2</geotools.version>
 	</properties>
 
@@ -304,6 +305,15 @@
 			<groupId>org.peimari</groupId>
 			<artifactId>g-leaflet-draw</artifactId>
 			<version>${g-leaflet-draw-version}</version>
+			<!-- Only needed during widgetset compilation, so provided scope would 
+				be great for this, but with it is left out from widgetset compilation by 
+				vaadin plugin -->
+			<!-- <scope>provided</scope> -->
+		</dependency>
+		<dependency>
+			<groupId>org.vaadin</groupId>
+			<artifactId>g-leaflet-markercluster</artifactId>
+			<version>${g-leaflet-markercluster-version}</version>
 			<!-- Only needed during widgetset compilation, so provided scope would 
 				be great for this, but with it is left out from widgetset compilation by 
 				vaadin plugin -->
