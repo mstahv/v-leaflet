@@ -23,11 +23,27 @@ public class MarkerClusterTest extends AbstractTest {
 		leafletMap = new LMap();
 
 		LMarkerClusterGroup mcg = new LMarkerClusterGroup();
-		mcg.addComponent(new LMarker(0,0));
-		leafletMap.zoomToContent();
+	    
+		leafletMap.setCenter(60.4525, 22.301);
+		leafletMap.setZoomLevel(15);
+		leafletMap.setMaxZoom(19);
+		
+		LTileLayer pk = new LTileLayer();
+		pk.setUrl("http://{s}.kartat.kapsi.fi/peruskartta/{z}/{x}/{y}.png");
+		pk.setAttributionString("Maanmittauslaitos, hosted by kartat.kapsi.fi");
+		pk.setMaxZoom(18);
+		pk.setSubDomains("tile2");
+		pk.setDetectRetina(true);
+		leafletMap.addBaseLayer(pk, "Peruskartta");
+
+
+	    
+		mcg.addComponent(new LMarker(60.4525, 22.301));
+		mcg.addComponent(new LMarker(60.4526, 22.302));
+		mcg.addComponent(new LMarker(60.4527, 22.303));
+		mcg.addComponent(new LMarker(60.4528, 22.304));
 		leafletMap.addComponent(mcg);
-	    
-	    
+
 		return leafletMap;
 
 	}
