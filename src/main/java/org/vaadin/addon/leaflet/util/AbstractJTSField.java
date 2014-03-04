@@ -99,7 +99,7 @@ public abstract class AbstractJTSField<T extends Geometry> extends
 		return map;
 	}
 
-	@Override
+    @Override
 	protected Component initContent() {
 		map.setZoomLevel(2);
 		initBaseLayers();
@@ -129,8 +129,14 @@ public abstract class AbstractJTSField<T extends Geometry> extends
 		}
 	}
 
+	/**
+	 * Initialise the field to edit an existing geometry
+	 */
 	protected abstract void prepareEditing();
 
+	/**
+	 * Initialise the field for creating a new geometry
+	 */
 	protected abstract void prepareDrawing();
 
 	public Configurator getConfigurator() {

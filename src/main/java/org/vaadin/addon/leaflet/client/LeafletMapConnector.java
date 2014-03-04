@@ -46,7 +46,6 @@ import com.vaadin.client.ui.AbstractHasComponentsConnector;
 import com.vaadin.client.ui.layout.ElementResizeEvent;
 import com.vaadin.client.ui.layout.ElementResizeListener;
 import com.vaadin.shared.ui.Connect;
-
 /**
  * 
  */
@@ -140,6 +139,12 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector
 			} else {
 				options.setCenter(LatLng.create(0, 0));
 			}
+
+			int maxZoom = 20;
+			if (getState().maxZoom != null) {
+				options.setMaxZoom(maxZoom);
+			}
+
 			options.setCrs(Crs.EPSG3857());
 
 			if (getState().attributionPrefix == null) {

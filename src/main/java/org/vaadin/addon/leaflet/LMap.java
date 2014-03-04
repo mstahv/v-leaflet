@@ -211,6 +211,10 @@ public class LMap extends AbstractComponentContainer {
 					zoomLevel);
 		}
 	}
+	
+	public void setMaxZoom(int maxZoom) {
+		getState().maxZoom = maxZoom;
+	}
 
 	public void addClickListener(LeafletClickListener listener) {
 		addListener("click", LeafletClickEvent.class, listener,

@@ -5,7 +5,7 @@
 	<artifactId>v-leaflet</artifactId>
 	<version>0.5.5-SNAPSHOT</version>
 	<name>V-Leaflet</name>
-
+	
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<vaadin.version>7.1.8</vaadin.version>
@@ -310,6 +310,15 @@
 			<!-- <scope>provided</scope> -->
 		</dependency>
 		<dependency>
+			<groupId>org.vaadin</groupId>
+			<artifactId>g-leaflet-markercluster</artifactId>
+			<version>${g-leaflet-draw-version}</version>
+			<!-- Only needed during widgetset compilation, so provided scope would 
+				be great for this, but with it is left out from widgetset compilation by 
+				vaadin plugin -->
+			<!-- <scope>provided</scope> -->
+		</dependency>
+		<dependency>
 			<groupId>com.vividsolutions</groupId>
 			<artifactId>jts</artifactId>
 			<version>1.13</version>
@@ -326,7 +335,6 @@
 			<version>${vaadin.version}</version>
 			<scope>provided</scope>
 		</dependency>
-
 		<dependency>
 			<groupId>com.vaadin</groupId>
 			<artifactId>vaadin-themes</artifactId>
