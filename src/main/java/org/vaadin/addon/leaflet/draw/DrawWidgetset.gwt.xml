@@ -6,8 +6,10 @@
 
 	<inherits name="org.peimari.gleaflet.GLeafletDraw"/>
 
-	<set-configuration-property name="devModeRedirectEnabled" value="true" />
+	<entry-point class="org.vaadin.addon.leaflet.draw.client.EagerDrawLoader"/>
 	
 	<source path="client/"></source>
 
+	<set-configuration-property name="devModeRedirectEnabled" value="true" />
+	
 </module>

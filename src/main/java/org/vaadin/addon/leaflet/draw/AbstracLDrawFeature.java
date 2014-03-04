@@ -42,5 +42,12 @@ public abstract class AbstracLDrawFeature extends AbstractExtension implements I
 	protected void extend(AbstractClientConnector target) {
 		super.extend(target);
 	}
+	
+	@Override
+	public void remove() {
+		if(getParent() != null) {
+			super.remove();
+		}
+	}
 
 }

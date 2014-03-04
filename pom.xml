@@ -3,8 +3,16 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.vaadin.addon</groupId>
 	<artifactId>v-leaflet</artifactId>
-	<version>0.5.2-SNAPSHOT</version>
+	<version>0.5.5-SNAPSHOT</version>
 	<name>V-Leaflet</name>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<vaadin.version>7.1.8</vaadin.version>
+		<g-leaflet-draw-version>0.4.4-SNAPSHOT</g-leaflet-draw-version>
+		<geotools.version>10.2</geotools.version>
+	</properties>
+
 
 	<organization>
 		<name>Vaadin Community</name>
@@ -32,13 +40,6 @@
 			<comments>A business-friendly OSS license</comments>
 		</license>
 	</licenses>
-
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<vaadin.version>7.1.8</vaadin.version>
-		<g-leaflet-draw-version>0.4.3-SNAPSHOT</g-leaflet-draw-version>
-		<geotools.version>10.2</geotools.version>
-	</properties>
 
 	<build>
 		<plugins>
@@ -182,7 +183,7 @@
 						<module>org.vaadin.addon.leaflet.demoandtestapp.TestWidgetset</module>
 						<!-- If you do lots of e.g. plain css changes and don't wish to use 
 							hosted mode, you can force compile easily with uncommenting following rule -->
-						<force>true</force>
+<!-- 						<force>true</force> -->
 						<strict>true</strict>
 					</configuration>
 				</plugin>
@@ -325,7 +326,11 @@
 			<version>${vaadin.version}</version>
 			<scope>provided</scope>
 		</dependency>
+<<<<<<< HEAD
 		
+=======
+
+>>>>>>> 56575adc7d3a1dcadf08490292bbcae0e5be82ad
 		<dependency>
 			<groupId>com.vaadin</groupId>
 			<artifactId>vaadin-themes</artifactId>

@@ -58,4 +58,11 @@ public class LEditing extends AbstractExtension {
 		});
 	}
 
+	@Override
+	public void remove() {
+		if (getParent() != null) {
+			super.remove();
+		}
+	}
+
 }

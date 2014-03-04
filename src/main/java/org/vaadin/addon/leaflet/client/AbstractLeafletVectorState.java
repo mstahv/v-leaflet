@@ -1,27 +1,26 @@
 package org.vaadin.addon.leaflet.client;
 
+import org.vaadin.addon.leaflet.shared.VectorStyle;
+
 
 public class AbstractLeafletVectorState extends AbstractLeafletComponentState {
-
-    public Boolean stroke;
-
-    public Boolean fill;
-
-    public String fillColor;
-
-    public Integer weight;
-
-    public Double opacity;
-
-    public String dashArray;
-
-    public String lineCap;
-
-    public String lineJoin;
+	
+	private VectorStyle vectorStyle;
 
     public Boolean clickable;
 
     public String pointerEvents;
 
     public String className;
+
+	public VectorStyle getVectorStyle() {
+		if(vectorStyle == null) {
+			vectorStyle = new VectorStyle();
+		}
+		return vectorStyle;
+	}
+
+	public void setVectorStyle(VectorStyle style) {
+		this.vectorStyle = style;
+	}
 }

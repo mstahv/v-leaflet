@@ -1,5 +1,6 @@
 package org.vaadin.addon.leaflet.client;
 
+import com.google.gwt.core.client.Scheduler;
 import org.peimari.gleaflet.client.ClickListener;
 import org.peimari.gleaflet.client.DivIcon;
 import org.peimari.gleaflet.client.DivIconOptions;
@@ -27,7 +28,13 @@ public class LeafletMarkerConnector extends
 
 		@Override
 		public void openPopup() {
-			marker.openPopup();
+            Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+
+                @Override
+                public void execute() {
+        			marker.openPopup();
+                }
+            });
 		}
 
 		@Override
