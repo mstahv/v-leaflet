@@ -7,12 +7,37 @@ import org.vaadin.addon.leaflet.demoandtestapp.util.AbstractTest;
 import org.vaadin.addon.leaflet.markercluster.LMarkerClusterGroup;
 
 import com.vaadin.ui.Component;
+import com.vividsolutions.jts.geom.Coordinate;
+import com.vividsolutions.jts.geom.Envelope;
+import com.vividsolutions.jts.geom.GeometryFactory;
+import com.vividsolutions.jts.geom.Point;
+import com.vividsolutions.jts.shape.random.RandomPointsBuilder;
 
 public class MarkerClusterTest extends AbstractTest {
 
 	@Override
 	public String getDescription() {
-		return "Add marker test case";
+		return "MarkerCluster test case";
+	}
+	
+	private class RandomMarkerFactory extends RandomPointsBuilder {
+		
+		private Envelope env;
+
+		public RandomMarkerFactory(Envelope env) {
+			this.env = env;
+		}
+		
+		
+		public LMarker getRandomMarker() {
+			
+			Coordinate c = createRandomCoord(env);
+			GeometryFactory gf = new GeometryFactory();
+			
+			Point p = gf.createPoint(c);
+			
+			return new LMarker(p);
+		}
 	}
 
 	private LMap leafletMap;
@@ -22,32 +47,41 @@ public class MarkerClusterTest extends AbstractTest {
 	    
 		leafletMap = new LMap();
 
-		LMarkerClusterGroup mcg = new LMarkerClusterGroup();
+		Point p = new GeometryFactory().createPoint(new Coordinate(8.622, 45.819));
 	    
-		leafletMap.setCenter(60.4525, 22.301);
-		leafletMap.setZoomLevel(15);
+		leafletMap.setCenter(p);
+		leafletMap.setZoomLevel(11);
 		leafletMap.setMaxZoom(19);
 		
-		LTileLayer pk = new LTileLayer();
-		pk.setUrl("http://{s}.kartat.kapsi.fi/peruskartta/{z}/{x}/{y}.png");
-		pk.setAttributionString("Maanmittauslaitos, hosted by kartat.kapsi.fi");
-		pk.setMaxZoom(18);
-		pk.setSubDomains("tile2");
-		pk.setDetectRetina(true);
-		leafletMap.addBaseLayer(pk, "Peruskartta");
+        LTileLayer bl = new LTileLayer("http://{s}.tile.osm.org/{z}/{x}/{y}.png");
+        bl.setAttributionString("&copy; <a href='http://osm.org/copyright'>OpenStreetMap</a> contributors");
+		
+		bl.setMaxZoom(18);
+		bl.setDetectRetina(true);
+		leafletMap.addBaseLayer(bl, "Ispra");
 
 
-	    
-		mcg.addComponent(new LMarker(60.4525, 22.301));
-		mcg.addComponent(new LMarker(60.4526, 22.302));
-		mcg.addComponent(new LMarker(60.4527, 22.303));
-		mcg.addComponent(new LMarker(60.4528, 22.304));
-		leafletMap.addComponent(mcg);
+		leafletMap.addComponent(getMarkerClusterGroup(p));
 
 		return leafletMap;
 
 	}
+	
+	private LMarkerClusterGroup getMarkerClusterGroup(Point p) {
+		LMarkerClusterGroup mcg = new LMarkerClusterGroup();
 
+		Envelope env = new Envelope();
+		env.expandToInclude(p.getCoordinate());
+		env.expandBy(0.5);
+		
+		RandomMarkerFactory rmf = new RandomMarkerFactory(env);
+		for (int i = 0; i < 2000; i++) {
+			mcg.addComponent(rmf.getRandomMarker());	
+		}
+		return mcg;
+		
+	}
+	
 	@Override
 	protected void setup() {
 		super.setup();
