@@ -3,6 +3,7 @@
 <module>
 	<!-- WS Compiler: manually edited -->
 	<inherits name="org.vaadin.addon.leaflet.draw.DrawWidgetset" />
+	<inherits name="org.vaadin.addon.leaflet.markercluster.MarkerClusterWidgetset" />
 
 	<!-- We can compile the default ws only for targets we actually test on, 
 		this speeds up development process -->
