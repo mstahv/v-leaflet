@@ -31,6 +31,8 @@ public class LMap extends AbstractComponentContainer {
 	private boolean rendered = false;
 
 	private List<Component> components = new ArrayList<Component>();
+    
+    private Bounds bounds;
 
 	public LMap() {
 		setSizeFull();
@@ -44,6 +46,7 @@ public class LMap extends AbstractComponentContainer {
 			public void onMoveEnd(Bounds bounds, int zoomlevel) {
 				getState(false).zoomLevel = zoomlevel;
 				getState(false).center = bounds.getCenter();
+                LMap.this.bounds = bounds;
 				fireEvent(new LeafletMoveEndEvent(LMap.this, bounds, zoomlevel));
 			}
 		});
@@ -239,6 +242,7 @@ public class LMap extends AbstractComponentContainer {
 	}
 
 	public void zoomToExtent(Bounds bounds) {
+        this.bounds = bounds;
 		getState(!rendered).center = bounds.getCenter();
 		getState(!rendered).zoomToExtent = bounds;
 		if (rendered) {
@@ -252,10 +256,26 @@ public class LMap extends AbstractComponentContainer {
 		zoomToExtent(bounds);
 	}
 
+    /**
+     * 
+     * @return the last know bounds (reported by client or set by zoomToExtennt) 
+     * or null if not known.
+     */
+    public Bounds getBounds() {
+        return bounds;
+    }
+
 	/**
 	 * Calculates extent of all contained components that are not "baselayers".
 	 */
 	public void zoomToContent() {
+        Geometry contentBounds = getContentBounds();
+        if(contentBounds != null) {
+            zoomToExtent(contentBounds);
+        }
+	}
+    
+    public Geometry getContentBounds() {
 		Collection<Geometry> gc = new ArrayList<Geometry>();
 		for (Component c : this) {
 			LeafletLayer l = (LeafletLayer) c;
@@ -265,9 +285,10 @@ public class LMap extends AbstractComponentContainer {
 			}
 		}
 		if (!gc.isEmpty()) {
-			zoomToExtent(new GeometryFactory().buildGeometry(gc));
+            return new GeometryFactory().buildGeometry(gc);
 		}
-	}
+        return null;
+    }
 
 	/**
 	 * @param values
