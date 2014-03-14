@@ -14,5 +14,8 @@ public interface LeafletLayer extends Component {
 	 *         (e.g. various tile layers).
 	 */
 	Geometry getGeometry();
+    
+    void bringToFront();
+    void bringToBack();
 
 }

@@ -5,39 +5,51 @@ import org.vaadin.addon.leaflet.client.ClickServerRpc;
 import org.vaadin.addon.leaflet.shared.Point;
 
 import com.vaadin.ui.AbstractComponent;
+import org.vaadin.addon.leaflet.shared.ILayerClientRpc;
 
 public abstract class AbstractLeafletLayer extends AbstractComponent implements
-		LeafletLayer {
+        LeafletLayer {
 
-	private Boolean active = true;
+    private Boolean active = true;
 
-	public AbstractLeafletLayer() {
-		registerRpc(new ClickServerRpc() {
-			@Override
-			public void onClick(Point p) {
-				fireEvent(new LeafletClickEvent(AbstractLeafletLayer.this, p));
-			}
-		});
-	}
+    public AbstractLeafletLayer() {
+        registerRpc(new ClickServerRpc() {
+            @Override
+            public void onClick(Point p) {
+                fireEvent(new LeafletClickEvent(AbstractLeafletLayer.this, p));
+            }
+        });
+    }
 
-	@Override
-	public void beforeClientResponse(boolean initial) {
-		super.beforeClientResponse(initial);
-		getState().active = active;
-	}
+    @Override
+    public void beforeClientResponse(boolean initial) {
+        super.beforeClientResponse(initial);
+        getState().active = active;
+    }
 
-	@Override
-	protected AbstractLeafletComponentState getState() {
-		return (AbstractLeafletComponentState) super.getState();
-	}
+    @Override
+    protected AbstractLeafletComponentState getState() {
+        return (AbstractLeafletComponentState) super.getState();
+    }
 
-	public void addClickListener(LeafletClickListener listener) {
-		addListener(LeafletClickEvent.class, listener,
-				LeafletClickListener.METHOD);
-	}
+    public void addClickListener(LeafletClickListener listener) {
+        addListener(LeafletClickEvent.class, listener,
+                LeafletClickListener.METHOD);
+    }
 
-	public void setActive(Boolean active) {
-		this.active = active;
-		getState().active = active;
-	}
+    public void setActive(Boolean active) {
+        this.active = active;
+        getState().active = active;
+    }
+
+    @Override
+    public void bringToFront() {
+        getRpcProxy(ILayerClientRpc.class).bringToFront();
+    }
+
+    @Override
+    public void bringToBack() {
+        getRpcProxy(ILayerClientRpc.class).bringToBack();
+    }
+
 }

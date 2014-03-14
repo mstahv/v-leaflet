@@ -13,6 +13,7 @@ import com.vaadin.client.ServerConnector;
 import com.vaadin.client.communication.RpcProxy;
 import com.vaadin.client.communication.StateChangeEvent;
 import com.vaadin.client.ui.AbstractComponentConnector;
+import org.vaadin.addon.leaflet.shared.ILayerClientRpc;
 
 public abstract class AbstractLeafletLayerConnector<T> extends
         AbstractComponentConnector {
@@ -22,7 +23,32 @@ public abstract class AbstractLeafletLayerConnector<T> extends
 
     public AbstractLeafletLayerConnector() {
         super();
+        registerRpc(ILayerClientRpc.class, new ILayerClientRpc() {
+
+            /* Doing ugly jsni hack, to avoid limiation in GWT (only one JSO can
+            implement interface methods) */
+            
+            @Override
+            public void bringToFront() {
+                jsniBringToFront(getLayer());
+            }
+
+            @Override
+            public void bringToBack() {
+                jsniBringToBack(getLayer());
+            }
+        });
     }
+    
+    private static native final void jsniBringToFront(ILayer layer)
+    /*-{ 
+        layer.bringToFront();
+    }-*/;
+
+    private static native final void jsniBringToBack(ILayer layer)
+    /*-{ 
+        layer.bringToBack();
+    }-*/;
 
     @Override
     public Label getWidget() {
