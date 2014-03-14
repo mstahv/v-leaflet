@@ -41,6 +41,10 @@ public abstract class AbstractLeafletVector extends AbstractLeafletLayer {
     public void setOpacity(Double opacity) {
         getState().getVectorStyle().setOpacity(opacity);
     }
+    
+    public void setFillOpacity(Double opacity) {
+        getState().getVectorStyle().setFillOpacity(opacity);
+    }
 
     public void setDashArray(String dashArray) {
         getState().getVectorStyle().setDashArray(dashArray);
