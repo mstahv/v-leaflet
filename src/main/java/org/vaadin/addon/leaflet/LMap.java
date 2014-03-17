@@ -34,6 +34,8 @@ public class LMap extends AbstractComponentContainer {
     
     private Bounds bounds;
 
+	private String crsId;
+
 	public LMap() {
 		setSizeFull();
 		registerRpc(new LeafletMapServerRpc() {
@@ -329,5 +331,15 @@ public class LMap extends AbstractComponentContainer {
 			zoomToExtent(geometry);
 		}
 	}
+
+	public String getCrsId() {
+		return crsId;
+	}
+
+	public void setCrsId(String crsId) {
+		this.crsId = crsId;
+		getState().crsId = crsId;
+	}
+	
 }
 
