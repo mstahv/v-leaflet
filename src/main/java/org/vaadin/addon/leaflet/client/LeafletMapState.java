@@ -33,4 +33,5 @@ public class LeafletMapState extends AbstractComponentState {
 	
 	public String attributionPrefix = "Leaflet";
 
+	public String crsId = "EPSG:3857";
 }

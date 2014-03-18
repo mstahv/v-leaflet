@@ -140,7 +140,18 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector
 			} else {
 				options.setCenter(LatLng.create(0, 0));
 			}
-			options.setCrs(Crs.EPSG3857());
+		
+			if ("EPSG:4326".equals(getState().crsId)) {
+				options.setCrs(Crs.EPSG4326());
+			} else if ("EPSG:3857".equals(getState().crsId)) {
+				options.setCrs(Crs.EPSG3857());
+			} else if ("EPSG:3395".equals(getState().crsId)) {
+				options.setCrs(Crs.EPSG3395());
+			} else if ("Simple".equals(getState().crsId)) {
+				options.setCrs(Crs.Simple());
+			} else {
+				options.setCrs(Crs.EPSG3857());
+			}
 
 			if (getState().attributionPrefix == null) {
 				options.setAttributionControl(false);
