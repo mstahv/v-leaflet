@@ -18,11 +18,7 @@ package org.vaadin.addon.leaflet;
 import org.peimari.gleaflet.client.Crs;
 
 /**
- * Encapsulates a Coordinate Reference System for v-leaflet. Written so that
- * alternative identification systems can be handled in the future, eg Spatial
- * Reference.<p>Constructor left accessible so that user can create their own
- * CRSs if, and when, support in g-leaflet is extended (see {@link Crs})</p>
- *
+ * Encapsulates a Coordinate Reference System for v-leaflet
  *
  * @author Warwick Dufour
  */
@@ -46,17 +42,11 @@ public enum LCrs {
 	EPSG3857("EPSG:3857");
 	private String id;
 
-	/**
-	 * Constructor left accessible so that user can create their own
-	 * CRSs if and when support in g-leaflet is extended (see {@link Crs})
-	 *
-	 * @param s
-	 */
 	LCrs(String s) {
 		id = s;
 	}
 
-	String getId() {
+	public String getId() {
 		return id;
 	}
 }
