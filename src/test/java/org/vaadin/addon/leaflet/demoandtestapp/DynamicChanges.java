@@ -25,6 +25,7 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Notification.Type;
+import org.vaadin.addon.leaflet.LOpenStreetMapLayer;
 
 public class DynamicChanges extends AbstractTest {
 
@@ -57,13 +58,7 @@ public class DynamicChanges extends AbstractTest {
     public Component getTestComponent() {
         leafletMap = new LMap();
         
-        LTileLayer baselayer = new LTileLayer();
-
-        // Note, this url should only be used for testing purposes. If you wish
-        // to use cloudmade base maps, get your own API key.
-        baselayer
-                .setUrl("http://{s}.tile.cloudmade.com/a751804431c2443ab399100902c651e8/997/256/{z}/{x}/{y}.png");
-        leafletMap.addBaseLayer(baselayer, "CloudMade");
+        leafletMap.addBaseLayer(new LOpenStreetMapLayer(), "OSM");
         
         leafletMap.addComponent(polyline);
         

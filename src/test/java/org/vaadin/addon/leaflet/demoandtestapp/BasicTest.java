@@ -28,6 +28,7 @@ import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Notification.Type;
+import org.vaadin.addon.leaflet.LOpenStreetMapLayer;
 
 public class BasicTest extends AbstractTest {
 
@@ -123,13 +124,7 @@ public class BasicTest extends AbstractTest {
 		leafletMap.addComponent(leafletMarker);
 		leafletMap.setAttributionPrefix("Powered by Leaflet with v-leaflet");
 
-		LTileLayer baselayer = new LTileLayer();
-		baselayer.setAttributionString("&copy;OpenStreetMap contributors");
-		// Note, this url should only be used for testing purposes. If you wish
-		// to use cloudmade base maps, get your own API key.
-		baselayer
-				.setUrl("http://{s}.tile.cloudmade.com/a751804431c2443ab399100902c651e8/997/256/{z}/{x}/{y}.png");
-		leafletMap.addBaseLayer(baselayer, "CloudMade");
+		leafletMap.addBaseLayer(new LOpenStreetMapLayer(), "CloudMade");
 
 		// This will make everything sharper on "retina devices", but also text
 		// quite small

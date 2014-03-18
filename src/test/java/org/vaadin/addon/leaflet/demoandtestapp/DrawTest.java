@@ -21,6 +21,7 @@ import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Notification;
+import org.vaadin.addon.leaflet.LOpenStreetMapLayer;
 
 public class DrawTest extends AbstractTest {
 
@@ -39,8 +40,7 @@ public class DrawTest extends AbstractTest {
 		leafletMap = new LMap();
 		leafletMap.setCenter(0, 0);
 		leafletMap.setZoomLevel(0);
-		leafletMap.addLayer(new LTileLayer(
-				"http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"));
+		leafletMap.addLayer(new LOpenStreetMapLayer());
 
 		group = new LFeatureGroup();
 

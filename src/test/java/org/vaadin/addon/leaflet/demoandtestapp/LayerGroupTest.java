@@ -29,6 +29,7 @@ import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Notification.Type;
+import org.vaadin.addon.leaflet.LOpenStreetMapLayer;
 
 public class LayerGroupTest extends AbstractTest {
 
@@ -149,12 +150,7 @@ public class LayerGroupTest extends AbstractTest {
         leafletMarker.addClickListener(listener);
         leafletMap.addComponent(leafletMarker);
 
-        // Note, this url should only be used for testing purposes. If you wish
-        // to use cloudmade base maps, get your own API key.
-        LTileLayer tileLayer = new LTileLayer();
-        tileLayer.setUrl("http://{s}.tile.cloudmade.com/a751804431c2443ab399100902c651e8/997/256/{z}/{x}/{y}.png");
-        
-        leafletMap.addBaseLayer(tileLayer, "CloudMade");
+        leafletMap.addBaseLayer(new LOpenStreetMapLayer(), "OSM");
 
         leafletMap.addClickListener(listener);
 

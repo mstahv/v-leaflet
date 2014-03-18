@@ -9,6 +9,7 @@ import org.vaadin.addon.leaflet.demoandtestapp.util.AbstractTest;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Window;
+import org.vaadin.addon.leaflet.LOpenStreetMapLayer;
 
 public class SizeChangeInWindow extends AbstractTest {
 
@@ -23,10 +24,7 @@ public class SizeChangeInWindow extends AbstractTest {
     	final LMap map = new LMap();
     	     map.setCenter( 50.06465, 19.94498 );
     	
-    	      final LTileLayer baselayer = new LTileLayer();
-    	      baselayer.setAttributionString( "OpenStreetMap" );
-    	      baselayer.setUrl( "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" );
-    	      map.addBaseLayer(baselayer, "OpenStreetMap");
+    	      map.addBaseLayer(new LOpenStreetMapLayer(), "OpenStreetMap");
     	  
     	      map.setImmediate( true );
     	      map.setSizeFull();

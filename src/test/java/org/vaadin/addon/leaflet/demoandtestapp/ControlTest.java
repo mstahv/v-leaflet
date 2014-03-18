@@ -9,6 +9,7 @@ import org.vaadin.addon.leaflet.demoandtestapp.util.AbstractTest;
 import org.vaadin.addon.leaflet.shared.ControlPosition;
 
 import com.vaadin.ui.Component;
+import org.vaadin.addon.leaflet.LOpenStreetMapLayer;
 
 public class ControlTest extends AbstractTest {
 
@@ -26,18 +27,7 @@ public class ControlTest extends AbstractTest {
 		leafletMap.setCenter(60.4525, 22.301);
 		leafletMap.setZoomLevel(15);
 
-		LTileLayer baselayer = new LTileLayer();
-		baselayer.setAttributionString("&copy;OpenStreetMap contributors");
-		// Note, this url should only be used for testing purposes. If you wish
-		// to use cloudmade base maps, get your own API key.
-		baselayer
-				.setUrl("http://{s}.tile.cloudmade.com/a751804431c2443ab399100902c651e8/997/256/{z}/{x}/{y}.png");
-
-		/*
-		 * Layers control is automatically added to map if names are given when
-		 * adding layers.
-		 */
-		leafletMap.addBaseLayer(baselayer, "CloudMade");
+		leafletMap.addBaseLayer(new LOpenStreetMapLayer(), "OSM");
 		/*
 		 * Using nameless api, doesn't add layers control
 		 */

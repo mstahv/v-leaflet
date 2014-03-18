@@ -5,7 +5,6 @@ import java.util.Arrays;
 
 import org.vaadin.addon.leaflet.LMap;
 import org.vaadin.addon.leaflet.LMarker;
-import org.vaadin.addon.leaflet.LTileLayer;
 import org.vaadin.addon.leaflet.demoandtestapp.util.AbstractTest;
 import org.vaadin.addon.leaflet.shared.Bounds;
 import org.vaadin.addon.leaflet.shared.Control;
@@ -13,6 +12,7 @@ import org.vaadin.addon.leaflet.shared.Point;
 
 import com.vaadin.ui.Component;
 import com.vaadin.ui.VerticalLayout;
+import org.vaadin.addon.leaflet.LOpenStreetMapLayer;
 
 public class ZoomToExtendOnInitilaRender extends AbstractTest {
 
@@ -37,14 +37,7 @@ public class ZoomToExtendOnInitilaRender extends AbstractTest {
         map.setSizeFull();
 
         // Setting backgroud layer.
-        
-		LTileLayer baselayer = new LTileLayer();
-		baselayer.setAttributionString("&copy;OpenStreetMap contributors");
-		// Note, this url should only be used for testing purposes. If you wish
-		// to use cloudmade base maps, get your own API key.
-		baselayer
-				.setUrl("http://{s}.tile.cloudmade.com/a751804431c2443ab399100902c651e8/997/256/{z}/{x}/{y}.png");
-		map.addBaseLayer(baselayer, "CloudMade");
+		map.addBaseLayer(new LOpenStreetMapLayer(), "OSM");
 
         // I am here.
         LMarker myPositon = new LMarker(43.894367,11.078185);
