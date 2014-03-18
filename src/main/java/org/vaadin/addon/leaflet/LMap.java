@@ -34,7 +34,7 @@ public class LMap extends AbstractComponentContainer {
     
     private Bounds bounds;
 
-	private String crsId;
+	private LCrs lCrs;
 
 	public LMap() {
 		setSizeFull();
@@ -332,13 +332,18 @@ public class LMap extends AbstractComponentContainer {
 		}
 	}
 
-	public String getCrsId() {
-		return crsId;
+	public LCrs getCrs() {
+		return lCrs;
 	}
 
-	public void setCrsId(String crsId) {
-		this.crsId = crsId;
-		getState().crsId = crsId;
+	/**
+	 * Specify the CRS to use for the whole Map.
+	 * 
+	 * @param lc The CRS to use (one from a limited range)
+	 */
+	public void setCrs(LCrs lc) {
+		this.lCrs = lc;
+		getState().crsId = lc.getId();
 	}
 	
 }

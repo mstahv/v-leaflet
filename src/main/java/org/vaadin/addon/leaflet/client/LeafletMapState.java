@@ -33,5 +33,9 @@ public class LeafletMapState extends AbstractComponentState {
 	
 	public String attributionPrefix = "Leaflet";
 
-	public String crsId = "EPSG:3857";
+	/**
+	 * Internal String identifier of CRS that is meaningful to v-leaflet
+	 * client.
+	 */
+	public String crsId;
 }
