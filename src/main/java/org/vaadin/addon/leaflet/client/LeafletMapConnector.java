@@ -109,12 +109,15 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector
 
 			@Override
 			public void zoomToExtent(Bounds b) {
-				LatLng northEast = LatLng.create(b.getNorthEastLat(),
-						b.getNorthEastLon());
-				LatLng southWest = LatLng.create(b.getSouthWestLat(),
-						b.getSouthWestLon());
-				map.fitBounds(LatLngBounds.create(southWest, northEast));
+				LatLngBounds bounds = toLeafletBounds(b);
+				map.fitBounds(bounds);
 			}
+
+            @Override
+            public void setMaxBounds(Bounds bounds) {
+                map.setMaxBounds(toLeafletBounds(bounds));
+            }
+
 		});
 
 		getLayoutManager().addElementResizeListener(getWidget().getElement(),
@@ -135,6 +138,9 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector
 		if (map == null) {
 			updateChildren = new ArrayList<ServerConnector>(getChildren());
 			options = MapOptions.create();
+            if(getState().maxBounds != null) {
+                options.setMaxBounds(toLeafletBounds(getState().maxBounds));
+            }
 			if (getState().center != null) {
 				options.setCenter(getCenterFromState());
 			} else {
@@ -269,5 +275,14 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector
 	public void setLayersControl(Layers l) {
 		this.layersControl = l;
 	}
+
+    public static LatLngBounds toLeafletBounds(Bounds b) {
+        LatLng northEast = LatLng.create(b.getNorthEastLat(),
+                b.getNorthEastLon());
+        LatLng southWest = LatLng.create(b.getSouthWestLat(),
+                b.getSouthWestLon());
+        LatLngBounds bounds = LatLngBounds.create(southWest, northEast);
+        return bounds;
+    }
 
 }

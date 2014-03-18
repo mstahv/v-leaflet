@@ -32,5 +32,6 @@ public class LeafletMapState extends AbstractComponentState {
 	public Bounds zoomToExtent;
 	
 	public String attributionPrefix = "Leaflet";
+    public Bounds maxBounds;
 
 }

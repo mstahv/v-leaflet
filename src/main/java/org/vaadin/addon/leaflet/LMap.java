@@ -329,5 +329,27 @@ public class LMap extends AbstractComponentContainer {
 			zoomToExtent(geometry);
 		}
 	}
+
+    /**
+     * Sets the area into where the viewport is restricted.
+     * 
+     * @param bounds 
+     */
+    public void setMaxBounds(Bounds bounds) {
+        getState(!rendered).maxBounds = bounds;
+        if(rendered) {
+            // If already on the screen, use RPC instead to avoid "full paint"
+			getRpcProxy(LeafletMapClientRpc.class).setMaxBounds(bounds);
+        }
+    }
+    
+    /**
+     * Sets the area into where the viewport is restricted.
+     * 
+     * @param bounds 
+     */
+    public void setMaxBounds(Geometry bounds) {
+        setMaxBounds(JTSUtil.getBounds(bounds));
+    }
 }
 
