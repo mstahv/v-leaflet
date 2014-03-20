@@ -13,36 +13,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.vaadin.addon.leaflet;
-
-import org.peimari.gleaflet.client.Crs;
+package org.vaadin.addon.leaflet.shared;
 
 /**
  * Encapsulates a Coordinate Reference System for v-leaflet
  *
  * @author Warwick Dufour
  */
-public enum LCrs {
+public class Crs {
 
 	/**
 	 * Leaflet specific
 	 */
-	SIMPLE("Simple"),
+	public static final Crs SIMPLE = new Crs("Simple");
 	/**
 	 * WGS 84
 	 */
-	EPSG4326("EPSG:4326"),
+	public static final Crs EPSG4326 = new Crs("EPSG:4326");
 	/**
 	 * WGS 84 / World Mercator
 	 */
-	EPSG3395("EPSG:3395"),
+	public static final Crs EPSG3395 = new Crs("EPSG:3395");
 	/**
 	 * WGS 84 / Pseudo-Mercator
 	 */
-	EPSG3857("EPSG:3857");
-	private String id;
+	public static final Crs EPSG3857 = new Crs("EPSG:3857");
+	
+	private final String id;
 
-	LCrs(String s) {
+	public Crs(String s) {
 		id = s;
 	}
 

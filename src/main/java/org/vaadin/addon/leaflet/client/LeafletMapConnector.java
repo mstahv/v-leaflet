@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.peimari.gleaflet.client.ClickListener;
-import org.peimari.gleaflet.client.Crs;
 import org.peimari.gleaflet.client.Event;
 import org.peimari.gleaflet.client.ILayer;
 import org.peimari.gleaflet.client.LatLng;
@@ -46,6 +45,7 @@ import com.vaadin.client.ui.AbstractHasComponentsConnector;
 import com.vaadin.client.ui.layout.ElementResizeEvent;
 import com.vaadin.client.ui.layout.ElementResizeListener;
 import com.vaadin.shared.ui.Connect;
+import org.vaadin.addon.leaflet.shared.Crs;
 
 /**
  * 
@@ -145,16 +145,16 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector
 			 * See if CRS set. Maintain backwards compatability so that EPSG:3857
 			 * used if nothing specified.
 			 */
-			if ("EPSG:4326".equals(getState().crsId)) {
-				options.setCrs(Crs.EPSG4326());
-			} else if ("EPSG:3857".equals(getState().crsId)) {
-				options.setCrs(Crs.EPSG3857());
-			} else if ("EPSG:3395".equals(getState().crsId)) {
-				options.setCrs(Crs.EPSG3395());
-			} else if ("Simple".equals(getState().crsId)) {
-				options.setCrs(Crs.Simple());
+			if (Crs.EPSG4326.getId().equals(getState().crsId)) {
+				options.setCrs(org.peimari.gleaflet.client.Crs.EPSG4326());
+			} else if (Crs.EPSG3857.getId().equals(getState().crsId)) {
+				options.setCrs(org.peimari.gleaflet.client.Crs.EPSG3857());
+			} else if (Crs.EPSG3395.getId().equals(getState().crsId)) {
+				options.setCrs(org.peimari.gleaflet.client.Crs.EPSG3395());
+			} else if (Crs.SIMPLE.getId().equals(getState().crsId)) {
+				options.setCrs(org.peimari.gleaflet.client.Crs.Simple());
 			} else {
-				options.setCrs(Crs.EPSG3857());
+				options.setCrs(org.peimari.gleaflet.client.Crs.EPSG3857());
 			}
 
 			if (getState().attributionPrefix == null) {
