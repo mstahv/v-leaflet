@@ -1,5 +1,6 @@
 package org.vaadin.addon.leaflet;
 
+import org.vaadin.addon.leaflet.shared.Crs;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -33,6 +34,8 @@ public class LMap extends AbstractComponentContainer {
 	private List<Component> components = new ArrayList<Component>();
     
     private Bounds bounds;
+
+	private Crs lCrs;
 
 	public LMap() {
 		setSizeFull();
@@ -351,5 +354,19 @@ public class LMap extends AbstractComponentContainer {
     public void setMaxBounds(Geometry bounds) {
         setMaxBounds(JTSUtil.getBounds(bounds));
     }
+    
+	public Crs getCrs() {
+		return lCrs;
+	}
+
+	/**
+	 * Specify the CRS to use for the whole Map.
+	 * 
+	 * @param lc The CRS to use (one from a limited range)
+	 */
+	public void setCrs(Crs lc) {
+		this.lCrs = lc;
+		getState().crsId = lc.getId();
+	}
 }
 
