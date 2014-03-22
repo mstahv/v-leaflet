@@ -355,6 +355,10 @@ public class LMap extends AbstractComponentContainer {
         setMaxBounds(JTSUtil.getBounds(bounds));
     }
     
+	public void setMaxZoom(int maxZoom) {
+		getState().maxZoom = maxZoom;
+	}
+
 	public Crs getCrs() {
 		return lCrs;
 	}

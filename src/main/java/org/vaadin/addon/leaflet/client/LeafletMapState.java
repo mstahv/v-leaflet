@@ -33,6 +33,7 @@ public class LeafletMapState extends AbstractComponentState {
 	
 	public String attributionPrefix = "Leaflet";
     public Bounds maxBounds;
+    public Integer maxZoom;
 
 	/**
 	 * Internal String identifier of CRS that is meaningful to v-leaflet
