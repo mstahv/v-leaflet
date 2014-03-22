@@ -113,7 +113,7 @@ public class LayerGroupTest extends AbstractTest {
         LCircle leafletCircle = new LCircle(60.4525 + 0.005, 22.301 + 0.005,
                 200);
         leafletCircle.setColor("#FF0000");
-        llgNested = new LLayerGroup(null);
+        llgNested = new LLayerGroup();
         llgNested.addComponent(leafletCircle);
         llg.addComponent(llgNested);
 

@@ -5,6 +5,7 @@ import org.peimari.gleaflet.client.PathOptions;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.vaadin.client.ServerConnector;
 
 public abstract class AbstractLeafletVectorConnector<T extends AbstractLeafletVectorState, O extends PathOptions>
 		extends AbstractLeafletLayerConnector<O> {
@@ -98,10 +99,11 @@ public abstract class AbstractLeafletVectorConnector<T extends AbstractLeafletVe
 
 		return o;
 	}
-
+	
 	@Override
-	protected void updateIfDirty() {
-		super.updateIfDirty();
+	public void setParent(ServerConnector parent) {
+		super.setParent(parent);
+		markDirty();
 	}
 
 	@Override

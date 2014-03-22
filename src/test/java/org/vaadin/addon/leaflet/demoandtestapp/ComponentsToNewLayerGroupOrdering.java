@@ -1,19 +1,22 @@
 package org.vaadin.addon.leaflet.demoandtestapp;
 
+import org.peimari.gleaflet.client.LayerGroup;
 import org.vaadin.addon.leaflet.LMap;
 import org.vaadin.addon.leaflet.demoandtestapp.util.AbstractTest;
+
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.VerticalLayout;
+
 import org.vaadin.addon.leaflet.LCircleMarker;
 import org.vaadin.addon.leaflet.LLayerGroup;
 import org.vaadin.addon.leaflet.shared.Point;
 
-public class LayerGroupOrdering extends AbstractTest {
+public class ComponentsToNewLayerGroupOrdering extends AbstractTest {
 
     @Override
     public String getDescription() {
-        return "Test layer ordering (currently broken)";
+        return "Test layer ordering";
     }
 
     @Override
@@ -45,65 +48,41 @@ public class LayerGroupOrdering extends AbstractTest {
     }
 
     public class MapView extends LMap {
-
-        LLayerGroup blues;
-        LLayerGroup reds;
-
+    	
+    	LCircleMarker[] reds = new LCircleMarker[3];
+    	LCircleMarker[] blues = new LCircleMarker[3];
+    	
         public MapView() {
             setHeight("300px");
             setWidth("300px");
-
-            Point center = new Point(32.32, 34.85);
-            setCenter(center);
-            setZoomLevel(9);
-            setImmediate(true);
-
-            blues = new LLayerGroup();
-            addComponent(blues);
-            reds = new LLayerGroup();
-            addComponent(reds);
-
-            LCircleMarker marker = new LCircleMarker(32.3, 34.8, 30);
-            marker.setFillColor("red");
+            
+            reds[0] = m("red",32.3, 34.8);
+            reds[1] = m("red",32.2, 34.6);
+            reds[2] = m("red",32.27, 34.58);
+            
+            blues[0] = m("blue",32.34, 34.0);
+            blues[1] = m("blue",32.25, 34.62);
+            blues[2] = m("blue",32.29, 34.5);
+            
+            redUp();
+            zoomToContent();
+        }
+        
+        LCircleMarker m(String color, double lat, double lon) {
+            LCircleMarker marker = new LCircleMarker(lat,lon, 30);
+            marker.setFillColor(color);
             marker.getStyle().setFillOpacity(1.0);
-            blues.addComponent(marker);
-
-            marker = new LCircleMarker(32.34, 34.0, 30);
-            marker.setFillColor("blue");
-            marker.getStyle().setFillOpacity(1.0);
-            reds.addComponent(marker);
-
-            marker = new LCircleMarker(32.2, 34.6, 30);
-            marker.setFillColor("red");
-            marker.getStyle().setFillOpacity(1.0);
-            blues.addComponent(marker);
-
-            marker = new LCircleMarker(32.25, 34.62, 30);
-            marker.setFillColor("blue");
-            marker.getStyle().setFillOpacity(1.0);
-            reds.addComponent(marker);
-            marker = new LCircleMarker(32.27, 34.58, 30);
-            marker.setFillColor("red");
-            marker.getStyle().setFillOpacity(1.0);
-            blues.addComponent(marker);
-
-            marker = new LCircleMarker(32.29, 34.5, 30);
-            marker.setFillColor("blue");
-
-            marker.getStyle().setFillOpacity(1.0);
-            reds.addComponent(marker);
+            return marker;
         }
 
         public void redUp() {
             removeAllComponents();
-            addComponent(reds);
-            addComponent(blues);
+            addComponents(new LLayerGroup(blues),new LLayerGroup(reds));
         }
 
         public void redDown() {
             removeAllComponents();
-            addComponent(blues);
-            addComponent(reds);
+            addComponents(new LLayerGroup(reds),new LLayerGroup(blues));
         }
 
     }

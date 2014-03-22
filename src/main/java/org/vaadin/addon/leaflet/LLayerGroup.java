@@ -26,7 +26,12 @@ public class LLayerGroup extends AbstractComponentContainer implements
         this(true);
     }
 
-    @Override
+    public LLayerGroup(AbstractLeafletLayer... components) {
+    	this();
+    	addComponents(components);
+	}
+
+	@Override
     public void replaceComponent(Component oldComponent, Component newComponent) {
 
     }

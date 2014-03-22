@@ -4,16 +4,15 @@ package org.vaadin.addon.leaflet.client;
 import org.peimari.gleaflet.client.ILayer;
 import org.peimari.gleaflet.client.LayerGroup;
 import org.peimari.gleaflet.client.Map;
+import org.vaadin.addon.leaflet.shared.ILayerClientRpc;
 
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Label;
 import com.vaadin.client.HasComponentsConnector;
 import com.vaadin.client.ServerConnector;
 import com.vaadin.client.communication.RpcProxy;
 import com.vaadin.client.communication.StateChangeEvent;
 import com.vaadin.client.ui.AbstractComponentConnector;
-import org.vaadin.addon.leaflet.shared.ILayerClientRpc;
 
 public abstract class AbstractLeafletLayerConnector<T> extends
         AbstractComponentConnector {
@@ -30,18 +29,18 @@ public abstract class AbstractLeafletLayerConnector<T> extends
             
             @Override
             public void bringToFront() {
-                jsniBringToFront(getLayer());
-            }
+		                jsniBringToFront(getLayer());
+					}
 
             @Override
             public void bringToBack() {
-                jsniBringToBack(getLayer());
+		                jsniBringToBack(getLayer());
+					}
+				});
             }
-        });
-    }
     
     private static native final void jsniBringToFront(ILayer layer)
-    /*-{ 
+    /*-{
         layer.bringToFront();
     }-*/;
 
@@ -49,7 +48,7 @@ public abstract class AbstractLeafletLayerConnector<T> extends
     /*-{ 
         layer.bringToBack();
     }-*/;
-
+    
     private static Label fakeWidget = new Label();
 
     @Override
@@ -128,25 +127,33 @@ public abstract class AbstractLeafletLayerConnector<T> extends
     protected void markDirty() {
     	updated = false;
     }
-
+    
+    // TODO replace timer usage with more sophisticated solution for 
+    // Vaadin's indeterministic client side updates
+    private Timer deferredUpdate;
+    
     protected void deferUpdate() {
+    	if(deferredUpdate == null) {
+    		deferredUpdate = new Timer() {
+    			@Override
+    			public void run() {
+    				updateIfDirty();
+    			}
+    		};
+    	}
         // state change events are fired in random order. To ensure correct
         // order and only one update (e.g. move of marker), we defer update here
         // and do it only if not forced by parent.
-        Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-
-            @Override
-            public void execute() {
-                updateIfDirty();
-            }
-
-        });
+    	deferredUpdate.schedule(0);
     }
 
     protected void updateIfDirty() {
-    	if (!updated) {
+    	if (!updated && getParent() != null) {
     		update();
     		updated = true;
+    		if(deferredUpdate != null) {
+        		deferredUpdate.cancel();
+    		}
     	}
     }
     

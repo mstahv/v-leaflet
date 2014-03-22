@@ -43,5 +43,5 @@ public class LeafletCircleConnector extends
     public ILayer getLayer() {
         return marker;
     }
-
+    
 }
