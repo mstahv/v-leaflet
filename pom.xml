@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.vaadin.addon</groupId>
     <artifactId>v-leaflet</artifactId>
-    <version>0.5.5</version>
+    <version>0.5.6-SNAPSHOT</version>
     <name>V-Leaflet</name>
 
     <properties>
@@ -313,7 +313,7 @@
         <dependency>
             <groupId>org.peimari</groupId>
             <artifactId>g-leaflet-draw</artifactId>
-            <version>0.4.5</version>
+            <version>0.4.6-SNAPSHOT</version>
             <!-- Only needed during widgetset compilation, so provided scope would 
             be great for this, but with it is left out from widgetset compilation by 
             vaadin plugin -->
