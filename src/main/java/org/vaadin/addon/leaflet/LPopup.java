@@ -1,13 +1,11 @@
 package org.vaadin.addon.leaflet;
 
+import org.vaadin.addon.leaflet.client.LeafletPopupState;
+import org.vaadin.addon.leaflet.client.PopupServerRpc;
 import org.vaadin.addon.leaflet.shared.Point;
 import org.vaadin.addon.leaflet.util.JTSUtil;
 
-import com.vaadin.shared.AbstractComponentState;
 import com.vividsolutions.jts.geom.Geometry;
-
-import org.vaadin.addon.leaflet.client.LeafletPopupState;
-import org.vaadin.addon.leaflet.client.PopupServerRpc;
 
 /**
  * Standalone Popup to be displayed on the map.

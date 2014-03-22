@@ -1,14 +1,45 @@
 package org.vaadin.addon.leaflet.client;
 
-
+import org.peimari.gleaflet.client.AbstractPath;
 import org.peimari.gleaflet.client.PathOptions;
 
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+
 public abstract class AbstractLeafletVectorConnector<T extends AbstractLeafletVectorState, O extends PathOptions>
-        extends AbstractLeafletLayerConnector<O> {
+		extends AbstractLeafletLayerConnector<O> {
+
+	AbstractLeafletVectorConnector() {
+		registerRpc(LeafletMarkerClientRpc.class, new LeafletMarkerClientRpc() {
+
+			@Override
+			public void openPopup() {
+				Scheduler.get().scheduleDeferred(
+						new Scheduler.ScheduledCommand() {
+
+							@Override
+							public void execute() {
+								getVector().openPopup();
+							}
+						});
+			}
+
+			@Override
+			public void closePopup() {
+				getVector().closePopup();
+			}
+
+		});
+
+	}
+
+	protected AbstractPath getVector() {
+		return (AbstractPath) getLayer();
+	}
 
 	@Override
 	protected O createOptions() {
- 		O o = (O) O.create();
+		O o = (O) O.create();
 		AbstractLeafletVectorState s = getState();
 		if (s.color != null) {
 			o.setColor(s.color);
@@ -49,7 +80,28 @@ public abstract class AbstractLeafletVectorConnector<T extends AbstractLeafletVe
 		if (s.className != null) {
 			o.setClassName(s.className);
 		}
+
+		final String popup = getState().popup;
+		if (popup != null) {
+			Scheduler.get().scheduleFinally(new ScheduledCommand() {
+
+				@Override
+				public void execute() {
+					getVector().bindPopup(
+							popup,
+							LeafletMarkerConnector
+									.popupOptionsFor(getState().popupState));
+				}
+			});
+
+		}
+
 		return o;
+	}
+
+	@Override
+	protected void updateIfDirty() {
+		super.updateIfDirty();
 	}
 
 	@Override

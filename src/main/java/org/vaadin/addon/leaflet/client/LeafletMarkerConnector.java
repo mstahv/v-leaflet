@@ -28,13 +28,13 @@ public class LeafletMarkerConnector extends
 
 		@Override
 		public void openPopup() {
-            Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+			Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
 
-                @Override
-                public void execute() {
-        			marker.openPopup();
-                }
-            });
+				@Override
+				public void execute() {
+					marker.openPopup();
+				}
+			});
 		}
 
 		@Override
@@ -45,7 +45,7 @@ public class LeafletMarkerConnector extends
 	};
 
 	DragEndServerRpc dragServerRcp = getRpcProxy(DragEndServerRpc.class);
-	
+
 	public LeafletMarkerConnector() {
 		registerRpc(LeafletMarkerClientRpc.class, clientRpc);
 	}
@@ -126,32 +126,34 @@ public class LeafletMarkerConnector extends
 		}
 		String popup = getState().popup;
 		if (popup != null) {
-			PopupState popupState = getState().popupState;
-			if (popupState != null) {
-				PopupOptions popupOptions = PopupOptions.create();
-				popupOptions.setMaxWidth(popupState.maxWidth);
-				popupOptions.setMinWidth(popupState.minWidth);
-				popupOptions.setAutoPan(popupState.autoPan);
-				popupOptions.setCloseButton(popupState.closeButton);
-				if (popupState.offset != null) {
-					popupOptions.setOffset(Point.create(
-							popupState.offset.getLat(),
-							popupState.offset.getLon()));
-				}
-				popupOptions.setZoomAnimation(popupState.zoomAnimation);
-				if (popupState.autoPanPadding != null) {
-					popupOptions.setAutoPanPadding(Point.create(
-							popupState.autoPanPadding.getLat(),
-							popupState.autoPanPadding.getLon()));
-				}
-				marker.bindPopup(popup, popupOptions);
-			} else {
-				marker.bindPopup(popup);
-			}
+			PopupOptions popupOptions = popupOptionsFor(getState().popupState);
+			marker.bindPopup(popup, popupOptions);
 		}
 		addToParent(marker);
 
 		marker.addClickListener(handler);
+	}
+
+	public static PopupOptions popupOptionsFor(PopupState popupState) {
+		if (popupState == null) {
+			return null;
+		}
+		PopupOptions popupOptions = PopupOptions.create();
+		popupOptions.setMaxWidth(popupState.maxWidth);
+		popupOptions.setMinWidth(popupState.minWidth);
+		popupOptions.setAutoPan(popupState.autoPan);
+		popupOptions.setCloseButton(popupState.closeButton);
+		if (popupState.offset != null) {
+			popupOptions.setOffset(Point.create(popupState.offset.getLat(),
+					popupState.offset.getLon()));
+		}
+		popupOptions.setZoomAnimation(popupState.zoomAnimation);
+		if (popupState.autoPanPadding != null) {
+			popupOptions.setAutoPanPadding(Point.create(
+					popupState.autoPanPadding.getLat(),
+					popupState.autoPanPadding.getLon()));
+		}
+		return popupOptions;
 	}
 
 	@Override

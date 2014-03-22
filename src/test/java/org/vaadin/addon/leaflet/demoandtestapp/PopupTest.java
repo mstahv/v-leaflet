@@ -6,8 +6,10 @@ import java.util.List;
 import org.vaadin.addon.leaflet.LMap;
 import org.vaadin.addon.leaflet.LMarker;
 import org.vaadin.addon.leaflet.LOpenStreetMapLayer;
+import org.vaadin.addon.leaflet.LPolyline;
 import org.vaadin.addon.leaflet.LPopup;
 import org.vaadin.addon.leaflet.demoandtestapp.util.AbstractTest;
+import org.vaadin.addon.leaflet.shared.Point;
 
 import com.vaadin.server.ClientConnector.DetachListener;
 import com.vaadin.ui.Button;
@@ -44,6 +46,12 @@ public class PopupTest extends AbstractTest implements DetachListener {
         lMarker.setPopup("Popup tied to marker");
 		leafletMap.addComponent(lMarker);
         lMarker.openPopup();
+        
+        
+        LPolyline lPolyline = new LPolyline(new Point(60.4525, 22.301),new Point(60.4539, 22.309));
+        lPolyline.setPopup("Popup tied to polyline");
+        leafletMap.addComponent(lPolyline);
+        lPolyline.openPopup();
         
         LPopup lPopup = new LPopup(60.4525, 22.301).setContent("Hi, can't close me!");
         leafletMap.addComponent(lPopup);
