@@ -1,9 +1,8 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.vaadin.addon</groupId>
     <artifactId>v-leaflet</artifactId>
-    <version>0.5.5-SNAPSHOT</version>
+    <version>0.5.5</version>
     <name>V-Leaflet</name>
 
     <properties>
@@ -23,7 +22,6 @@
         <url>git://github.com/mstahv/v-leaflet.git</url>
         <connection>scm:git:git://github.com/mstahv/v-leaflet.git</connection>
         <developerConnection>scm:git:ssh://git@github.com:/mstahv/v-leaflet.git</developerConnection>
-        <tag>vaadin leaflet add-on</tag>
     </scm>
 
     <issueManagement>
@@ -165,6 +163,18 @@
 
         <pluginManagement>
             <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-release-plugin</artifactId>
+                    <configuration>
+                        <pushChanges>false</pushChanges>
+                        <localCheckout>true</localCheckout>
+                        <useReleaseProfile>true</useReleaseProfile>
+                        <releaseProfiles>release</releaseProfiles>
+                        <goals>install assembly:single</goals>
+                    </configuration>
+                </plugin>
+
                 <!-- Compile widget set for integration testing -->
                 <plugin>
                     <groupId>com.vaadin</groupId>
@@ -225,7 +235,7 @@
                                         </goals>
                                     </pluginExecutionFilter>
                                     <action>
-                                        <ignore></ignore>
+                                        <ignore />
                                     </action>
                                 </pluginExecution>
                                 <pluginExecution>
@@ -246,7 +256,7 @@
                                         </goals>
                                     </pluginExecutionFilter>
                                     <action>
-                                        <ignore></ignore>
+                                        <ignore />
                                     </action>
                                 </pluginExecution>
                             </pluginExecutions>
@@ -303,7 +313,7 @@
         <dependency>
             <groupId>org.peimari</groupId>
             <artifactId>g-leaflet-draw</artifactId>
-            <version>${g-leaflet-draw-version}</version>
+            <version>0.4.5</version>
             <!-- Only needed during widgetset compilation, so provided scope would 
             be great for this, but with it is left out from widgetset compilation by 
             vaadin plugin -->
