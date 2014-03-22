@@ -50,10 +50,11 @@ public abstract class AbstractLeafletLayerConnector<T> extends
         layer.bringToBack();
     }-*/;
 
+    private static Label fakeWidget = new Label();
+
     @Override
     public Label getWidget() {
-        // use label as "fake widget"
-        return (Label) super.getWidget();
+        return fakeWidget;
     }
 
     @Override

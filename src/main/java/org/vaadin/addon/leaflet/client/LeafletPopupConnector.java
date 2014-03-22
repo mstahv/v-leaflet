@@ -92,7 +92,7 @@ public class LeafletPopupConnector extends
     @Override
     public Label getWidget() {
         // use label as "fake widget"
-        return new Label();
+        return fakeWidget;
     }
 
     @Override
