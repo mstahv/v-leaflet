@@ -1,6 +1,6 @@
-# v-leaflet Add-On project
+# V-Leaflet add-on project
 
-This is a Vaadin add-on that provides server side API for the amazing LeafletJS. For usage examples see tests in this project. There is also a "full stack" usage example, but it only uses fraction of feature provided by this project.
+This is a Vaadin add-on that provides server side API for the amazing [LeafletJS](http://leafletjs.com). For usage examples see tests in this project. There is also a "full stack" usage example, but it only uses fraction of feature provided by this project.
 
 Release downloads:
 [Vaadin Directory](https://vaadin.com/directory/) 
