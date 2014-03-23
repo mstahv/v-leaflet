@@ -1,8 +1,11 @@
 package org.vaadin.addon.leaflet;
 
 import org.vaadin.addon.leaflet.client.LeafletWmsLayerState;
+import org.vaadin.addon.leaflet.shared.Crs;
 
 public class LWmsLayer extends LTileLayer {
+
+    private Crs lCrs;
 
 	@Override
 	protected LeafletWmsLayerState getState() {
@@ -48,4 +51,18 @@ public class LWmsLayer extends LTileLayer {
 	public void setVersion(String version) {
 		getState().version = version;
 	}
+
+    public Crs getCrs() {
+        return lCrs;
+    }
+
+    /**
+     * Specify the CRS to use for the whole Map.
+     *
+     * @param lc The CRS to use (one from a limited range)
+     */
+    public void setCrs(Crs lc) {
+        this.lCrs = lc;
+        getState().crsId = lc.getId();
+    }
 }
