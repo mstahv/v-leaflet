@@ -38,7 +38,7 @@
 			<filtered>true</filtered>
 		</file>
 		<file>
-			<source>README.creole</source>
+			<source>README.md</source>
 		</file>
 	</files>
 </assembly>
