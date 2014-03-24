@@ -57,7 +57,7 @@ public class LWmsLayer extends LTileLayer {
     }
 
     /**
-     * Specify the CRS to use for the whole Map.
+     * Specify the CRS to use for the layer.
      *
      * @param lc The CRS to use (one from a limited range)
      */
