@@ -45,7 +45,7 @@ import com.vaadin.client.ui.AbstractHasComponentsConnector;
 import com.vaadin.client.ui.layout.ElementResizeEvent;
 import com.vaadin.client.ui.layout.ElementResizeListener;
 import com.vaadin.shared.ui.Connect;
-import org.vaadin.addon.leaflet.shared.Crs;
+import org.peimari.gleaflet.client.Crs;
 
 /**
  * 
@@ -151,17 +151,9 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector
 			 * See if CRS set. Maintain backwards compatability so that EPSG:3857
 			 * used if nothing specified.
 			 */
-			if (Crs.EPSG4326.getId().equals(getState().crsId)) {
-				options.setCrs(org.peimari.gleaflet.client.Crs.EPSG4326());
-			} else if (Crs.EPSG3857.getId().equals(getState().crsId)) {
-				options.setCrs(org.peimari.gleaflet.client.Crs.EPSG3857());
-			} else if (Crs.EPSG3395.getId().equals(getState().crsId)) {
-				options.setCrs(org.peimari.gleaflet.client.Crs.EPSG3395());
-			} else if (Crs.SIMPLE.getId().equals(getState().crsId)) {
-				options.setCrs(org.peimari.gleaflet.client.Crs.Simple());
-			} else {
-				options.setCrs(org.peimari.gleaflet.client.Crs.EPSG3857());
-			}
+            if(getState().crsName != null) {
+                options.setCrs(Crs.byName(getState().crsName));
+            }
 
 			if (getState().attributionPrefix == null) {
 				options.setAttributionControl(false);

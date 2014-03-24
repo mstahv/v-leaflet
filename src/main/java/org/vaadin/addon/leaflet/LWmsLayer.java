@@ -63,6 +63,6 @@ public class LWmsLayer extends LTileLayer {
      */
     public void setCrs(Crs lc) {
         this.lCrs = lc;
-        getState().crsId = lc.getId();
+        getState().crsName = lc.getName();
     }
 }

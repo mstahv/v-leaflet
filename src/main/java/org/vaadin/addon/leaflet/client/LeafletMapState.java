@@ -39,5 +39,5 @@ public class LeafletMapState extends AbstractComponentState {
 	 * Internal String identifier of CRS that is meaningful to v-leaflet
 	 * client.
 	 */
-	public String crsId;
+	public String crsName;
 }

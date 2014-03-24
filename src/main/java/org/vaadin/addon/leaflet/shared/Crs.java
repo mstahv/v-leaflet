@@ -25,27 +25,27 @@ public class Crs {
 	/**
 	 * Leaflet specific
 	 */
-	public static final Crs SIMPLE = new Crs("Simple");
+	public static final Crs Simple = new Crs("Simple");
 	/**
 	 * WGS 84
 	 */
-	public static final Crs EPSG4326 = new Crs("EPSG:4326");
+	public static final Crs EPSG4326 = new Crs("EPSG4326");
 	/**
 	 * WGS 84 / World Mercator
 	 */
-	public static final Crs EPSG3395 = new Crs("EPSG:3395");
+	public static final Crs EPSG3395 = new Crs("EPSG3395");
 	/**
 	 * WGS 84 / Pseudo-Mercator
 	 */
-	public static final Crs EPSG3857 = new Crs("EPSG:3857");
+	public static final Crs EPSG3857 = new Crs("EPSG3857");
 	
-	private final String id;
+	private final String name;
 
-	public Crs(String s) {
-		id = s;
+	public Crs(String name) {
+		this.name = name;
 	}
 
-	public String getId() {
-		return id;
+	public String getName() {
+		return name;
 	}
 }

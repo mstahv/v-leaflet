@@ -370,7 +370,7 @@ public class LMap extends AbstractComponentContainer {
 	 */
 	public void setCrs(Crs lc) {
 		this.lCrs = lc;
-		getState().crsId = lc.getId();
+		getState().crsName = lc.getName();
 	}
 }
 
