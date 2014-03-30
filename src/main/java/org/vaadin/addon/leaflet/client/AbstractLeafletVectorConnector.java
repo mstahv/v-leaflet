@@ -42,8 +42,8 @@ public abstract class AbstractLeafletVectorConnector<T extends AbstractLeafletVe
 	protected O createOptions() {
 		O o = (O) O.create();
 		AbstractLeafletVectorState s = getState();
-		if (s.color != null) {
-			o.setColor(s.color);
+		if (s.getVectorStyle().getColor() != null) {
+			o.setColor(s.getVectorStyle().getColor());
 		}
 		if (s.getVectorStyle().getStroke() != null) {
 			o.setStroke(s.getVectorStyle().getStroke());
