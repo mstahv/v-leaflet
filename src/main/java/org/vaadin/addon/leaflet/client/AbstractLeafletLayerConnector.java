@@ -6,7 +6,6 @@ import org.peimari.gleaflet.client.LayerGroup;
 import org.peimari.gleaflet.client.Map;
 import org.vaadin.addon.leaflet.shared.ILayerClientRpc;
 
-import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Label;
 import com.vaadin.client.HasComponentsConnector;
 import com.vaadin.client.ServerConnector;
@@ -16,6 +15,7 @@ import com.vaadin.client.ui.AbstractComponentConnector;
 
 public abstract class AbstractLeafletLayerConnector<T> extends
         AbstractComponentConnector {
+    
 
     protected ClickServerRpc rpc = RpcProxy.create(ClickServerRpc.class, this);
     private Object leafletParent;
@@ -49,11 +49,21 @@ public abstract class AbstractLeafletLayerConnector<T> extends
         layer.bringToBack();
     }-*/;
     
-    private static Label fakeWidget = new Label();
+    private static final Label fakeWidget = new Label();
 
     @Override
     public Label getWidget() {
         return fakeWidget;
+    }
+
+    @Override
+    protected void updateWidgetStyleNames() {
+        // NOP, not needed, optimized away
+    }
+
+    @Override
+    protected void updateComponentSize() {
+        // NOP, not needed, optimized away
     }
 
     @Override
@@ -128,32 +138,14 @@ public abstract class AbstractLeafletLayerConnector<T> extends
     	updated = false;
     }
     
-    // TODO replace timer usage with more sophisticated solution for 
-    // Vaadin's indeterministic client side updates
-    private Timer deferredUpdate;
-    
     protected void deferUpdate() {
-    	if(deferredUpdate == null) {
-    		deferredUpdate = new Timer() {
-    			@Override
-    			public void run() {
-    				updateIfDirty();
-    			}
-    		};
-    	}
-        // state change events are fired in random order. To ensure correct
-        // order and only one update (e.g. move of marker), we defer update here
-        // and do it only if not forced by parent.
-    	deferredUpdate.schedule(0);
+        LazyUpdator.defer(this);
     }
 
     protected void updateIfDirty() {
     	if (!updated && getParent() != null) {
     		update();
     		updated = true;
-    		if(deferredUpdate != null) {
-        		deferredUpdate.cancel();
-    		}
     	}
     }
     

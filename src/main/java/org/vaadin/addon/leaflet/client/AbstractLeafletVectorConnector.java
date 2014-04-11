@@ -1,5 +1,6 @@
 package org.vaadin.addon.leaflet.client;
 
+import com.google.gwt.core.client.JsonUtils;
 import org.peimari.gleaflet.client.AbstractPath;
 import org.peimari.gleaflet.client.PathOptions;
 
@@ -40,38 +41,9 @@ public abstract class AbstractLeafletVectorConnector<T extends AbstractLeafletVe
 
 	@Override
 	protected O createOptions() {
-		O o = (O) O.create();
 		AbstractLeafletVectorState s = getState();
-		if (s.getVectorStyle().getColor() != null) {
-			o.setColor(s.getVectorStyle().getColor());
-		}
-		if (s.getVectorStyle().getStroke() != null) {
-			o.setStroke(s.getVectorStyle().getStroke());
-		}
-		if (s.getVectorStyle().getFill() != null) {
-			o.setFill(s.getVectorStyle().getFill());
-		}
-		if (s.getVectorStyle().getFillColor() != null) {
-			o.setFillColor(s.getVectorStyle().getFillColor());
-		}
-		if (s.getVectorStyle().getFillOpacity() != null) {
-			o.setFillOpacity(s.getVectorStyle().getFillOpacity());
-		}
-		if (s.getVectorStyle().getWeight() != null) {
-			o.setWeight(s.getVectorStyle().getWeight());
-		}
-		if (s.getVectorStyle().getOpacity() != null) {
-			o.setOpacity(s.getVectorStyle().getOpacity());
-		}
-		if (s.getVectorStyle().getDashArray() != null) {
-			o.setDashArray(s.getVectorStyle().getDashArray());
-		}
-		if (s.getVectorStyle().getLineCap() != null) {
-			o.setLineCap(s.getVectorStyle().getLineCap());
-		}
-		if (s.getVectorStyle().getLineJoin() != null) {
-			o.setLineJoin(s.getVectorStyle().getLineJoin());
-		}
+		O o = JsonUtils.safeEval(s.vectorStyleJson);
+                
 		if (s.clickable != null) {
 			o.setClickable(s.clickable);
 		}

@@ -1,8 +1,16 @@
-package org.vaadin.addon.leaflet.shared;
+package org.vaadin.addon.leaflet.jsonmodels;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.Serializable;
 
 public class VectorStyle implements Serializable {
+    
+    private static final ObjectMapper mapper = new ObjectMapper();
+    static {
+        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+    }
 
     private Boolean stroke;
 
@@ -20,7 +28,7 @@ public class VectorStyle implements Serializable {
 
     private String lineCap;
 
-    private String lineJoin;
+   private String lineJoin;
 
     private String color;
 	
@@ -103,5 +111,13 @@ public class VectorStyle implements Serializable {
 	public void setLineJoin(String lineJoin) {
 		this.lineJoin = lineJoin;
 	}
+    
+    public String asJson() {
+        try {
+            return mapper.writeValueAsString(this);
+        } catch (JsonProcessingException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
 
 }
