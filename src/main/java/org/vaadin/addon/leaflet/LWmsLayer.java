@@ -65,4 +65,12 @@ public class LWmsLayer extends LTileLayer {
         this.lCrs = lc;
         getState().crsName = lc.getName();
     }
+
+	public void setViewparams(String viewparams) {
+	   	getState().viewparams = viewparams;     
+	}
+	
+	public String getViewparams() {
+	   	return getState().viewparams;
+	}
 }

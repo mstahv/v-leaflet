@@ -35,6 +35,9 @@ public class LeafletWmsLayerConnector extends LeafletTileLayerConnector {
         if (s.crsName != null) {
             o.setCrs(Crs.byName(s.crsName));
         }
+        	if (s.viewparams != null) {
+        	   	o.setViewparams(s.viewparams);
+        	}
 		return o;
 	}
 

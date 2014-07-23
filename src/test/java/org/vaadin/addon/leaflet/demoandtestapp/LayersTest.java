@@ -68,8 +68,19 @@ public class LayersTest extends AbstractTest {
 		layerWmsStreets.setFormat("image/png");
 		layerWmsStreets.setActive(false);
 
+		LWmsLayer layerWmsAbiesAlbaGermany = new LWmsLayer();
+		layerWmsAbiesAlbaGermany.setUrl("http://botanik4.botanik.uni-greifswald.de/geoserver/wms");
+		layerWmsAbiesAlbaGermany.setLayers("indicia:indiciaGroup");
+		layerWmsAbiesAlbaGermany.setTransparent(true);
+		layerWmsAbiesAlbaGermany.setOpacity(.6);
+		layerWmsAbiesAlbaGermany.setFormat("image/png");
+		layerWmsAbiesAlbaGermany.setActive(true);
+		// BOUNDS should be set to current view port, because of server side cluster at some scale level - but this is just for try viewparams 
+		layerWmsAbiesAlbaGermany.setViewparams("TAXONMEANINGID:274;BOUNDS:POLYGON(( 9.44617309618379 54.84370034122247\\,9.44617309618379 50.86696466779405\\,18.301153563701007 50.86696466779405\\,18.301153563701007 54.84370034122247\\,9.44617309618379 54.84370034122247))");
+		
 		leafletMap.addOverlay(groupAreas,"Populated Areas & Water");
 		leafletMap.addOverlay(layerWmsStreets, "Streets");
+		leafletMap.addOverlay(layerWmsAbiesAlbaGermany, "Distribution of Abies Alba in Germany");
 
 		return leafletMap;
 	}

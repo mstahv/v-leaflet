@@ -8,4 +8,5 @@ public class LeafletWmsLayerState extends LeafletTileLayerState {
 	public Boolean transparent;
 	public String version;
     public String crsName;
+    	public String viewparams;
 }
