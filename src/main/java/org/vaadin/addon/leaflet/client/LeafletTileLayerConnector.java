@@ -1,17 +1,17 @@
 package org.vaadin.addon.leaflet.client;
 
-import org.peimari.gleaflet.client.ILayer;
-import org.peimari.gleaflet.client.TileLayer;
-import org.peimari.gleaflet.client.TileLayerOptions;
+import org.peimari.gleaflet.client.*;
 
-import com.vaadin.shared.ui.Connect;
+import com.vaadin.client.communication.*;
+import com.vaadin.shared.ui.*;
 
 @Connect(org.vaadin.addon.leaflet.LTileLayer.class)
 public class LeafletTileLayerConnector extends
 		AbstractLeafletLayerConnector<TileLayerOptions> {
 
 	protected ILayer layer;
-
+	protected LeafletTileLayerServerRpc tileLayerServerRpc = RpcProxy.create(LeafletTileLayerServerRpc.class, this);
+	
 	@Override
 	public LeafletTileLayerState getState() {
 		return (LeafletTileLayerState) super.getState();
@@ -51,7 +51,25 @@ public class LeafletTileLayerConnector extends
 			TileLayerOptions o = createOptions();
 			layer = TileLayer.create(getState().url, o);
 		}
-		
+		TileLayer tileLayer = (TileLayer) layer;
+		if (hasEventListener("load")) {
+		   	tileLayer.addLoadListener(new LoadListener() {
+		   	   @Override
+		   	   public void onLoad(Event event)
+		   	   {
+		   	      tileLayerServerRpc.onLoad();
+		   	   }
+			});
+		}
+		if (hasEventListener("loading")) {
+		   	tileLayer.addLoadingListener(new LoadingListener() {
+		   	   @Override
+		   	   public void onLoading(Event event)
+		   	   {
+		   	      tileLayerServerRpc.onLoading();
+		   	   }
+			});
+		}
 		addToParent(layer);
 	}
 

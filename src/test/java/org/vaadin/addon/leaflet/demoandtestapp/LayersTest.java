@@ -3,14 +3,12 @@ package org.vaadin.addon.leaflet.demoandtestapp;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import org.vaadin.addon.leaflet.LLayerGroup;
-import org.vaadin.addon.leaflet.LMap;
-import org.vaadin.addon.leaflet.LTileLayer;
-import org.vaadin.addon.leaflet.LWmsLayer;
+import org.vaadin.addon.leaflet.*;
 import org.vaadin.addon.leaflet.demoandtestapp.util.AbstractTest;
 import org.vaadin.addon.leaflet.shared.Control;
 
-import com.vaadin.ui.Component;
+import com.vaadin.ui.*;
+import com.vaadin.ui.Notification.Type;
 
 public class LayersTest extends AbstractTest {
 
@@ -77,6 +75,24 @@ public class LayersTest extends AbstractTest {
 		layerWmsAbiesAlbaGermany.setActive(true);
 		// BOUNDS should be set to current view port, because of server side cluster at some scale level - but this is just for try viewparams 
 		layerWmsAbiesAlbaGermany.setViewparams("TAXONMEANINGID:274;BOUNDS:POLYGON(( 9.44617309618379 54.84370034122247\\,9.44617309618379 50.86696466779405\\,18.301153563701007 50.86696466779405\\,18.301153563701007 54.84370034122247\\,9.44617309618379 54.84370034122247))");
+		
+		layerWmsAbiesAlbaGermany.addLoadListener(new LeafletLoadListener()
+		{
+		   @Override
+		   public void onLoad(LeafletLoadEvent event)
+		   {
+		      Notification.show("onLoad", Type.TRAY_NOTIFICATION);
+		   }
+		});
+		
+		layerWmsAbiesAlbaGermany.addLoadingListener(new LeafletLoadingListener()
+		{
+		   @Override
+		   public void onLoading(LeafletLoadingEvent event)
+		   {
+		      Notification.show("onLoanding", Type.TRAY_NOTIFICATION);
+		   }
+		});
 		
 		leafletMap.addOverlay(groupAreas,"Populated Areas & Water");
 		leafletMap.addOverlay(layerWmsStreets, "Streets");

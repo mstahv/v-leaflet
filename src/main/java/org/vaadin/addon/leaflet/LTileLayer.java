@@ -1,12 +1,24 @@
 package org.vaadin.addon.leaflet;
 
-import org.vaadin.addon.leaflet.client.LeafletTileLayerState;
+import org.vaadin.addon.leaflet.client.*;
 
 import com.vividsolutions.jts.geom.Geometry;
 
 public class LTileLayer extends AbstractLeafletLayer {
 
 	public LTileLayer() {
+	   	super();
+   	   	registerRpc(new LeafletTileLayerServerRpc() {
+   	   	   @Override
+   	   	   public void onLoading() {
+   	   	      fireEvent(new LeafletLoadingEvent(LTileLayer.this));
+   	   	   }
+	          
+   	   	   @Override
+   	   	   public void onLoad() {
+   	   	      fireEvent(new LeafletLoadEvent(LTileLayer.this));
+   	   	   }
+   	   	});
 	}
 
 	public LTileLayer(String url) {
@@ -85,5 +97,15 @@ public class LTileLayer extends AbstractLeafletLayer {
 	@Override
 	public Geometry getGeometry() {
 		return null;
+	}
+	
+	public void addLoadListener(LeafletLoadListener listener) {
+	   	addListener(LeafletLoadEvent.class, listener,
+	   	      LeafletLoadListener.METHOD);
+	}
+	
+	public void addLoadingListener(LeafletLoadingListener listener) {
+	   	addListener(LeafletLoadingEvent.class, listener,
+	   	      LeafletLoadingListener.METHOD);
 	}
 }
