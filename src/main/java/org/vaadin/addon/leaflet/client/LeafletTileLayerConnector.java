@@ -40,6 +40,12 @@ public class LeafletTileLayerConnector extends
 		if (s.zIndex != null) {
 			o.setZindex(s.zIndex);
 		}
+                if (s.continuousWorld != null) {
+                    o.setContinuousWorld(s.continuousWorld);
+                }
+                if (s.noWrap != null) {
+                    o.setNoWrap(s.noWrap);
+                }
 		return o;
 	}
 

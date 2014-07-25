@@ -10,4 +10,6 @@ public class LeafletTileLayerState extends AbstractLeafletComponentState {
 	public String[] subDomains;
 	public Double opacity;
 	public Integer zIndex;
+        public Boolean continuousWorld;
+        public Boolean noWrap;
 }

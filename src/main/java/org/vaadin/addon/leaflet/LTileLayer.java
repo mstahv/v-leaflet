@@ -94,6 +94,22 @@ public class LTileLayer extends AbstractLeafletLayer {
 		getState().zIndex = zIndex;
 	}
 
+        public Boolean getContinousWorld() {
+                return getState().continuousWorld;
+        }
+
+        public void setContinuousWorld(Boolean continuousWorld) {
+                getState().continuousWorld = continuousWorld;
+        }
+
+        public Boolean getNoWrap() {
+                return getState().noWrap;
+        }
+
+        public void setNoWrap(Boolean noWrap) {
+                getState().noWrap = noWrap;
+        }
+
 	@Override
 	public Geometry getGeometry() {
 		return null;
