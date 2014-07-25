@@ -22,6 +22,7 @@ import com.vividsolutions.jts.geom.MultiPoint;
 import com.vividsolutions.jts.geom.MultiPolygon;
 import com.vividsolutions.jts.geom.Polygon;
 import com.vividsolutions.jts.geom.PrecisionModel;
+import com.vividsolutions.jts.io.*;
 
 /**
  * Helper methods to convert between JTS geometry types and v-leaflet objects.
@@ -271,5 +272,19 @@ public class JTSUtil {
         Geometry envelope = geometry.getEnvelope();
         return new Bounds(toPointArray(envelope.getCoordinates()));
     }
-
+    
+    /**
+     * Translates between a WKT representation of a geometry and a  JTS {@link Geometry}
+     * @param wellKnownText
+     * @return
+     * @throws ParseException 
+     */
+    private static Geometry toGeometry(String wellKnownText) throws ParseException {
+       WKTReader wktReader = new WKTReader(getGeometryFactory()); 	     
+       return wktReader.read(wellKnownText);
+    }
+    
+    public static LeafletLayer toLayer(String wellKnownText) throws ParseException {
+       return toLayer(toGeometry(wellKnownText));
+    }
 }
