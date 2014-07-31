@@ -11,6 +11,8 @@ import org.vaadin.addon.leaflet.shared.Point;
 import com.google.gwt.core.client.JsArray;
 import com.vaadin.client.JsArrayObject;
 import com.vaadin.shared.ui.Connect;
+import org.peimari.gleaflet.client.MouseOutListener;
+import org.peimari.gleaflet.client.MouseOverListener;
 
 @Connect(org.vaadin.addon.leaflet.LPolyline.class)
 public class LeafletPolylineConnector extends
@@ -39,6 +41,20 @@ public class LeafletPolylineConnector extends
 						.getLatLng().getLongitude()));
 			}
 		});
+        marker.addMouseOverListener(new MouseOverListener() {
+            @Override
+            public void onMouseOver(MouseEvent event) {
+                mouseOverRpc.onMouseOver(new Point(
+                        event.getLatLng().getLatitude(), event.getLatLng().getLongitude()));
+            }
+        });
+        marker.addMouseOutListener(new MouseOutListener() {
+            @Override
+            public void onMouseOut(MouseEvent event) {
+                mouseOutRpc.onMouseOut(new Point(
+                        event.getLatLng().getLatitude(), event.getLatLng().getLongitude()));
+            }
+        });
 
 		addToParent(marker);
 	}
