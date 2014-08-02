@@ -1,6 +1,8 @@
 package org.vaadin.addon.leaflet.client;
 
 import org.peimari.gleaflet.client.LatLng;
+import org.peimari.gleaflet.client.LatLngBounds;
+import org.vaadin.addon.leaflet.shared.Bounds;
 import org.vaadin.addon.leaflet.shared.Point;
 
 public class U {
@@ -15,4 +17,10 @@ public class U {
 		}
 		return r;
 	}
+
+    public static Bounds toBounds(LatLngBounds b) {
+        return new Bounds(
+                new Point(b.getSouthWest().getLatitude(), b.getSouthWest().getLongitude()),
+                new Point(b.getNorthEast().getLatitude(), b.getNorthEast().getLongitude()));
+    }
 }
