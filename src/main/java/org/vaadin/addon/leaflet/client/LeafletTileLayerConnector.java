@@ -1,7 +1,9 @@
 package org.vaadin.addon.leaflet.client;
 
 import org.peimari.gleaflet.client.*;
+import org.vaadin.addon.leaflet.shared.EventId;
 
+import com.vaadin.client.VConsole;
 import com.vaadin.client.communication.*;
 import com.vaadin.shared.ui.*;
 
@@ -53,12 +55,11 @@ public class LeafletTileLayerConnector extends
 	protected void update() {
 		if (layer != null) {
 			removeLayerFromParent();
-		} else {
-			TileLayerOptions o = createOptions();
-			layer = TileLayer.create(getState().url, o);
 		}
+		TileLayerOptions o = createOptions();
+		layer = createTileLayer(o);
 		TileLayer tileLayer = (TileLayer) layer;
-		if (hasEventListener("load")) {
+		if (hasEventListener(EventId.LOAD)) {
 		   	tileLayer.addLoadListener(new LoadListener() {
 		   	   @Override
 		   	   public void onLoad(Event event)
@@ -67,7 +68,7 @@ public class LeafletTileLayerConnector extends
 		   	   }
 			});
 		}
-		if (hasEventListener("loading")) {
+		if (hasEventListener(EventId.LOADING)) {
 		   	tileLayer.addLoadingListener(new LoadingListener() {
 		   	   @Override
 		   	   public void onLoading(Event event)
@@ -77,6 +78,10 @@ public class LeafletTileLayerConnector extends
 			});
 		}
 		addToParent(layer);
+	}
+
+	protected TileLayer createTileLayer(TileLayerOptions o) {
+		return TileLayer.create(getState().url, o);
 	}
 
 	@Override

@@ -1,7 +1,10 @@
 package org.vaadin.addon.leaflet.client;
 
 import com.vaadin.shared.ui.Connect;
+
 import org.peimari.gleaflet.client.Crs;
+import org.peimari.gleaflet.client.TileLayer;
+import org.peimari.gleaflet.client.TileLayerOptions;
 import org.peimari.gleaflet.client.WmsLayer;
 import org.peimari.gleaflet.client.WmsLayerOptions;
 
@@ -40,14 +43,10 @@ public class LeafletWmsLayerConnector extends LeafletTileLayerConnector {
         	}
 		return o;
 	}
-
+	
 	@Override
-	protected void update() {
-		if (layer != null) {
-			removeLayerFromParent();
-		}
-		WmsLayerOptions o = createOptions();
-		layer = WmsLayer.create(getState().url, o);
-		addToParent(layer);
+	protected TileLayer createTileLayer(TileLayerOptions o) {
+		return WmsLayer.create(getState().url, o);
 	}
+
 }

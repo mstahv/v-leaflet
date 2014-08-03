@@ -1,6 +1,7 @@
 package org.vaadin.addon.leaflet;
 
 import org.vaadin.addon.leaflet.client.*;
+import org.vaadin.addon.leaflet.shared.EventId;
 
 import com.vividsolutions.jts.geom.Geometry;
 
@@ -116,12 +117,12 @@ public class LTileLayer extends AbstractLeafletLayer {
 	}
 	
 	public void addLoadListener(LeafletLoadListener listener) {
-	   	addListener(LeafletLoadEvent.class, listener,
-	   	      LeafletLoadListener.METHOD);
+		addListener(EventId.LOAD, LeafletLoadEvent.class, listener,
+		   	      LeafletLoadListener.METHOD);
 	}
 	
 	public void addLoadingListener(LeafletLoadingListener listener) {
-	   	addListener(LeafletLoadingEvent.class, listener,
+	   	addListener(EventId.LOADING, LeafletLoadingEvent.class, listener,
 	   	      LeafletLoadingListener.METHOD);
 	}
 }
