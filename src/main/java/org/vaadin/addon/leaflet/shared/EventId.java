@@ -9,5 +9,7 @@ public interface EventId {
 
 	public static final String LOAD = "onLoad";
 	public static final String LOADING = "onLoading";
+	public static final String MOUSEOVER = "onMouseOver";
+	public static final String MOUSEOUT = "onMouseOut";
 
 }
