@@ -45,8 +45,8 @@ public class LeafletWmsLayerConnector extends LeafletTileLayerConnector {
 	}
 	
 	@Override
-	protected TileLayer createTileLayer(TileLayerOptions o) {
-		return WmsLayer.create(getState().url, o);
+	protected WmsLayer createTileLayer(TileLayerOptions o) {
+		return WmsLayer.create(getState().url, (WmsLayerOptions ) o);
 	}
 
 }
