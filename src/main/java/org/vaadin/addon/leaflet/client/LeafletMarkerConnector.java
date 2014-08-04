@@ -67,6 +67,8 @@ public class LeafletMarkerConnector extends
 		if (marker != null) {
 			removeLayerFromParent();
 			marker.removeClickListener();
+                        marker.removeMouseOverListener();
+                        marker.removeMouseOutListener();
 		}
 		LatLng latlng = LatLng.create(getState().point.getLat(),
 				getState().point.getLon());
