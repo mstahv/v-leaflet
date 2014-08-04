@@ -12,6 +12,7 @@ import com.google.gwt.core.client.JsArray;
 import com.vaadin.shared.ui.Connect;
 import org.peimari.gleaflet.client.MouseOutListener;
 import org.peimari.gleaflet.client.MouseOverListener;
+import org.vaadin.addon.leaflet.shared.EventId;
 
 @Connect(org.vaadin.addon.leaflet.LPolygon.class)
 public class LeafletPolygonConnector extends LeafletPolylineConnector {
@@ -42,22 +43,26 @@ public class LeafletPolygonConnector extends LeafletPolylineConnector {
               .getLatLng().getLongitude()));
 			}
 		});
-        marker.addMouseOverListener(new MouseOverListener() {
-            @Override
-            public void onMouseOver(MouseEvent event) {
-                LatLng latLng2 = event.getLatLng();
-                Point p = new Point(latLng2.getLatitude(), latLng2.getLongitude());
-                mouseOverRpc.onMouseOver(p);
-            }
-        });
-        marker.addMouseOutListener(new MouseOutListener() {
-            @Override
-            public void onMouseOut(MouseEvent event) {
-                LatLng latLng2 = event.getLatLng();
-                Point p = new Point(latLng2.getLatitude(), latLng2.getLongitude());
-                mouseOutRpc.onMouseOut(p);
-            }
-        });
+        if (hasEventListener(EventId.MOUSEOVER)) {
+            marker.addMouseOverListener(new MouseOverListener() {
+                @Override
+                public void onMouseOver(MouseEvent event) {
+                    LatLng latLng2 = event.getLatLng();
+                    Point p = new Point(latLng2.getLatitude(), latLng2.getLongitude());
+                    mouseOverRpc.onMouseOver(p);
+                }
+            });
+        }
+        if (hasEventListener(EventId.MOUSEOUT)) {
+            marker.addMouseOutListener(new MouseOutListener() {
+                @Override
+                public void onMouseOut(MouseEvent event) {
+                    LatLng latLng2 = event.getLatLng();
+                    Point p = new Point(latLng2.getLatitude(), latLng2.getLongitude());
+                    mouseOutRpc.onMouseOut(p);
+                }
+            });
+        }
     }
     
     @Override

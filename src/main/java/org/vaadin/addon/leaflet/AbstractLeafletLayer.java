@@ -7,6 +7,7 @@ import org.vaadin.addon.leaflet.shared.Point;
 import com.vaadin.ui.AbstractComponent;
 import org.vaadin.addon.leaflet.client.MouseOutServerRpc;
 import org.vaadin.addon.leaflet.client.MouseOverServerRpc;
+import org.vaadin.addon.leaflet.shared.EventId;
 import org.vaadin.addon.leaflet.shared.ILayerClientRpc;
 
 public abstract class AbstractLeafletLayer extends AbstractComponent implements
@@ -52,12 +53,12 @@ public abstract class AbstractLeafletLayer extends AbstractComponent implements
     }
 
     public void addMouseOverListener(LeafletMouseOverListener listener) {
-        addListener(LeafletMouseOverEvent.class, listener,
+        addListener(EventId.MOUSEOVER, LeafletMouseOverEvent.class, listener,
                 LeafletMouseOverListener.METHOD);
     }
 
     public void addMouseOutListener(LeafletMouseOutListener listener) {
-        addListener(LeafletMouseOutEvent.class, listener,
+        addListener(EventId.MOUSEOUT, LeafletMouseOutEvent.class, listener,
                 LeafletMouseOutListener.METHOD);
     }
 
