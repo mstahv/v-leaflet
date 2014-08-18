@@ -23,6 +23,7 @@ public class LTileLayer extends AbstractLeafletLayer {
 	}
 
 	public LTileLayer(String url) {
+	        this();
 		setUrl(url);
 	}
 
