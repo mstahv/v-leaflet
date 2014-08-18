@@ -9,8 +9,11 @@ import org.peimari.gleaflet.client.PolylineOptions;
 import org.vaadin.addon.leaflet.shared.Point;
 
 import com.google.gwt.core.client.JsArray;
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.vaadin.client.JsArrayObject;
 import com.vaadin.shared.ui.Connect;
+
 import org.peimari.gleaflet.client.MouseOutListener;
 import org.peimari.gleaflet.client.MouseOverListener;
 import org.vaadin.addon.leaflet.shared.EventId;
@@ -44,26 +47,34 @@ public class LeafletPolylineConnector extends
 						.getLatLng().getLongitude()));
 			}
 		});
-                if (hasEventListener(EventId.MOUSEOVER)) {
-                    marker.addMouseOverListener(new MouseOverListener() {
-                        @Override
-                        public void onMouseOver(MouseEvent event) {
-                            LatLng latLng2 = event.getLatLng();
-                            Point p = new Point(latLng2.getLatitude(), latLng2.getLongitude());
-                            mouseOverRpc.onMouseOver(p);
-                        }
-                    });
+        if (hasEventListener(EventId.MOUSEOVER)) {
+			/*
+			 * Add listener lazily to avoid extra event if layer is modified in
+			 * server side listener. This can be removed if "clear and rebuild"
+			 * style component updates are changed into something more
+			 * intelligent at some point.
+			 */
+        	Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+				@Override
+				public void execute() {
+
+		            marker.addMouseOverListener(new MouseOverListener() {
+		                @Override
+		                public void onMouseOver(MouseEvent event) {
+		                    mouseOverRpc.onMouseOver(U.toPoint(event.getLatLng()));
+		                }
+		            });
+				}
+        	});
+        }
+        if (hasEventListener(EventId.MOUSEOUT)) {
+            marker.addMouseOutListener(new MouseOutListener() {
+                @Override
+                public void onMouseOut(MouseEvent event) {
+                    mouseOutRpc.onMouseOut(U.toPoint(event.getLatLng()));
                 }
-                if (hasEventListener(EventId.MOUSEOUT)) {
-                    marker.addMouseOutListener(new MouseOutListener() {
-                        @Override
-                        public void onMouseOut(MouseEvent event) {
-                            LatLng latLng2 = event.getLatLng();
-                            Point p = new Point(latLng2.getLatitude(), latLng2.getLongitude());
-                            mouseOutRpc.onMouseOut(p);
-                        }
-                    });
-                }
+            });
+        }
 
 		addToParent(marker);
 	}
