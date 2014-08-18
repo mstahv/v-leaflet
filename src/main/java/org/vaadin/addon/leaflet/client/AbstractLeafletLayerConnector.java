@@ -18,6 +18,8 @@ public abstract class AbstractLeafletLayerConnector<T> extends
     
 
     protected ClickServerRpc rpc = RpcProxy.create(ClickServerRpc.class, this);
+    protected MouseOverServerRpc mouseOverRpc = RpcProxy.create(MouseOverServerRpc.class, this);
+    protected MouseOutServerRpc mouseOutRpc = RpcProxy.create(MouseOutServerRpc.class, this);
     private Object leafletParent;
 
     public AbstractLeafletLayerConnector() {
