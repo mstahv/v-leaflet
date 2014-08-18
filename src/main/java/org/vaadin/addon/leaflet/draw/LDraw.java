@@ -17,6 +17,8 @@ import org.vaadin.addon.leaflet.shared.Point;
 import com.vaadin.server.AbstractClientConnector;
 import com.vaadin.shared.Connector;
 import com.vaadin.util.ReflectTools;
+import org.vaadin.addon.leaflet.LRectangle;
+import org.vaadin.addon.leaflet.shared.Bounds;
 
 /**
  * Draw "toolbar" that is added to the map. This allows users to draw and edit
@@ -127,6 +129,12 @@ public class LDraw extends AbstractControl {
 						radius)));
 			}
 
+                        @Override
+                        public void rectangleDrawn(Bounds bounds) {
+                                fireEvent(new FeatureDrawnEvent(LDraw.this, new LRectangle(
+                                                bounds)));
+                        }
+
 			@Override
 			public void polygonDrawn(Point[] latLngs) {
 				fireEvent(new FeatureDrawnEvent(LDraw.this, new LPolygon(
@@ -160,6 +168,13 @@ public class LDraw extends AbstractControl {
 				pl.setPoints(pointArray);
 				fireEvent(new FeatureModifiedEvent(LDraw.this, pl));
 			}
+
+                        @Override
+                        public void rectangleModified(Connector rc, Bounds bounds) {
+                                    LRectangle r = (LRectangle) rc;
+                                    r.setBounds(bounds);
+                                    fireEvent(new FeatureModifiedEvent(LDraw.this, r));
+                        }
 
 			@Override
 			public void layerDeleted(Connector c) {

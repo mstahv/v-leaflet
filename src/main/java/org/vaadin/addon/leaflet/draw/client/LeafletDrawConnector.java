@@ -7,6 +7,7 @@ import org.peimari.gleaflet.client.ILayer;
 import org.peimari.gleaflet.client.Marker;
 import org.peimari.gleaflet.client.Polygon;
 import org.peimari.gleaflet.client.Polyline;
+import org.peimari.gleaflet.client.Rectangle;
 import org.peimari.gleaflet.client.draw.Draw;
 import org.peimari.gleaflet.client.draw.DrawControlOptions;
 import org.peimari.gleaflet.client.draw.LayerCreatedEvent;
@@ -29,6 +30,7 @@ import org.vaadin.addon.leaflet.draw.LDraw;
 import com.vaadin.client.communication.RpcProxy;
 import com.vaadin.client.communication.StateChangeEvent;
 import com.vaadin.shared.ui.Connect;
+import org.vaadin.addon.leaflet.client.LeafletRectangleConnector;
 
 @Connect(LDraw.class)
 public class LeafletDrawConnector extends AbstractControlConnector<Draw> {
@@ -62,8 +64,11 @@ public class LeafletDrawConnector extends AbstractControlConnector<Draw> {
 					Circle c = (Circle) event.getLayer();
 					rpc.circleDrawn(U.toPoint(c.getLatLng()), c.getRadius());
 					break;
-				case polygon:
 				case rectangle:
+					Rectangle r = (Rectangle) event.getLayer();
+					rpc.rectangleDrawn(U.toBounds(r.getBounds()));
+					break;
+				case polygon:
 					Polygon p = (Polygon) event.getLayer();
 					rpc.polygonDrawn(U.toPointArray(p.getLatLngs()));
 					break;
@@ -96,6 +101,11 @@ public class LeafletDrawConnector extends AbstractControlConnector<Draw> {
 							rpc.circleModified(cc,
 									U.toPoint(circle.getLatLng()),
 									circle.getRadius());
+						} else if (c instanceof LeafletRectangleConnector) {
+							LeafletRectangleConnector rc = (LeafletRectangleConnector) c;
+							Rectangle polyline = (Rectangle) rc.getLayer();
+							rpc.rectangleModified(rc,
+									U.toBounds( polyline.getBounds()));
 						} else if (c instanceof LeafletPolylineConnector) {
 							// polygon also gets here
 							LeafletPolylineConnector plc = (LeafletPolylineConnector) c;
