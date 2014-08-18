@@ -1,11 +1,10 @@
 package org.vaadin.addon.leaflet;
 
-import com.vividsolutions.jts.geom.Geometry;
-import org.vaadin.addon.leaflet.shared.Point;
-
-import org.vaadin.addon.leaflet.client.LeafletRectangleState;
 import org.vaadin.addon.leaflet.shared.Bounds;
+import org.vaadin.addon.leaflet.shared.Point;
 import org.vaadin.addon.leaflet.util.JTSUtil;
+
+import com.vividsolutions.jts.geom.Geometry;
 
 public class LRectangle extends LPolygon {
 
@@ -15,7 +14,6 @@ public class LRectangle extends LPolygon {
     }
 
     public void setBounds(Bounds bounds) {
-        getState().bounds = bounds;
         setPoints(
                 new Point(bounds.getSouthWestLat(), bounds.getSouthWestLon()),
                 new Point(bounds.getNorthEastLat(), bounds.getSouthWestLon()),
@@ -24,14 +22,9 @@ public class LRectangle extends LPolygon {
     }
 
     public Bounds getBounds() {
-        return getState().bounds;
+    	return new Bounds(getPoints());
     }
     
-    @Override
-    protected LeafletRectangleState getState() {
-        return (LeafletRectangleState) super.getState();
-    }
-
     @Override
     public Geometry getGeometry() {
         return JTSUtil.toLinearRing(this);
