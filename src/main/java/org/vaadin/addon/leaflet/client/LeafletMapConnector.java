@@ -201,9 +201,10 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector
 
 						@Override
 						public void execute() {
-							rpc.onMoveEnd(new Bounds(map.getBounds()
-									.toBBoxString()), map.getZoom());
-							if (getState().registeredEventListeners != null
+                                                        rpc.onMoveEnd(new Bounds(map.getBounds().toBBoxString()), 
+                                                                    new Point(map.getCenter().getLatitude(), 
+                                                                    map.getCenter().getLongitude()), map.getZoom());
+                                                        if (getState().registeredEventListeners != null
 									&& getState().registeredEventListeners
 											.contains("moveend")) {
 								getConnection().sendPendingVariableChanges();
