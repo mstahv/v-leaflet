@@ -5,6 +5,9 @@ import org.vaadin.addon.leaflet.client.ClickServerRpc;
 import org.vaadin.addon.leaflet.shared.Point;
 
 import com.vaadin.ui.AbstractComponent;
+import org.vaadin.addon.leaflet.client.MouseOutServerRpc;
+import org.vaadin.addon.leaflet.client.MouseOverServerRpc;
+import org.vaadin.addon.leaflet.shared.EventId;
 import org.vaadin.addon.leaflet.shared.ILayerClientRpc;
 
 public abstract class AbstractLeafletLayer extends AbstractComponent implements
@@ -17,6 +20,18 @@ public abstract class AbstractLeafletLayer extends AbstractComponent implements
             @Override
             public void onClick(Point p) {
                 fireEvent(new LeafletClickEvent(AbstractLeafletLayer.this, p));
+            }
+        });
+        registerRpc(new MouseOverServerRpc() {
+            @Override
+            public void onMouseOver(Point p) {
+                fireEvent(new LeafletMouseOverEvent(AbstractLeafletLayer.this, p));
+            }
+        });
+        registerRpc(new MouseOutServerRpc() {
+            @Override
+            public void onMouseOut(Point p) {
+                fireEvent(new LeafletMouseOutEvent(AbstractLeafletLayer.this, p));
             }
         });
     }
@@ -35,6 +50,16 @@ public abstract class AbstractLeafletLayer extends AbstractComponent implements
     public void addClickListener(LeafletClickListener listener) {
         addListener(LeafletClickEvent.class, listener,
                 LeafletClickListener.METHOD);
+    }
+
+    public void addMouseOverListener(LeafletMouseOverListener listener) {
+        addListener(EventId.MOUSEOVER, LeafletMouseOverEvent.class, listener,
+                LeafletMouseOverListener.METHOD);
+    }
+
+    public void addMouseOutListener(LeafletMouseOutListener listener) {
+        addListener(EventId.MOUSEOUT, LeafletMouseOutEvent.class, listener,
+                LeafletMouseOutListener.METHOD);
     }
 
     public void setActive(Boolean active) {
