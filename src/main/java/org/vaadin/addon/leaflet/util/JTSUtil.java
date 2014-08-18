@@ -216,6 +216,12 @@ public class JTSUtil {
 
     public static LineString toLineString(LPolyline polyline) {
         Point[] points = polyline.getPoints();
+        if(points.length < 2) {
+        	// v-leaflet supports weird lines with only one points
+        	if(points.length == 1) {
+            	points = new Point[] {points[0],points[0]};
+        	}
+        }
         return toLineString(points);
     }
 
