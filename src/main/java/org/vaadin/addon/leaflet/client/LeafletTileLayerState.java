@@ -6,6 +6,7 @@ public class LeafletTileLayerState extends AbstractLeafletComponentState {
 	public String attributionString;
 	public Boolean detectRetina;
 	public Boolean tms;
+	public Integer minZoom;
 	public Integer maxZoom;
 	public String[] subDomains;
 	public Double opacity;
