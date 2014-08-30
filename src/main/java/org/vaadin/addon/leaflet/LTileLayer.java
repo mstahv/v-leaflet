@@ -64,6 +64,14 @@ public class LTileLayer extends AbstractLeafletLayer {
 		getState().tms = tms;
 	}
 
+	public Integer getMinZoom() {
+		return getState().minZoom;
+	}
+
+	public void setMinZoom(Integer minZoom) {
+		getState().minZoom = minZoom;
+	}
+
 	public Integer getMaxZoom() {
 		return getState().maxZoom;
 	}

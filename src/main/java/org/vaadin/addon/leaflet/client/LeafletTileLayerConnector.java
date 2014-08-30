@@ -30,6 +30,9 @@ public class LeafletTileLayerConnector extends
 		if (s.subDomains != null) {
 			o.setSubDomains(s.subDomains);
 		}
+		if (s.minZoom != null) {
+			o.setMinZoom(s.minZoom);
+		}
 		if (s.maxZoom != null) {
 			o.setMaxZoom(s.maxZoom);
 		}
