@@ -1,5 +1,7 @@
 package org.vaadin.addon.leaflet.client;
 
+import java.util.Map;
+
 public class LeafletTileLayerState extends AbstractLeafletComponentState {
 
 	public String url;
@@ -13,4 +15,5 @@ public class LeafletTileLayerState extends AbstractLeafletComponentState {
 	public Integer zIndex;
         public Boolean continuousWorld;
         public Boolean noWrap;
+        public Map<String,String> customOptions;
 }

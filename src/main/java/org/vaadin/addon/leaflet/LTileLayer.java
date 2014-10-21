@@ -1,5 +1,8 @@
 package org.vaadin.addon.leaflet;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.vaadin.addon.leaflet.client.*;
 import org.vaadin.addon.leaflet.shared.EventId;
 
@@ -118,6 +121,21 @@ public class LTileLayer extends AbstractLeafletLayer {
 
         public void setNoWrap(Boolean noWrap) {
                 getState().noWrap = noWrap;
+        }
+
+        public Map<String, String> getCustomOptions() {
+            return getState().customOptions;
+        }
+    
+        public void setCustomOptions(Map<String, String> customOptions) {
+            getState().customOptions = customOptions;
+        }
+        
+        public void setCustomOption(String optionName, String optionValue) {
+            if(getState().customOptions == null) {
+                getState().customOptions = new HashMap<String, String>();
+            }
+            getState().customOptions.put(optionName, optionValue);
         }
 
 	@Override
