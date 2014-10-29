@@ -159,6 +159,9 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector
 				options.setAttributionControl(false);
 			}
 			
+			if(getState().minZoom != null) {
+				options.setMinZoom(getState().minZoom);
+			}
 			if(getState().maxZoom != null) {
 				options.setMaxZoom(getState().maxZoom);
 			}

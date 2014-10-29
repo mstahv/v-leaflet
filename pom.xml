@@ -8,7 +8,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <vaadin.version>7.2.6</vaadin.version>
-        <g-leaflet-draw.version>0.4.7-SNAPSHOT</g-leaflet-draw.version>
+        <g-leaflet-draw.version>0.4.8-SNAPSHOT</g-leaflet-draw.version>
         <geotools.version>10.2</geotools.version>
     </properties>
 

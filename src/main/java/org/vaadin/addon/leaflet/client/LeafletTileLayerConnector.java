@@ -30,6 +30,9 @@ public class LeafletTileLayerConnector extends
 		if (s.subDomains != null) {
 			o.setSubDomains(s.subDomains);
 		}
+		if (s.minZoom != null) {
+			o.setMinZoom(s.minZoom);
+		}
 		if (s.maxZoom != null) {
 			o.setMaxZoom(s.maxZoom);
 		}
@@ -48,6 +51,11 @@ public class LeafletTileLayerConnector extends
                 if (s.noWrap != null) {
                     o.setNoWrap(s.noWrap);
                 }
+		if (s.customOptions != null) {
+		    for(String keyName : s.customOptions.keySet()) {
+		        o.setCustomOption(keyName, s.customOptions.get(keyName));
+		    }
+		}
 		return o;
 	}
 
