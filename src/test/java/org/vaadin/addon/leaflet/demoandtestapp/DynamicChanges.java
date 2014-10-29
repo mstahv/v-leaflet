@@ -6,12 +6,10 @@ import java.util.Random;
 
 import org.vaadin.addon.leaflet.LMap;
 import org.vaadin.addon.leaflet.LPolyline;
-import org.vaadin.addon.leaflet.LTileLayer;
 import org.vaadin.addon.leaflet.LeafletClickEvent;
 import org.vaadin.addon.leaflet.LeafletClickListener;
 import org.vaadin.addon.leaflet.LeafletMoveEndEvent;
 import org.vaadin.addon.leaflet.LeafletMoveEndListener;
-import org.vaadin.addon.leaflet.demoandtestapp.util.AbstractTest;
 import org.vaadin.addon.leaflet.shared.Bounds;
 import org.vaadin.addon.leaflet.shared.Point;
 
@@ -26,6 +24,7 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Notification.Type;
 import org.vaadin.addon.leaflet.LOpenStreetMapLayer;
+import org.vaadin.addonhelpers.AbstractTest;
 
 public class DynamicChanges extends AbstractTest {
 

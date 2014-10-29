@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.Random;
 import org.vaadin.addon.leaflet.LMap;
 import org.vaadin.addon.leaflet.LPolyline;
-import org.vaadin.addon.leaflet.demoandtestapp.util.AbstractTest;
 import org.vaadin.addon.leaflet.shared.Point;
+import org.vaadin.addonhelpers.AbstractTest;
 
 public class VectorPerfotest extends AbstractTest {
 

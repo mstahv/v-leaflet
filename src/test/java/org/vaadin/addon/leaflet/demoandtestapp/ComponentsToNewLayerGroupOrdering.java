@@ -1,8 +1,6 @@
 package org.vaadin.addon.leaflet.demoandtestapp;
 
-import org.peimari.gleaflet.client.LayerGroup;
 import org.vaadin.addon.leaflet.LMap;
-import org.vaadin.addon.leaflet.demoandtestapp.util.AbstractTest;
 
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
@@ -10,7 +8,7 @@ import com.vaadin.ui.VerticalLayout;
 
 import org.vaadin.addon.leaflet.LCircleMarker;
 import org.vaadin.addon.leaflet.LLayerGroup;
-import org.vaadin.addon.leaflet.shared.Point;
+import org.vaadin.addonhelpers.AbstractTest;
 
 public class ComponentsToNewLayerGroupOrdering extends AbstractTest {
 

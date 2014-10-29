@@ -3,7 +3,6 @@ package org.vaadin.addon.leaflet.demoandtestapp;
 import org.vaadin.addon.leaflet.LMap;
 import org.vaadin.addon.leaflet.LMarker;
 import org.vaadin.addon.leaflet.LTileLayer;
-import org.vaadin.addon.leaflet.demoandtestapp.util.AbstractTest;
 
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
@@ -12,6 +11,7 @@ import com.vaadin.navigator.ViewProvider;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
+import org.vaadin.addonhelpers.AbstractTest;
 
 public class ViewChangeTest extends AbstractTest {
 

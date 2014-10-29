@@ -44,8 +44,8 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
+                    <source>1.7</source>
+                    <target>1.7</target>
                 </configuration>
             </plugin>
             <plugin>
@@ -348,14 +348,6 @@
             <version>${vaadin.version}</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-webapp</artifactId>
-            <version>7.2.2.v20101205</version>
-            <scope>test</scope>
-        </dependency>
-
-
 
         <dependency>
             <groupId>org.geotools</groupId>
@@ -411,6 +403,13 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.10</version>
+            <scope>test</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.vaadin</groupId>
+            <artifactId>addon-test-helpers</artifactId>
+            <version>1.0</version>
             <scope>test</scope>
         </dependency>
 

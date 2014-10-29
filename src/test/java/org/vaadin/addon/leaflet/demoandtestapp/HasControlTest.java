@@ -1,16 +1,12 @@
 package org.vaadin.addon.leaflet.demoandtestapp;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import org.vaadin.addon.leaflet.LMap;
 import org.vaadin.addon.leaflet.LTileLayer;
-import org.vaadin.addon.leaflet.control.LAttribution;
 import org.vaadin.addon.leaflet.control.LLayers;
 import org.vaadin.addon.leaflet.control.LScale;
-import org.vaadin.addon.leaflet.control.LZoom;
-import org.vaadin.addon.leaflet.demoandtestapp.util.AbstractTest;
 
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
@@ -24,6 +20,7 @@ import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.OptionGroup;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
+import org.vaadin.addonhelpers.AbstractTest;
 
 public class HasControlTest extends AbstractTest {
 

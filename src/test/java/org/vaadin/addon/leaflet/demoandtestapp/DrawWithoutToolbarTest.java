@@ -4,7 +4,6 @@ import org.vaadin.addon.leaflet.LFeatureGroup;
 import org.vaadin.addon.leaflet.LLayerGroup;
 import org.vaadin.addon.leaflet.LMap;
 import org.vaadin.addon.leaflet.LTileLayer;
-import org.vaadin.addon.leaflet.demoandtestapp.util.AbstractTest;
 import org.vaadin.addon.leaflet.draw.AbstracLDrawFeature;
 import org.vaadin.addon.leaflet.draw.LDraw.FeatureDrawnEvent;
 import org.vaadin.addon.leaflet.draw.LDraw.FeatureDrawnListener;
@@ -19,6 +18,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.OptionGroup;
+import org.vaadin.addonhelpers.AbstractTest;
 
 public class DrawWithoutToolbarTest extends AbstractTest {
 

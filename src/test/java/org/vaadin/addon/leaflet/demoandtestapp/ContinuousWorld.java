@@ -3,10 +3,10 @@ package org.vaadin.addon.leaflet.demoandtestapp;
 import org.vaadin.addon.leaflet.LMap;
 import org.vaadin.addon.leaflet.LOpenStreetMapLayer;
 import org.vaadin.addon.leaflet.LPolyline;
-import org.vaadin.addon.leaflet.demoandtestapp.util.AbstractTest;
 import org.vaadin.addon.leaflet.shared.Point;
 
 import com.vaadin.ui.Component;
+import org.vaadin.addonhelpers.AbstractTest;
 
 public class ContinuousWorld extends AbstractTest {
 

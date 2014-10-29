@@ -11,7 +11,6 @@ import org.opengis.referencing.crs.CRSAuthorityFactory;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 import org.opengis.referencing.operation.MathTransform;
 import org.opengis.referencing.operation.TransformException;
-import org.vaadin.addon.leaflet.demoandtestapp.util.AbstractTest;
 import org.vaadin.addon.leaflet.util.CRSTranslator;
 import org.vaadin.addon.leaflet.util.LineStringField;
 import org.vaadin.addon.leaflet.util.LinearRingField;
@@ -38,6 +37,7 @@ import com.vividsolutions.jts.geom.LinearRing;
 import com.vividsolutions.jts.geom.Point;
 import com.vividsolutions.jts.geom.Polygon;
 import com.vividsolutions.jts.geom.PrecisionModel;
+import org.vaadin.addonhelpers.AbstractTest;
 
 public class JtsFieldWithProjectionTest extends AbstractTest {
 

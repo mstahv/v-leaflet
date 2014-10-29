@@ -5,7 +5,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.vaadin.addon.leaflet.demoandtestapp.util.TServer;
+import org.vaadin.addonhelpers.TServer;
 
 /**
  * This abstract class can be used if one e.g. cannot afford TestBench license.
@@ -26,7 +26,7 @@ public class AbstractWebDriverCase {
     @Before
     public void setUp() {
         try {
-            server = TServer.startServer(TESTPORT);
+            server = new TServer().startServer(TESTPORT);
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

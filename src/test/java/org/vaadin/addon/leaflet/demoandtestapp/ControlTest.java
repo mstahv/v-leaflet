@@ -1,15 +1,14 @@
 package org.vaadin.addon.leaflet.demoandtestapp;
 
 import org.vaadin.addon.leaflet.LMap;
-import org.vaadin.addon.leaflet.LTileLayer;
 import org.vaadin.addon.leaflet.control.LAttribution;
 import org.vaadin.addon.leaflet.control.LScale;
 import org.vaadin.addon.leaflet.control.LZoom;
-import org.vaadin.addon.leaflet.demoandtestapp.util.AbstractTest;
 import org.vaadin.addon.leaflet.shared.ControlPosition;
 
 import com.vaadin.ui.Component;
 import org.vaadin.addon.leaflet.LOpenStreetMapLayer;
+import org.vaadin.addonhelpers.AbstractTest;
 
 public class ControlTest extends AbstractTest {
 
@@ -24,6 +23,7 @@ public class ControlTest extends AbstractTest {
 	@Override
 	public Component getTestComponent() {
 		leafletMap = new LMap();
+        
 		leafletMap.setCenter(60.4525, 22.301);
 		leafletMap.setZoomLevel(15);
 
@@ -65,6 +65,5 @@ public class ControlTest extends AbstractTest {
 	@Override
 	protected void setup() {
 		super.setup();
-
 	}
 }

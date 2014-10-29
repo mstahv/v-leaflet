@@ -8,9 +8,9 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
-import org.vaadin.addon.leaflet.demoandtestapp.util.TListUi;
 
 import com.vaadin.data.Container;
+import org.vaadin.addonhelpers.TListUi;
 
 public class SimpleTest extends AbstractTestBenchTest {
 

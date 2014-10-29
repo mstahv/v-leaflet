@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.vaadin.addon.leaflet.*;
-import org.vaadin.addon.leaflet.demoandtestapp.util.AbstractTest;
 import org.vaadin.addon.leaflet.shared.Control;
 
 import com.vaadin.ui.*;
 import com.vaadin.ui.Notification.Type;
+import org.vaadin.addonhelpers.AbstractTest;
 
 public class LayersTest extends AbstractTest {
 

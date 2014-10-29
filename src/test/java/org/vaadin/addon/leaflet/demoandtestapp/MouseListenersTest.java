@@ -3,7 +3,6 @@ package org.vaadin.addon.leaflet.demoandtestapp;
 import org.vaadin.addon.leaflet.LMap;
 import org.vaadin.addon.leaflet.LOpenStreetMapLayer;
 import org.vaadin.addon.leaflet.LPolyline;
-import org.vaadin.addon.leaflet.demoandtestapp.util.AbstractTest;
 import org.vaadin.addon.leaflet.shared.Point;
 
 import com.vaadin.ui.Component;
@@ -14,6 +13,7 @@ import org.vaadin.addon.leaflet.LeafletMouseOutEvent;
 import org.vaadin.addon.leaflet.LeafletMouseOutListener;
 import org.vaadin.addon.leaflet.LeafletMouseOverEvent;
 import org.vaadin.addon.leaflet.LeafletMouseOverListener;
+import org.vaadin.addonhelpers.AbstractTest;
 
 public class MouseListenersTest extends AbstractTest {
 

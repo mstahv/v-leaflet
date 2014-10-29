@@ -5,12 +5,12 @@ import org.vaadin.addon.leaflet.LMap;
 import org.vaadin.addon.leaflet.LTileLayer;
 import org.vaadin.addon.leaflet.control.LScale;
 import org.vaadin.addon.leaflet.control.LZoom;
-import org.vaadin.addon.leaflet.demoandtestapp.util.AbstractTest;
 
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Window;
+import org.vaadin.addonhelpers.AbstractTest;
 
 public class MapInWindowIssue19 extends AbstractTest {
 

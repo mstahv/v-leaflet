@@ -1,10 +1,10 @@
 package org.vaadin.addon.leaflet.demoandtestapp;
 
 import org.vaadin.addon.leaflet.LMap;
-import org.vaadin.addon.leaflet.demoandtestapp.util.AbstractTest;
 import com.vaadin.ui.Component;
 import org.vaadin.addon.leaflet.LWmsLayer;
 import org.vaadin.addon.leaflet.shared.Crs;
+import org.vaadin.addonhelpers.AbstractTest;
 
 public class CustomProjection extends AbstractTest {
 

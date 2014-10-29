@@ -15,7 +15,6 @@ import org.vaadin.addon.leaflet.LeafletClickEvent;
 import org.vaadin.addon.leaflet.LeafletClickListener;
 import org.vaadin.addon.leaflet.LeafletMoveEndEvent;
 import org.vaadin.addon.leaflet.LeafletMoveEndListener;
-import org.vaadin.addon.leaflet.demoandtestapp.util.AbstractTest;
 import org.vaadin.addon.leaflet.shared.Bounds;
 import org.vaadin.addon.leaflet.shared.Control;
 import org.vaadin.addon.leaflet.shared.Point;
@@ -29,6 +28,7 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Notification.Type;
 import org.vaadin.addon.leaflet.LOpenStreetMapLayer;
+import org.vaadin.addonhelpers.AbstractTest;
 
 public class BasicTest extends AbstractTest {
 

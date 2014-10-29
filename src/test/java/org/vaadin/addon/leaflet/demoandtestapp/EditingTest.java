@@ -9,7 +9,6 @@ import org.vaadin.addon.leaflet.LMarker.DragEndListener;
 import org.vaadin.addon.leaflet.LPolygon;
 import org.vaadin.addon.leaflet.LPolyline;
 import org.vaadin.addon.leaflet.LTileLayer;
-import org.vaadin.addon.leaflet.demoandtestapp.util.AbstractTest;
 import org.vaadin.addon.leaflet.draw.LDraw.FeatureModifiedEvent;
 import org.vaadin.addon.leaflet.draw.LDraw.FeatureModifiedListener;
 import org.vaadin.addon.leaflet.draw.LEditing;
@@ -24,6 +23,7 @@ import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Notification;
 import com.vividsolutions.jts.geom.LinearRing;
+import org.vaadin.addonhelpers.AbstractTest;
 
 public class EditingTest extends AbstractTest implements
 		FeatureModifiedListener {

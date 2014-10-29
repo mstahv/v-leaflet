@@ -1,28 +1,20 @@
 package org.vaadin.addon.leaflet.demoandtestapp;
 
-import java.util.Arrays;
-import java.util.List;
 
 import org.vaadin.addon.leaflet.LMap;
 import org.vaadin.addon.leaflet.LMarker;
 import org.vaadin.addon.leaflet.LTileLayer;
-import org.vaadin.addon.leaflet.demoandtestapp.util.AbstractTest;
 
-import com.vaadin.data.Property.ValueChangeEvent;
-import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Notification.Type;
-import com.vaadin.ui.OptionGroup;
-import com.vaadin.ui.Panel;
-import com.vaadin.ui.VerticalLayout;
+import org.vaadin.addonhelpers.AbstractTest;
 
 public class CenterAndZoomTest extends AbstractTest {
 

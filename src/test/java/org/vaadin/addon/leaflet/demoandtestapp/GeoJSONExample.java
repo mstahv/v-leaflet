@@ -19,8 +19,8 @@ import org.vaadin.addon.leaflet.LPolygon;
 import org.vaadin.addon.leaflet.LeafletClickEvent;
 import org.vaadin.addon.leaflet.LeafletClickListener;
 import org.vaadin.addon.leaflet.LeafletLayer;
-import org.vaadin.addon.leaflet.demoandtestapp.util.AbstractTest;
 import org.vaadin.addon.leaflet.util.JTSUtil;
+import org.vaadin.addonhelpers.AbstractTest;
 
 public class GeoJSONExample extends AbstractTest {
 

@@ -7,14 +7,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.vaadin.addon.leaflet.demoandtestapp.util.TServer;
-
-import com.vaadin.testbench.Parameters;
-import com.vaadin.testbench.ScreenshotOnFailureRule;
 import com.vaadin.testbench.TestBench;
 import com.vaadin.testbench.commands.TestBenchCommands;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
+import org.vaadin.addonhelpers.TServer;
 
 public class AbstractTestBenchTest {
 
@@ -35,7 +31,7 @@ public class AbstractTestBenchTest {
     public void setUp() {
         
         try {
-            server = TServer.startServer(TESTPORT);
+            server = new TServer().startServer(TESTPORT);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

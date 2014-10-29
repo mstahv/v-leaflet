@@ -1,15 +1,11 @@
 package org.vaadin.addon.leaflet.demoandtestapp;
 
 import org.vaadin.addon.leaflet.LMap;
-import org.vaadin.addon.leaflet.LPolyline;
-import org.vaadin.addon.leaflet.demoandtestapp.util.AbstractTest;
-import org.vaadin.addon.leaflet.shared.Point;
-
-import com.vaadin.server.Page;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
 import org.vaadin.addon.leaflet.LCircleMarker;
+import org.vaadin.addonhelpers.AbstractTest;
 
 public class LayerOrdering extends AbstractTest {
 

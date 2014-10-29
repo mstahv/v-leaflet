@@ -1,14 +1,13 @@
 package org.vaadin.addon.leaflet.demoandtestapp;
 
+import com.vaadin.server.ClientConnector.DetachEvent;
 import java.util.LinkedList;
 import java.util.List;
 
 import org.vaadin.addon.leaflet.LMap;
 import org.vaadin.addon.leaflet.LMarker;
-import org.vaadin.addon.leaflet.LOpenStreetMapLayer;
 import org.vaadin.addon.leaflet.LPolyline;
 import org.vaadin.addon.leaflet.LPopup;
-import org.vaadin.addon.leaflet.demoandtestapp.util.AbstractTest;
 import org.vaadin.addon.leaflet.shared.Point;
 
 import com.vaadin.server.ClientConnector.DetachListener;
@@ -18,6 +17,7 @@ import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
+import org.vaadin.addonhelpers.AbstractTest;
 
 public class PopupTest extends AbstractTest implements DetachListener {
 

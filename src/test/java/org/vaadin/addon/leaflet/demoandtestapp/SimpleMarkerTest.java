@@ -5,9 +5,9 @@ import com.vaadin.ui.Button.ClickListener;
 import org.vaadin.addon.leaflet.LMap;
 import org.vaadin.addon.leaflet.LMarker;
 import org.vaadin.addon.leaflet.LTileLayer;
-import org.vaadin.addon.leaflet.demoandtestapp.util.AbstractTest;
 
 import com.vaadin.ui.Component;
+import org.vaadin.addonhelpers.AbstractTest;
 
 public class SimpleMarkerTest extends AbstractTest {
     private LMarker lMarker;

@@ -1,12 +1,10 @@
 package org.vaadin.addon.leaflet.demoandtestapp;
 
 import com.vaadin.event.ShortcutAction;
-import com.vaadin.event.ShortcutListener;
 import com.vaadin.ui.Button;
 import org.vaadin.addon.leaflet.LLayerGroup;
 import org.vaadin.addon.leaflet.LMap;
 import org.vaadin.addon.leaflet.LTileLayer;
-import org.vaadin.addon.leaflet.demoandtestapp.util.AbstractTest;
 import org.vaadin.addon.leaflet.draw.LDraw.FeatureDrawnEvent;
 import org.vaadin.addon.leaflet.draw.LDraw.FeatureDrawnListener;
 import org.vaadin.addon.leaflet.draw.LDrawRectangle;
@@ -14,6 +12,7 @@ import org.vaadin.addon.leaflet.draw.LDrawRectangle;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Notification;
 import com.vividsolutions.jts.geom.Geometry;
+import org.vaadin.addonhelpers.AbstractTest;
 
 public class SelectRectangularArea extends AbstractTest {
 

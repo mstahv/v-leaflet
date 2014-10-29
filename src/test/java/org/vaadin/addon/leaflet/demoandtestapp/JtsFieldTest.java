@@ -2,7 +2,6 @@ package org.vaadin.addon.leaflet.demoandtestapp;
 
 import java.util.Date;
 
-import org.vaadin.addon.leaflet.demoandtestapp.util.AbstractTest;
 import org.vaadin.addon.leaflet.util.LineStringField;
 import org.vaadin.addon.leaflet.util.LinearRingField;
 import org.vaadin.addon.leaflet.util.PointField;
@@ -24,6 +23,7 @@ import com.vividsolutions.jts.geom.LineString;
 import com.vividsolutions.jts.geom.LinearRing;
 import com.vividsolutions.jts.geom.Point;
 import com.vividsolutions.jts.geom.Polygon;
+import org.vaadin.addonhelpers.AbstractTest;
 
 public class JtsFieldTest extends AbstractTest {
 

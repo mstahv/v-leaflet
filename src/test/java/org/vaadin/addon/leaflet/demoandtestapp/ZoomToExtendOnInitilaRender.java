@@ -5,7 +5,6 @@ import java.util.Arrays;
 
 import org.vaadin.addon.leaflet.LMap;
 import org.vaadin.addon.leaflet.LMarker;
-import org.vaadin.addon.leaflet.demoandtestapp.util.AbstractTest;
 import org.vaadin.addon.leaflet.shared.Bounds;
 import org.vaadin.addon.leaflet.shared.Control;
 import org.vaadin.addon.leaflet.shared.Point;
@@ -13,6 +12,7 @@ import org.vaadin.addon.leaflet.shared.Point;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.VerticalLayout;
 import org.vaadin.addon.leaflet.LOpenStreetMapLayer;
+import org.vaadin.addonhelpers.AbstractTest;
 
 public class ZoomToExtendOnInitilaRender extends AbstractTest {
 

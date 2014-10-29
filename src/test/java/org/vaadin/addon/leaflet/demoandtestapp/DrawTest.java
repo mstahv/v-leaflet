@@ -5,8 +5,6 @@ import java.util.Arrays;
 import org.vaadin.addon.leaflet.LFeatureGroup;
 import org.vaadin.addon.leaflet.LMap;
 import org.vaadin.addon.leaflet.LPolyline;
-import org.vaadin.addon.leaflet.LTileLayer;
-import org.vaadin.addon.leaflet.demoandtestapp.util.AbstractTest;
 import org.vaadin.addon.leaflet.draw.LDraw;
 import org.vaadin.addon.leaflet.draw.LDraw.FeatureDeletedEvent;
 import org.vaadin.addon.leaflet.draw.LDraw.FeatureDeletedListener;
@@ -22,6 +20,7 @@ import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Notification;
 import org.vaadin.addon.leaflet.LOpenStreetMapLayer;
+import org.vaadin.addonhelpers.AbstractTest;
 
 public class DrawTest extends AbstractTest {
 

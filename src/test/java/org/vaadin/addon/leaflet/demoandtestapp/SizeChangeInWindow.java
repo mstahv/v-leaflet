@@ -3,13 +3,12 @@ package org.vaadin.addon.leaflet.demoandtestapp;
 import java.util.Random;
 
 import org.vaadin.addon.leaflet.LMap;
-import org.vaadin.addon.leaflet.LTileLayer;
-import org.vaadin.addon.leaflet.demoandtestapp.util.AbstractTest;
 
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Window;
 import org.vaadin.addon.leaflet.LOpenStreetMapLayer;
+import org.vaadin.addonhelpers.AbstractTest;
 
 public class SizeChangeInWindow extends AbstractTest {
 

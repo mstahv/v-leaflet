@@ -5,7 +5,6 @@ import java.util.Collection;
 import org.vaadin.addon.leaflet.LFeatureGroup;
 import org.vaadin.addon.leaflet.LMap;
 import org.vaadin.addon.leaflet.LeafletLayer;
-import org.vaadin.addon.leaflet.demoandtestapp.util.AbstractTest;
 import org.vaadin.addon.leaflet.util.JTSUtil;
 
 import com.vaadin.ui.Button;
@@ -21,6 +20,7 @@ import com.vividsolutions.jts.geom.Point;
 import com.vividsolutions.jts.geom.Polygon;
 import com.vividsolutions.jts.io.ParseException;
 import com.vividsolutions.jts.io.WKTReader;
+import org.vaadin.addonhelpers.AbstractTest;
 
 public class BasicJtsTest extends AbstractTest {
 
@@ -67,7 +67,6 @@ public class BasicJtsTest extends AbstractTest {
         return (MultiLineString) readWKT("MULTILINESTRING ((20 62, 21 62, 22 63), (20 64, 21 65, 22 66))");
     }
 
-    @Override
     public Component getTestComponent() {
         leafletMap = new LMap();
 
