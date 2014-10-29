@@ -5,6 +5,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.vaadin.addon.leaflet.demoandtestapp.util.UiRunner;
 import org.vaadin.addonhelpers.TServer;
 
 /**
@@ -26,7 +27,7 @@ public class AbstractWebDriverCase {
     @Before
     public void setUp() {
         try {
-            server = new TServer().startServer(TESTPORT);
+            server = new UiRunner().startServer(TESTPORT);
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

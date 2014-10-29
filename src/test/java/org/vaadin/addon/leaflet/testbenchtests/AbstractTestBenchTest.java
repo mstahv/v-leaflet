@@ -10,7 +10,7 @@ import org.openqa.selenium.WebDriver;
 import com.vaadin.testbench.TestBench;
 import com.vaadin.testbench.commands.TestBenchCommands;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
-import org.vaadin.addonhelpers.TServer;
+import org.vaadin.addon.leaflet.demoandtestapp.util.UiRunner;
 
 public class AbstractTestBenchTest {
 
@@ -31,7 +31,7 @@ public class AbstractTestBenchTest {
     public void setUp() {
         
         try {
-            server = new TServer().startServer(TESTPORT);
+            server = new UiRunner().startServer(TESTPORT);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

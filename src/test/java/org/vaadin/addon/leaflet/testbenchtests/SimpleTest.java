@@ -22,13 +22,13 @@ public class SimpleTest extends AbstractTestBenchTest {
         
         Container listTestClasses = TListUi.listTestClasses();
         for (Object id : listTestClasses.getItemIds()) {
-			String name = (String) listTestClasses.getItem(id)
-					.getItemProperty("name").getValue();
+			Class clazz = (Class) listTestClasses.getItem(id)
+					.getItemProperty("clazz").getValue();
 			
-			driver.get(BASEURL + name + "?debug");
+			driver.get(BASEURL + clazz.getName() + "?debug");
 			try {
 				WebElement error = driver.findElement(By.className("v-Notification-error"));
-				Assert.fail("Test " + name + " has client side exception");
+				Assert.fail("Test " + clazz.getName() + " has client side exception");
 			} catch (NoSuchElementException e) {
 				continue;
 			}
