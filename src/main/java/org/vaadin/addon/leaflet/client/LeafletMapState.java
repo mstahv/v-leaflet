@@ -19,6 +19,9 @@ import org.vaadin.addon.leaflet.shared.Bounds;
 import org.vaadin.addon.leaflet.shared.Point;
 
 import com.vaadin.shared.AbstractComponentState;
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 
@@ -35,6 +38,9 @@ public class LeafletMapState extends AbstractComponentState {
     public Bounds maxBounds;
     public Integer minZoom;
     public Integer maxZoom;
+    
+    /* This should be replaced with a more decent api */
+    public String customMapOptionsJson;
 
 	/**
 	 * Internal String identifier of CRS that is meaningful to v-leaflet

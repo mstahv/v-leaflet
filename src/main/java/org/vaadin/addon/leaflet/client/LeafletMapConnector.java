@@ -35,6 +35,8 @@ import org.vaadin.addon.leaflet.shared.Point;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.json.client.JSONParser;
+import com.google.gwt.json.client.JSONValue;
 import com.google.gwt.user.client.ui.Widget;
 import com.vaadin.client.ComponentConnector;
 import com.vaadin.client.ConnectorHierarchyChangeEvent;
@@ -45,6 +47,7 @@ import com.vaadin.client.ui.AbstractHasComponentsConnector;
 import com.vaadin.client.ui.layout.ElementResizeEvent;
 import com.vaadin.client.ui.layout.ElementResizeListener;
 import com.vaadin.shared.ui.Connect;
+import java.io.Serializable;
 import org.peimari.gleaflet.client.Crs;
 
 /**
@@ -137,7 +140,11 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector
 		super.onStateChanged(stateChangeEvent);
 		if (map == null) {
 			updateChildren = new ArrayList<ServerConnector>(getChildren());
-			options = MapOptions.create();
+            if(getState().customMapOptionsJson != null) {
+    			options = JSONParser.parseStrict(getState().customMapOptionsJson).isObject().getJavaScriptObject().cast();
+            } else {
+                options = MapOptions.create();
+            }
             if(getState().maxBounds != null) {
                 options.setMaxBounds(toLeafletBounds(getState().maxBounds));
             }

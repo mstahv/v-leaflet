@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 public class VectorStyle implements Serializable {
     
-    private static final ObjectMapper mapper = new ObjectMapper();
+    static final ObjectMapper mapper = new ObjectMapper();
     static {
         mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
     }

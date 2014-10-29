@@ -23,6 +23,7 @@ import com.vaadin.ui.AbstractComponentContainer;
 import com.vaadin.ui.Component;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryFactory;
+import org.vaadin.addon.leaflet.jsonmodels.BasicMap;
 
 /**
  * 
@@ -376,5 +377,15 @@ public class LMap extends AbstractComponentContainer {
 		this.lCrs = lc;
 		getState().crsName = lc.getName();
 	}
+    
+    private BasicMap customMapOptions;
+
+    public void setCustomInitOption(String key, boolean b) {
+        if(customMapOptions == null) {
+            customMapOptions = new BasicMap();
+        }
+        customMapOptions.put(key, b);
+        getState().customMapOptionsJson = customMapOptions.asJson();
+    }
 }
 
