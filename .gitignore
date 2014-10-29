@@ -15,3 +15,8 @@ dependency-reduced-pom.xml
 pom.xml.versionsBackup
 
 bin
+.idea
+nb-configuration.xml
+nbactions.xml
+pom.xml.orig
+v-leaflet.iml

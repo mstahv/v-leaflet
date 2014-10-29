@@ -15,20 +15,13 @@ The implementation depends on g-leaflet project. During development you'll most 
 
 https://github.com/mstahv/g-leaflet
 
-In addition to core Leaflet API, there is also supports Leaflet.Draw plugin. Its GWT bindings use g-leaflet-draw project (needed if one wishes to develop add-on and its GWT stuff). Draw stuff is added to widgetsets by default. If you wish to use stripped down version without Draw parts, comment out the automatically added inherits rule and add following (module with only core parts of widgetset and hint to avoid Vaadin tools to mess with your widgetset ):
-
-```
-        <!-- WS Compiler: manually edited -->
-	<inherits name="org.vaadin.addon.leaflet.Widgetset" />
-```
-
 ## Add-ons for add-ons
 
 This add-on contains just core Leaflet API wrapper. Leaflet has rich set of extensions, that again can have wrappers for Vaadin/GWT. Currently draw features are built in, but they'll most likely by split into separate add-on soon as well. You'll find builds of these via Vaadin Directory as well.
 
  * [Leaflet.markercluster](https://github.com/willtemperley/v-leaflet-markercluster-parent) - Must have if you have thousands of Markers
  * [Shramov plugins](https://github.com/mstahv/v-leaflet-shramov-parent) - When your client says there is Google Maps in "requirements"
- * Leaflet.Draw (to be split out)
+ * [Leaflet.Draw](https://github.com/mstahv/v-leaflet-draw) The most popular drawing/editing extension to Leaflet
  * Leaflet.label (Any volunteers to work this? It would probably be quite popular)
 
 
