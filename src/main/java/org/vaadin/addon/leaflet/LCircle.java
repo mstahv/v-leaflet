@@ -11,44 +11,68 @@ import com.vividsolutions.jts.geom.Geometry;
  */
 public class LCircle extends AbstractLeafletVector {
 
-	@Override
-	protected LeafletCircleState getState() {
-		return (LeafletCircleState) super.getState();
-	}
+    @Override
+    protected LeafletCircleState getState() {
+        return (LeafletCircleState) super.getState();
+    }
 
-	public LCircle(double lat, double lon, double radius) {
-		getState().point = new Point(lat, lon);
-		setRadius(radius);
-	}
+    /**
+     *
+     * @param lat
+     * @param lon
+     * @param radius the radius in meters, not that this is approximate,
+     * especially small zoom levels.
+     */
+    public LCircle(double lat, double lon, double radius) {
+        getState().point = new Point(lat, lon);
+        setRadius(radius);
+    }
 
-	public LCircle(Point point, double radius) {
-		setPoint(point);
-		setRadius(radius);
-	}
+    /**
+     * 
+     * @param point
+     * @param radius the radius in meters, not that this is approximate,
+     * especially small zoom levels.
+     */
+    public LCircle(Point point, double radius) {
+        setPoint(point);
+        setRadius(radius);
+    }
 
-	public LCircle(com.vividsolutions.jts.geom.Point jtsPoint, double radius) {
-		this(JTSUtil.toLeafletPoint(jtsPoint), radius);
-	}
+    /**
+     * 
+     * @param jtsPoint
+     * @param radius the radius in meters, not that this is approximate,
+     * especially small zoom levels.
+     */
+    public LCircle(com.vividsolutions.jts.geom.Point jtsPoint, double radius) {
+        this(JTSUtil.toLeafletPoint(jtsPoint), radius);
+    }
 
-	public void setPoint(Point point) {
-		getState().point = point;
-	}
+    public void setPoint(Point point) {
+        getState().point = point;
+    }
 
-	public void setRadius(double radius) {
-		getState().radius = radius;
-	}
+    /**
+     * 
+     * @param radius the radius in meters, not that this is approximate,
+     * especially small zoom levels.
+     */
+    public void setRadius(double radius) {
+        getState().radius = radius;
+    }
 
-	public Point getPoint() {
-		return getState().point;
-	}
+    public Point getPoint() {
+        return getState().point;
+    }
 
-	public double getRadius() {
-		return getState().radius;
-	}
+    public double getRadius() {
+        return getState().radius;
+    }
 
-	@Override
-	public Geometry getGeometry() {
-		return JTSUtil.toPoint(getPoint());
-	}
+    @Override
+    public Geometry getGeometry() {
+        return JTSUtil.toPoint(getPoint());
+    }
 
 }
