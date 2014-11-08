@@ -1,5 +1,7 @@
 package org.vaadin.addon.leaflet.shared;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+
 import java.io.Serializable;
 
 public class Point implements Serializable {
@@ -29,6 +31,11 @@ public class Point implements Serializable {
 	@Override
 	public String toString() {
 		return lat + "," + lon;
+	}
+
+	@JsonValue
+	public Double[] getLatLonPair() {
+		return new Double[]{lat,lon};
 	}
 
 }

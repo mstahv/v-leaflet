@@ -1,24 +1,5 @@
 package org.vaadin.addon.leaflet.demoandtestapp;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
-import org.vaadin.addon.leaflet.AbstractLeafletLayer;
-import org.vaadin.addon.leaflet.LCircle;
-import org.vaadin.addon.leaflet.LCircleMarker;
-import org.vaadin.addon.leaflet.LMap;
-import org.vaadin.addon.leaflet.LMarker;
-import org.vaadin.addon.leaflet.LPolygon;
-import org.vaadin.addon.leaflet.LPolyline;
-import org.vaadin.addon.leaflet.LTileLayer;
-import org.vaadin.addon.leaflet.LeafletClickEvent;
-import org.vaadin.addon.leaflet.LeafletClickListener;
-import org.vaadin.addon.leaflet.LeafletMoveEndEvent;
-import org.vaadin.addon.leaflet.LeafletMoveEndListener;
-import org.vaadin.addon.leaflet.shared.Bounds;
-import org.vaadin.addon.leaflet.shared.Control;
-import org.vaadin.addon.leaflet.shared.Point;
-
 import com.vaadin.server.ClassResource;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -27,8 +8,14 @@ import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Notification.Type;
-import org.vaadin.addon.leaflet.LOpenStreetMapLayer;
+import org.vaadin.addon.leaflet.*;
+import org.vaadin.addon.leaflet.shared.Bounds;
+import org.vaadin.addon.leaflet.shared.Control;
+import org.vaadin.addon.leaflet.shared.Point;
 import org.vaadin.addonhelpers.AbstractTest;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class BasicTest extends AbstractTest {
 
@@ -93,6 +80,12 @@ public class BasicTest extends AbstractTest {
 		leafletPolygon.setFillColor("#00FF00");
 		leafletPolygon.addClickListener(listener);
 		leafletMap.addComponent(leafletPolygon);
+
+		Bounds bounds = new Bounds(new Point(60.45, 22.295),new Point(60.4509, 22.300));
+		LRectangle rect = new LRectangle(bounds);
+		rect.addClickListener(listener);
+		rect.setFillColor("yellow");
+		leafletMap.addLayer(rect);
 
 		LCircle leafletCircle = new LCircle(60.4525, 22.301, 300);
 		leafletCircle.setColor("#00FFFF");

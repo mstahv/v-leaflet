@@ -1,28 +1,17 @@
 package org.vaadin.addon.leaflet.util;
 
-import java.util.Collection;
-import java.util.HashSet;
-
+import com.vividsolutions.jts.geom.*;
+import com.vividsolutions.jts.io.ParseException;
+import com.vividsolutions.jts.io.WKTReader;
 import org.peimari.gleaflet.client.Polyline;
-import org.vaadin.addon.leaflet.LLayerGroup;
-import org.vaadin.addon.leaflet.LMarker;
-import org.vaadin.addon.leaflet.LPolygon;
-import org.vaadin.addon.leaflet.LPolyline;
-import org.vaadin.addon.leaflet.LeafletLayer;
+import org.vaadin.addon.leaflet.*;
+import org.vaadin.addon.leaflet.jsonmodels.PointArray;
 import org.vaadin.addon.leaflet.shared.Bounds;
 import org.vaadin.addon.leaflet.shared.Point;
 
-import com.vividsolutions.jts.geom.Coordinate;
-import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.geom.GeometryFactory;
-import com.vividsolutions.jts.geom.LineString;
-import com.vividsolutions.jts.geom.LinearRing;
-import com.vividsolutions.jts.geom.MultiLineString;
-import com.vividsolutions.jts.geom.MultiPoint;
-import com.vividsolutions.jts.geom.MultiPolygon;
-import com.vividsolutions.jts.geom.Polygon;
-import com.vividsolutions.jts.geom.PrecisionModel;
-import com.vividsolutions.jts.io.*;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
 
 /**
  * Helper methods to convert between JTS geometry types and v-leaflet objects.
@@ -153,10 +142,12 @@ public class JTSUtil {
      * @return
      */
     public static LPolygon toPolygon(Polygon polygon) {
-        Coordinate[] coords = polygon.getBoundary().getCoordinates();
-        Point[] points = toPointArray(coords);
-
-        LPolygon lPolygon = new LPolygon(points);
+        LineString exteriorRing = polygon.getExteriorRing();
+        Point[] exterior = toLeafletPointArray(exteriorRing);
+        LPolygon lPolygon = new LPolygon(exterior);
+        for(int i = 0; i< polygon.getNumInteriorRing();i++) {
+            lPolygon.addHole(toLeafletPointArray(polygon.getInteriorRingN(i)));
+        }
         return lPolygon;
     }
 
@@ -164,7 +155,7 @@ public class JTSUtil {
      * Translates between a JTS {@link LinearRing} and a v-leaflet
      * {@link LPolygon}
      *
-     * @param linearring
+     * @param polygon
      * @return
      */
     public static LPolygon toPolygon(LinearRing polygon) {
@@ -227,12 +218,27 @@ public class JTSUtil {
 
     public static LinearRing toLinearRing(LPolygon polygon) {
         Point[] points = polygon.getPoints();
+        if(points.length == 0) {
+            return null;
+        }
         return toLinearRing(points);
     }
 
     public static Polygon toPolygon(LPolygon polygon) {
         Point[] points = polygon.getPoints();
-        return getGeometryFactory().createPolygon(toLinearRing(points));
+        if(points.length == 0) {
+            return null;
+        }
+        List<PointArray> holes = polygon.getHoles();
+        if(holes.isEmpty()) {
+            return getGeometryFactory().createPolygon(toLinearRing(points));
+        } else {
+            LinearRing[] holesLr = new LinearRing[holes.size()];
+            for (int i = 0; i < holes.size(); i++) {
+                holesLr[i] = toLinearRing(holes.get(0).toArray(new Point[holes.get(0).size()]));
+            }
+            return getGeometryFactory().createPolygon(toLinearRing(points), holesLr);
+        }
     }
 
     private static LinearRing toLinearRing(Point[] points) {

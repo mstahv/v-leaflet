@@ -1,18 +1,8 @@
 package org.vaadin.addon.leaflet.demoandtestapp;
 
-import org.vaadin.addon.leaflet.LMap;
-import org.vaadin.addon.leaflet.LOpenStreetMapLayer;
-import org.vaadin.addon.leaflet.LPolyline;
-import org.vaadin.addon.leaflet.shared.Point;
-
 import com.vaadin.ui.Component;
-
-import org.vaadin.addon.leaflet.LMarker;
-import org.vaadin.addon.leaflet.LPolygon;
-import org.vaadin.addon.leaflet.LeafletMouseOutEvent;
-import org.vaadin.addon.leaflet.LeafletMouseOutListener;
-import org.vaadin.addon.leaflet.LeafletMouseOverEvent;
-import org.vaadin.addon.leaflet.LeafletMouseOverListener;
+import org.vaadin.addon.leaflet.*;
+import org.vaadin.addon.leaflet.shared.Point;
 import org.vaadin.addonhelpers.AbstractTest;
 
 public class MouseListenersTest extends AbstractTest {
@@ -31,19 +21,19 @@ public class MouseListenersTest extends AbstractTest {
         leafletMap.setCenter(0, 0);
         leafletMap.setZoomLevel(0);
 
-        final LPolyline lPolyline = new LPolygon(new Point(0, 360), new Point(0, 390), new Point(60, 370));
-        leafletMap.addComponent(lPolyline);
-        lPolyline.addMouseOverListener(new LeafletMouseOverListener() {
+        final LPolygon lPolygon = new LPolygon(new Point(0, 360), new Point(0, 390), new Point(60, 370));
+        leafletMap.addComponent(lPolygon);
+        lPolygon.addMouseOverListener(new LeafletMouseOverListener() {
             @Override
             public void onMouseOver(LeafletMouseOverEvent event) {
-                lPolyline.setColor("red");
+                lPolygon.setColor("red");
                 System.err.println("onMouseOver");
             }
         });
-        lPolyline.addMouseOutListener(new LeafletMouseOutListener() {
+        lPolygon.addMouseOutListener(new LeafletMouseOutListener() {
             @Override
             public void onMouseOut(LeafletMouseOutEvent event) {
-                lPolyline.setColor("blue");
+                lPolygon.setColor("blue");
                 System.err.println("onMouseOut");
             }
         });

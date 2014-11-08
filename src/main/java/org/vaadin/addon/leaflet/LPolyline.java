@@ -1,12 +1,17 @@
 package org.vaadin.addon.leaflet;
 
 import org.vaadin.addon.leaflet.client.LeafletPolylineState;
+import org.vaadin.addon.leaflet.jsonmodels.PointArray;
 import org.vaadin.addon.leaflet.shared.Point;
 import org.vaadin.addon.leaflet.util.JTSUtil;
 
 import com.vividsolutions.jts.geom.Geometry;
 
+import java.util.Arrays;
+
 public class LPolyline extends AbstractLeafletVector {
+
+    private PointArray points;
 
     @Override
     protected LeafletPolylineState getState() {
@@ -21,12 +26,19 @@ public class LPolyline extends AbstractLeafletVector {
     	this(JTSUtil.toLeafletPointArray(jtsLineString));
     }
 
+    @Override
+    public void beforeClientResponse(boolean initial) {
+        super.beforeClientResponse(initial);
+        getState().geometryjson = points.asJson();
+    }
+
     public void setPoints(Point... array) {
-        getState().points = array;
+        points = new PointArray(Arrays.asList(array));
+        markAsDirty();
     }
  
 	public Point[] getPoints() {
-		return getState().points;
+        return points.toArray(new Point[points.size()]);
 	}
 
 	@Override

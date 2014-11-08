@@ -1,28 +1,19 @@
 package org.vaadin.addon.leaflet.client;
 
-import org.peimari.gleaflet.client.ClickListener;
-import org.peimari.gleaflet.client.ILayer;
-import org.peimari.gleaflet.client.LatLng;
-import org.peimari.gleaflet.client.MouseEvent;
-import org.peimari.gleaflet.client.Polyline;
-import org.peimari.gleaflet.client.PolylineOptions;
-import org.vaadin.addon.leaflet.shared.Point;
-
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-import com.vaadin.client.JsArrayObject;
+import com.google.gwt.json.client.JSONParser;
 import com.vaadin.shared.ui.Connect;
-
-import org.peimari.gleaflet.client.MouseOutListener;
-import org.peimari.gleaflet.client.MouseOverListener;
+import org.peimari.gleaflet.client.*;
 import org.vaadin.addon.leaflet.shared.EventId;
+import org.vaadin.addon.leaflet.shared.Point;
 
 @Connect(org.vaadin.addon.leaflet.LPolyline.class)
 public class LeafletPolylineConnector extends
 		AbstractLeafletVectorConnector<LeafletPolylineState, PolylineOptions> {
 
-	private Polyline marker;
+	protected Polyline marker;
 
 	@Override
 	protected void update() {
@@ -32,12 +23,11 @@ public class LeafletPolylineConnector extends
                         marker.removeMouseOverListener();
                         marker.removeMouseOutListener();
 		}
-		if (getState().points == null) {
+		if (getState().geometryjson == null) {
 			return;
 		}
 
-		PolylineOptions options = createOptions();
-		marker = Polyline.create(getLatLngsArray(), options);
+		marker = createVector(createOptions());
 
 		marker.addClickListener(new ClickListener() {
 
@@ -84,12 +74,12 @@ public class LeafletPolylineConnector extends
 		return marker;
 	}
 
-	protected JsArray<LatLng> getLatLngsArray() {
-		JsArray<LatLng> latlngs = JsArrayObject.createArray().cast();
-		for (Point p : getState().points) {
-			latlngs.push(LatLng.create(p.getLat(), p.getLon()));
-		}
-		return latlngs;
+	protected Polyline createVector(PolylineOptions options) {
+		return Polyline.createWithArray(getCoordinatesArray(), options);
+	}
+
+	protected JsArray<JsArray> getCoordinatesArray() {
+		return JSONParser.parseStrict(getState().geometryjson).isArray().getJavaScriptObject().cast();
 	}
 
 }
