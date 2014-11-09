@@ -2,6 +2,7 @@ package org.vaadin.addon.leaflet;
 
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.LinearRing;
+import com.vividsolutions.jts.geom.Polygon;
 import org.vaadin.addon.leaflet.client.LeafletPolylineState;
 import org.vaadin.addon.leaflet.jsonmodels.PointArray;
 import org.vaadin.addon.leaflet.jsonmodels.PointMultiArray;
@@ -10,6 +11,7 @@ import org.vaadin.addon.leaflet.util.JTSUtil;
 
 import java.util.Arrays;
 import java.util.List;
+import static org.vaadin.addon.leaflet.util.JTSUtil.toLeafletPointArray;
 
 public class LPolygon extends AbstractLeafletVector {
 
@@ -28,6 +30,21 @@ public class LPolygon extends AbstractLeafletVector {
         this(JTSUtil.toLeafletPointArray(jtsLinearRing));
     }
 
+    public LPolygon(Polygon polygon) {
+        setGeometry(polygon);
+    }
+    
+    public LPolygon setGeometry(Polygon polygon) {
+        Point[] exterior = toLeafletPointArray(polygon.getExteriorRing());
+        setPoints(exterior);
+        LPolygon lPolygon = new LPolygon(exterior);
+        for (int i = 0; i < polygon.getNumInteriorRing(); i++) {
+            lPolygon.addHole(toLeafletPointArray(polygon.getInteriorRingN(i)));
+        }
+        markAsDirty();
+        return this;
+    }
+
     @Override
     public void beforeClientResponse(boolean initial) {
         super.beforeClientResponse(initial);
@@ -36,12 +53,22 @@ public class LPolygon extends AbstractLeafletVector {
 
     public void setPoints(Point... array) {
         PointArray outerbounds = new PointArray(Arrays.asList(array));
-        if(points.size() == 0) {
+        if (points.size() == 0) {
             points.add(outerbounds);
         } else {
             points.set(0, outerbounds);
         }
         markAsDirty();
+    }
+
+    public LPolygon setPointsAndholes(Point[][] pointsAndHoles) {
+        points = new PointMultiArray();
+        for (int i = 0; i < pointsAndHoles.length; i++) {
+            Point[] pa = pointsAndHoles[i];
+            points.add(new PointArray(pa));
+        }
+        markAsDirty();
+        return this;
     }
 
     public Point[] getPoints() {
@@ -53,7 +80,6 @@ public class LPolygon extends AbstractLeafletVector {
     public Geometry getGeometry() {
         return JTSUtil.toPolygon(this);
     }
-
 
     public LPolygon addHole(Point... hole) {
         points.add(new PointArray(hole));

@@ -142,8 +142,7 @@ public class JTSUtil {
      * @return
      */
     public static LPolygon toPolygon(Polygon polygon) {
-        LineString exteriorRing = polygon.getExteriorRing();
-        Point[] exterior = toLeafletPointArray(exteriorRing);
+        Point[] exterior = toLeafletPointArray(polygon.getExteriorRing());
         LPolygon lPolygon = new LPolygon(exterior);
         for(int i = 0; i< polygon.getNumInteriorRing();i++) {
             lPolygon.addHole(toLeafletPointArray(polygon.getInteriorRingN(i)));

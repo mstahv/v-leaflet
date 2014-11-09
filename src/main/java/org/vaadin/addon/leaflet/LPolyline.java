@@ -6,6 +6,7 @@ import org.vaadin.addon.leaflet.shared.Point;
 import org.vaadin.addon.leaflet.util.JTSUtil;
 
 import com.vividsolutions.jts.geom.Geometry;
+import com.vividsolutions.jts.geom.LineString;
 
 import java.util.Arrays;
 
@@ -45,5 +46,9 @@ public class LPolyline extends AbstractLeafletVector {
 	public Geometry getGeometry() {
 		return JTSUtil.toLineString(this);
 	}
+
+    public void setGeometry(LineString lineString) {
+        setPoints(JTSUtil.toLeafletPointArray(lineString));
+    }
 
 }
