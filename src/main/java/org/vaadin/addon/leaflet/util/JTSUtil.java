@@ -234,7 +234,7 @@ public class JTSUtil {
         } else {
             LinearRing[] holesLr = new LinearRing[holes.size()];
             for (int i = 0; i < holes.size(); i++) {
-                holesLr[i] = toLinearRing(holes.get(0).toArray(new Point[holes.get(0).size()]));
+                holesLr[i] = toLinearRing(holes.get(i).toArray(new Point[holes.get(i).size()]));
             }
             return getGeometryFactory().createPolygon(toLinearRing(points), holesLr);
         }
