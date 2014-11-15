@@ -7,7 +7,6 @@ import com.vaadin.client.ui.Field;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
 import com.vividsolutions.jts.geom.Geometry;
-import org.vaadin.addon.leaflet.util.CRSTranslator;
 
 /**
  * Abstract base class for re-usable Vaadin {@link Field}s that edit JTS types
@@ -39,6 +38,8 @@ public abstract class AbstractJTSField<T extends Geometry> extends
 					"http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png");
 			layer.setAttributionString("© OpenStreetMap contributors");
 			field.getMap().addLayer(layer);
+            // hardcoded support for Leaflet.Editable
+            field.getMap().setCustomInitOption("editable", true);
 		}
 	};
 
