@@ -36,11 +36,12 @@ public class LPolygon extends AbstractLeafletVector {
     
     public LPolygon setGeometry(Polygon polygon) {
         Point[] exterior = toLeafletPointArray(polygon.getExteriorRing());
-        setPoints(exterior);
-        LPolygon lPolygon = new LPolygon(exterior);
+        PointMultiArray pointMultiArray = new PointMultiArray();
+        pointMultiArray.add(new PointArray(exterior));
         for (int i = 0; i < polygon.getNumInteriorRing(); i++) {
-            lPolygon.addHole(toLeafletPointArray(polygon.getInteriorRingN(i)));
+            pointMultiArray.add(new PointArray(toLeafletPointArray(polygon.getInteriorRingN(i))));
         }
+        points = pointMultiArray;
         markAsDirty();
         return this;
     }
