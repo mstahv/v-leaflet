@@ -1,5 +1,7 @@
 package org.vaadin.addon.leaflet;
 
+import org.vaadin.addon.leaflet.shared.LeafletTileLayerState;
+import org.vaadin.addon.leaflet.shared.LeafletTileLayerServerRpc;
 import java.util.HashMap;
 import java.util.Map;
 

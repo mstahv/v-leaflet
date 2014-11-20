@@ -13,8 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.vaadin.addon.leaflet.client;
+package org.vaadin.addon.leaflet.shared;
 
-public class LeafletLayerGroupState extends AbstractLeafletComponentState {
+import java.util.HashMap;
+import java.util.Map;
 
+import org.vaadin.addon.leaflet.shared.LayerControlInfo;
+
+import com.vaadin.shared.Connector;
+
+/**
+ * 
+ * @author mattitahvonenitmill
+ */
+public class LeafletLayersState extends LeafletControlState {
+
+	public Map<Connector, LayerControlInfo> layerContolInfo = new HashMap<Connector, LayerControlInfo>();
+	
 }

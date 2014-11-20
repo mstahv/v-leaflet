@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.vaadin.addon.leaflet.client.LeafletLayerGroupState;
+import org.vaadin.addon.leaflet.shared.LeafletLayerGroupState;
 
 import com.vaadin.ui.AbstractComponentContainer;
 import com.vaadin.ui.Component;

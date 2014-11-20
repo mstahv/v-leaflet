@@ -13,23 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.vaadin.addon.leaflet.client;
+package org.vaadin.addon.leaflet.shared;
 
-import org.vaadin.addon.leaflet.shared.Bounds;
-import org.vaadin.addon.leaflet.shared.Point;
+public class LeafletLayerGroupState extends AbstractLeafletComponentState {
 
-import com.vaadin.shared.annotations.Delayed;
-import com.vaadin.shared.communication.ServerRpc;
-
-/**
- *
- * @author mattitahvonenitmill
- */
-public interface LeafletMapServerRpc extends ServerRpc {
-    
-	void onClick(Point p);
-
-	@Delayed(lastOnly=true)
-	void onMoveEnd(Bounds bounds, Point center, int zoomlevel);
-    
 }

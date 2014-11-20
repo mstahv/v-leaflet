@@ -3,7 +3,7 @@ package org.vaadin.addon.leaflet;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.LinearRing;
 import com.vividsolutions.jts.geom.Polygon;
-import org.vaadin.addon.leaflet.client.LeafletPolylineState;
+import org.vaadin.addon.leaflet.shared.LeafletPolylineState;
 import org.vaadin.addon.leaflet.jsonmodels.PointArray;
 import org.vaadin.addon.leaflet.jsonmodels.PointMultiArray;
 import org.vaadin.addon.leaflet.shared.Point;

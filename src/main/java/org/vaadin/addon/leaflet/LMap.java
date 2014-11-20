@@ -6,9 +6,9 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import org.vaadin.addon.leaflet.client.LeafletMapClientRpc;
-import org.vaadin.addon.leaflet.client.LeafletMapServerRpc;
-import org.vaadin.addon.leaflet.client.LeafletMapState;
+import org.vaadin.addon.leaflet.shared.LeafletMapClientRpc;
+import org.vaadin.addon.leaflet.shared.LeafletMapServerRpc;
+import org.vaadin.addon.leaflet.shared.LeafletMapState;
 import org.vaadin.addon.leaflet.control.AbstractControl;
 import org.vaadin.addon.leaflet.control.LLayers;
 import org.vaadin.addon.leaflet.control.LScale;

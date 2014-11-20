@@ -1,5 +1,6 @@
 package org.vaadin.addon.leaflet.client;
 
+import org.vaadin.addon.leaflet.shared.LeafletControlState;
 import org.peimari.gleaflet.client.Map;
 import org.peimari.gleaflet.client.control.Control;
 

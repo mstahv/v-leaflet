@@ -1,8 +1,8 @@
 package org.vaadin.addon.leaflet;
 
-import org.vaadin.addon.leaflet.client.AbstractLeafletVectorState;
-import org.vaadin.addon.leaflet.client.LeafletMarkerClientRpc;
-import org.vaadin.addon.leaflet.client.PopupState;
+import org.vaadin.addon.leaflet.shared.AbstractLeafletVectorState;
+import org.vaadin.addon.leaflet.shared.LeafletMarkerClientRpc;
+import org.vaadin.addon.leaflet.shared.PopupState;
 import org.vaadin.addon.leaflet.jsonmodels.VectorStyle;
 
 public abstract class AbstractLeafletVector extends AbstractLeafletLayer {

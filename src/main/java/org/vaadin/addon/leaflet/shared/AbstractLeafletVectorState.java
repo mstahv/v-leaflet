@@ -1,4 +1,4 @@
-package org.vaadin.addon.leaflet.client;
+package org.vaadin.addon.leaflet.shared;
 
 public class AbstractLeafletVectorState extends AbstractLeafletComponentState {
 

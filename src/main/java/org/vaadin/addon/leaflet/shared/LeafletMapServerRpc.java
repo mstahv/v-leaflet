@@ -13,38 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.vaadin.addon.leaflet.client;
+package org.vaadin.addon.leaflet.shared;
 
 import org.vaadin.addon.leaflet.shared.Bounds;
 import org.vaadin.addon.leaflet.shared.Point;
 
-import com.vaadin.shared.AbstractComponentState;
-import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
+import com.vaadin.shared.annotations.Delayed;
+import com.vaadin.shared.communication.ServerRpc;
 
 /**
- * 
+ *
  * @author mattitahvonenitmill
  */
-public class LeafletMapState extends AbstractComponentState {
-	
-	public Point center;
-	public Integer zoomLevel;
-
-	public Bounds zoomToExtent;
-	
-	public String attributionPrefix = "Leaflet";
-    public Bounds maxBounds;
-    public Integer minZoom;
-    public Integer maxZoom;
+public interface LeafletMapServerRpc extends ServerRpc {
     
-    /* This should be replaced with a more decent api */
-    public String customMapOptionsJson;
+	void onClick(Point p);
 
-	/**
-	 * Internal String identifier of CRS that is meaningful to v-leaflet
-	 * client.
-	 */
-	public String crsName;
+	@Delayed(lastOnly=true)
+	void onMoveEnd(Bounds bounds, Point center, int zoomlevel);
+    
 }

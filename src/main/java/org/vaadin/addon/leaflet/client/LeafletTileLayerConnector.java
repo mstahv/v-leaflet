@@ -1,5 +1,7 @@
 package org.vaadin.addon.leaflet.client;
 
+import org.vaadin.addon.leaflet.shared.LeafletTileLayerState;
+import org.vaadin.addon.leaflet.shared.LeafletTileLayerServerRpc;
 import org.peimari.gleaflet.client.*;
 import org.vaadin.addon.leaflet.shared.EventId;
 

@@ -1,6 +1,6 @@
 package org.vaadin.addon.leaflet.control;
 
-import org.vaadin.addon.leaflet.client.LeafletControlState;
+import org.vaadin.addon.leaflet.shared.LeafletControlState;
 import org.vaadin.addon.leaflet.shared.ControlPosition;
 
 import com.vaadin.server.AbstractExtension;

@@ -1,4 +1,4 @@
-package org.vaadin.addon.leaflet.client;
+package org.vaadin.addon.leaflet.shared;
 
 import com.vaadin.shared.AbstractComponentState;
 

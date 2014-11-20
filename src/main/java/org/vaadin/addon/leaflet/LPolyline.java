@@ -1,6 +1,6 @@
 package org.vaadin.addon.leaflet;
 
-import org.vaadin.addon.leaflet.client.LeafletPolylineState;
+import org.vaadin.addon.leaflet.shared.LeafletPolylineState;
 import org.vaadin.addon.leaflet.jsonmodels.PointArray;
 import org.vaadin.addon.leaflet.shared.Point;
 import org.vaadin.addon.leaflet.util.JTSUtil;

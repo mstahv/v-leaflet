@@ -13,11 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.vaadin.addon.leaflet.client;
+package org.vaadin.addon.leaflet.shared;
 
 
 /**
  */
-public class LeafletAttributionState extends LeafletControlState {
-	public String prefix;
+public class LeafletScaleState extends LeafletControlState {
+	public Boolean imperial;
+	public Boolean metric;
 }

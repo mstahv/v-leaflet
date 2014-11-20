@@ -15,6 +15,7 @@
  */
 package org.vaadin.addon.leaflet.client;
 
+import org.vaadin.addon.leaflet.shared.LeafletLayerGroupState;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

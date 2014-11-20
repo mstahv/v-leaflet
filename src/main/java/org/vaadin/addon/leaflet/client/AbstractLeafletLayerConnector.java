@@ -1,6 +1,10 @@
 package org.vaadin.addon.leaflet.client;
 
 
+import org.vaadin.addon.leaflet.shared.AbstractLeafletComponentState;
+import org.vaadin.addon.leaflet.shared.MouseOutServerRpc;
+import org.vaadin.addon.leaflet.shared.MouseOverServerRpc;
+import org.vaadin.addon.leaflet.shared.ClickServerRpc;
 import org.peimari.gleaflet.client.ILayer;
 import org.peimari.gleaflet.client.LayerGroup;
 import org.peimari.gleaflet.client.Map;

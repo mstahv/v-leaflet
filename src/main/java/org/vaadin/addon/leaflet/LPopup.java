@@ -1,7 +1,7 @@
 package org.vaadin.addon.leaflet;
 
-import org.vaadin.addon.leaflet.client.LeafletPopupState;
-import org.vaadin.addon.leaflet.client.PopupServerRpc;
+import org.vaadin.addon.leaflet.shared.LeafletPopupState;
+import org.vaadin.addon.leaflet.shared.PopupServerRpc;
 import org.vaadin.addon.leaflet.shared.Point;
 import org.vaadin.addon.leaflet.util.JTSUtil;
 

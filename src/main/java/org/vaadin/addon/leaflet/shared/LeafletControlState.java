@@ -13,12 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.vaadin.addon.leaflet.client;
+package org.vaadin.addon.leaflet.shared;
 
+import org.vaadin.addon.leaflet.shared.ControlPosition;
+
+import com.vaadin.shared.communication.SharedState;
 
 /**
  */
-public class LeafletScaleState extends LeafletControlState {
-	public Boolean imperial;
-	public Boolean metric;
+public class LeafletControlState extends SharedState {
+	public ControlPosition position;
 }

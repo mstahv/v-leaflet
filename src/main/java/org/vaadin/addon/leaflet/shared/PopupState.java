@@ -1,7 +1,6 @@
-package org.vaadin.addon.leaflet.client;
+package org.vaadin.addon.leaflet.shared;
 
 import java.io.Serializable;
-import org.vaadin.addon.leaflet.shared.Point;
 
 public class PopupState implements Serializable {
 	public int maxWidth;

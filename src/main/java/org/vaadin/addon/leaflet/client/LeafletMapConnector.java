@@ -15,6 +15,9 @@
  */
 package org.vaadin.addon.leaflet.client;
 
+import org.vaadin.addon.leaflet.shared.LeafletMapClientRpc;
+import org.vaadin.addon.leaflet.shared.LeafletMapServerRpc;
+import org.vaadin.addon.leaflet.shared.LeafletMapState;
 import java.util.ArrayList;
 import java.util.List;
 

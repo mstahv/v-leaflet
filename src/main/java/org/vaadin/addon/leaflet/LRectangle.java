@@ -3,7 +3,7 @@ package org.vaadin.addon.leaflet;
 import com.vividsolutions.jts.geom.Geometry;
 import org.vaadin.addon.leaflet.shared.Point;
 
-import org.vaadin.addon.leaflet.client.LeafletRectangleState;
+import org.vaadin.addon.leaflet.shared.LeafletRectangleState;
 import org.vaadin.addon.leaflet.shared.Bounds;
 import org.vaadin.addon.leaflet.util.JTSUtil;
 

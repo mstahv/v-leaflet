@@ -1,5 +1,6 @@
 package org.vaadin.addon.leaflet.client;
 
+import org.vaadin.addon.leaflet.shared.LeafletWmsLayerState;
 import com.vaadin.shared.ui.Connect;
 
 import org.peimari.gleaflet.client.Crs;

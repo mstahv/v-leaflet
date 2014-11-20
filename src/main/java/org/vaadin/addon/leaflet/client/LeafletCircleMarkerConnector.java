@@ -1,5 +1,6 @@
 package org.vaadin.addon.leaflet.client;
 
+import org.vaadin.addon.leaflet.shared.LeafletCircleState;
 import org.peimari.gleaflet.client.CircleMarker;
 import org.peimari.gleaflet.client.CircleMarkerOptions;
 import org.peimari.gleaflet.client.ClickListener;

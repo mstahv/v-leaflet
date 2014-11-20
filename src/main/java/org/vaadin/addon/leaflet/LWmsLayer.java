@@ -1,6 +1,6 @@
 package org.vaadin.addon.leaflet;
 
-import org.vaadin.addon.leaflet.client.LeafletWmsLayerState;
+import org.vaadin.addon.leaflet.shared.LeafletWmsLayerState;
 import org.vaadin.addon.leaflet.shared.Crs;
 
 public class LWmsLayer extends LTileLayer {

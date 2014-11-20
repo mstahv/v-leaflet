@@ -1,5 +1,7 @@
 package org.vaadin.addon.leaflet.client;
 
+import org.vaadin.addon.leaflet.shared.LeafletPopupState;
+import org.vaadin.addon.leaflet.shared.PopupServerRpc;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.user.client.ui.Label;
 import com.vaadin.client.ServerConnector;

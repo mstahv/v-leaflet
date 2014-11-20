@@ -1,12 +1,12 @@
 package org.vaadin.addon.leaflet;
 
-import org.vaadin.addon.leaflet.client.AbstractLeafletComponentState;
-import org.vaadin.addon.leaflet.client.ClickServerRpc;
+import org.vaadin.addon.leaflet.shared.AbstractLeafletComponentState;
+import org.vaadin.addon.leaflet.shared.ClickServerRpc;
 import org.vaadin.addon.leaflet.shared.Point;
 
 import com.vaadin.ui.AbstractComponent;
-import org.vaadin.addon.leaflet.client.MouseOutServerRpc;
-import org.vaadin.addon.leaflet.client.MouseOverServerRpc;
+import org.vaadin.addon.leaflet.shared.MouseOutServerRpc;
+import org.vaadin.addon.leaflet.shared.MouseOverServerRpc;
 import org.vaadin.addon.leaflet.shared.EventId;
 import org.vaadin.addon.leaflet.shared.ILayerClientRpc;
 

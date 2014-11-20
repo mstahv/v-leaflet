@@ -1,5 +1,6 @@
 package org.vaadin.addon.leaflet.client;
 
+import org.vaadin.addon.leaflet.shared.LeafletAttributionState;
 import org.peimari.gleaflet.client.control.Attribution;
 import org.vaadin.addon.leaflet.control.LAttribution;
 

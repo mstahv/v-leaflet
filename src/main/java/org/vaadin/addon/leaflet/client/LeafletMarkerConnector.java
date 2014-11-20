@@ -1,5 +1,9 @@
 package org.vaadin.addon.leaflet.client;
 
+import org.vaadin.addon.leaflet.shared.PopupState;
+import org.vaadin.addon.leaflet.shared.LeafletMarkerState;
+import org.vaadin.addon.leaflet.shared.DragEndServerRpc;
+import org.vaadin.addon.leaflet.shared.LeafletMarkerClientRpc;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 

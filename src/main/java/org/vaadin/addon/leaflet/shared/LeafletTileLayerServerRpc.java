@@ -1,7 +1,6 @@
-package org.vaadin.addon.leaflet.client;
+package org.vaadin.addon.leaflet.shared;
 
-import com.vaadin.shared.annotations.*;
-import com.vaadin.shared.communication.*;
+import com.vaadin.shared.communication.ServerRpc;
 
 public interface LeafletTileLayerServerRpc extends ServerRpc
 {

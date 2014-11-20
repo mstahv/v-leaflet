@@ -1,5 +1,6 @@
 package org.vaadin.addon.leaflet.client;
 
+import org.vaadin.addon.leaflet.shared.LeafletScaleState;
 import org.peimari.gleaflet.client.control.Scale;
 import org.peimari.gleaflet.client.control.ScaleOptions;
 import org.vaadin.addon.leaflet.control.LScale;

@@ -1,5 +1,7 @@
 package org.vaadin.addon.leaflet.client;
 
+import org.vaadin.addon.leaflet.shared.AbstractLeafletVectorState;
+import org.vaadin.addon.leaflet.shared.LeafletMarkerClientRpc;
 import com.google.gwt.core.client.JsonUtils;
 import org.peimari.gleaflet.client.AbstractPath;
 import org.peimari.gleaflet.client.PathOptions;
