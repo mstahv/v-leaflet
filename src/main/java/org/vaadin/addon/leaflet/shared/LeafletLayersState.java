@@ -18,7 +18,6 @@ package org.vaadin.addon.leaflet.shared;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.vaadin.addon.leaflet.shared.LayerControlInfo;
 
 import com.vaadin.shared.Connector;
 

@@ -1,7 +1,5 @@
 package org.vaadin.addon.leaflet.shared;
 
-import org.vaadin.addon.leaflet.shared.Point;
-
 
 public class LeafletPopupState extends AbstractLeafletComponentState {
 

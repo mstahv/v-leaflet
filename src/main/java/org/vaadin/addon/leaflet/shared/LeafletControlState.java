@@ -15,7 +15,6 @@
  */
 package org.vaadin.addon.leaflet.shared;
 
-import org.vaadin.addon.leaflet.shared.ControlPosition;
 
 import com.vaadin.shared.communication.SharedState;
 

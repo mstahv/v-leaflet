@@ -15,13 +15,8 @@
  */
 package org.vaadin.addon.leaflet.shared;
 
-import org.vaadin.addon.leaflet.shared.Bounds;
-import org.vaadin.addon.leaflet.shared.Point;
 
 import com.vaadin.shared.AbstractComponentState;
-import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * 
