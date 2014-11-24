@@ -172,13 +172,6 @@
                 Not quite maven convention byt easieast to setup this way. -->
                 <directory>src/main/java</directory>
             </resource>
-            <!-- This is here to simplify working with GWT plugin during test widgetset 
-            compilation. Test widgetset is this way more like a real world usage and 
-            also lets your test up to e.g. use other add-ons. Ensure these are excluded 
-            from the artifact ( jar file ). -->
-            <resource>
-                <directory>src/test/resources</directory>
-            </resource>
         </resources>
 
         <pluginManagement>
@@ -208,9 +201,7 @@
                         <runTarget>http://localhost:9998/</runTarget>
                         <draftCompile>true</draftCompile>
                         <style>PRETTY</style>
-                        <!-- We only need to compile the test widgetset, if not defined gwt 
-                        module will also compile the add-on widgetset as well -->
-                        <module>org.vaadin.addon.leaflet.demoandtestapp.TestWidgetset</module>
+                        <module>org.vaadin.addon.leaflet.Widgetset</module>
                         <!-- If you do lots of e.g. plain css changes and don't wish to use 
                         hosted mode, you can force compile easily with uncommenting following rule -->
                         <!-- 						<force>true</force> -->
@@ -395,7 +386,7 @@
         <dependency>
             <groupId>org.vaadin</groupId>
             <artifactId>addon-test-helpers</artifactId>
-            <version>1.1</version>
+            <version>1.2</version>
             <scope>test</scope>
         </dependency>
 
