@@ -9,6 +9,7 @@ import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.LineString;
 
 import java.util.Arrays;
+import java.util.List;
 
 public class LPolyline extends AbstractLeafletVector {
 
@@ -20,11 +21,11 @@ public class LPolyline extends AbstractLeafletVector {
     }
 
     public LPolyline(Point... points) {
-    	setPoints(points);
+        setPoints(points);
     }
 
     public LPolyline(com.vividsolutions.jts.geom.LineString jtsLineString) {
-    	this(JTSUtil.toLeafletPointArray(jtsLineString));
+        this(JTSUtil.toLeafletPointArray(jtsLineString));
     }
 
     @Override
@@ -37,15 +38,20 @@ public class LPolyline extends AbstractLeafletVector {
         points = new PointArray(Arrays.asList(array));
         markAsDirty();
     }
- 
-	public Point[] getPoints() {
-        return points.toArray(new Point[points.size()]);
-	}
 
-	@Override
-	public Geometry getGeometry() {
-		return JTSUtil.toLineString(this);
-	}
+    public void setPoints(List<Point>  points) {
+        this.points = new PointArray(points);
+        markAsDirty();
+    }
+
+    public Point[] getPoints() {
+        return points.toArray(new Point[points.size()]);
+    }
+
+    @Override
+    public Geometry getGeometry() {
+        return JTSUtil.toLineString(this);
+    }
 
     public void setGeometry(LineString lineString) {
         setPoints(JTSUtil.toLeafletPointArray(lineString));
