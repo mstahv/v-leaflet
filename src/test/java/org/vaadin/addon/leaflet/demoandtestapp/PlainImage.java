@@ -1,3 +1,5 @@
+package org.vaadin.addon.leaflet.demoandtestapp;
+
 
 
 import com.vaadin.server.ExternalResource;
