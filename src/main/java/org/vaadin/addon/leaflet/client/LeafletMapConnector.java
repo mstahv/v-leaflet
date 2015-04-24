@@ -39,7 +39,6 @@ import org.vaadin.addon.leaflet.shared.Point;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.json.client.JSONParser;
-import com.google.gwt.json.client.JSONValue;
 import com.google.gwt.user.client.ui.Widget;
 import com.vaadin.client.ComponentConnector;
 import com.vaadin.client.ConnectorHierarchyChangeEvent;
@@ -50,257 +49,266 @@ import com.vaadin.client.ui.AbstractHasComponentsConnector;
 import com.vaadin.client.ui.layout.ElementResizeEvent;
 import com.vaadin.client.ui.layout.ElementResizeListener;
 import com.vaadin.shared.ui.Connect;
-import java.io.Serializable;
 import org.peimari.gleaflet.client.Crs;
 
 /**
- * 
+ *
  */
 @Connect(LMap.class)
 public class LeafletMapConnector extends AbstractHasComponentsConnector
-		implements ElementResizeListener {
+        implements ElementResizeListener {
 
-	static {
-		LeafletResourceInjector.ensureInjected();
-	}
+    static {
+        LeafletResourceInjector.ensureInjected();
+    }
 
-	LeafletMapServerRpc rpc = RpcProxy.create(LeafletMapServerRpc.class, this);
-	private Map map;
-	private MapOptions options;
-	private ArrayList<ServerConnector> updateChildren;
-	private Layers layersControl;
+    LeafletMapServerRpc rpc = RpcProxy.create(LeafletMapServerRpc.class, this);
+    private Map map;
+    private MapOptions options;
+    private ArrayList<ServerConnector> updateChildren;
+    private Layers layersControl;
 
-	@Override
-	public MapWidget getWidget() {
-		return (MapWidget) super.getWidget();
-	}
+    @Override
+    public MapWidget getWidget() {
+        return (MapWidget) super.getWidget();
+    }
 
-	@Override
-	public LeafletMapState getState() {
-		return (LeafletMapState) super.getState();
-	}
+    @Override
+    public LeafletMapState getState() {
+        return (LeafletMapState) super.getState();
+    }
 
-	@Override
-	protected Widget createWidget() {
-		MapWidget mapWidget = new MapWidget();
-		return mapWidget;
-	}
+    @Override
+    protected Widget createWidget() {
+        MapWidget mapWidget = new MapWidget();
+        return mapWidget;
+    }
 
-	@Override
-	protected void init() {
-		super.init();
-		/*
-		 * Working with state can be really painfull in some cases. E.g. if we
-		 * keep extent, center and stuff in state, we'll get false "changes" if
-		 * children are updated at the same time. In maps case we might get some
-		 * nasty rounding erros -> weird "effects". Thus we have to do all live
-		 * updates via RPC and store same stuff in state for initial renderings
-		 * and reattaches. It is sooo easy...
-		 */
-		registerRpc(LeafletMapClientRpc.class, new LeafletMapClientRpc() {
+    @Override
+    protected void init() {
+        super.init();
+        /*
+         * Working with state can be really painfull in some cases. E.g. if we
+         * keep extent, center and stuff in state, we'll get false "changes" if
+         * children are updated at the same time. In maps case we might get some
+         * nasty rounding erros -> weird "effects". Thus we have to do all live
+         * updates via RPC and store same stuff in state for initial renderings
+         * and reattaches. It is sooo easy...
+         */
+        registerRpc(LeafletMapClientRpc.class, new LeafletMapClientRpc() {
 
-			@Override
-			public void setCenter(Double lat, Double lon, Integer zoom) {
-				if (zoom == null) {
-					zoom = map.getZoom();
-				}
-				LatLng center;
-				if (lon == null) {
-					center = map.getBounds().getCenter();
-				} else {
-					center = LatLng.create(lat, lon);
-				}
-				map.setView(center, zoom);
-			}
+            @Override
+            public void setCenter(Double lat, Double lon, Integer zoom) {
+                if (zoom == null) {
+                    zoom = map.getZoom();
+                }
+                LatLng center;
+                if (lon == null) {
+                    center = map.getBounds().getCenter();
+                } else {
+                    center = LatLng.create(lat, lon);
+                }
+                map.setView(center, zoom);
+            }
 
-			@Override
-			public void zoomToExtent(Bounds b) {
-				LatLngBounds bounds = toLeafletBounds(b);
-				map.fitBounds(bounds);
-			}
+            @Override
+            public void zoomToExtent(Bounds b) {
+                LatLngBounds bounds = toLeafletBounds(b);
+                map.fitBounds(bounds);
+            }
 
             @Override
             public void setMaxBounds(Bounds bounds) {
                 map.setMaxBounds(toLeafletBounds(bounds));
             }
 
-		});
+        });
 
-		getLayoutManager().addElementResizeListener(getWidget().getElement(),
-				this);
+        getLayoutManager().addElementResizeListener(getWidget().getElement(),
+                this);
 
-	}
+    }
 
-	@Override
-	public void onUnregister() {
-		super.onUnregister();
-		getLayoutManager().removeElementResizeListener(
-				getWidget().getElement(), this);
-	}
+    @Override
+    public void onUnregister() {
+        super.onUnregister();
+        getLayoutManager().removeElementResizeListener(
+                getWidget().getElement(), this);
+    }
 
-	@Override
-	public void onStateChanged(final StateChangeEvent stateChangeEvent) {
-		super.onStateChanged(stateChangeEvent);
-		if (map == null) {
-			updateChildren = new ArrayList<ServerConnector>(getChildren());
-            if(getState().customMapOptionsJson != null) {
-    			options = JSONParser.parseStrict(getState().customMapOptionsJson).isObject().getJavaScriptObject().cast();
+    @Override
+    public void onStateChanged(final StateChangeEvent stateChangeEvent) {
+        super.onStateChanged(stateChangeEvent);
+        if (map == null) {
+            updateChildren = new ArrayList<ServerConnector>(getChildren());
+            if (getState().customMapOptionsJson != null) {
+                options = JSONParser.parseStrict(getState().customMapOptionsJson).isObject().getJavaScriptObject().cast();
             } else {
                 options = MapOptions.create();
             }
-            if(getState().maxBounds != null) {
+            if (getState().maxBounds != null) {
                 options.setMaxBounds(toLeafletBounds(getState().maxBounds));
             }
-			if (getState().center != null) {
-				options.setCenter(getCenterFromState());
-			} else {
-				options.setCenter(LatLng.create(0, 0));
-			}
-		
-			/*
-			 * See if CRS set. Maintain backwards compatability so that EPSG:3857
-			 * used if nothing specified.
-			 */
-            if(getState().crsName != null) {
+            if (getState().center != null) {
+                options.setCenter(getCenterFromState());
+            } else {
+                options.setCenter(LatLng.create(0, 0));
+            }
+
+            /*
+             * See if CRS set. Maintain backwards compatability so that EPSG:3857
+             * used if nothing specified.
+             */
+            if (getState().crsName != null) {
                 options.setCrs(Crs.byName(getState().crsName));
             }
 
-			if (getState().attributionPrefix == null) {
-				options.setAttributionControl(false);
-			}
-			
-			if(getState().minZoom != null) {
-				options.setMinZoom(getState().minZoom);
-			}
-			if(getState().maxZoom != null) {
-				options.setMaxZoom(getState().maxZoom);
-			}
-			
-			int zoom = 15;
-			if (getState().zoomLevel != null) {
-				zoom = getState().zoomLevel;
-			}
-			options.setZoom(zoom);
-			map = Map.create(getWidget().getElement().getFirstChildElement(),
-					options);
-			if (getState().attributionPrefix != null) {
-				map.getAttributionControl().setPrefix(
-						getState().attributionPrefix);
-			}
+            if (getState().attributionPrefix == null) {
+                options.setAttributionControl(false);
+            }
 
-			if (getState().zoomToExtent != null) {
-				Bounds b = getState().zoomToExtent;
-				LatLng northEast = LatLng.create(b.getNorthEastLat(),
-						b.getNorthEastLon());
-				LatLng southWest = LatLng.create(b.getSouthWestLat(),
-						b.getSouthWestLon());
-				map.fitBounds(LatLngBounds.create(southWest, northEast));
-			}
+            if (getState().minZoom != null) {
+                options.setMinZoom(getState().minZoom);
+            }
+            if (getState().maxZoom != null) {
+                options.setMaxZoom(getState().maxZoom);
+            }
 
-			map.addClickListener(new ClickListener() {
-				public void onClick(MouseEvent event) {
-					if (hasEventListener("click")) {
-						rpc.onClick(new Point(event.getLatLng().getLatitude(),
-								event.getLatLng().getLongitude()));
-					}
-				}
-			});
+            int zoom = 15;
+            if (getState().zoomLevel != null) {
+                zoom = getState().zoomLevel;
+            }
+            options.setZoom(zoom);
+            map = Map.create(getWidget().getElement().getFirstChildElement(),
+                    options);
+            if (getState().attributionPrefix != null) {
+                map.getAttributionControl().setPrefix(
+                        getState().attributionPrefix);
+            }
 
-			MoveEndListener moveEndListener = new MoveEndListener() {
+            if (getState().zoomToExtent != null) {
+                Bounds b = getState().zoomToExtent;
+                LatLng northEast = LatLng.create(b.getNorthEastLat(),
+                        b.getNorthEastLon());
+                LatLng southWest = LatLng.create(b.getSouthWestLat(),
+                        b.getSouthWestLon());
+                map.fitBounds(LatLngBounds.create(southWest, northEast));
+            }
 
-				@Override
-				public void onMoveEnd(Event event) {
-					Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+            map.addClickListener(new ClickListener() {
+                public void onClick(MouseEvent event) {
+                    if (hasEventListener("click")) {
+                        rpc.onClick(new Point(event.getLatLng().getLatitude(),
+                                event.getLatLng().getLongitude()));
+                    }
+                }
+            });
 
-						@Override
-						public void execute() {
-                                                        rpc.onMoveEnd(new Bounds(map.getBounds().toBBoxString()), 
-                                                                    new Point(map.getCenter().getLatitude(), 
-                                                                    map.getCenter().getLongitude()), map.getZoom());
-                                                        if (getState().registeredEventListeners != null
-									&& getState().registeredEventListeners
-											.contains("moveend")) {
-								getConnection().sendPendingVariableChanges();
-							}
-						}
-					});
-				}
-			};
+            MoveEndListener moveEndListener = new MoveEndListener() {
 
-			map.addMoveEndListener(moveEndListener);
+                @Override
+                public void onMoveEnd(Event event) {
+                    Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 
-		} else {
-			// extent, zoom etc, must not be updated here, see client rpc...
-		}
+                        @Override
+                        public void execute() {
+                            reportViewPortToServer();
+                        }
+                    });
+                }
+            };
 
-		updateChildrens();
+            map.addMoveEndListener(moveEndListener);
+            
+            if(getState().width != null && !getState().width.contains("%")) {
+                // fixed size for the leaflet map, report size manually to the 
+                // server
+                reportViewPortToServer();
+            }
 
-	}
+        } else {
+            // extent, zoom etc, must not be updated here, see client rpc...
+        }
 
-	private void updateChildrens() {
-		if (map == null) {
-			return;
-		}
-		if (updateChildren != null) {
-			for (ServerConnector serverConnector : updateChildren) {
-				if (serverConnector instanceof AbstractLeafletLayerConnector<?>) {
-					AbstractLeafletLayerConnector<?> c = (AbstractLeafletLayerConnector<?>) serverConnector;
-					c.updateIfDirty();
-				}
-			}
-			updateChildren = null;
-		}
-	}
+        updateChildrens();
 
-	private LatLng getCenterFromState() {
-		LatLng center = LatLng.create(getState().center.getLat(),
-				getState().center.getLon());
-		return center;
-	}
+    }
 
-	public Map getMap() {
-		return map;
-	}
+    protected void reportViewPortToServer() {
+        rpc.onMoveEnd(new Bounds(map.getBounds().toBBoxString()),
+                new Point(map.getCenter().getLatitude(),
+                        map.getCenter().getLongitude()), map.getZoom());
+        if (getState().registeredEventListeners != null
+                && getState().registeredEventListeners
+                        .contains("moveend")) {
+            getConnection().sendPendingVariableChanges();
+        }
+    }
 
-	@Override
-	public void updateCaption(ComponentConnector connector) {
-		// TODO Auto-generated method stub
+    private void updateChildrens() {
+        if (map == null) {
+            return;
+        }
+        if (updateChildren != null) {
+            for (ServerConnector serverConnector : updateChildren) {
+                if (serverConnector instanceof AbstractLeafletLayerConnector<?>) {
+                    AbstractLeafletLayerConnector<?> c = (AbstractLeafletLayerConnector<?>) serverConnector;
+                    c.updateIfDirty();
+                }
+            }
+            updateChildren = null;
+        }
+    }
 
-	}
+    private LatLng getCenterFromState() {
+        LatLng center = LatLng.create(getState().center.getLat(),
+                getState().center.getLon());
+        return center;
+    }
 
-	@Override
-	public void onConnectorHierarchyChange(
-			ConnectorHierarchyChangeEvent connectorHierarchyChangeEvent) {
-		List<ComponentConnector> oldChildren = connectorHierarchyChangeEvent
-				.getOldChildren();
-		updateChildren = new ArrayList<ServerConnector>();
-		for (ServerConnector componentConnector : getChildren()) {
-			if (!oldChildren.contains(componentConnector)) {
-				updateChildren.add(componentConnector);
-			}
-			oldChildren.remove(componentConnector);
-		}
-		for (ComponentConnector componentConnector : oldChildren) {
-			AbstractLeafletLayerConnector<?> c = (AbstractLeafletLayerConnector<?>) componentConnector;
-			ILayer layer = c.getLayer();
-			map.removeLayer(layer);
-			if (layersControl != null) {
-				layersControl.removeLayer(layer);
-			}
-		}
+    public Map getMap() {
+        return map;
+    }
 
-		updateChildrens();
-	}
+    @Override
+    public void updateCaption(ComponentConnector connector) {
+        // TODO Auto-generated method stub
 
-	@Override
-	public void onElementResize(ElementResizeEvent e) {
-		// Without this it appears component is invalidly sized sometimes
-		map.invalidateSize();
-	}
+    }
 
-	public void setLayersControl(Layers l) {
-		this.layersControl = l;
-	}
+    @Override
+    public void onConnectorHierarchyChange(
+            ConnectorHierarchyChangeEvent connectorHierarchyChangeEvent) {
+        List<ComponentConnector> oldChildren = connectorHierarchyChangeEvent
+                .getOldChildren();
+        updateChildren = new ArrayList<ServerConnector>();
+        for (ServerConnector componentConnector : getChildren()) {
+            if (!oldChildren.contains(componentConnector)) {
+                updateChildren.add(componentConnector);
+            }
+            oldChildren.remove(componentConnector);
+        }
+        for (ComponentConnector componentConnector : oldChildren) {
+            AbstractLeafletLayerConnector<?> c = (AbstractLeafletLayerConnector<?>) componentConnector;
+            ILayer layer = c.getLayer();
+            map.removeLayer(layer);
+            if (layersControl != null) {
+                layersControl.removeLayer(layer);
+            }
+        }
+
+        updateChildrens();
+    }
+
+    @Override
+    public void onElementResize(ElementResizeEvent e) {
+        // Without this it appears component is invalidly sized sometimes
+        map.invalidateSize();
+    }
+
+    public void setLayersControl(Layers l) {
+        this.layersControl = l;
+    }
 
     public static LatLngBounds toLeafletBounds(Bounds b) {
         LatLng northEast = LatLng.create(b.getNorthEastLat(),

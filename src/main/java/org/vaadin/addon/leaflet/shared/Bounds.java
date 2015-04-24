@@ -79,4 +79,9 @@ public class Bounds implements Serializable {
 				(getNorthEastLon() + getSouthWestLon()) / 2);
 	}
 
+    @Override
+    public String toString() {
+        return "Bounds{" + "southWestLng=" + southWestLng + ", southWestLat=" + southWestLat + ", northEastLng=" + northEastLng + ", northEastLat=" + northEastLat + '}';
+    }
+
 }
