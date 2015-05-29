@@ -56,5 +56,12 @@ public class LPolyline extends AbstractLeafletVector {
     public void setGeometry(LineString lineString) {
         setPoints(JTSUtil.toLeafletPointArray(lineString));
     }
+    
+    /**
+     * Removes all null values from the geometry.
+     */
+    public void sanitizeGeometry() {
+        points.sanitize();
+    }
 
 }

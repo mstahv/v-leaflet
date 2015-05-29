@@ -6,6 +6,7 @@ import org.vaadin.addon.leaflet.shared.Point;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 
 public class PointArray extends ArrayList<Point> {
     public PointArray() {
@@ -17,6 +18,10 @@ public class PointArray extends ArrayList<Point> {
 
     public PointArray(Collection<? extends Point> c) {
         super(c);
+    }
+    
+    public void sanitize() {
+        removeAll(Collections.singleton(null));
     }
 
     public String asJson() {

@@ -22,4 +22,10 @@ public class PointMultiArray extends ArrayList<PointArray> {
         }
     }
 
+    public void sanitize() {
+        for (PointArray pa : this) {
+            pa.sanitize();
+        }
+    }
+
 }

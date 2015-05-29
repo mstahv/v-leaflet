@@ -97,5 +97,13 @@ public class LPolygon extends AbstractLeafletVector {
     public List<PointArray> getHoles() {
         return points.subList(1, points.size());
     }
+    
+    /**
+     * Removes all null values from the geometry.
+     */
+    public void sanitizeGeometry() {
+        points.sanitize();
+    }
+
 
 }
