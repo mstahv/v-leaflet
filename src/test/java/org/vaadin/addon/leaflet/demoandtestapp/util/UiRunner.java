@@ -1,7 +1,6 @@
 package org.vaadin.addon.leaflet.demoandtestapp.util;
 
 import com.vaadin.annotations.Widgetset;
-import java.net.URL;
 import org.vaadin.addonhelpers.TServer;
 
 @Widgetset("org.vaadin.addon.leaflet.Widgetset")

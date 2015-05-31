@@ -289,11 +289,14 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector
             oldChildren.remove(componentConnector);
         }
         for (ComponentConnector componentConnector : oldChildren) {
-            AbstractLeafletLayerConnector<?> c = (AbstractLeafletLayerConnector<?>) componentConnector;
-            ILayer layer = c.getLayer();
-            map.removeLayer(layer);
-            if (layersControl != null) {
-                layersControl.removeLayer(layer);
+            // Instance of check for Popup's that don't extend AbstractLeafletLayerConnector
+            if (componentConnector instanceof AbstractLeafletLayerConnector) {
+                AbstractLeafletLayerConnector<?> c = (AbstractLeafletLayerConnector<?>) componentConnector;
+                ILayer layer = c.getLayer();
+                map.removeLayer(layer);
+                if (layersControl != null) {
+                    layersControl.removeLayer(layer);
+                }
             }
         }
 
