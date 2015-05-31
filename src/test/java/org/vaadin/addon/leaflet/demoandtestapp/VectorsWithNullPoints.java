@@ -22,10 +22,10 @@ public class VectorsWithNullPoints extends AbstractTest {
     public Component getTestComponent() {
         leafletMap = new LMap();
 
-        LPolygon polygon = new LPolygon(new Point(0,0), null);
+        LPolygon polygon = new LPolygon(new Point(0,0), null,new Point(1,1),new Point(2,3),new Point(0, 0));
         polygon.sanitizeGeometry();
         LPolyline polyline = new LPolyline();
-        LPolyline polylineWithNullPoint = new LPolyline(new Point(0,0), null);
+        LPolyline polylineWithNullPoint = new LPolyline(new Point(0,0), null,new Point(1,1),new Point(2,3));
         polylineWithNullPoint.sanitizeGeometry();
         
         LMarker m = new LMarker(0,0);
