@@ -7,6 +7,9 @@ import org.vaadin.addon.leaflet.LMarker;
 import org.vaadin.addon.leaflet.LTileLayer;
 
 import com.vaadin.ui.Component;
+import com.vaadin.ui.Notification;
+import org.vaadin.addon.leaflet.LeafletClickEvent;
+import org.vaadin.addon.leaflet.LeafletClickListener;
 import org.vaadin.addonhelpers.AbstractTest;
 
 public class SimpleMarkerTest extends AbstractTest {
@@ -38,8 +41,17 @@ public class SimpleMarkerTest extends AbstractTest {
         lMarker = new LMarker(60.4525, 22.301);
         lMarker.setPopup("Popupstring");
 		leafletMap.addComponent(lMarker);
-        
         lMarker.openPopup();
+ 
+        LMarker another = new LMarker(60.4525, 22.303);
+        another.addClickListener(new LeafletClickListener() {
+
+            @Override
+            public void onClick(LeafletClickEvent event) {
+                Notification.show("Another marker was clicke.");
+            }
+        });
+        leafletMap.addComponent(another);
 	    
 		return leafletMap;
 

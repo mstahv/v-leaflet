@@ -5,7 +5,6 @@ import org.vaadin.addon.leaflet.shared.LeafletTileLayerServerRpc;
 import org.peimari.gleaflet.client.*;
 import org.vaadin.addon.leaflet.shared.EventId;
 
-import com.vaadin.client.VConsole;
 import com.vaadin.client.communication.*;
 import com.vaadin.shared.ui.*;
 
@@ -13,7 +12,7 @@ import com.vaadin.shared.ui.*;
 public class LeafletTileLayerConnector extends
 		AbstractLeafletLayerConnector<TileLayerOptions> {
 
-	protected ILayer layer;
+	protected Layer layer;
 	protected LeafletTileLayerServerRpc tileLayerServerRpc = RpcProxy.create(LeafletTileLayerServerRpc.class, this);
 	
 	@Override
@@ -95,7 +94,7 @@ public class LeafletTileLayerConnector extends
 	}
 
 	@Override
-	public ILayer getLayer() {
+	public Layer getLayer() {
 		return layer;
 	}
 }

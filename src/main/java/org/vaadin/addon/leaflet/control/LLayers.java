@@ -4,7 +4,6 @@ import org.vaadin.addon.leaflet.LeafletLayer;
 import org.vaadin.addon.leaflet.shared.LeafletLayersState;
 import org.vaadin.addon.leaflet.shared.LayerControlInfo;
 
-import com.vaadin.server.AbstractExtension;
 
 public class LLayers extends AbstractControl {
 

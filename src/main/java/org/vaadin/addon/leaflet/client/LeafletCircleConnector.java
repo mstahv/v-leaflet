@@ -4,7 +4,7 @@ import org.vaadin.addon.leaflet.shared.LeafletCircleState;
 import org.peimari.gleaflet.client.Circle;
 import org.peimari.gleaflet.client.CircleOptions;
 import org.peimari.gleaflet.client.ClickListener;
-import org.peimari.gleaflet.client.ILayer;
+import org.peimari.gleaflet.client.Layer;
 import org.peimari.gleaflet.client.LatLng;
 import org.peimari.gleaflet.client.MouseEvent;
 import org.vaadin.addon.leaflet.shared.Point;
@@ -75,7 +75,7 @@ public class LeafletCircleConnector extends
     }
 
     @Override
-    public ILayer getLayer() {
+    public Layer getLayer() {
         return marker;
     }
     

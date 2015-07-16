@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.peimari.gleaflet.client.ILayer;
+import org.peimari.gleaflet.client.Layer;
 import org.peimari.gleaflet.client.LayerGroup;
 import org.vaadin.addon.leaflet.LLayerGroup;
 
@@ -135,7 +135,7 @@ public class LeafletLayerGroupConnector extends
 	}
 
 	@Override
-	public ILayer getLayer() {
+	public Layer getLayer() {
 		return layerGroup;
 	}
 

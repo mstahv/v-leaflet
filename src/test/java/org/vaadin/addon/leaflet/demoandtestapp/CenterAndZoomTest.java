@@ -117,7 +117,7 @@ public class CenterAndZoomTest extends AbstractTest {
 				map.setZoomLevel(zoom);
 				sb.append(" zoom");
 			} else if ("v".equals(op)) {
-				map.setView(lat, lng, zoom);
+				map.setView(lat, lng, (double) zoom);
 				//Notification.show("Not yet implemented");
 				sb.append(" setView");
 			}

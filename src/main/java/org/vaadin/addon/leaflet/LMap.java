@@ -47,7 +47,7 @@ public class LMap extends AbstractComponentContainer {
 			}
 
 			@Override
-			public void onMoveEnd(Bounds bounds, Point center, int zoomlevel) {
+			public void onMoveEnd(Bounds bounds, Point center, double zoomlevel) {
 				getState(false).zoomLevel = zoomlevel;
 				getState(false).center = center;
                                 LMap.this.bounds = bounds;
@@ -182,7 +182,7 @@ public class LMap extends AbstractComponentContainer {
 		return components.iterator();
 	}
 
-	public void setView(Double lat, Double lon, Integer zoom) {
+	public void setView(Double lat, Double lon, Double zoom) {
 		getState(!rendered).center = new Point(lat, lon);
 		if (zoom != null) {
 			getState().zoomLevel = zoom;
@@ -196,7 +196,7 @@ public class LMap extends AbstractComponentContainer {
 		setView(lat, lon, null);
 	}
 
-	public void setCenter(Point center, Integer  zoom) {
+	public void setCenter(Point center, Double  zoom) {
 		setView(center.getLat(), center.getLon(), zoom);
 	}
 	
@@ -211,7 +211,7 @@ public class LMap extends AbstractComponentContainer {
 		setCenter(point);
 	}
 
-	public void setZoomLevel(int zoomLevel) {
+	public void setZoomLevel(double zoomLevel) {
 		getState(!rendered).zoomLevel = zoomLevel;
 		if (rendered) {
 			getRpcProxy(LeafletMapClientRpc.class).setCenter(null, null,
@@ -241,7 +241,7 @@ public class LMap extends AbstractComponentContainer {
 		setCenter(bounds.getCenter());
 	}
 
-	public Integer getZoomLevel() {
+	public Double getZoomLevel() {
 		return getState(false).zoomLevel;
 	}
 

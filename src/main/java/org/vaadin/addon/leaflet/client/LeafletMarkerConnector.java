@@ -10,7 +10,7 @@ import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import org.peimari.gleaflet.client.ClickListener;
 import org.peimari.gleaflet.client.DivIcon;
 import org.peimari.gleaflet.client.DivIconOptions;
-import org.peimari.gleaflet.client.ILayer;
+import org.peimari.gleaflet.client.Layer;
 import org.peimari.gleaflet.client.Icon;
 import org.peimari.gleaflet.client.IconOptions;
 import org.peimari.gleaflet.client.LatLng;
@@ -201,7 +201,7 @@ public class LeafletMarkerConnector extends
 	}
 
 	@Override
-	public ILayer getLayer() {
+	public Layer getLayer() {
 		return marker;
 	}
 

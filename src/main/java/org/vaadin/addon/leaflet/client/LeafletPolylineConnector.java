@@ -71,7 +71,7 @@ public class LeafletPolylineConnector extends
 	}
 
 	@Override
-	public ILayer getLayer() {
+	public Layer getLayer() {
 		return marker;
 	}
 

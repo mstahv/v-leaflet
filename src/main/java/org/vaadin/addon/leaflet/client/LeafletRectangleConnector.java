@@ -14,7 +14,7 @@ public class LeafletRectangleConnector extends LeafletPolygonConnector {
     }
 
     @Override
-    public ILayer getLayer() {
+    public Layer getLayer() {
     	return marker;
     }
 

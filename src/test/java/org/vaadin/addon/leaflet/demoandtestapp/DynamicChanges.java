@@ -120,7 +120,7 @@ public class DynamicChanges extends AbstractTest {
         button.addClickListener(new ClickListener() {
             @Override
             public void buttonClick(ClickEvent event) {
-            	Integer zoomLevel = leafletMap.getZoomLevel();
+            	Double zoomLevel = leafletMap.getZoomLevel();
             	Notification.show("Zoomlevel is " + zoomLevel);
             }
         });

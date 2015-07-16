@@ -85,9 +85,9 @@ public class BasicJtsTest extends AbstractTest {
         Collection<LeafletLayer> lLine = JTSUtil.toLayers(lineString);
         lfg.addComponent(lLine);
 
-        MultiLineString multiLineString = getMultiLineString();
-        Collection<LeafletLayer> lMultiLine = JTSUtil.toLayers(multiLineString);
-        lfg.addComponent(lMultiLine);
+//        MultiLineString multiLineString = getMultiLineString();
+//        Collection<LeafletLayer> lMultiLine = JTSUtil.toLayers(multiLineString);
+//        lfg.addComponent(lMultiLine);
 
         MultiPoint multiPoint = getMultiPoint();
         Collection<LeafletLayer> lMultiPoint = JTSUtil.toLayers(multiPoint);

@@ -23,7 +23,7 @@ import java.util.List;
 
 import org.peimari.gleaflet.client.ClickListener;
 import org.peimari.gleaflet.client.Event;
-import org.peimari.gleaflet.client.ILayer;
+import org.peimari.gleaflet.client.Layer;
 import org.peimari.gleaflet.client.LatLng;
 import org.peimari.gleaflet.client.LatLngBounds;
 import org.peimari.gleaflet.client.Map;
@@ -98,7 +98,7 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector
         registerRpc(LeafletMapClientRpc.class, new LeafletMapClientRpc() {
 
             @Override
-            public void setCenter(Double lat, Double lon, Integer zoom) {
+            public void setCenter(Double lat, Double lon, Double zoom) {
                 if (zoom == null) {
                     zoom = map.getZoom();
                 }
@@ -174,7 +174,7 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector
                 options.setMaxZoom(getState().maxZoom);
             }
 
-            int zoom = 15;
+            double zoom = 15;
             if (getState().zoomLevel != null) {
                 zoom = getState().zoomLevel;
             }
@@ -292,7 +292,7 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector
             // Instance of check for Popup's that don't extend AbstractLeafletLayerConnector
             if (componentConnector instanceof AbstractLeafletLayerConnector) {
                 AbstractLeafletLayerConnector<?> c = (AbstractLeafletLayerConnector<?>) componentConnector;
-                ILayer layer = c.getLayer();
+                Layer layer = c.getLayer();
                 map.removeLayer(layer);
                 if (layersControl != null) {
                     layersControl.removeLayer(layer);

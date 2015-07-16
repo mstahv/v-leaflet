@@ -3,7 +3,6 @@ package org.vaadin.addon.leaflet.client;
 import org.vaadin.addon.leaflet.shared.DragEndServerRpc;
 
 import org.peimari.gleaflet.client.ClickListener;
-import org.peimari.gleaflet.client.ILayer;
 import org.peimari.gleaflet.client.LatLng;
 import org.peimari.gleaflet.client.MouseEvent;
 
@@ -12,6 +11,7 @@ import com.vaadin.shared.ui.Connect;
 import org.peimari.gleaflet.client.ImageOverlay;
 import org.peimari.gleaflet.client.ImageOverlayOptions;
 import org.peimari.gleaflet.client.LatLngBounds;
+import org.peimari.gleaflet.client.Layer;
 import org.vaadin.addon.leaflet.shared.LeafletImageOverlayState;
 
 @Connect(org.vaadin.addon.leaflet.LImageOverlay.class)
@@ -68,7 +68,7 @@ public class LeafletImageOverlayConnector extends
 	}
 
 	@Override
-	public ILayer getLayer() {
+	public Layer getLayer() {
 		return imageOverlay;
 	}
 

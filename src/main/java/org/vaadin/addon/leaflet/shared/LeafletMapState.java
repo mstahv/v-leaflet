@@ -25,7 +25,7 @@ import com.vaadin.shared.AbstractComponentState;
 public class LeafletMapState extends AbstractComponentState {
 	
 	public Point center;
-	public Integer zoomLevel;
+	public Double zoomLevel;
 
 	public Bounds zoomToExtent;
 	

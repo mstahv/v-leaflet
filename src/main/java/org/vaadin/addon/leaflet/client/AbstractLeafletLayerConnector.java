@@ -5,7 +5,7 @@ import org.vaadin.addon.leaflet.shared.AbstractLeafletComponentState;
 import org.vaadin.addon.leaflet.shared.MouseOutServerRpc;
 import org.vaadin.addon.leaflet.shared.MouseOverServerRpc;
 import org.vaadin.addon.leaflet.shared.ClickServerRpc;
-import org.peimari.gleaflet.client.ILayer;
+import org.peimari.gleaflet.client.Layer;
 import org.peimari.gleaflet.client.LayerGroup;
 import org.peimari.gleaflet.client.Map;
 import org.vaadin.addon.leaflet.shared.ILayerClientRpc;
@@ -19,7 +19,6 @@ import com.vaadin.client.ui.AbstractComponentConnector;
 
 public abstract class AbstractLeafletLayerConnector<T> extends
         AbstractComponentConnector {
-    
 
     protected ClickServerRpc rpc = RpcProxy.create(ClickServerRpc.class, this);
     protected MouseOverServerRpc mouseOverRpc = RpcProxy.create(MouseOverServerRpc.class, this);
@@ -45,12 +44,12 @@ public abstract class AbstractLeafletLayerConnector<T> extends
 				});
             }
     
-    private static native final void jsniBringToFront(ILayer layer)
+    private static native final void jsniBringToFront(Layer layer)
     /*-{
         layer.bringToFront();
     }-*/;
 
-    private static native final void jsniBringToBack(ILayer layer)
+    private static native final void jsniBringToBack(Layer layer)
     /*-{ 
         layer.bringToBack();
     }-*/;
@@ -77,7 +76,7 @@ public abstract class AbstractLeafletLayerConnector<T> extends
         return (AbstractLeafletComponentState) super.getState();
     }
 
-    public void addToParent(ILayer layer) {
+    public void addToParent(Layer layer) {
         HasComponentsConnector parent = getParent();
         if (parent instanceof LeafletMapConnector) {
             Map map = ((LeafletMapConnector) parent).getMap();
@@ -95,7 +94,7 @@ public abstract class AbstractLeafletLayerConnector<T> extends
     }
 
     public void removeLayerFromParent() {
-        ILayer layer = getLayer();
+        Layer layer = getLayer();
         if (leafletParent instanceof Map) {
         	Map map = (Map) leafletParent;
             // Something is wrong if map is null here
@@ -159,6 +158,6 @@ public abstract class AbstractLeafletLayerConnector<T> extends
 
     protected abstract void update();
 
-    public abstract ILayer getLayer();
+    public abstract Layer getLayer();
 
 }

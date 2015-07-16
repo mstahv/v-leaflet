@@ -9,10 +9,10 @@ import com.vaadin.server.ClientConnector;
 public class LeafletMoveEndEvent extends ConnectorEvent {
 
 	private Bounds bounds;
-	private int zoomLevel;
+	private double zoomLevel;
         private Point center;
 
-	public LeafletMoveEndEvent(ClientConnector source, Bounds bounds, Point center, int zoomlevel) {
+	public LeafletMoveEndEvent(ClientConnector source, Bounds bounds, Point center, double zoomlevel) {
 		super(source);
 		this.bounds = bounds;
                 this.center = center;
@@ -27,7 +27,7 @@ public class LeafletMoveEndEvent extends ConnectorEvent {
             return center;
         }
 	
-	public int getZoomLevel() {
+	public double getZoomLevel() {
 		return zoomLevel;
 	}
 	
