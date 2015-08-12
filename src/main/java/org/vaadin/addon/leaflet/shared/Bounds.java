@@ -27,9 +27,14 @@ public class Bounds implements Serializable {
 	}
 
 	public Bounds(Point... points) {
-		this(points[0]);
-		for (Point point : points) {
-			extend(point);
+		this();
+		extend(points);
+	}
+	
+	public Bounds(Coordinate... coordinates) {
+		this();
+		for (Coordinate coordinate : coordinates) {
+			extend(coordinate.y, coordinate.x);
 		}
 	}
 
@@ -67,11 +72,15 @@ public class Bounds implements Serializable {
 
 	public void extend(Point... points) {
 		for (Point point : points) {
-			setNorthEastLat(Math.max(getNorthEastLat(), point.getLat()));
-			setNorthEastLon(Math.max(getNorthEastLon(), point.getLon()));
-			setSouthWestLat(Math.min(getSouthWestLat(), point.getLat()));
-			setSouthWestLon(Math.min(getSouthWestLon(), point.getLon()));
+			extend(point.getLat(), point.getLon());
 		}
+	}
+
+	private void extend(double latitude, double longitude) {
+		setNorthEastLat(Math.max(getNorthEastLat(), latitude));
+		setNorthEastLon(Math.max(getNorthEastLon(), longitude));
+		setSouthWestLat(Math.min(getSouthWestLat(), latitude));
+		setSouthWestLon(Math.min(getSouthWestLon(), longitude));
 	}
 
 	public Point getCenter() {
