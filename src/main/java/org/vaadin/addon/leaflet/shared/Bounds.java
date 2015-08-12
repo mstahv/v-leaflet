@@ -9,6 +9,10 @@ public class Bounds implements Serializable {
 	private double northEastLat;
 
 	public Bounds() {
+        	setSouthWestLat(Double.MAX_VALUE);
+        	setSouthWestLon(Double.MAX_VALUE);
+        	setNorthEastLat(Double.MIN_VALUE);
+        	setNorthEastLon(Double.MIN_VALUE);
 	}
 
 	public Bounds(String bounds) {
