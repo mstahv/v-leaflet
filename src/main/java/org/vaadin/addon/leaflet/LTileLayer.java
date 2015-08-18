@@ -5,7 +5,6 @@ import org.vaadin.addon.leaflet.shared.LeafletTileLayerServerRpc;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.vaadin.addon.leaflet.client.*;
 import org.vaadin.addon.leaflet.shared.EventId;
 
 import com.vividsolutions.jts.geom.Geometry;
