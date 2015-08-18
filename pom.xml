@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.vaadin.addon</groupId>
     <artifactId>v-leaflet</artifactId>
-    <version>0.6.5-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
     <name>V-Leaflet</name>
     <packaging>bundle</packaging>
 
@@ -44,6 +44,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.3</version>
                 <configuration>
                     <source>1.7</source>
                     <target>1.7</target>
@@ -317,7 +318,7 @@
         <dependency>
             <groupId>org.peimari</groupId>
             <artifactId>g-leaflet</artifactId>
-            <version>0.4.12-SNAPSHOT</version>
+            <version>1.0.0-SNAPSHOT</version>
             <!-- Only needed during widgetset compilation, so provided scope would 
             be great for this, but with it is left out from widgetset compilation by 
             vaadin plugin -->
