@@ -284,6 +284,14 @@ public class JTSUtil {
         return new Bounds(toPointArray(envelope.getCoordinates()));
     }
     
+    public static Bounds toBounds(Coordinate... coordinates) {
+        Bounds bounds = new Bounds();
+        for (Coordinate coordinate : coordinates) {
+            bounds.extend(coordinate.y, coordinate.x);
+        }
+        return bounds;
+    }
+    
     /**
      * Translates between a WKT representation of a geometry and a  JTS {@link Geometry}
      * @param wellKnownText
