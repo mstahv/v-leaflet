@@ -23,7 +23,6 @@ import org.peimari.gleaflet.client.Point;
 import org.peimari.gleaflet.client.PopupOptions;
 import org.vaadin.addon.leaflet.shared.EventId;
 
-import com.vaadin.client.VConsole;
 import com.vaadin.shared.communication.URLReference;
 import com.vaadin.shared.ui.Connect;
 
@@ -82,21 +81,37 @@ public class LeafletMarkerConnector extends
 		LatLng latlng = LatLng.create(getState().point.getLat(),
 				getState().point.getLon());
 		MarkerOptions options = createOptions();
+        
 
 		URLReference urlReference = getState().resources.get("icon");
 		String divIcon = getState().divIcon;
-		if (divIcon != null) {
+        if(urlReference != null && urlReference.getURL().startsWith("fonticon://")) {
+            // fonticons have special handling
+            com.vaadin.client.ui.Icon vIcon = getIcon();
+            String fontAwesomeChar = vIcon.getElement().getInnerText();
+            StringBuilder svgSb = new StringBuilder();
+            // TODO make this configurable, consider making also possible to 
+            // use configurable SVG marker without fontawesome icon in marker
+            svgSb.append("<svg width=\"25px\" height=\"40px\"><path fill=\"#44AEEA\" stroke=\"#005FA8\" d=\"M12.544,0.5C5.971,0.5,0.5,6.24,0.5,12.416c0,2.777,1.564,6.308,2.694,8.745\n" +
+"L12.5,38.922l9.262-17.761c1.13-2.438,2.738-5.791,2.738-8.745C24.5,6.24,19.117,0.5,12.544,0.5L12.544,0.5z\"/><text fill=\"#fff\" x=\"12.5\" y=\"20\" text-anchor=\"middle\" font-size=\"16\" class=\"");
+            svgSb.append(vIcon.getStyleName());
+            svgSb.append("\">");
+            svgSb.append(fontAwesomeChar);
+            svgSb.append("</text></svg>");
+            
 			DivIconOptions divIconOptions = DivIconOptions.create();
-			if (getState().iconAnchor != null) {
-				divIconOptions.setIconAnchor(Point.create(
-						getState().iconAnchor.getLat(),
-						getState().iconAnchor.getLon()));
-			}
-			if (getState().iconSize != null) {
-				divIconOptions.setIconSize(Point.create(
-						getState().iconSize.getLat(),
-						getState().iconSize.getLon()));
-			}
+            divIconOptions.setClassName("v-leaflet-custom-svg");
+            divIconOptions.setHtml(svgSb.toString());
+            divIconOptions.setIconSize(Point.create(25, 40));
+            divIconOptions.setIconAnchor(Point.create(12.5, 40));
+            configureIconSize(divIconOptions);
+           
+			DivIcon icon = DivIcon.create(divIconOptions);
+			options.setIcon(icon);
+            
+        } else if (divIcon != null) {
+			DivIconOptions divIconOptions = DivIconOptions.create();
+            configureIconSize(divIconOptions);
 			divIconOptions.setHtml(divIcon);
 			DivIcon icon = DivIcon.create(divIconOptions);
 			options.setIcon(icon);
@@ -171,6 +186,19 @@ public class LeafletMarkerConnector extends
 
 		marker.addClickListener(handler);
 	}
+
+    private void configureIconSize(DivIconOptions divIconOptions) {
+        if (getState().iconAnchor != null) {
+            divIconOptions.setIconAnchor(Point.create(
+                    getState().iconAnchor.getLat(),
+                    getState().iconAnchor.getLon()));
+        }
+        if (getState().iconSize != null) {
+            divIconOptions.setIconSize(Point.create(
+                    getState().iconSize.getLat(),
+                    getState().iconSize.getLon()));
+        }
+    }
 
 	public static PopupOptions popupOptionsFor(PopupState popupState) {
 		if (popupState == null) {
