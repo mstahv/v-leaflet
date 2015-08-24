@@ -12,8 +12,8 @@ public class Bounds implements Serializable {
     public Bounds() {
         setSouthWestLat(Double.MAX_VALUE);
         setSouthWestLon(Double.MAX_VALUE);
-        setNorthEastLat(Double.MIN_VALUE);
-        setNorthEastLon(Double.MIN_VALUE);
+        setNorthEastLat(Double.NEGATIVE_INFINITY);
+        setNorthEastLon(Double.NEGATIVE_INFINITY);
     }
 
     public Bounds(String bounds) {
