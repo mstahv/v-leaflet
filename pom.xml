@@ -318,7 +318,7 @@
         <dependency>
             <groupId>org.peimari</groupId>
             <artifactId>g-leaflet</artifactId>
-            <version>1.0.0-b2-SNAPSHOT</version>
+            <version>1.0.0-b1</version>
             <!-- Only needed during widgetset compilation, so provided scope would 
             be great for this, but with it is left out from widgetset compilation by 
             vaadin plugin -->
