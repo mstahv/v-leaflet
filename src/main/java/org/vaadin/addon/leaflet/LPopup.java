@@ -3,6 +3,7 @@ package org.vaadin.addon.leaflet;
 import org.vaadin.addon.leaflet.shared.LeafletPopupState;
 import org.vaadin.addon.leaflet.shared.PopupServerRpc;
 import org.vaadin.addon.leaflet.shared.Point;
+import org.vaadin.addon.leaflet.shared.PopupState;
 import org.vaadin.addon.leaflet.util.JTSUtil;
 
 import com.vividsolutions.jts.geom.Geometry;
@@ -76,13 +77,20 @@ public class LPopup extends AbstractLeafletLayer {
 		return JTSUtil.toPoint(getState().point);
 	}
 
-	public void setCloseButton(boolean closeButtonVisible) {
-		getState().closeButton = closeButtonVisible;
-	}
+    public PopupState getPopupState() {
+        return getState().popupState;
+    }
 
-	public void setCloseOnClick(boolean closeOnMapClick) {
-		getState().closeOnClick	= closeOnMapClick;
-	}
+    public void setPopupState(PopupState popupState){
+        getState().popupState = popupState;
+    }
 
+    public void setCloseButton(boolean closeButtonVisible) {
+        getState().popupState.closeButton = closeButtonVisible;
+    }
+
+    public void setCloseOnClick(boolean closeOnMapClick) {
+        getState().popupState.closeOnClick	= closeOnMapClick;
+    }
 
 }

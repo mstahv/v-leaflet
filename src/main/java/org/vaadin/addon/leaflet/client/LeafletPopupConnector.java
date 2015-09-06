@@ -1,5 +1,6 @@
 package org.vaadin.addon.leaflet.client;
 
+import org.peimari.gleaflet.client.*;
 import org.vaadin.addon.leaflet.shared.LeafletPopupState;
 import org.vaadin.addon.leaflet.shared.PopupServerRpc;
 import com.google.gwt.core.client.Scheduler;
@@ -9,12 +10,7 @@ import com.vaadin.client.VConsole;
 import com.vaadin.client.communication.StateChangeEvent;
 import com.vaadin.client.ui.AbstractComponentConnector;
 import com.vaadin.shared.ui.Connect;
-import org.peimari.gleaflet.client.Event;
-import org.peimari.gleaflet.client.LatLng;
-import org.peimari.gleaflet.client.Map;
-import org.peimari.gleaflet.client.Popup;
-import org.peimari.gleaflet.client.PopupClosedListener;
-import org.peimari.gleaflet.client.PopupOptions;
+import org.vaadin.addon.leaflet.shared.PopupState;
 
 @Connect(org.vaadin.addon.leaflet.LPopup.class)
 public class LeafletPopupConnector extends
@@ -49,13 +45,11 @@ public class LeafletPopupConnector extends
                 }
                 LatLng latlng = LatLng.create(getState().point.getLat(),
                         getState().point.getLon());
-                
-                PopupOptions options = PopupOptions.create();
-                options.setCloseButton(getState().closeButton);
-                options.setCloseOnClick(getState().closeOnClick);
+
+                PopupOptions options = popupOptionsFor(getState().popupState);
                 popup = Popup.create().create(options).setLatLng(latlng);
                 popup.setContent(getState().htmlContent);
-                if(getState().closeButton || getState().closeOnClick) {
+                if (getState().popupState.closeButton || getState().popupState.closeOnClick) {
                     // Non closeble are closed from server side, no need for
                     // event
                     popup.addCloseListener(new PopupClosedListener() {
@@ -72,6 +66,34 @@ public class LeafletPopupConnector extends
             }
         });
 
+    }
+
+    public static PopupOptions popupOptionsFor(PopupState popupState) {
+        if (popupState == null) {
+            return null;
+        }
+        PopupOptions popupOptions = PopupOptions.create();
+        if (popupState.maxWidth > 0) {
+            popupOptions.setMaxWidth(popupState.maxWidth);
+        }
+        if (popupState.minWidth > 0) {
+            popupOptions.setMinWidth(popupState.minWidth);
+        }
+        popupOptions.setAutoPan(popupState.autoPan);
+        popupOptions.setCloseButton(popupState.closeButton);
+        popupOptions.setCloseOnClick(popupState.closeOnClick);
+        popupOptions.setKeepInView(popupState.keepInView);
+        if (popupState.offset != null) {
+            popupOptions.setOffset(Point.create(popupState.offset.getLat(),
+                    popupState.offset.getLon()));
+        }
+        popupOptions.setZoomAnimation(popupState.zoomAnimation);
+        if (popupState.autoPanPadding != null) {
+            popupOptions.setAutoPanPadding(Point.create(
+                    popupState.autoPanPadding.getLat(),
+                    popupState.autoPanPadding.getLon()));
+        }
+        return popupOptions;
     }
 
     /**
