@@ -1,5 +1,6 @@
 package org.vaadin.addon.leaflet.client;
 
+import com.vaadin.shared.ui.ComponentStateUtil;
 import org.vaadin.addon.leaflet.shared.PopupState;
 import org.vaadin.addon.leaflet.shared.LeafletMarkerState;
 import org.vaadin.addon.leaflet.shared.DragEndServerRpc;
@@ -81,7 +82,7 @@ public class LeafletMarkerConnector extends
 		LatLng latlng = LatLng.create(getState().point.getLat(),
 				getState().point.getLon());
 		MarkerOptions options = createOptions();
-        
+
 
 		URLReference urlReference = getState().resources.get("icon");
 		String divIcon = getState().divIcon;
@@ -98,20 +99,27 @@ public class LeafletMarkerConnector extends
             svgSb.append("\">");
             svgSb.append(fontAwesomeChar);
             svgSb.append("</text></svg>");
-            
+
 			DivIconOptions divIconOptions = DivIconOptions.create();
             divIconOptions.setClassName("v-leaflet-custom-svg");
             divIconOptions.setHtml(svgSb.toString());
             divIconOptions.setIconSize(Point.create(25, 40));
             divIconOptions.setIconAnchor(Point.create(12.5, 40));
             configureIconSize(divIconOptions);
-           
+
 			DivIcon icon = DivIcon.create(divIconOptions);
 			options.setIcon(icon);
-            
+
         } else if (divIcon != null) {
 			DivIconOptions divIconOptions = DivIconOptions.create();
             configureIconSize(divIconOptions);
+            if (ComponentStateUtil.hasStyles(getState())) {
+                StringBuilder builder = new StringBuilder();
+                for (String style : getState().styles) {
+                    builder.append(style).append(" ");
+                }
+                divIconOptions.setClassName(builder.toString());
+            }
 			divIconOptions.setHtml(divIcon);
 			DivIcon icon = DivIcon.create(divIconOptions);
 			options.setIcon(icon);
