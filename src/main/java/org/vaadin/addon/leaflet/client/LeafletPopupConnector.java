@@ -1,5 +1,6 @@
 package org.vaadin.addon.leaflet.client;
 
+import com.google.gwt.core.client.JavaScriptObject;
 import org.peimari.gleaflet.client.*;
 import org.vaadin.addon.leaflet.shared.LeafletPopupState;
 import org.vaadin.addon.leaflet.shared.PopupServerRpc;
@@ -23,6 +24,7 @@ public class LeafletPopupConnector extends
     PopupServerRpc serverRpc = getRpcProxy(PopupServerRpc.class);
 
 	private Map map;
+    private JavaScriptObject closeListener;
 
     public LeafletPopupConnector() {
     }
@@ -41,6 +43,10 @@ public class LeafletPopupConnector extends
             @Override
             public void execute() {
                 if (popup != null) {
+                    if (closeListener != null) {
+                        popup.removeListener(closeListener);
+                        closeListener = null;
+                    }
                     getMap().closePopup(popup);
                 }
                 LatLng latlng = LatLng.create(getState().point.getLat(),
@@ -52,8 +58,7 @@ public class LeafletPopupConnector extends
                 if (getState().popupState.closeButton || getState().popupState.closeOnClick) {
                     // Non closeble are closed from server side, no need for
                     // event
-                    popup.addCloseListener(new PopupClosedListener() {
-
+                    closeListener = popup.addCloseListener(new PopupClosedListener() {
                         @Override
                         public void onClosed(Event event) {
                             serverRpc.closed();
