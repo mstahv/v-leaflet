@@ -187,7 +187,7 @@ public class LeafletMarkerConnector extends
 		}
 		String popup = getState().popup;
 		if (popup != null) {
-			PopupOptions popupOptions = popupOptionsFor(getState().popupState);
+			PopupOptions popupOptions = LeafletPopupConnector.popupOptionsFor(getState().popupState);
 			marker.bindPopup(popup, popupOptions);
 		}
 		addToParent(marker);
@@ -207,28 +207,6 @@ public class LeafletMarkerConnector extends
                     getState().iconSize.getLon()));
         }
     }
-
-	public static PopupOptions popupOptionsFor(PopupState popupState) {
-		if (popupState == null) {
-			return null;
-		}
-		PopupOptions popupOptions = PopupOptions.create();
-		popupOptions.setMaxWidth(popupState.maxWidth);
-		popupOptions.setMinWidth(popupState.minWidth);
-		popupOptions.setAutoPan(popupState.autoPan);
-		popupOptions.setCloseButton(popupState.closeButton);
-		if (popupState.offset != null) {
-			popupOptions.setOffset(Point.create(popupState.offset.getLat(),
-					popupState.offset.getLon()));
-		}
-		popupOptions.setZoomAnimation(popupState.zoomAnimation);
-		if (popupState.autoPanPadding != null) {
-			popupOptions.setAutoPanPadding(Point.create(
-					popupState.autoPanPadding.getLat(),
-					popupState.autoPanPadding.getLon()));
-		}
-		return popupOptions;
-	}
 
 	@Override
 	protected MarkerOptions createOptions() {

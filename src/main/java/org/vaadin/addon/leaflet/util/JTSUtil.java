@@ -111,7 +111,7 @@ public class JTSUtil {
      * @param point
      * @return
      */
-    private static LMarker toLMarker(com.vividsolutions.jts.geom.Point point) {
+    public static LMarker toLMarker(com.vividsolutions.jts.geom.Point point) {
         LMarker lMarker = new LMarker();
         Point lPoint = new Point();
         lPoint.setLat(point.getY());
@@ -127,7 +127,7 @@ public class JTSUtil {
      * @param lineString
      * @return
      */
-    private static LPolyline toPolyline(LineString lineString) {
+    public static LPolyline toPolyline(LineString lineString) {
 
         Coordinate[] coords = lineString.getCoordinates();
         Point[] points = toPointArray(coords);
@@ -172,7 +172,7 @@ public class JTSUtil {
      * @param coords
      * @return
      */
-    private static Point[] toPointArray(Coordinate[] coords) {
+    public static Point[] toPointArray(Coordinate[] coords) {
         Point[] points = new Point[coords.length];
 
         for (int i = 0; i < coords.length; i++) {
