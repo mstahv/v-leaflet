@@ -58,9 +58,9 @@ public class LeafletPopupConnector extends
                 if (getState().popupState.closeButton || getState().popupState.closeOnClick) {
                     // Non closeble are closed from server side, no need for
                     // event
-                    closeListener = popup.addCloseListener(new PopupClosedListener() {
+                    closeListener = popup.addLayerRemovedListener(new LayerRemovedListener() {
                         @Override
-                        public void onClosed(Event event) {
+                        public void onRemoved(Event event) {
                             serverRpc.closed();
                             popup = null;
                         }
