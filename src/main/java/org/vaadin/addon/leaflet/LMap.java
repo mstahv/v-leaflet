@@ -184,7 +184,7 @@ public class LMap extends AbstractComponentContainer {
     public void setView(Double lat, Double lon, Double zoom) {
         getState(!rendered).center = new Point(lat, lon);
         if (zoom != null) {
-            getState().zoomLevel = zoom;
+            getState(!rendered).zoomLevel = zoom;
         }
         if (rendered) {
             getRpcProxy(LeafletMapClientRpc.class).setCenter(lat, lon, zoom);
