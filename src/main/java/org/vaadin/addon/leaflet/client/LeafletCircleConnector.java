@@ -11,6 +11,7 @@ import org.vaadin.addon.leaflet.shared.Point;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.vaadin.client.Util;
 import com.vaadin.shared.ui.Connect;
 
 import org.peimari.gleaflet.client.MouseOutListener;
@@ -35,6 +36,8 @@ public class LeafletCircleConnector extends
                 getState().point.getLon());
         CircleOptions options = createOptions();
         marker = Circle.create(latlng, getState().radius, options);
+        // for some reasone bugs currently without this...
+        marker.setRadius(getState().radius);
         addToParent(marker);
 
         marker.addClickListener(new ClickListener() {
