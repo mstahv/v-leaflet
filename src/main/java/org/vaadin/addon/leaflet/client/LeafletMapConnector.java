@@ -43,6 +43,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.vaadin.client.ComponentConnector;
 import com.vaadin.client.ConnectorHierarchyChangeEvent;
 import com.vaadin.client.ServerConnector;
+import com.vaadin.client.VConsole;
 import com.vaadin.client.communication.RpcProxy;
 import com.vaadin.client.communication.StateChangeEvent;
 import com.vaadin.client.ui.AbstractHasComponentsConnector;
@@ -99,6 +100,7 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector
 
             @Override
             public void setCenter(Double lat, Double lon, Double zoom) {
+                VConsole.log("To be center : " + lat + " " + lon +  " ");
                 if (zoom == null) {
                     zoom = map.getZoom();
                 }
@@ -293,9 +295,13 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector
             if (componentConnector instanceof AbstractLeafletLayerConnector) {
                 AbstractLeafletLayerConnector<?> c = (AbstractLeafletLayerConnector<?>) componentConnector;
                 Layer layer = c.getLayer();
-                map.removeLayer(layer);
-                if (layersControl != null) {
-                    layersControl.removeLayer(layer);
+                try{
+                    map.removeLayer(layer);
+                    if (layersControl != null) {
+                        layersControl.removeLayer(layer);
+                    }
+                } catch (Exception e) {
+                    VConsole.log("Removing failed, possibly due to timing issue...");
                 }
             }
         }

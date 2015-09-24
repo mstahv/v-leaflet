@@ -13,6 +13,7 @@ import org.vaadin.addon.leaflet.shared.ILayerClientRpc;
 import com.google.gwt.user.client.ui.Label;
 import com.vaadin.client.HasComponentsConnector;
 import com.vaadin.client.ServerConnector;
+import com.vaadin.client.VConsole;
 import com.vaadin.client.communication.RpcProxy;
 import com.vaadin.client.communication.StateChangeEvent;
 import com.vaadin.client.ui.AbstractComponentConnector;
@@ -94,6 +95,10 @@ public abstract class AbstractLeafletLayerConnector<T> extends
     }
 
     public void removeLayerFromParent() {
+        if(leafletParent == null) {
+            VConsole.log("Could not remove layer as layerparent not found, may be timing issue!");
+            return;
+        }
         Layer layer = getLayer();
         if (leafletParent instanceof Map) {
         	Map map = (Map) leafletParent;
