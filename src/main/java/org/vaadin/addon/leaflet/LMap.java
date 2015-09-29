@@ -266,7 +266,13 @@ public class LMap extends AbstractComponentContainer {
     }
 
     /**
-     *
+     * Gets the bounds of the maps "viewport". The bounds are not known during
+     * initialization as we cannot be sure about the size of the map. Thus, if
+     * you for example want to initialize the map content based on the currently
+     * visible viewport, add a MoveEndListener to your map, which is notified
+     * after the initial render and each time the user moves or zooms the 
+     * viewport.
+     * 
      * @return the last know bounds (reported by client or set by zoomToExtennt)
      * or null if not known.
      */
