@@ -30,4 +30,5 @@ public interface LeafletMapServerRpc extends ServerRpc {
 	@Delayed(lastOnly=true)
 	void onMoveEnd(Bounds bounds, Point center, double zoomlevel);
     
+    	void onContextMenu(Point p);
 }

@@ -30,6 +30,7 @@ import org.peimari.gleaflet.client.Map;
 import org.peimari.gleaflet.client.MapOptions;
 import org.peimari.gleaflet.client.MouseEvent;
 import org.peimari.gleaflet.client.MoveEndListener;
+import org.peimari.gleaflet.client.ContextMenuListener;
 import org.peimari.gleaflet.client.control.Layers;
 import org.peimari.gleaflet.client.resources.LeafletResourceInjector;
 import org.vaadin.addon.leaflet.LMap;
@@ -201,6 +202,16 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector
                 public void onClick(MouseEvent event) {
                     if (hasEventListener("click")) {
                         rpc.onClick(new Point(event.getLatLng().getLatitude(),
+                                event.getLatLng().getLongitude()));
+                    }
+                }
+            });
+            
+            map.addContextMenuListener(new ContextMenuListener() {
+                @Override
+                public void onContextMenu(MouseEvent event) {
+                    if (hasEventListener("contextmenu")) {
+                        rpc.onContextMenu(new Point(event.getLatLng().getLatitude(),
                                 event.getLatLng().getLongitude()));
                     }
                 }

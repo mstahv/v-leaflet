@@ -23,6 +23,7 @@ public class LeafletPolylineConnector extends
 			marker.removeClickListener();
                         marker.removeMouseOverListener();
                         marker.removeMouseOutListener();
+                        marker.removeContextMenuListener();
 		}
 		if (getState().geometryjson == null) {
 			return;
@@ -63,6 +64,14 @@ public class LeafletPolylineConnector extends
                 @Override
                 public void onMouseOut(MouseEvent event) {
                     mouseOutRpc.onMouseOut(U.toPoint(event.getLatLng()));
+                }
+            });
+        }
+        if (hasEventListener(EventId.CONTEXTMENU)) {
+            marker.addContextMenuListener(new ContextMenuListener() {
+                @Override
+                public void onContextMenu(MouseEvent event) {
+                    contextMenuRpc.onContextMenu(U.toPoint(event.getLatLng()));
                 }
             });
         }
