@@ -16,6 +16,7 @@ import com.vaadin.shared.ui.Connect;
 
 import org.peimari.gleaflet.client.MouseOutListener;
 import org.peimari.gleaflet.client.MouseOverListener;
+import org.peimari.gleaflet.client.ContextMenuListener;
 import org.vaadin.addon.leaflet.shared.EventId;
 
 @Connect(org.vaadin.addon.leaflet.LCircleMarker.class)
@@ -41,6 +42,7 @@ public class LeafletCircleMarkerConnector extends
             marker.removeClickListener();
             marker.removeMouseOverListener();
             marker.removeMouseOutListener();
+            marker.removeContextMenuListener();
         }
  
         LatLng latlng = LatLng.create(getState().point.getLat(),
@@ -84,6 +86,14 @@ public class LeafletCircleMarkerConnector extends
                 @Override
                 public void onMouseOut(MouseEvent event) {
                     mouseOutRpc.onMouseOut(U.toPoint(event.getLatLng()));
+                }
+            });
+        }
+        if (hasEventListener(EventId.CONTEXTMENU)) {
+            marker.addContextMenuListener(new ContextMenuListener() {
+                @Override
+                public void onContextMenu(MouseEvent event) {
+                    contextMenuRpc.onContextMenu(U.toPoint(event.getLatLng()));
                 }
             });
         }
