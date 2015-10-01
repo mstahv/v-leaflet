@@ -20,6 +20,7 @@ import org.peimari.gleaflet.client.MarkerOptions;
 import org.peimari.gleaflet.client.MouseEvent;
 import org.peimari.gleaflet.client.MouseOutListener;
 import org.peimari.gleaflet.client.MouseOverListener;
+import org.peimari.gleaflet.client.ContextMenuListener;
 import org.peimari.gleaflet.client.Point;
 import org.peimari.gleaflet.client.PopupOptions;
 import org.vaadin.addon.leaflet.shared.EventId;
@@ -78,6 +79,7 @@ public class LeafletMarkerConnector extends
 			marker.removeClickListener();
             marker.removeMouseOverListener();
             marker.removeMouseOutListener();
+            marker.removeContextMenuListener();
 		}
 		LatLng latlng = LatLng.create(getState().point.getLat(),
 				getState().point.getLon());
@@ -185,6 +187,14 @@ public class LeafletMarkerConnector extends
 				}
 			});
 		}
+        if (hasEventListener(EventId.CONTEXTMENU)) {
+        	marker.addContextMenuListener(new ContextMenuListener() {
+            	@Override
+            	public void onContextMenu(MouseEvent event) {
+        			contextMenuRpc.onContextMenu(U.toPoint(event.getLatLng()));
+    			}
+    		});
+    	}
 		String popup = getState().popup;
 		if (popup != null) {
 			PopupOptions popupOptions = LeafletPopupConnector.popupOptionsFor(getState().popupState);
