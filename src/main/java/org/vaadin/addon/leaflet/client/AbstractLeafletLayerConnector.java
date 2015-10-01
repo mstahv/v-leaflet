@@ -5,6 +5,7 @@ import org.vaadin.addon.leaflet.shared.AbstractLeafletComponentState;
 import org.vaadin.addon.leaflet.shared.MouseOutServerRpc;
 import org.vaadin.addon.leaflet.shared.MouseOverServerRpc;
 import org.vaadin.addon.leaflet.shared.ClickServerRpc;
+import org.vaadin.addon.leaflet.shared.ContextMenuServerRpc;
 import org.peimari.gleaflet.client.Layer;
 import org.peimari.gleaflet.client.LayerGroup;
 import org.peimari.gleaflet.client.Map;
@@ -24,6 +25,7 @@ public abstract class AbstractLeafletLayerConnector<T> extends
     protected ClickServerRpc rpc = RpcProxy.create(ClickServerRpc.class, this);
     protected MouseOverServerRpc mouseOverRpc = RpcProxy.create(MouseOverServerRpc.class, this);
     protected MouseOutServerRpc mouseOutRpc = RpcProxy.create(MouseOutServerRpc.class, this);
+    protected ContextMenuServerRpc contextMenuRpc = RpcProxy.create(ContextMenuServerRpc.class, this);
     private Object leafletParent;
 
     public AbstractLeafletLayerConnector() {
