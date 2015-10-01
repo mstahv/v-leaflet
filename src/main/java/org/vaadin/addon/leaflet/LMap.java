@@ -53,6 +53,11 @@ public class LMap extends AbstractComponentContainer {
                 LMap.this.bounds = bounds;
                 fireEvent(new LeafletMoveEndEvent(LMap.this, bounds, center, zoomlevel));
             }
+            
+            @Override
+            public void onContextMenu(Point p) {
+                fireEvent(new LeafletContextMenuEvent(LMap.this,p));
+            }
         });
 
     }
@@ -234,6 +239,15 @@ public class LMap extends AbstractComponentContainer {
 
     public void removeMoveEndListener(LeafletMoveEndListener moveEndListener) {
         removeListener("moveend", LeafletMoveEndEvent.class, moveEndListener);
+    }
+    
+    public void addContextMenuListener(LeafletContextMenuListener listener) {
+        addListener("contextmenu", LeafletContextMenuEvent.class, listener,
+                LeafletContextMenuListener.METHOD);
+    }
+
+    public void removeContextMenuListener(LeafletContextMenuListener listener) {
+        removeListener("contextmenu", LeafletContextMenuEvent.class, listener);
     }
 
     public void setCenter(Bounds bounds) {
