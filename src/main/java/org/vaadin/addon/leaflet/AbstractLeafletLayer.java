@@ -7,6 +7,7 @@ import org.vaadin.addon.leaflet.shared.Point;
 import com.vaadin.ui.AbstractComponent;
 import org.vaadin.addon.leaflet.shared.MouseOutServerRpc;
 import org.vaadin.addon.leaflet.shared.MouseOverServerRpc;
+import org.vaadin.addon.leaflet.shared.ContextMenuServerRpc;
 import org.vaadin.addon.leaflet.shared.EventId;
 import org.vaadin.addon.leaflet.shared.ILayerClientRpc;
 
@@ -32,6 +33,12 @@ public abstract class AbstractLeafletLayer extends AbstractComponent implements
             @Override
             public void onMouseOut(Point p) {
                 fireEvent(new LeafletMouseOutEvent(AbstractLeafletLayer.this, p));
+            }
+        });
+        registerRpc(new ContextMenuServerRpc() {
+            @Override
+            public void onContextMenu(Point p) {
+                fireEvent(new LeafletContextMenuEvent(AbstractLeafletLayer.this, p));
             }
         });
     }
@@ -60,6 +67,11 @@ public abstract class AbstractLeafletLayer extends AbstractComponent implements
     public void addMouseOutListener(LeafletMouseOutListener listener) {
         addListener(EventId.MOUSEOUT, LeafletMouseOutEvent.class, listener,
                 LeafletMouseOutListener.METHOD);
+    }
+    
+    public void addContextMenuListener(LeafletContextMenuListener listener) {
+        addListener(EventId.CONTEXTMENU, LeafletContextMenuEvent.class, listener,
+                LeafletContextMenuListener.METHOD);
     }
 
     public void setActive(Boolean active) {
