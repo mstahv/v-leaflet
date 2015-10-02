@@ -43,6 +43,7 @@ import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.user.client.ui.Widget;
 import com.vaadin.client.ComponentConnector;
 import com.vaadin.client.ConnectorHierarchyChangeEvent;
+import com.vaadin.client.MouseEventDetailsBuilder;
 import com.vaadin.client.ServerConnector;
 import com.vaadin.client.VConsole;
 import com.vaadin.client.communication.RpcProxy;
@@ -50,6 +51,7 @@ import com.vaadin.client.communication.StateChangeEvent;
 import com.vaadin.client.ui.AbstractHasComponentsConnector;
 import com.vaadin.client.ui.layout.ElementResizeEvent;
 import com.vaadin.client.ui.layout.ElementResizeListener;
+import com.vaadin.shared.MouseEventDetails;
 import com.vaadin.shared.ui.Connect;
 import org.peimari.gleaflet.client.Crs;
 
@@ -101,7 +103,7 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector
 
             @Override
             public void setCenter(Double lat, Double lon, Double zoom) {
-                VConsole.log("To be center : " + lat + " " + lon +  " ");
+                VConsole.log("To be center : " + lat + " " + lon + " ");
                 if (zoom == null) {
                     zoom = map.getZoom();
                 }
@@ -201,18 +203,29 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector
             map.addClickListener(new ClickListener() {
                 public void onClick(MouseEvent event) {
                     if (hasEventListener("click")) {
-                        rpc.onClick(new Point(event.getLatLng().getLatitude(),
-                                event.getLatLng().getLongitude()));
+
+                        // Add mouse details
+                        MouseEventDetails details = MouseEventDetailsBuilder
+                                .buildMouseEventDetails(event.getNativeEvent(), getWidget().getElement());
+
+                        rpc.onClick(new Point(event.getLatLng().getLatitude(), event.getLatLng().getLongitude()),
+                                details
+                        );
                     }
                 }
             });
-            
+
             map.addContextMenuListener(new ContextMenuListener() {
                 @Override
                 public void onContextMenu(MouseEvent event) {
                     if (hasEventListener("contextmenu")) {
+                        // Add mouse details
+                        MouseEventDetails details = MouseEventDetailsBuilder
+                                .buildMouseEventDetails(event.getNativeEvent(), getWidget().getElement());
+
                         rpc.onContextMenu(new Point(event.getLatLng().getLatitude(),
-                                event.getLatLng().getLongitude()));
+                                event.getLatLng().getLongitude()),details
+                        );
                     }
                 }
             });
@@ -232,8 +245,8 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector
             };
 
             map.addMoveEndListener(moveEndListener);
-            
-            if(getState().width != null && !getState().width.contains("%")) {
+
+            if (getState().width != null && !getState().width.contains("%")) {
                 // fixed size for the leaflet map, report size manually to the 
                 // server
                 reportViewPortToServer();
@@ -253,7 +266,7 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector
                         map.getCenter().getLongitude()), map.getZoom());
         if (getState().registeredEventListeners != null
                 && getState().registeredEventListeners
-                        .contains("moveend")) {
+                .contains("moveend")) {
             getConnection().sendPendingVariableChanges();
         }
     }
@@ -306,7 +319,7 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector
             if (componentConnector instanceof AbstractLeafletLayerConnector) {
                 AbstractLeafletLayerConnector<?> c = (AbstractLeafletLayerConnector<?>) componentConnector;
                 Layer layer = c.getLayer();
-                try{
+                try {
                     map.removeLayer(layer);
                     if (layersControl != null) {
                         layersControl.removeLayer(layer);
@@ -337,6 +350,10 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector
                 b.getSouthWestLon());
         LatLngBounds bounds = LatLngBounds.create(southWest, northEast);
         return bounds;
+    }
+
+    public Point getMapPixelPosition() {
+        return new Point(getWidget().getAbsoluteTop(), getWidget().getAbsoluteLeft());
     }
 
 }

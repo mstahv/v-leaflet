@@ -5,6 +5,7 @@ import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.json.client.JSONParser;
+import com.vaadin.client.MouseEventDetailsBuilder;
 import com.vaadin.shared.ui.Connect;
 import org.peimari.gleaflet.client.*;
 import org.vaadin.addon.leaflet.shared.EventId;
@@ -35,8 +36,8 @@ public class LeafletPolylineConnector extends
 
 			@Override
 			public void onClick(MouseEvent event) {
-				rpc.onClick(new Point(event.getLatLng().getLatitude(), event
-						.getLatLng().getLongitude()));
+                rpc.onClick(U.toPoint(event.getLatLng()),
+                        MouseEventDetailsBuilder.buildMouseEventDetails(event.getNativeEvent(), getLeafletMapConnector().getWidget().getElement()));
 			}
 		});
         if (hasEventListener(EventId.MOUSEOVER)) {
@@ -67,11 +68,13 @@ public class LeafletPolylineConnector extends
                 }
             });
         }
+        
         if (hasEventListener(EventId.CONTEXTMENU)) {
             marker.addContextMenuListener(new ContextMenuListener() {
                 @Override
                 public void onContextMenu(MouseEvent event) {
-                    contextMenuRpc.onContextMenu(U.toPoint(event.getLatLng()));
+                    contextMenuRpc.onContextMenu(U.toPoint(event.getLatLng()),
+                            MouseEventDetailsBuilder.buildMouseEventDetails(event.getNativeEvent(), getLeafletMapConnector().getWidget().getElement()));
                 }
             });
         }

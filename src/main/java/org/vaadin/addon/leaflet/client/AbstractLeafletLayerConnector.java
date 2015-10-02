@@ -1,6 +1,5 @@
 package org.vaadin.addon.leaflet.client;
 
-
 import org.vaadin.addon.leaflet.shared.AbstractLeafletComponentState;
 import org.vaadin.addon.leaflet.shared.MouseOutServerRpc;
 import org.vaadin.addon.leaflet.shared.MouseOverServerRpc;
@@ -18,6 +17,7 @@ import com.vaadin.client.VConsole;
 import com.vaadin.client.communication.RpcProxy;
 import com.vaadin.client.communication.StateChangeEvent;
 import com.vaadin.client.ui.AbstractComponentConnector;
+import org.vaadin.addon.leaflet.shared.Point;
 
 public abstract class AbstractLeafletLayerConnector<T> extends
         AbstractComponentConnector {
@@ -33,30 +33,27 @@ public abstract class AbstractLeafletLayerConnector<T> extends
         registerRpc(ILayerClientRpc.class, new ILayerClientRpc() {
 
             /* Doing ugly jsni hack, to avoid limiation in GWT (only one JSO can
-            implement interface methods) */
-            
+             implement interface methods) */
             @Override
             public void bringToFront() {
-		                jsniBringToFront(getLayer());
-					}
+                jsniBringToFront(getLayer());
+            }
 
             @Override
             public void bringToBack() {
-		                jsniBringToBack(getLayer());
-					}
-				});
+                jsniBringToBack(getLayer());
             }
-    
-    private static native final void jsniBringToFront(Layer layer)
-    /*-{
-        layer.bringToFront();
-    }-*/;
+        });
+    }
 
-    private static native final void jsniBringToBack(Layer layer)
-    /*-{ 
-        layer.bringToBack();
-    }-*/;
-    
+    private static native final void jsniBringToFront(Layer layer) /*-{
+     layer.bringToFront();
+     }-*/;
+
+    private static native final void jsniBringToBack(Layer layer) /*-{ 
+     layer.bringToBack();
+     }-*/;
+
     private static final Label fakeWidget = new Label();
 
     @Override
@@ -84,9 +81,9 @@ public abstract class AbstractLeafletLayerConnector<T> extends
         if (parent instanceof LeafletMapConnector) {
             Map map = ((LeafletMapConnector) parent).getMap();
             // Something is wrong if map is null here
-            if(getState().active != null && getState().active) {
-				map.addLayer(layer);
-			}
+            if (getState().active != null && getState().active) {
+                map.addLayer(layer);
+            }
             leafletParent = map;
         } else {
             LayerGroup layerGroup = (LayerGroup) (((LeafletLayerGroupConnector) parent)
@@ -97,13 +94,13 @@ public abstract class AbstractLeafletLayerConnector<T> extends
     }
 
     public void removeLayerFromParent() {
-        if(leafletParent == null) {
+        if (leafletParent == null) {
             VConsole.log("Could not remove layer as layerparent not found, may be timing issue!");
             return;
         }
         Layer layer = getLayer();
         if (leafletParent instanceof Map) {
-        	Map map = (Map) leafletParent;
+            Map map = (Map) leafletParent;
             // Something is wrong if map is null here
             map.removeLayer(layer);
         } else {
@@ -111,21 +108,38 @@ public abstract class AbstractLeafletLayerConnector<T> extends
         }
     }
 
-    /** Returns the map from the root of the hierarchy **/
+    /**
+     * Returns the map from the root of the hierarchy *
+     */
     public Map getMap() {
+        LeafletMapConnector leafletMapConnector = getLeafletMapConnector();
+        if (leafletMapConnector != null) {
+            return leafletMapConnector.getMap();
+        }
+        return null;
+    }
+
+    public LeafletMapConnector getLeafletMapConnector() {
 
         ServerConnector parent = getParent();
 
         while (parent != null) {
             if (parent instanceof LeafletMapConnector) {
-                return ((LeafletMapConnector) parent).getMap();
+                return (LeafletMapConnector) parent;
             }
 
             parent = parent.getParent();
         }
 
         return null;
+    }
 
+    /**
+     * @return the pixel position of the map
+     */
+    public Point getMapPixelPosition() {
+        final LeafletMapConnector leafletMapConnector = getLeafletMapConnector();
+        return leafletMapConnector.getMapPixelPosition();
     }
 
     @Override
@@ -140,27 +154,27 @@ public abstract class AbstractLeafletLayerConnector<T> extends
     @Override
     public void onStateChanged(StateChangeEvent stateChangeEvent) {
         super.onStateChanged(stateChangeEvent);
-        if(!stateChangeEvent.isInitialStateChange()) {
-        	markDirty();
+        if (!stateChangeEvent.isInitialStateChange()) {
+            markDirty();
         }
         deferUpdate();
     }
-    
+
     protected void markDirty() {
-    	updated = false;
+        updated = false;
     }
-    
+
     protected void deferUpdate() {
         LazyUpdator.defer(this);
     }
 
     protected void updateIfDirty() {
-    	if (!updated && getParent() != null) {
-    		update();
-    		updated = true;
-    	}
+        if (!updated && getParent() != null) {
+            update();
+            updated = true;
+        }
     }
-    
+
     protected abstract T createOptions();
 
     protected abstract void update();

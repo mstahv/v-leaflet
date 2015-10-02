@@ -1,17 +1,13 @@
 package org.vaadin.addon.leaflet;
 
-import com.vaadin.event.ConnectorEvent;
-import com.vaadin.server.ClientConnector;
+import com.vaadin.shared.MouseEventDetails;
+import com.vaadin.ui.Component;
 import org.vaadin.addon.leaflet.shared.Point;
 
-public class LeafletContextMenuEvent extends ConnectorEvent {
+public class LeafletContextMenuEvent extends LeafletClickEvent {
 
-    private Point point;
-
-    public LeafletContextMenuEvent(ClientConnector source, Point p) {
-        super(source);
-        this.point = p;
+    LeafletContextMenuEvent(Component c, Point p, MouseEventDetails d) {
+        super(c, p, d);
     }
 
-    public Point getPoint() { return point; }
 }

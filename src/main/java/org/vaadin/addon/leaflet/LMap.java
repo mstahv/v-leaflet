@@ -19,6 +19,7 @@ import org.vaadin.addon.leaflet.shared.Point;
 import org.vaadin.addon.leaflet.util.JTSUtil;
 
 import com.vaadin.server.Extension;
+import com.vaadin.shared.MouseEventDetails;
 import com.vaadin.ui.AbstractComponentContainer;
 import com.vaadin.ui.Component;
 import com.vividsolutions.jts.geom.Geometry;
@@ -42,8 +43,8 @@ public class LMap extends AbstractComponentContainer {
         setSizeFull();
         registerRpc(new LeafletMapServerRpc() {
             @Override
-            public void onClick(Point p) {
-                fireEvent(new LeafletClickEvent(LMap.this, p));
+            public void onClick(Point p, MouseEventDetails d) {
+                fireEvent(new LeafletClickEvent(LMap.this, p, d));
             }
 
             @Override
@@ -53,10 +54,10 @@ public class LMap extends AbstractComponentContainer {
                 LMap.this.bounds = bounds;
                 fireEvent(new LeafletMoveEndEvent(LMap.this, bounds, center, zoomlevel));
             }
-            
+
             @Override
-            public void onContextMenu(Point p) {
-                fireEvent(new LeafletContextMenuEvent(LMap.this,p));
+            public void onContextMenu(Point p, MouseEventDetails d) {
+                fireEvent(new LeafletContextMenuEvent(LMap.this, p, d));
             }
         });
 
@@ -240,7 +241,7 @@ public class LMap extends AbstractComponentContainer {
     public void removeMoveEndListener(LeafletMoveEndListener moveEndListener) {
         removeListener("moveend", LeafletMoveEndEvent.class, moveEndListener);
     }
-    
+
     public void addContextMenuListener(LeafletContextMenuListener listener) {
         addListener("contextmenu", LeafletContextMenuEvent.class, listener,
                 LeafletContextMenuListener.METHOD);
@@ -284,9 +285,9 @@ public class LMap extends AbstractComponentContainer {
      * initialization as we cannot be sure about the size of the map. Thus, if
      * you for example want to initialize the map content based on the currently
      * visible viewport, add a MoveEndListener to your map, which is notified
-     * after the initial render and each time the user moves or zooms the 
+     * after the initial render and each time the user moves or zooms the
      * viewport.
-     * 
+     *
      * @return the last know bounds (reported by client or set by zoomToExtennt)
      * or null if not known.
      */

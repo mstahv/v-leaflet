@@ -1,5 +1,6 @@
 package org.vaadin.addon.leaflet.client;
 
+import com.vaadin.client.MouseEventDetailsBuilder;
 import org.vaadin.addon.leaflet.shared.DragEndServerRpc;
 
 import org.peimari.gleaflet.client.ClickListener;
@@ -30,7 +31,8 @@ public class LeafletImageOverlayConnector extends
 	ClickListener handler = new ClickListener() {
 		@Override
 		public void onClick(MouseEvent event) {
-			rpc.onClick(null);
+                rpc.onClick(U.toPoint(event.getLatLng()),
+                        MouseEventDetailsBuilder.buildMouseEventDetails(event.getNativeEvent(), getLeafletMapConnector().getWidget().getElement()));
 		}
 	};
 

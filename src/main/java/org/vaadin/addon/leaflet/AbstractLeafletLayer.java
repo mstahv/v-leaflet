@@ -1,5 +1,6 @@
 package org.vaadin.addon.leaflet;
 
+import com.vaadin.shared.MouseEventDetails;
 import org.vaadin.addon.leaflet.shared.AbstractLeafletComponentState;
 import org.vaadin.addon.leaflet.shared.ClickServerRpc;
 import org.vaadin.addon.leaflet.shared.Point;
@@ -19,8 +20,8 @@ public abstract class AbstractLeafletLayer extends AbstractComponent implements
     public AbstractLeafletLayer() {
         registerRpc(new ClickServerRpc() {
             @Override
-            public void onClick(Point p) {
-                fireEvent(new LeafletClickEvent(AbstractLeafletLayer.this, p));
+            public void onClick(Point p, MouseEventDetails d) {
+                fireEvent(new LeafletClickEvent(AbstractLeafletLayer.this, p, d));
             }
         });
         registerRpc(new MouseOverServerRpc() {
@@ -37,8 +38,8 @@ public abstract class AbstractLeafletLayer extends AbstractComponent implements
         });
         registerRpc(new ContextMenuServerRpc() {
             @Override
-            public void onContextMenu(Point p) {
-                fireEvent(new LeafletContextMenuEvent(AbstractLeafletLayer.this, p));
+            public void onContextMenu(Point p, MouseEventDetails d) {
+                fireEvent(new LeafletContextMenuEvent(AbstractLeafletLayer.this, p,d));
             }
         });
     }
