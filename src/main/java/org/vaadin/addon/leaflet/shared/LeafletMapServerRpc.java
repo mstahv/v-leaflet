@@ -16,6 +16,7 @@
 package org.vaadin.addon.leaflet.shared;
 
 
+import com.vaadin.shared.MouseEventDetails;
 import com.vaadin.shared.annotations.Delayed;
 import com.vaadin.shared.communication.ServerRpc;
 
@@ -25,10 +26,10 @@ import com.vaadin.shared.communication.ServerRpc;
  */
 public interface LeafletMapServerRpc extends ServerRpc {
     
-	void onClick(Point p);
+	void onClick(Point location, MouseEventDetails details);
 
 	@Delayed(lastOnly=true)
 	void onMoveEnd(Bounds bounds, Point center, double zoomlevel);
     
-    	void onContextMenu(Point p);
+    void onContextMenu(Point location, MouseEventDetails details);
 }

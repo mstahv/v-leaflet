@@ -1,12 +1,19 @@
 package org.vaadin.addon.leaflet.client;
 
+import com.vaadin.client.VConsole;
 import org.peimari.gleaflet.client.LatLng;
 import org.peimari.gleaflet.client.LatLngBounds;
 import org.vaadin.addon.leaflet.shared.Bounds;
 import org.vaadin.addon.leaflet.shared.Point;
 
 public class U {
-	public static Point toPoint(LatLng latLng) {
+
+    public static Point toPoint(org.peimari.gleaflet.client.Point point) {
+        VConsole.log("Point " + point.getX() + " " + point.getY());
+        return new Point(point.getY(), point.getX());
+    }
+    
+    public static Point toPoint(LatLng latLng) {
 		return new Point(latLng.getLatitude(), latLng.getLongitude());
 	}
 

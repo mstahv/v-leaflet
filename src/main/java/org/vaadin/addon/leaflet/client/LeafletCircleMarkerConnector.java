@@ -11,6 +11,7 @@ import org.vaadin.addon.leaflet.shared.Point;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.vaadin.client.MouseEventDetailsBuilder;
 import com.vaadin.client.Util;
 import com.vaadin.shared.ui.Connect;
 
@@ -57,9 +58,8 @@ public class LeafletCircleMarkerConnector extends
         marker.addClickListener(new ClickListener() {
             @Override
             public void onClick(MouseEvent event) {
-                LatLng latLng2 = event.getLatLng();
-                Point p = new Point(latLng2.getLatitude(), latLng2.getLongitude());
-                rpc.onClick(p);
+                rpc.onClick(U.toPoint(event.getLatLng()),
+                        MouseEventDetailsBuilder.buildMouseEventDetails(event.getNativeEvent(), getLeafletMapConnector().getWidget().getElement()));
             }
         });
         if (hasEventListener(EventId.MOUSEOVER)) {
@@ -93,7 +93,8 @@ public class LeafletCircleMarkerConnector extends
             marker.addContextMenuListener(new ContextMenuListener() {
                 @Override
                 public void onContextMenu(MouseEvent event) {
-                    contextMenuRpc.onContextMenu(U.toPoint(event.getLatLng()));
+                    contextMenuRpc.onContextMenu(U.toPoint(event.getLatLng()),
+                            MouseEventDetailsBuilder.buildMouseEventDetails(event.getNativeEvent(), getLeafletMapConnector().getWidget().getElement()));
                 }
             });
         }

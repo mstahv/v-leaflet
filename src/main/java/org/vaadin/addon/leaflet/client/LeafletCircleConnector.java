@@ -11,6 +11,7 @@ import org.vaadin.addon.leaflet.shared.Point;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.vaadin.client.MouseEventDetailsBuilder;
 import com.vaadin.client.Util;
 import com.vaadin.shared.ui.Connect;
 
@@ -43,31 +44,30 @@ public class LeafletCircleConnector extends
         addToParent(marker);
 
         marker.addClickListener(new ClickListener() {
-			@Override
-			public void onClick(MouseEvent event) {
-				LatLng latLng2 = event.getLatLng();
-				Point p = new Point(latLng2.getLatitude(), latLng2.getLongitude());
-				rpc.onClick(p);
-			}
-		});
+            @Override
+            public void onClick(MouseEvent event) {
+                rpc.onClick(U.toPoint(event.getLatLng()),
+                        MouseEventDetailsBuilder.buildMouseEventDetails(event.getNativeEvent(), getLeafletMapConnector().getWidget().getElement()));
+            }
+        });
         if (hasEventListener(EventId.MOUSEOVER)) {
-			/*
-			 * Add listener lazily to avoid extra event if layer is modified in
-			 * server side listener. This can be removed if "clear and rebuild"
-			 * style component updates are changed into something more
-			 * intelligent at some point.
-			 */
-        	Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-				@Override
-				public void execute() {
-		            marker.addMouseOverListener(new MouseOverListener() {
-		                @Override
-		                public void onMouseOver(MouseEvent event) {
-		                    mouseOverRpc.onMouseOver(U.toPoint(event.getLatLng()));
-		                }
-		            });
-				}
-        	});
+            /*
+             * Add listener lazily to avoid extra event if layer is modified in
+             * server side listener. This can be removed if "clear and rebuild"
+             * style component updates are changed into something more
+             * intelligent at some point.
+             */
+            Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+                @Override
+                public void execute() {
+                    marker.addMouseOverListener(new MouseOverListener() {
+                        @Override
+                        public void onMouseOver(MouseEvent event) {
+                            mouseOverRpc.onMouseOver(U.toPoint(event.getLatLng()));
+                        }
+                    });
+                }
+            });
         }
         if (hasEventListener(EventId.MOUSEOUT)) {
             marker.addMouseOutListener(new MouseOutListener() {
@@ -81,7 +81,8 @@ public class LeafletCircleConnector extends
             marker.addContextMenuListener(new ContextMenuListener() {
                 @Override
                 public void onContextMenu(MouseEvent event) {
-                    contextMenuRpc.onContextMenu(U.toPoint(event.getLatLng()));
+                    contextMenuRpc.onContextMenu(U.toPoint(event.getLatLng()),
+                            MouseEventDetailsBuilder.buildMouseEventDetails(event.getNativeEvent(), getLeafletMapConnector().getWidget().getElement()));
                 }
             });
         }
@@ -91,5 +92,5 @@ public class LeafletCircleConnector extends
     public Layer getLayer() {
         return marker;
     }
-    
+
 }
