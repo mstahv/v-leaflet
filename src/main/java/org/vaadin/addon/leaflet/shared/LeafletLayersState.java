@@ -28,5 +28,6 @@ import com.vaadin.shared.Connector;
 public class LeafletLayersState extends LeafletControlState {
 
 	public Map<Connector, LayerControlInfo> layerContolInfo = new HashMap<Connector, LayerControlInfo>();
+    public Boolean collapsed;
 	
 }
