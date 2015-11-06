@@ -30,4 +30,8 @@ public class LLayers extends AbstractControl {
 		getState().layerContolInfo.remove(c);
 	}
 
+    public void setCollapsed(Boolean collapsed) {
+        getState().collapsed = collapsed;
+    }
+
 }
