@@ -20,7 +20,6 @@ public class ContinuousWorld extends AbstractTest {
 		LMap leafletMap = new LMap();
 
 		LOpenStreetMapLayer layer = new LOpenStreetMapLayer();
-		layer.setContinuousWorld(true); // default false, how to test?? Some online TMS source?
 		layer.setNoWrap(true); // default false
 
 		leafletMap.addBaseLayer(layer, "OSM");
