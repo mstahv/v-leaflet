@@ -127,6 +127,21 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector
                 map.setMaxBounds(toLeafletBounds(bounds));
             }
 
+            @Override
+            public void flyTo(Double lat, Double lon, Double zoom) {
+                VConsole.log("To be flight to : " + lat + " " + lon + " ");
+                if (zoom == null) {
+                    zoom = map.getZoom();
+                }
+                LatLng center;
+                if (lon == null) {
+                    center = map.getBounds().getCenter();
+                } else {
+                    center = LatLng.create(lat, lon);
+                }
+                map.flyTo(center, zoom);
+            }
+
         });
 
         getLayoutManager().addElementResizeListener(getWidget().getElement(),

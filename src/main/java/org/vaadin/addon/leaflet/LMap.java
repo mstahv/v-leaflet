@@ -205,6 +205,14 @@ public class LMap extends AbstractComponentContainer {
         setView(center.getLat(), center.getLon(), zoom);
     }
 
+    public void flyTo(Point center, Double zoom) {
+        if (rendered) {
+            getRpcProxy(LeafletMapClientRpc.class).flyTo(center.getLat(), center.getLon(), zoom);
+        } else {
+            setCenter(center, zoom);
+        }
+    }
+
     public void setCenter(Point center) {
         setCenter(center, null);
     }
