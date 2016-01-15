@@ -40,6 +40,7 @@ import org.vaadin.addon.leaflet.shared.Point;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.json.client.JSONParser;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Widget;
 import com.vaadin.client.ComponentConnector;
 import com.vaadin.client.ConnectorHierarchyChangeEvent;
@@ -239,7 +240,7 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector
                                 .buildMouseEventDetails(event.getNativeEvent(), getWidget().getElement());
 
                         rpc.onContextMenu(new Point(event.getLatLng().getLatitude(),
-                                event.getLatLng().getLongitude()),details
+                                event.getLatLng().getLongitude()), details
                         );
                     }
                 }
@@ -266,6 +267,20 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector
                 // server
                 reportViewPortToServer();
             }
+            
+            // Force one size invalidation on initial render. Needed e.g. for
+            // MapInGridDetailsRow, no idea why
+            Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+                @Override
+                public void execute() {
+                    Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+                        @Override
+                        public void execute() {
+                            map.invalidateSize();
+                        }
+                    });
+                }
+            });
 
         } else {
             // extent, zoom etc, must not be updated here, see client rpc...
