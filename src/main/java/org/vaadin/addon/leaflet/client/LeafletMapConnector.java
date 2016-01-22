@@ -159,7 +159,11 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector
              * See if CRS set. Maintain backwards compatability so that EPSG:3857
              * used if nothing specified.
              */
-            if (getState().crsName != null) {
+            if (getState().newCrsName != null) {
+                options.setCrs(Crs.add(getState().newCrsName, getState().newCrsProjection,
+                        getState().newCrsA, getState().newCrsB,
+                        getState().newCrsC, getState().newCrsD));
+            } else if (getState().crsName != null) {
                 options.setCrs(Crs.byName(getState().crsName));
             }
 

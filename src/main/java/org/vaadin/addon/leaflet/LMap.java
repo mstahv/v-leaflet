@@ -377,7 +377,16 @@ public class LMap extends AbstractComponentContainer {
 		this.lCrs = lc;
 		getState().crsName = lc.getName();
 	}
-    
+
+	public void setNewCrs(String name, String projection, double a, double b, double c, double d) {
+		getState().newCrsName = name;
+		getState().newCrsProjection = projection;
+		getState().newCrsA = a;
+		getState().newCrsB = b;
+		getState().newCrsC = c;
+		getState().newCrsD = d;
+	}
+
     private BasicMap customMapOptions;
 
     public void setCustomInitOption(String key, boolean b) {
