@@ -9,13 +9,12 @@ import com.vaadin.client.MouseEventDetailsBuilder;
 import com.vaadin.shared.ui.Connect;
 import org.peimari.gleaflet.client.*;
 import org.vaadin.addon.leaflet.shared.EventId;
-import org.vaadin.addon.leaflet.shared.Point;
 
 @Connect(org.vaadin.addon.leaflet.LPolyline.class)
 public class LeafletPolylineConnector extends
 		AbstractLeafletVectorConnector<LeafletPolylineState, PolylineOptions> {
 
-	protected Polyline marker;
+	protected AbstractPath marker;
 
 	@Override
 	protected void update() {
@@ -87,7 +86,7 @@ public class LeafletPolylineConnector extends
 		return marker;
 	}
 
-	protected Polyline createVector(PolylineOptions options) {
+	protected AbstractPath createVector(PolylineOptions options) {
 		return Polyline.createWithArray(getCoordinatesArray(), options);
 	}
 
