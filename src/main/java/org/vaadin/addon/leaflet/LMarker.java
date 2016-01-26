@@ -13,11 +13,7 @@ import com.vaadin.util.ReflectTools;
 import com.vividsolutions.jts.geom.Geometry;
 
 /**
- * Prototype. This might be technically easier to implement as an extension with
- * Leaflet, but I'm trying this way to pave way for OL integration (which has
- * vectorlayer, extensions cannot have children -> needs to be
- * componentcontainer)
- * 
+ * A Marker displayed on LMap.
  */
 public class LMarker extends AbstractLeafletLayer {
 	
