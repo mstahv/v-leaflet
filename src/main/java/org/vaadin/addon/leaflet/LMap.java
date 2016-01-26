@@ -412,6 +412,29 @@ public class LMap extends AbstractComponentContainer {
         getState().crsName = lc.getName();
     }
 
+	/**
+	 * Adds and uses a new Crs definition and makes it immediately available for use inside a
+	 * Map. The new Crs extends Crs.Simple, uses the Projection as specified in the parameters
+	 * and an affine transform as specified by the a, b, c, d parameters). For the meaning of
+	 * the affine transform parameters, see: http://leafletjs.com/reference.html#transformation.
+     * 
+	 * @param name Name for the new Crs.
+	 * @param projection Name of the projection for this new Crs. It needs to be the name of a
+	 * valid projection defined in L.Projection (LonLat, SphericalMercator, Mercator).
+     * @param a transformation parameter a
+     * @param b transformation parameter b
+     * @param c transformation parameter c
+     * @param d transformation parameter d
+	 */
+	public void setNewCrs(String name, String projection, double a, double b, double c, double d) {
+		getState().newCrsName = name;
+		getState().newCrsProjection = projection;
+		getState().newCrsA = a;
+		getState().newCrsB = b;
+		getState().newCrsC = c;
+		getState().newCrsD = d;
+	}
+
     private BasicMap customMapOptions;
 
     public void setCustomInitOption(String key, boolean b) {

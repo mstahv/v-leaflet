@@ -42,4 +42,10 @@ public class LeafletMapState extends AbstractComponentState {
 	 * client.
 	 */
 	public String crsName;
+	public String newCrsName;
+	public String newCrsProjection;
+	public double newCrsA;
+	public double newCrsB;
+	public double newCrsC;
+	public double newCrsD;
 }
