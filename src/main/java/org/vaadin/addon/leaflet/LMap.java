@@ -426,7 +426,7 @@ public class LMap extends AbstractComponentContainer {
      * @param c transformation parameter c
      * @param d transformation parameter d
 	 */
-	public void setNewCrs(String name, String projection, double a, double b, double c, double d) {
+	public void setCustomCrs(String name, String projection, double a, double b, double c, double d) {
 		getState().newCrsName = name;
 		getState().newCrsProjection = projection;
 		getState().newCrsA = a;
