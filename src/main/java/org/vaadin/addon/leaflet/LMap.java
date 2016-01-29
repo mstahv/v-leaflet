@@ -387,7 +387,7 @@ public class LMap extends AbstractComponentContainer {
 	 * @param projection Name of the projection for this new Crs. It needs to be the name of a
 	 * valid projection defined in L.Projection (LonLat, SphericalMercator, Mercator).
 	 */
-	public void setNewCrs(String name, String projection, double a, double b, double c, double d) {
+	public void setCustomCrs(String name, String projection, double a, double b, double c, double d) {
 		getState().newCrsName = name;
 		getState().newCrsProjection = projection;
 		getState().newCrsA = a;
