@@ -14,6 +14,7 @@ public class LeafletTileLayerState extends AbstractLeafletComponentState {
     public Double opacity;
     public Integer zIndex;
     public Boolean noWrap;
+    public Bounds bounds;
     public Map<String, String> customOptions;
     
 }
