@@ -49,6 +49,10 @@ public class LeafletTileLayerConnector extends
         if (s.noWrap != null) {
             o.setNoWrap(s.noWrap);
         }
+        if (s.bounds != null) {
+            o.setBounds(LatLngBounds.create(LatLng.create(s.bounds.getSouthWestLat(), s.bounds.getSouthWestLon()),
+                    LatLng.create(s.bounds.getNorthEastLat(), s.bounds.getNorthEastLon())));
+        }
         if (s.customOptions != null) {
             for (String keyName : s.customOptions.keySet()) {
                 o.setCustomOption(keyName, s.customOptions.get(keyName));
