@@ -1,5 +1,6 @@
 package org.vaadin.addon.leaflet;
 
+import org.vaadin.addon.leaflet.shared.Bounds;
 import org.vaadin.addon.leaflet.shared.LeafletTileLayerState;
 import org.vaadin.addon.leaflet.shared.LeafletTileLayerServerRpc;
 import java.util.HashMap;
@@ -114,6 +115,14 @@ public class LTileLayer extends AbstractLeafletLayer {
 
     public void setNoWrap(Boolean noWrap) {
         getState().noWrap = noWrap;
+    }
+    
+    public void setBounds(Bounds bounds) {
+        getState().bounds = bounds;
+    }
+
+    public Bounds getBounds() {
+        return getState().bounds;
     }
 
     public Map<String, String> getCustomOptions() {
