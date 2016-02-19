@@ -37,6 +37,9 @@ public class LeafletTileLayerConnector extends
         if (s.maxZoom != null) {
             o.setMaxZoom(s.maxZoom);
         }
+        if (s.maxNativeZoom != null) {
+            o.setMaxNativeZoom(s.maxNativeZoom);
+        }
         if (s.tms != null && s.tms) {
             o.setTms(true);
         }
