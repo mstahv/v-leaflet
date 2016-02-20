@@ -84,6 +84,14 @@ public class LTileLayer extends AbstractLeafletLayer {
     public void setMaxZoom(Integer maxZoom) {
         getState().maxZoom = maxZoom;
     }
+    
+    public Integer getMaxNativeZoom() {
+        return getState().maxNativeZoom;
+    }
+
+    public void setMaxNativeZoom(Integer maxNativeZoom) {
+        getState().maxNativeZoom = maxNativeZoom;
+    }
 
     public String[] getSubDomains() {
         return getState().subDomains;
