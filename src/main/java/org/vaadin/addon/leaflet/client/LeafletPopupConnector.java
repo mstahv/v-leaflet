@@ -87,6 +87,7 @@ public class LeafletPopupConnector extends
         popupOptions.setAutoPan(popupState.autoPan);
         popupOptions.setCloseButton(popupState.closeButton);
         popupOptions.setCloseOnClick(popupState.closeOnClick);
+        popupOptions.setAutoClose(popupState.autoClose);
         popupOptions.setKeepInView(popupState.keepInView);
         if (popupState.offset != null) {
             popupOptions.setOffset(Point.create(popupState.offset.getLat(),
