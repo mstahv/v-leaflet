@@ -9,6 +9,7 @@ public class PopupState implements Serializable {
 	public boolean autoPan;
 	public boolean closeButton = true;
     public boolean closeOnClick = true;
+    public boolean autoClose = true;
     public boolean keepInView;
 	public Point offset;
 	public Point autoPanPadding;
