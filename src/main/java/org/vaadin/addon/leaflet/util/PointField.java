@@ -51,6 +51,7 @@ public class PointField extends AbstractJTSField<Point> {
 
             map.addLayer(marker);
         }
+        map.zoomToContent();
     }
 
     @Override
