@@ -142,6 +142,11 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector
                 }
                 map.flyTo(center, zoom);
             }
+            
+            @Override
+            public void setDragging(Boolean dragging) {
+            	map.setDragging(dragging);            	
+            }
 
         });
 
@@ -192,6 +197,10 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector
                 options.setAttributionControl(false);
             }
 
+            if (getState().dragging != null) {
+            	options.setDragging(getState().dragging);
+            }
+
             if (getState().minZoom != null) {
                 options.setMinZoom(getState().minZoom);
             }
@@ -219,7 +228,7 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector
                         b.getSouthWestLon());
                 map.fitBounds(LatLngBounds.create(southWest, northEast));
             }
-
+            
             map.addClickListener(new ClickListener() {
                 public void onClick(MouseEvent event) {
                     if (hasEventListener("click")) {

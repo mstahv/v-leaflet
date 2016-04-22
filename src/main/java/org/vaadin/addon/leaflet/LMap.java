@@ -444,4 +444,22 @@ public class LMap extends AbstractComponentContainer {
         customMapOptions.put(key, b);
         getState().customMapOptionsJson = customMapOptions.asJson();
     }
+    
+    @Override
+    public void setReadOnly(boolean readOnly) {
+    	super.setReadOnly(readOnly);
+    	setDraggingEnabled(!readOnly);
+    }
+
+	public void setDraggingEnabled(boolean dragging) {
+		getState(!rendered).dragging = dragging;
+		if(rendered){
+			getRpcProxy(LeafletMapClientRpc.class).setDragging(dragging);
+		}
+	};
+	
+	public boolean isDraggingEnabled() {
+		Boolean dragging = getState(false).dragging;
+		return dragging != null ? dragging : true;
+	}
 }

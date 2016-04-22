@@ -48,4 +48,6 @@ public class LeafletMapState extends AbstractComponentState {
 	public double newCrsB;
 	public double newCrsC;
 	public double newCrsD;
+	
+	public Boolean dragging;
 }
