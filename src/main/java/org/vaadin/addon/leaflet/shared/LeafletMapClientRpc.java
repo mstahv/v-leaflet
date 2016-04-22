@@ -9,5 +9,10 @@ public interface LeafletMapClientRpc extends ClientRpc {
     void flyTo(Double lat, Double lon, Double zoom);
 	void zoomToExtent(Bounds bounds);
     void setMaxBounds(Bounds bounds);
-
+    void setDragging(boolean dragging);
+    void setTouchZoom(boolean touchZoome);
+    void setDoubleClickZoom(boolean doubleClickZoom);
+    void setBoxZoom(boolean boxZoom);
+    void setScrollWheelZoom(boolean scrollWheelZoom);
+    void setKeyboard(boolean keyboard);
 }
