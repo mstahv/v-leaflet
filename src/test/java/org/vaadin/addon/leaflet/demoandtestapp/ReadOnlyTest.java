@@ -2,6 +2,7 @@ package org.vaadin.addon.leaflet.demoandtestapp;
 
 import org.vaadin.addon.leaflet.LMap;
 import org.vaadin.addon.leaflet.LOpenStreetMapLayer;
+import org.vaadin.addon.leaflet.control.LZoom;
 import org.vaadin.addonhelpers.AbstractTest;
 
 import com.vaadin.ui.Button;
@@ -29,8 +30,9 @@ public class ReadOnlyTest extends AbstractTest {
 		leafletMap.setZoomLevel(10);
 		LOpenStreetMapLayer layer = new LOpenStreetMapLayer();
 		leafletMap.addBaseLayer(layer, "OSM");
+		leafletMap.addControl(new LZoom());
 		leafletMap.setReadOnly(true);
-
+		
 		Button getStates = new Button("getStates", new Button.ClickListener() {
 			@Override
 			public void buttonClick(ClickEvent event) {

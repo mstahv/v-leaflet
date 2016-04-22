@@ -10,6 +10,7 @@ import org.vaadin.addon.leaflet.shared.LeafletMapClientRpc;
 import org.vaadin.addon.leaflet.shared.LeafletMapServerRpc;
 import org.vaadin.addon.leaflet.shared.LeafletMapState;
 import org.vaadin.addon.leaflet.control.AbstractControl;
+import org.vaadin.addon.leaflet.control.AbstractDefaultControl;
 import org.vaadin.addon.leaflet.control.LLayers;
 import org.vaadin.addon.leaflet.control.LScale;
 import org.vaadin.addon.leaflet.control.LZoom;
@@ -31,6 +32,19 @@ import org.vaadin.addon.leaflet.jsonmodels.BasicMap;
  */
 public class LMap extends AbstractComponentContainer {
 
+	class State {
+		boolean dragging;
+		public boolean touchZoom;
+		public boolean doubleClickZoom;
+		public boolean boxZoom;
+		public boolean scrollWheelZoom;
+		public boolean keyboard;
+		public LLayers lLayers;
+		public boolean lZoom;
+	}
+	
+	private State readWriteState = new State();
+	
     private boolean rendered = false;
 
     private List<Component> components = new ArrayList<Component>();
@@ -105,6 +119,17 @@ public class LMap extends AbstractComponentContainer {
         }
     }
 
+    public LZoom getZoomControl() {
+    	for (Extension e : getExtensions()) {
+    		if (e instanceof LZoom) {
+    			return (LZoom) e;
+    		}
+    	}
+    	LZoom lZoom = new LZoom();
+    	addExtension(lZoom);
+    	return lZoom;
+    }
+    
     public LLayers getLayersControl() {
         for (Extension e : getExtensions()) {
             if (e instanceof LLayers) {
@@ -447,13 +472,42 @@ public class LMap extends AbstractComponentContainer {
     
     @Override
     public void setReadOnly(boolean readOnly) {
+    	boolean switchToReadOnly = readOnly && !isReadOnly();
+    	boolean switchToReadWrite = !readOnly && isReadOnly();
+		if(switchToReadOnly)
+    	{
+    		readWriteState.dragging = isDraggingEnabled();
+    		readWriteState.touchZoom = isTouchZoomEnabled();
+    		readWriteState.doubleClickZoom = isDoubleZoomEnabled();
+    		readWriteState.boxZoom = isBoxZoomEnabled();
+    		readWriteState.scrollWheelZoom = isScrollWheelZoomEnabled();
+    		readWriteState.keyboard = isKeyboardZoomEnabled();
+    		readWriteState.lLayers = getLayersControl();
+    		readWriteState.lZoom = getZoomControl().isEnabled();
+    		
+    		setDraggingEnabled(!readOnly);
+        	setTouchZoomEnabled(!readOnly);
+        	setDoubleClickZoomEnabled(!readOnly);
+        	setBoxZoomEnabled(!readOnly);
+        	setScrollWheelZoomEnabled(!readOnly);
+        	setKeyboardEnabled(!readOnly);
+        	
+        	getLayersControl().remove();        	
+        	getZoomControl().setEnabled(!readOnly);
+    	}
+		
+		if(switchToReadWrite) {
+			setDraggingEnabled(readWriteState.dragging);
+        	setTouchZoomEnabled(readWriteState.touchZoom);
+        	setDoubleClickZoomEnabled(readWriteState.doubleClickZoom);
+        	setBoxZoomEnabled(readWriteState.boxZoom);
+        	setScrollWheelZoomEnabled(readWriteState.scrollWheelZoom);
+        	setKeyboardEnabled(readWriteState.keyboard);
+        	addControl(new LLayers(readWriteState.lLayers));
+        	getZoomControl().setEnabled(readWriteState.lZoom);
+		}
+    	
     	super.setReadOnly(readOnly);
-    	setDraggingEnabled(!readOnly);
-    	setTouchZoomEnabled(!readOnly);
-    	setDoubleClickZoomEnabled(!readOnly);
-    	setBoxZoomEnabled(!readOnly);
-    	setScrollWheelZoomEnabled(!readOnly);
-    	setKeyboardEnabled(!readOnly);
     }
 
     /**
