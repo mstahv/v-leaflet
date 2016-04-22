@@ -449,8 +449,16 @@ public class LMap extends AbstractComponentContainer {
     public void setReadOnly(boolean readOnly) {
     	super.setReadOnly(readOnly);
     	setDraggingEnabled(!readOnly);
+    	setTouchZoomEnabled(!readOnly);
+    	setDoubleClickZoomEnabled(!readOnly);
+    	setBoxZoomEnabled(!readOnly);
+    	setScrollWheelZoomEnabled(!readOnly);
+    	setKeyboardEnabled(!readOnly);
     }
 
+    /**
+     * @see <a href="http://leafletjs.com/reference-1.0.0.html#map-dragging">Leaflet.js doc</a>
+     */
 	public void setDraggingEnabled(boolean dragging) {
 		getState(!rendered).dragging = dragging;
 		if(rendered){
@@ -458,8 +466,101 @@ public class LMap extends AbstractComponentContainer {
 		}
 	};
 	
+	/**
+     * @see <a href="http://leafletjs.com/reference-1.0.0.html#map-dragging">Leaflet.js doc</a>
+     */
 	public boolean isDraggingEnabled() {
 		Boolean dragging = getState(false).dragging;
 		return dragging != null ? dragging : true;
+	}
+	
+	/**
+     * @see <a href="http://leafletjs.com/reference-1.0.0.html#map-touchzoom">Leaflet.js doc</a>
+     */
+	public void setTouchZoomEnabled(boolean touchZoom) {
+		getState(!rendered).touchZoom = touchZoom;
+		if(rendered){
+			getRpcProxy(LeafletMapClientRpc.class).setTouchZoom(touchZoom);
+		}
+	};
+	
+	/**
+     * @see <a href="http://leafletjs.com/reference-1.0.0.html#map-touchzoom">Leaflet.js doc</a>
+     */
+	public boolean isTouchZoomEnabled() {
+		Boolean touchZoom = getState(false).touchZoom;
+		return touchZoom != null ? touchZoom : true;
+	}
+	
+	/**
+     * @see <a href="http://leafletjs.com/reference-1.0.0.html#map-doubleclickzoom">Leaflet.js doc</a>
+     */
+	public void setDoubleClickZoomEnabled(boolean doubleClickZoom) {
+		getState(!rendered).doubleClickZoom = doubleClickZoom;
+		if(rendered){
+			getRpcProxy(LeafletMapClientRpc.class).setDoubleClickZoom(doubleClickZoom);
+		}
+	};
+	
+	/**
+     * @see <a href="http://leafletjs.com/reference-1.0.0.html#map-doubleclickzoom">Leaflet.js doc</a>
+     */
+	public boolean isDoubleZoomEnabled() {
+		Boolean doubleClickZoom = getState(false).doubleClickZoom;
+		return doubleClickZoom != null ? doubleClickZoom : true;
+	}
+	
+	/**
+     * @see <a href="http://leafletjs.com/reference-1.0.0.html#map-boxzoom">Leaflet.js doc</a>
+     */
+	public void setBoxZoomEnabled(boolean boxZoom) {
+		getState(!rendered).boxZoom = boxZoom;
+		if(rendered){
+			getRpcProxy(LeafletMapClientRpc.class).setBoxZoom(boxZoom);
+		}
+	};
+	
+	/**
+     * @see <a href="http://leafletjs.com/reference-1.0.0.html#map-boxzoom">Leaflet.js doc</a>
+     */
+	public boolean isBoxZoomEnabled() {
+		Boolean boxZoom = getState(false).boxZoom;
+		return boxZoom != null ? boxZoom : true;
+	}
+	
+	/**
+     * @see <a href="http://leafletjs.com/reference-1.0.0.html#map-scrollwheelzoom">Leaflet.js doc</a>
+     */
+	public void setScrollWheelZoomEnabled(boolean scrollWheelZoom) {
+		getState(!rendered).scrollWheelZoom = scrollWheelZoom;
+		if(rendered){
+			getRpcProxy(LeafletMapClientRpc.class).setScrollWheelZoom(scrollWheelZoom);
+		}
+	};
+	
+	/**
+     * @see <a href="http://leafletjs.com/reference-1.0.0.html#map-scrollwheelzoom">Leaflet.js doc</a>
+     */
+	public boolean isScrollWheelZoomEnabled() {
+		Boolean scrollWheelZoom = getState(false).scrollWheelZoom;
+		return scrollWheelZoom != null ? scrollWheelZoom : true;
+	}
+	
+	/**
+     * @see <a href="http://leafletjs.com/reference-1.0.0.html#map-keyboard">Leaflet.js doc</a>
+     */
+	public void setKeyboardEnabled(boolean keyboard) {
+		getState(!rendered).keyboard = keyboard;
+		if(rendered){
+			getRpcProxy(LeafletMapClientRpc.class).setKeyboard(keyboard);
+		}
+	};
+	
+	/**
+     * @see <a href="http://leafletjs.com/reference-1.0.0.html#map-keyboard">Leaflet.js doc</a>
+     */
+	public boolean isKeyboardZoomEnabled() {
+		Boolean keyboard = getState(false).keyboard;
+		return keyboard != null ? keyboard : true;
 	}
 }

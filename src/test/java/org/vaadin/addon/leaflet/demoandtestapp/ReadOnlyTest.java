@@ -34,7 +34,8 @@ public class ReadOnlyTest extends AbstractTest {
 		Button getStates = new Button("getStates", new Button.ClickListener() {
 			@Override
 			public void buttonClick(ClickEvent event) {
-				StringBuilder sb = new StringBuilder("isDraggingEnabled() = ").append(leafletMap.isDraggingEnabled());
+				StringBuilder sb = new StringBuilder("\nisDraggingEnabled() = ").append(leafletMap.isDraggingEnabled())
+						.append("\nisBooxZoomEnabled() = ").append(leafletMap.isBoxZoomEnabled());
 				Notification.show("States", sb.toString(), Type.HUMANIZED_MESSAGE);
 			}
 		});
