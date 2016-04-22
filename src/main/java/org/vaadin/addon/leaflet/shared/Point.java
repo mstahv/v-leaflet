@@ -3,6 +3,7 @@ package org.vaadin.addon.leaflet.shared;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class Point implements Serializable {
 	private Double lon;
@@ -37,5 +38,34 @@ public class Point implements Serializable {
 	public Double[] getLatLonPair() {
 		return new Double[]{lat,lon};
 	}
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        return hash*(lon == null ? 0 : lon.intValue());
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Point other = (Point) obj;
+        if (!Objects.equals(this.lon, other.lon)) {
+            return false;
+        }
+        if (!Objects.equals(this.lat, other.lat)) {
+            return false;
+        }
+        return true;
+    }
+    
+    
 
 }
