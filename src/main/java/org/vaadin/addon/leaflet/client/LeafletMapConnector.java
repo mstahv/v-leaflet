@@ -144,7 +144,7 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector
             }
             
             @Override
-            public void setDragging(Boolean dragging) {
+            public void setDragging(boolean dragging) {
             	map.setDragging(dragging);            	
             }
 
