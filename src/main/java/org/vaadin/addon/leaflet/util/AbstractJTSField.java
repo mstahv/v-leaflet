@@ -155,5 +155,13 @@ public abstract class AbstractJTSField<T extends Geometry> extends
 	public void setCRSTranslator(CRSTranslator crsTranslator) {
 		this.crsTranslator = crsTranslator;
 	}
+	
+	@Override
+	public void attach() {
+		super.attach();
+		if (getValue() == null) {
+			prepareDrawing();
+		}
+	}
 
 }
