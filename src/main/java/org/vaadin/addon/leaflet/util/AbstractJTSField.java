@@ -74,7 +74,8 @@ public abstract class AbstractJTSField<T extends Geometry> extends
 	 * Sets the default CRFTranslator to convert values to and from presentation
 	 * in WSG86 (EPSG:4326).
 	 * 
-	 * @param configurator
+     * @param translator the translator to be used to convert values to and from
+     * presentation
 	 */
 	@SuppressWarnings("unchecked")
 	public static void setDefaultCRFTranslator(
@@ -171,4 +172,13 @@ public abstract class AbstractJTSField<T extends Geometry> extends
 			}
 		}
 	}
+
+    @Override
+    public void attach() {
+		super.attach();
+		if (getValue() == null) {
+			prepareDrawing();
+		}
+	}
+
 }
