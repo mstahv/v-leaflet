@@ -3,6 +3,7 @@ package org.vaadin.addon.leaflet.demoandtestapp;
 import java.util.Date;
 
 import org.vaadin.addon.leaflet.util.PointField;
+import org.vaadin.addonhelpers.AbstractTest;
 
 import com.vaadin.data.fieldgroup.BeanFieldGroup;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
@@ -21,7 +22,6 @@ import com.vividsolutions.jts.geom.LineString;
 import com.vividsolutions.jts.geom.LinearRing;
 import com.vividsolutions.jts.geom.Point;
 import com.vividsolutions.jts.geom.Polygon;
-import org.vaadin.addonhelpers.AbstractTest;
 
 public class JtsPointFieldTest extends AbstractTest {
 
@@ -135,7 +135,8 @@ public class JtsPointFieldTest extends AbstractTest {
 		beanFieldGroup.setItemDataSource(pojo);
 		beanFieldGroup.bindMemberFields(this);
 
-		editorform.addComponent(new Button("Save", new ClickListener() {
+		HorizontalLayout buttonLayout = new HorizontalLayout();
+		buttonLayout.addComponent(new Button("Save", new ClickListener() {
 
 			@Override
 			public void buttonClick(ClickEvent event) {
@@ -148,6 +149,15 @@ public class JtsPointFieldTest extends AbstractTest {
 			}
 		}));
 
+		buttonLayout.addComponent(new Button("Toggle read only", new ClickListener() {
+			@Override
+			public void buttonClick(ClickEvent event) {
+				beanFieldGroup.setReadOnly(!beanFieldGroup.isReadOnly());
+			}
+		}));
+		
+		editorform.addComponent(buttonLayout);
+		
 		horizontalLayout.addComponents(editorform, display);
 		horizontalLayout.setExpandRatio(editorform, 1);
 		horizontalLayout.setExpandRatio(display, 1);
