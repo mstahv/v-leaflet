@@ -8,11 +8,12 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
+import org.vaadin.addonhelpers.TListUi;
+import org.vaadin.addonhelpers.automated.AbstractWebDriverCase;
 
 import com.vaadin.data.Container;
-import org.vaadin.addonhelpers.TListUi;
 
-public class SimpleTest extends AbstractTestBenchTest {
+public class SimpleTest extends AbstractWebDriverCase {
 
     @Test
     public void checkAllTestsOpenWithoutErrors() throws IOException, AssertionError {
@@ -26,6 +27,7 @@ public class SimpleTest extends AbstractTestBenchTest {
 					.getItemProperty("clazz").getValue();
 			
 			driver.get(BASEURL + clazz.getName() + "?debug");
+			waitForLoading();
 			try {
 				WebElement error = driver.findElement(By.className("v-Notification-error"));
 				Assert.fail("Test " + clazz.getName() + " has client side exception");
