@@ -29,6 +29,7 @@ public class WithoutBeanBindingTest extends AbstractTest {
 
 		final PointField pointFieldInitialized = new PointField("PointField with value");
 		pointFieldInitialized.setSizeFull();
+		pointFieldInitialized.getMap().setZoomLevel(8);
 		pointFieldInitialized.setValue(getPoint());
 
 		Button getValueButton = new Button("Get values");
