@@ -103,8 +103,10 @@ public abstract class AbstractJTSField<T extends Geometry> extends
 	}
 
 	@Override
-	protected Component initContent() {
-		map.setZoomLevel(2);
+	protected Component initContent() {	   
+	   	if(map.getZoomLevel() == null ) {
+	   	   map.setZoomLevel(2);
+	   	}
 		initBaseLayers();
 		return map;
 	}
