@@ -32,6 +32,9 @@ public class PointField extends AbstractJTSField<Point> {
             marker = new LMarker(JTSUtil.toLeafletPoint(getCrsTranslator()
                     .toPresentation(getInternalValue())));	
             map.addLayer(marker);
+        } else {
+            marker.setPoint(JTSUtil.toLeafletPoint(getCrsTranslator()
+                    .toPresentation(getInternalValue())));
         }
         
         marker.addDragEndListener(editDragEndListener);        
@@ -42,6 +45,10 @@ public class PointField extends AbstractJTSField<Point> {
 
     @Override
     protected void prepareDrawing() {
+        if(marker != null) {
+            map.removeComponent(marker);
+            marker = null;
+        }
         map.addClickListener(drawListener);
     }
 
