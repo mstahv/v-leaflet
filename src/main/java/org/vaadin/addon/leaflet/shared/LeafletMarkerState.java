@@ -11,5 +11,6 @@ public class LeafletMarkerState extends AbstractLeafletComponentState {
 	public String popup;
 	public PopupState popupState;
 	public Boolean draggable;
+    public Integer zIndexOffset;
 	
 }

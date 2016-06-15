@@ -151,6 +151,12 @@ public class LeafletMarkerConnector extends
         if (hasEventListener("dragend")) {
             options.setDraggable(true);
         }
+        
+        Integer zIndexOffset = getState().zIndexOffset;
+        if (zIndexOffset != null)
+        {
+            options.setZIndexOffset(zIndexOffset);
+        }
 
         marker = Marker.create(latlng, options);
         if (hasEventListener("dragend")) {

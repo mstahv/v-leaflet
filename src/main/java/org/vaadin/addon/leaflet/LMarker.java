@@ -116,5 +116,9 @@ public class LMarker extends AbstractLeafletLayer {
 		return JTSUtil.toPoint(this);
 	}
 
+    public void setZIndexOffset(Integer zIndexOffset) {
+        getState().zIndexOffset = zIndexOffset;
+    }
+
 
 }
