@@ -93,7 +93,7 @@ Unit tests can be written with tool of choice (maven supports most of them). JUn
 
 ### Manually running test server and test apps during development
 
-The TServer class has a main method that you can launch. It opens an embedded jetty to port 9998. The main view lists all tests and clicking one opens it in a new window. The easiest method is usually running that from you IDE (e.g. open the class and then hit CTRL/CMD-F11 in Eclipse). 
+The UiRunner class has a main method that you can launch. It opens an embedded jetty to port 9998. The main view lists all tests and clicking one opens it in a new window. The easiest method is usually running that from you IDE (e.g. open the class and then hit CTRL/CMD-F11 in Eclipse). 
 
 From command line one can launch it with easily with correct classpath with maven exec plugin:
 ```
