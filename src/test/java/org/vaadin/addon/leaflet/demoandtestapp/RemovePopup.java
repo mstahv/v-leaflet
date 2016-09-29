@@ -29,7 +29,7 @@ public class RemovePopup extends AbstractTest {
         popup.setContent("Hello!");
         leafletMap.addComponent(popup);
         
-        Button remove = new Button("Remove marker");
+        Button remove = new Button("Remove popup");
         remove.addClickListener(new Button.ClickListener() {
             
             @Override
