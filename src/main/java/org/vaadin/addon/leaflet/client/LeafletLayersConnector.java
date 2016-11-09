@@ -9,9 +9,14 @@ import org.vaadin.addon.leaflet.shared.LayerControlInfo;
 import com.vaadin.client.ServerConnector;
 import com.vaadin.client.communication.StateChangeEvent;
 import com.vaadin.shared.ui.Connect;
+import java.util.HashMap;
+import java.util.HashSet;
+import org.peimari.gleaflet.client.Layer;
 
 @Connect(LLayers.class)
 public class LeafletLayersConnector extends AbstractControlConnector<Layers> {
+    
+    HashMap<LayerControlInfo, Layer> infoToLayer = new HashMap<>();
 
 	@Override
 	protected Layers createControl() {
@@ -32,6 +37,14 @@ public class LeafletLayersConnector extends AbstractControlConnector<Layers> {
     }
 
 	protected void doStateChange(StateChangeEvent stateChangeEvent) {
+        if(!infoToLayer.isEmpty()) {
+            // redrawing list, remove all and then add all
+            // TODO optimize if somebody uses hundreds of layers
+            for (LayerControlInfo layerControlInfo : infoToLayer.keySet()) {
+                getControl().removeLayer(infoToLayer.get(layerControlInfo));
+            }
+            infoToLayer.clear();
+        }
 		for (ServerConnector connector : getParent().getChildren()) {
 			if (!(connector instanceof AbstractLeafletLayerConnector<?>)) {
 				continue;
@@ -48,6 +61,7 @@ public class LeafletLayersConnector extends AbstractControlConnector<Layers> {
 					getControl().addOverlay(layerConnector.getLayer(),
 							layerControlInfo.name);
 				}
+                infoToLayer.put(layerControlInfo, layerConnector.getLayer());
 			}
 		}
 	}
