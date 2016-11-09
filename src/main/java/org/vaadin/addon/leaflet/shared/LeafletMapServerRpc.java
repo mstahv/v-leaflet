@@ -32,4 +32,6 @@ public interface LeafletMapServerRpc extends ServerRpc {
 	void onMoveEnd(Bounds bounds, Point center, double zoomlevel);
     
     void onContextMenu(Point location, MouseEventDetails details);
+
+	void onBaseLayerChange(String name);
 }
