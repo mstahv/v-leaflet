@@ -15,6 +15,8 @@
  */
 package org.vaadin.addon.leaflet.client;
 
+import org.peimari.gleaflet.client.BaseLayerChangeListener;
+import org.peimari.gleaflet.client.LayersControlEvent;
 import org.vaadin.addon.leaflet.shared.LeafletMapClientRpc;
 import org.vaadin.addon.leaflet.shared.LeafletMapServerRpc;
 import org.vaadin.addon.leaflet.shared.LeafletMapState;
@@ -142,32 +144,32 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector
                 }
                 map.flyTo(center, zoom);
             }
-            
+
             @Override
             public void setDragging(boolean dragging) {
-            	map.setDragging(dragging);            	
+            	map.setDragging(dragging);
             }
-            
+
             @Override
             public void setBoxZoom(boolean boxZoom) {
             	map.setBoxZoom(boxZoom);
             }
-            
+
             @Override
             public void setDoubleClickZoom(boolean doubleClickZoom) {
             	map.setDoubleClickZoom(doubleClickZoom);
             }
-            
+
             @Override
             public void setKeyboard(boolean keyboard) {
             	map.setKeyboard(keyboard);
             }
-            
+
             @Override
             public void setScrollWheelZoom(boolean scrollWheelZoom) {
             	map.setScrollWheelZoom(scrollWheelZoom);
             }
-            
+
             @Override
             public void setTouchZoom(boolean touchZoom) {
             	map.setTouchZoom(touchZoom);
@@ -300,6 +302,15 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector
                         rpc.onContextMenu(new Point(event.getLatLng().getLatitude(),
                                 event.getLatLng().getLongitude()), details
                         );
+                    }
+                }
+            });
+
+            map.addBaseLayerChangeListener(new BaseLayerChangeListener() {
+                @Override
+                public void onBaseLayerChange(LayersControlEvent event) {
+                    if (hasEventListener("baselayerchange")) {
+                        rpc.onBaseLayerChange(event.getName());
                     }
                 }
             });

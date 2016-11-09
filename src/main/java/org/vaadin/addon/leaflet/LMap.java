@@ -73,6 +73,11 @@ public class LMap extends AbstractComponentContainer {
             public void onContextMenu(Point p, MouseEventDetails d) {
                 fireEvent(new LeafletContextMenuEvent(LMap.this, p, d));
             }
+
+            @Override
+            public void onBaseLayerChange(String name) {
+                fireEvent(new LeafletBaseLayerChangeEvent(LMap.this, name));
+            }
         });
 
     }
@@ -282,6 +287,15 @@ public class LMap extends AbstractComponentContainer {
 
     public void removeContextMenuListener(LeafletContextMenuListener listener) {
         removeListener("contextmenu", LeafletContextMenuEvent.class, listener);
+    }
+
+    public void addBaseLayerChangeListener(LeafletBaseLayerChangeListener listener) {
+        addListener("baselayerchange", LeafletBaseLayerChangeEvent.class, listener,
+                LeafletBaseLayerChangeListener.METHOD);
+    }
+
+    public void removeBaseLayerChangeListener(LeafletBaseLayerChangeListener listener) {
+        removeListener("baselayerchange", LeafletBaseLayerChangeEvent.class, listener);
     }
 
     public void setCenter(Bounds bounds) {
