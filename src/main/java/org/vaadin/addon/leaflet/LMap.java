@@ -309,7 +309,8 @@ public class LMap extends AbstractComponentContainer {
     public void zoomToExtent(Bounds bounds) {
         this.bounds = bounds;
 
-        if (bounds.getNorthEastLat() == bounds.getSouthWestLat() && bounds.getNorthEastLon() == bounds.getNorthEastLon()) {
+        if (bounds.getNorthEastLat() == bounds.getSouthWestLat() && bounds.getNorthEastLon() == bounds.getSouthWestLon()) {
+            // if only single point, don't touch zoom level
             setCenter(bounds.getNorthEastLat(), bounds.getNorthEastLon());
         } else {
             getState(!rendered).center = bounds.getCenter();
