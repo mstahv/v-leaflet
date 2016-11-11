@@ -120,17 +120,13 @@ public abstract class AbstractLeafletLayerConnector<T> extends
     }
 
     public LeafletMapConnector getLeafletMapConnector() {
-
         ServerConnector parent = getParent();
-
         while (parent != null) {
             if (parent instanceof LeafletMapConnector) {
                 return (LeafletMapConnector) parent;
             }
-
             parent = parent.getParent();
         }
-
         return null;
     }
 

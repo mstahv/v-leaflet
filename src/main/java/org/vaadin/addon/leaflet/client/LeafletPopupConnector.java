@@ -1,17 +1,23 @@
 package org.vaadin.addon.leaflet.client;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import org.peimari.gleaflet.client.*;
 import org.vaadin.addon.leaflet.shared.LeafletPopupState;
 import org.vaadin.addon.leaflet.shared.PopupServerRpc;
 import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.EventListener;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Label;
+import com.vaadin.client.MouseEventDetailsBuilder;
 import com.vaadin.client.ServerConnector;
 import com.vaadin.client.VConsole;
 import com.vaadin.client.communication.StateChangeEvent;
 import com.vaadin.client.ui.AbstractComponentConnector;
-import com.vaadin.shared.Connector;
 import com.vaadin.shared.ui.Connect;
+import org.vaadin.addon.leaflet.shared.ClickServerRpc;
 import org.vaadin.addon.leaflet.shared.PopupState;
 
 @Connect(org.vaadin.addon.leaflet.LPopup.class)
@@ -23,10 +29,12 @@ public class LeafletPopupConnector extends
     private Popup popup;
 
     PopupServerRpc serverRpc = getRpcProxy(PopupServerRpc.class);
+    
+    ClickServerRpc clickRpc = getRpcProxy(ClickServerRpc.class);
 
 	private Map map;
     private JavaScriptObject closeListener;
-
+    
     public LeafletPopupConnector() {
     }
 
@@ -68,6 +76,15 @@ public class LeafletPopupConnector extends
                     });
                 }
                 popup.addTo(getMap());
+                
+                Element content = popup.getContentNode();
+                DOM.sinkEvents(content, com.google.gwt.user.client.Event.ONCLICK);
+                DOM.setEventListener(content, new EventListener() {
+                    @Override
+                    public void onBrowserEvent(com.google.gwt.user.client.Event event) {
+                        clickRpc.onClick(getState().point, MouseEventDetailsBuilder.buildMouseEventDetails(event, getLeafletMapConnector().getWidget().getElement()));
+                    }
+                });
 
             }
         });
@@ -142,6 +159,17 @@ public class LeafletPopupConnector extends
             }
         }
         super.onUnregister();
+    }
+
+    public LeafletMapConnector getLeafletMapConnector() {
+        ServerConnector parent = getParent();
+        while (parent != null) {
+            if (parent instanceof LeafletMapConnector) {
+                return (LeafletMapConnector) parent;
+            }
+            parent = parent.getParent();
+        }
+        return null;
     }
 
 }

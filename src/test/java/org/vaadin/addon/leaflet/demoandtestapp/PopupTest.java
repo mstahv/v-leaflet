@@ -17,6 +17,8 @@ import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
+import org.vaadin.addon.leaflet.LeafletClickEvent;
+import org.vaadin.addon.leaflet.LeafletClickListener;
 import org.vaadin.addonhelpers.AbstractTest;
 
 public class PopupTest extends AbstractTest implements DetachListener {
@@ -57,6 +59,14 @@ public class PopupTest extends AbstractTest implements DetachListener {
         lPopup.setStyleName("jorma");
         leafletMap.addComponent(lPopup);
         lPopup.addDetachListener(this);
+        
+        lPopup.addClickListener(new LeafletClickListener() {
+            @Override
+            public void onClick(LeafletClickEvent event) {
+                Notification.show("Jorma was clicked at a Popup anchored to " + event.getPoint() + " XY:" + event.getClientX() + " " + event.getClientY());
+            }
+        });
+        
         popups.add(lPopup);
         
 	    
