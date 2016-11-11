@@ -42,7 +42,7 @@ public class FontawesomeMarkerAndSVGInMarker extends AbstractTest {
         map.addComponent(lCircleMarker);
         
 
-        LMarker lMarker2 = new LMarker(61, 23);
+        LMarker lMarker2 = new LMarker(62, 23);
         String svgCode = "<svg width=\"100\" height=\"100\">\n" +
 "  <circle cx=\"50\" cy=\"50\" r=\"40\" stroke=\"green\" stroke-width=\"4\" fill=\"yellow\" />\n" +
 "</svg>";
@@ -58,7 +58,7 @@ public class FontawesomeMarkerAndSVGInMarker extends AbstractTest {
         });
         map.addComponent(lMarker2);
         
-        LCircleMarker lCircleMarker2 = new LCircleMarker(61,23, 2);
+        LCircleMarker lCircleMarker2 = new LCircleMarker(62,23, 2);
         map.addComponent(lCircleMarker2);
 
         map.zoomToContent();
