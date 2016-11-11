@@ -15,7 +15,7 @@ import org.vaadin.addon.leaflet.LeafletClickListener;
 import org.vaadin.addon.leaflet.shared.Point;
 import org.vaadin.addonhelpers.AbstractTest;
 
-public class FontawesomeMarker extends AbstractTest {
+public class FontawesomeMarkerAndSVGInMarker extends AbstractTest {
 
     @Override
     public String getDescription() {
