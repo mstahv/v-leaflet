@@ -65,7 +65,7 @@ public abstract class AbstractLeafletVectorConnector<T extends AbstractLeafletVe
 					getVector().bindPopup(
 							popup,
 							LeafletPopupConnector
-									.popupOptionsFor(getState().popupState));
+									.popupOptionsFor(getState().popupState, AbstractLeafletVectorConnector.this));
 				}
 			});
 

@@ -54,6 +54,7 @@ public class PopupTest extends AbstractTest implements DetachListener {
         lPolyline.openPopup();
         
         LPopup lPopup = new LPopup(60.4525, 22.301).setContent("Hi, can't close me!");
+        lPopup.setStyleName("jorma");
         leafletMap.addComponent(lPopup);
         lPopup.addDetachListener(this);
         popups.add(lPopup);
@@ -118,6 +119,5 @@ public class PopupTest extends AbstractTest implements DetachListener {
 	public void detach(DetachEvent event) {
 		LPopup popup = (LPopup) event.getConnector();
 		Notification.show("Detached " +popup.getContent());
-		
 	}
 }

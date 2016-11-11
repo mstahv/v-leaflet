@@ -205,7 +205,7 @@ public class LeafletMarkerConnector extends
         }
         String popup = getState().popup;
         if (popup != null) {
-            PopupOptions popupOptions = LeafletPopupConnector.popupOptionsFor(getState().popupState);
+            PopupOptions popupOptions = LeafletPopupConnector.popupOptionsFor(getState().popupState, this);
             marker.bindPopup(popup, popupOptions);
         }
         addToParent(marker);

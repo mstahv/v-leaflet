@@ -10,6 +10,7 @@ import com.vaadin.client.ServerConnector;
 import com.vaadin.client.VConsole;
 import com.vaadin.client.communication.StateChangeEvent;
 import com.vaadin.client.ui.AbstractComponentConnector;
+import com.vaadin.shared.Connector;
 import com.vaadin.shared.ui.Connect;
 import org.vaadin.addon.leaflet.shared.PopupState;
 
@@ -52,7 +53,7 @@ public class LeafletPopupConnector extends
                 LatLng latlng = LatLng.create(getState().point.getLat(),
                         getState().point.getLon());
 
-                PopupOptions options = popupOptionsFor(getState().popupState);
+                PopupOptions options = popupOptionsFor(getState().popupState, LeafletPopupConnector.this);
                 popup = Popup.create().create(options).setLatLng(latlng);
                 popup.setContent(getState().htmlContent);
                 if (getState().popupState.closeButton || getState().popupState.closeOnClick) {
@@ -73,7 +74,7 @@ public class LeafletPopupConnector extends
 
     }
 
-    public static PopupOptions popupOptionsFor(PopupState popupState) {
+    public static PopupOptions popupOptionsFor(PopupState popupState, AbstractComponentConnector c) {
         if (popupState == null) {
             return null;
         }
@@ -89,6 +90,12 @@ public class LeafletPopupConnector extends
         popupOptions.setCloseOnClick(popupState.closeOnClick);
         popupOptions.setAutoClose(popupState.autoClose);
         popupOptions.setKeepInView(popupState.keepInView);
+        String stylename = c.getState().primaryStyleName;
+        if(c.getState().styles != null && !c.getState().styles.isEmpty()) {
+            for(String s : c.getState().styles)
+            stylename += " " + s; 
+        }
+        popupOptions.setClassName(stylename);
         if (popupState.offset != null) {
             popupOptions.setOffset(Point.create(popupState.offset.getLat(),
                     popupState.offset.getLon()));
