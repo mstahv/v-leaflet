@@ -12,5 +12,6 @@ public interface EventId {
 	public static final String MOUSEOVER = "onMouseOver";
 	public static final String MOUSEOUT = "onMouseOut";
 	public static final String CONTEXTMENU = "onContextMenu";
+	public static final String LOCATE = "onLocate";
 
 }

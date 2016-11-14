@@ -22,7 +22,7 @@ import com.vaadin.shared.communication.ServerRpc;
 
 /**
  *
- * @author mattitahvonenitmill
+ * @author mstahv
  */
 public interface LeafletMapServerRpc extends ServerRpc {
     
@@ -34,4 +34,10 @@ public interface LeafletMapServerRpc extends ServerRpc {
     void onContextMenu(Point location, MouseEventDetails details);
 
 	void onBaseLayerChange(String name);
+
+    @Delayed(lastOnly = true)
+	void onLocate(Point location, Double accuracy, Double altitude);
+
+	void onLocateError(String error, int code);
+
 }

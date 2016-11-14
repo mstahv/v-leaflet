@@ -15,24 +15,14 @@
  */
 package org.vaadin.addon.leaflet.client;
 
-import org.peimari.gleaflet.client.BaseLayerChangeListener;
-import org.peimari.gleaflet.client.LayersControlEvent;
+import com.vaadin.shared.Connector;
+import org.peimari.gleaflet.client.*;
 import org.vaadin.addon.leaflet.shared.LeafletMapClientRpc;
 import org.vaadin.addon.leaflet.shared.LeafletMapServerRpc;
 import org.vaadin.addon.leaflet.shared.LeafletMapState;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.peimari.gleaflet.client.ClickListener;
-import org.peimari.gleaflet.client.Event;
-import org.peimari.gleaflet.client.Layer;
-import org.peimari.gleaflet.client.LatLng;
-import org.peimari.gleaflet.client.LatLngBounds;
-import org.peimari.gleaflet.client.Map;
-import org.peimari.gleaflet.client.MapOptions;
-import org.peimari.gleaflet.client.MouseEvent;
-import org.peimari.gleaflet.client.MoveEndListener;
-import org.peimari.gleaflet.client.ContextMenuListener;
 import org.peimari.gleaflet.client.control.Layers;
 import org.peimari.gleaflet.client.resources.LeafletResourceInjector;
 import org.vaadin.addon.leaflet.LMap;
@@ -56,7 +46,7 @@ import com.vaadin.client.ui.layout.ElementResizeEvent;
 import com.vaadin.client.ui.layout.ElementResizeListener;
 import com.vaadin.shared.MouseEventDetails;
 import com.vaadin.shared.ui.Connect;
-import org.peimari.gleaflet.client.Crs;
+import java.util.Date;
 
 /**
  *
@@ -90,6 +80,9 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector
         MapWidget mapWidget = new MapWidget();
         return mapWidget;
     }
+
+    LocationFoundListener locationFoundListener;
+    LocationErrorListener locationErrorListener;
 
     @Override
     protected void init() {
@@ -147,38 +140,114 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector
 
             @Override
             public void setDragging(boolean dragging) {
-            	map.setDragging(dragging);
+                map.setDragging(dragging);
             }
 
             @Override
             public void setBoxZoom(boolean boxZoom) {
-            	map.setBoxZoom(boxZoom);
+                map.setBoxZoom(boxZoom);
             }
 
             @Override
             public void setDoubleClickZoom(boolean doubleClickZoom) {
-            	map.setDoubleClickZoom(doubleClickZoom);
+                map.setDoubleClickZoom(doubleClickZoom);
             }
 
             @Override
             public void setKeyboard(boolean keyboard) {
-            	map.setKeyboard(keyboard);
+                map.setKeyboard(keyboard);
+            }
+
+            @Override
+            public void locate(boolean watch, boolean highaccuracy, boolean updateView) {
+                LocateOptions o = LocateOptions.create();
+                o.setWatch(watch);
+                o.setEnableHighAccuracy(highaccuracy);
+                o.setView(updateView);
+                if (locationFoundListener == null) {
+                    locationFoundListener = new LocationFoundListener() {
+                        private Date locationLastReportedTime;
+                        private Timer lazyTimer;
+
+                        @Override
+                        public void onFound(LocationEvent event) {
+                            if (hasEventListener("locate")) {
+                                rpc.onLocate(U.toPoint(event.getLatLng()), event.getAccuracy(), event.getAltitude());
+                                if(lazyTimer == null) {
+                                    getConnection().getServerRpcQueue().flush();
+                                    lazyTimer = new Timer(){
+                                        @Override
+                                        public void run() {
+                                            lazyTimer = null;
+                                        }
+                                    };
+                                    lazyTimer.schedule(getState().minLocateInterval);
+                                }
+                            }
+                            
+                            if (getState().updateLayersOnLocate != null) {
+                                for (Connector c : getState().updateLayersOnLocate) {
+                                    tryUpdateConnector(c, event);
+                                }
+                            }
+                        }
+                    };
+                    locationErrorListener = new LocationErrorListener() {
+                        @Override
+                        public void onError(ErrorEvent event) {
+                            rpc.onLocateError(event.geMessage(), event.getCode());
+                        }
+                    };
+                    getMap().addLocationFoundListener(locationFoundListener);
+                    getMap().addLocationErrorListener(locationErrorListener);
+                }
+                getMap().locate(o);
+            }
+
+            @Override
+            public void stopLocate() {
+                getMap().stopLocate();
             }
 
             @Override
             public void setScrollWheelZoom(boolean scrollWheelZoom) {
-            	map.setScrollWheelZoom(scrollWheelZoom);
+                map.setScrollWheelZoom(scrollWheelZoom);
             }
 
             @Override
             public void setTouchZoom(boolean touchZoom) {
-            	map.setTouchZoom(touchZoom);
+                map.setTouchZoom(touchZoom);
             }
 
         });
 
         getLayoutManager().addElementResizeListener(getWidget().getElement(),
                 this);
+
+    }
+
+    private void tryUpdateConnector(Connector c, LocationEvent event) {
+        // TODO refactor g-leaflet to contain PoinLayer or similar
+        if (c instanceof LeafletMarkerConnector) {
+            LeafletMarkerConnector markerConnector = (LeafletMarkerConnector) c;
+            Marker lm = (Marker) markerConnector.getLayer();
+            lm.setLatLng(event.getLatLng());
+        } else if (c instanceof LeafletCircleConnector) {
+            LeafletCircleConnector circleConnector = (LeafletCircleConnector) c;
+            Circle circle = (Circle) circleConnector.getLayer();
+            circle.setLatLng(event.getLatLng());
+            // Circle is assumed to reprecent the accuracy
+            circle.setRadius(event.getAccuracy());
+        } else if (c instanceof LeafletCircleMarkerConnector) {
+            LeafletCircleMarkerConnector circleConnector = (LeafletCircleMarkerConnector) c;
+            CircleMarker circle = (CircleMarker) circleConnector.getLayer();
+            circle.setLatLng(event.getLatLng());
+        } else if (c instanceof LeafletPolylineConnector) {
+            LeafletPolylineConnector connector = (LeafletPolylineConnector) c;
+            Polyline pl = (Polyline) connector.getLayer();
+            pl.addLatLng(event.getLatLng());
+            // TODO consider adding a feature to trim old points
+        }
 
     }
 
@@ -225,29 +294,29 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector
             }
 
             if (getState().dragging != null) {
-            	options.setDragging(getState().dragging);
+                options.setDragging(getState().dragging);
             }
-            
+
             if (getState().touchZoom != null) {
-            	options.setTouchZoom(getState().touchZoom);
+                options.setTouchZoom(getState().touchZoom);
             }
 
             if (getState().doubleClickZoom != null) {
-            	options.setDoubleClickZoom(getState().doubleClickZoom);
+                options.setDoubleClickZoom(getState().doubleClickZoom);
             }
-            
+
             if (getState().boxZoom != null) {
-            	options.setBoxZoom(getState().boxZoom);
+                options.setBoxZoom(getState().boxZoom);
             }
-            
+
             if (getState().scrollWheelZoom != null) {
-            	options.setScrollWheelZoom(getState().scrollWheelZoom);
+                options.setScrollWheelZoom(getState().scrollWheelZoom);
             }
-            
+
             if (getState().keyboard != null) {
-            	options.setKeyboard(getState().keyboard);
+                options.setKeyboard(getState().keyboard);
             }
-            
+
             if (getState().minZoom != null) {
                 options.setMinZoom(getState().minZoom);
             }
@@ -275,7 +344,7 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector
                         b.getSouthWestLon());
                 map.fitBounds(LatLngBounds.create(southWest, northEast));
             }
-            
+
             map.addClickListener(new ClickListener() {
                 public void onClick(MouseEvent event) {
                     if (hasEventListener("click")) {
@@ -336,7 +405,7 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector
                 // server
                 reportViewPortToServer();
             }
-            
+
             // Force one size invalidation on initial render. Needed e.g. for
             // MapInGridDetailsRow, no idea why
             Scheduler.get().scheduleDeferred(new ScheduledCommand() {
@@ -365,7 +434,7 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector
                         map.getCenter().getLongitude()), map.getZoom());
         if (getState().registeredEventListeners != null
                 && getState().registeredEventListeners
-                .contains("moveend")) {
+                        .contains("moveend")) {
             getConnection().sendPendingVariableChanges();
         }
     }

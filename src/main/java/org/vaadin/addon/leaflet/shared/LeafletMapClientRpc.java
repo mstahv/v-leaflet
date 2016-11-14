@@ -15,4 +15,7 @@ public interface LeafletMapClientRpc extends ClientRpc {
     void setBoxZoom(boolean boxZoom);
     void setScrollWheelZoom(boolean scrollWheelZoom);
     void setKeyboard(boolean keyboard);
+    void locate(boolean watch, boolean highaccuracy, boolean updateView);
+    void stopLocate();
+
 }

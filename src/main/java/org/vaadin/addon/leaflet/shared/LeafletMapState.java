@@ -17,6 +17,7 @@ package org.vaadin.addon.leaflet.shared;
 
 
 import com.vaadin.shared.AbstractComponentState;
+import com.vaadin.shared.Connector;
 
 /**
  * 
@@ -55,4 +56,7 @@ public class LeafletMapState extends AbstractComponentState {
 	public Boolean boxZoom;
 	public Boolean scrollWheelZoom;
 	public Boolean keyboard;
+	public Connector[] updateLayersOnLocate;
+    
+    public int minLocateInterval = 5000;
 }

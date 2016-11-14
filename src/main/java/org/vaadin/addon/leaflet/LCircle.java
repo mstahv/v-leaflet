@@ -11,6 +11,9 @@ import com.vividsolutions.jts.geom.Geometry;
  */
 public class LCircle extends AbstractLeafletVector {
 
+    public LCircle() {
+    }
+
     @Override
     protected LeafletCircleState getState() {
         return (LeafletCircleState) super.getState();
@@ -20,7 +23,7 @@ public class LCircle extends AbstractLeafletVector {
      *
      * @param lat
      * @param lon
-     * @param radius the radius in meters, not that this is approximate,
+     * @param radius the radius in meters, note that this is approximate,
      * especially small zoom levels.
      */
     public LCircle(double lat, double lon, double radius) {
@@ -31,7 +34,7 @@ public class LCircle extends AbstractLeafletVector {
     /**
      * 
      * @param point
-     * @param radius the radius in meters, not that this is approximate,
+     * @param radius the radius in meters, note that this is approximate,
      * especially small zoom levels.
      */
     public LCircle(Point point, double radius) {
@@ -42,7 +45,7 @@ public class LCircle extends AbstractLeafletVector {
     /**
      * 
      * @param jtsPoint
-     * @param radius the radius in meters, not that this is approximate,
+     * @param radius the radius in meters, note that this is approximate,
      * especially small zoom levels.
      */
     public LCircle(com.vividsolutions.jts.geom.Point jtsPoint, double radius) {
@@ -55,7 +58,7 @@ public class LCircle extends AbstractLeafletVector {
 
     /**
      * 
-     * @param radius the radius in meters, not that this is approximate,
+     * @param radius the radius in meters, note that this is approximate,
      * especially small zoom levels.
      */
     public void setRadius(double radius) {

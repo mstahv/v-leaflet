@@ -20,4 +20,7 @@ public class LCircleMarker extends LCircle {
 		super(jtsPoint, radiusInPixels);
 	}
 
+    public LCircleMarker() {
+        super();
+    }
 }
