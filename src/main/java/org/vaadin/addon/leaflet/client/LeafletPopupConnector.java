@@ -102,6 +102,9 @@ public class LeafletPopupConnector extends
         if (popupState.minWidth > 0) {
             popupOptions.setMinWidth(popupState.minWidth);
         }
+        if (popupState.maxHeight > 0) {
+            popupOptions.setMaxHeight(popupState.maxHeight);
+        }
         popupOptions.setAutoPan(popupState.autoPan);
         popupOptions.setCloseButton(popupState.closeButton);
         popupOptions.setCloseOnClick(popupState.closeOnClick);
