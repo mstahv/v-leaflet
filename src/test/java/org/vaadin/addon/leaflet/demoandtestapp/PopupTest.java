@@ -19,11 +19,13 @@ import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
 import org.vaadin.addon.leaflet.LeafletClickEvent;
 import org.vaadin.addon.leaflet.LeafletClickListener;
+import org.vaadin.addon.leaflet.shared.PopupState;
 import org.vaadin.addonhelpers.AbstractTest;
 
 public class PopupTest extends AbstractTest implements DetachListener {
 
 	private LMarker lMarker;
+	private LMarker lMarker2;
 
 	@Override
 	public String getDescription() {
@@ -48,8 +50,15 @@ public class PopupTest extends AbstractTest implements DetachListener {
         lMarker.setPopup("Popup tied to marker");
 		leafletMap.addComponent(lMarker);
         lMarker.openPopup();
-        
-        
+
+        lMarker2 = new LMarker(60.4533, 22.309);
+        lMarker2.setPopup("Popup tied to marker with...<br/> max height 20");
+        PopupState popupState1 = new PopupState();
+        popupState1.maxHeight = 20;
+        lMarker2.setPopupState(popupState1);
+        leafletMap.addComponent(lMarker2);
+        lMarker2.openPopup();
+
         LPolyline lPolyline = new LPolyline(new Point(60.4525, 22.301),new Point(60.4539, 22.309));
         lPolyline.setPopup("Popup tied to polyline");
         leafletMap.addComponent(lPolyline);
@@ -59,7 +68,13 @@ public class PopupTest extends AbstractTest implements DetachListener {
         lPopup.setStyleName("jorma");
         leafletMap.addComponent(lPopup);
         lPopup.addDetachListener(this);
-        
+
+        LPopup lPopup2 = new LPopup(60.4540, 22.291).setContent("Hi, my max height ..<br/> is 30");
+        PopupState popupState2 = new PopupState();
+        popupState2.maxHeight = 30;
+        lPopup2.setPopupState(popupState2);
+        leafletMap.addComponent(lPopup2);
+
         lPopup.addClickListener(new LeafletClickListener() {
             @Override
             public void onClick(LeafletClickEvent event) {
