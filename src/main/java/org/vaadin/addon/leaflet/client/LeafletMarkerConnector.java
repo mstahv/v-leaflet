@@ -24,6 +24,7 @@ import org.peimari.gleaflet.client.MouseOverListener;
 import org.peimari.gleaflet.client.ContextMenuListener;
 import org.peimari.gleaflet.client.Point;
 import org.peimari.gleaflet.client.PopupOptions;
+import org.peimari.gleaflet.client.TooltipOptions;
 import org.vaadin.addon.leaflet.shared.EventId;
 
 import com.vaadin.shared.communication.URLReference;
@@ -36,6 +37,21 @@ public class LeafletMarkerConnector extends
     private Marker marker;
 
     LeafletMarkerClientRpc clientRpc = new LeafletMarkerClientRpc() {
+
+        @Override
+        public void openTooltip() {
+            Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+                @Override
+                public void execute() {
+                    marker.openTooltip();
+                }
+            });
+        }
+
+        @Override
+        public void closeTooltip() {
+            marker.closeTooltip();
+        }
 
         @Override
         public void openPopup() {
@@ -202,6 +218,11 @@ public class LeafletMarkerConnector extends
                             MouseEventDetailsBuilder.buildMouseEventDetails(event.getNativeEvent(), getLeafletMapConnector().getWidget().getElement()));
                 }
             });
+        }
+        String tooltip = getState().tooltip;
+        if (tooltip != null) {
+            TooltipOptions tooltipOptions = LeafletTooltipConnector.tooltipOptionsFor(getState().tooltipState, this);
+            marker.bindTooltip(tooltip, tooltipOptions);
         }
         String popup = getState().popup;
         if (popup != null) {

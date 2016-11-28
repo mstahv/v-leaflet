@@ -5,6 +5,7 @@ import java.lang.reflect.Method;
 import org.vaadin.addon.leaflet.shared.DragEndServerRpc;
 import org.vaadin.addon.leaflet.shared.LeafletMarkerClientRpc;
 import org.vaadin.addon.leaflet.shared.LeafletMarkerState;
+import org.vaadin.addon.leaflet.shared.TooltipState;
 import org.vaadin.addon.leaflet.shared.PopupState;
 import org.vaadin.addon.leaflet.shared.Point;
 import org.vaadin.addon.leaflet.util.JTSUtil;
@@ -80,6 +81,22 @@ public class LMarker extends AbstractLeafletLayer {
 
     public void setTitle(String title) {
         getState().title = title;
+    }
+
+    public void setTooltip(String tooltip) {
+        getState().tooltip = tooltip;
+    }
+
+    public void setTooltipState(TooltipState tooltipState) {
+        getState().tooltipState = tooltipState;
+    }
+
+    public void openTooltip() {
+        getRpcProxy(LeafletMarkerClientRpc.class).openTooltip();
+    }
+
+    public void closeTooltip() {
+        getRpcProxy(LeafletMarkerClientRpc.class).closeTooltip();
     }
 
     public void setDivIcon(String divIcon) {

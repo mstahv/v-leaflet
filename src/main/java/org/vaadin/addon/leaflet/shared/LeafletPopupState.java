@@ -1,14 +1,12 @@
 package org.vaadin.addon.leaflet.shared;
 
 
-public class LeafletPopupState extends AbstractLeafletComponentState {
+public class LeafletPopupState extends AbstractLeafletDivOverlayState {
 
     {
         primaryStyleName = "l-popup";
     }
-    
-	public Point point;
-	public String htmlContent;
+
     public PopupState popupState = new PopupState();
 
 }

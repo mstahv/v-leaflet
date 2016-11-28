@@ -6,6 +6,8 @@ public class AbstractLeafletVectorState extends AbstractLeafletComponentState {
     public Boolean clickable;
     public String pointerEvents;
     public String className;
+    public String tooltip;
+    public TooltipState tooltipState;
     public String popup;
     public PopupState popupState;
 
