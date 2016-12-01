@@ -17,6 +17,21 @@ public abstract class AbstractLeafletVectorConnector<T extends AbstractLeafletVe
 		registerRpc(LeafletMarkerClientRpc.class, new LeafletMarkerClientRpc() {
 
 			@Override
+			public void openTooltip() {
+				Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+					@Override
+					public void execute() {
+						getVector().openTooltip();
+					}
+				});
+			}
+
+			@Override
+			public void closeTooltip() {
+				getVector().closeTooltip();
+			}
+
+			@Override
 			public void openPopup() {
 				Scheduler.get().scheduleDeferred(
 						new Scheduler.ScheduledCommand() {
@@ -54,6 +69,17 @@ public abstract class AbstractLeafletVectorConnector<T extends AbstractLeafletVe
 		}
 		if (s.className != null) {
 			o.setClassName(s.className);
+		}
+
+		final String tooltip = getState().tooltip;
+		if (tooltip != null) {
+			Scheduler.get().scheduleFinally(new ScheduledCommand() {
+				@Override
+				public void execute() {
+					getVector().bindTooltip(tooltip, LeafletTooltipConnector.tooltipOptionsFor(getState().tooltipState,
+							AbstractLeafletVectorConnector.this));
+				}
+			});
 		}
 
 		final String popup = getState().popup;

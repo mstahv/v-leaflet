@@ -4,6 +4,7 @@ import org.vaadin.addon.leaflet.shared.AbstractLeafletVectorState;
 import org.vaadin.addon.leaflet.shared.LeafletMarkerClientRpc;
 import org.vaadin.addon.leaflet.shared.PopupState;
 import org.vaadin.addon.leaflet.jsonmodels.VectorStyle;
+import org.vaadin.addon.leaflet.shared.TooltipState;
 
 public abstract class AbstractLeafletVector extends AbstractLeafletLayer {
     
@@ -86,6 +87,22 @@ public abstract class AbstractLeafletVector extends AbstractLeafletLayer {
 
     public void setClickable(Boolean clickable) {
         getState().clickable = clickable;
+    }
+
+    public void setTooltip(String tooltip) {
+        getState().tooltip = tooltip;
+    }
+
+    public void setTooltipState(TooltipState tooltipState) {
+        getState().tooltipState = tooltipState;
+    }
+
+    public void openTooltip() {
+        getRpcProxy(LeafletMarkerClientRpc.class).openTooltip();
+    }
+
+    public void closeTooltip() {
+        getRpcProxy(LeafletMarkerClientRpc.class).closePopup();
     }
 
     public void setPopup(String popup) {

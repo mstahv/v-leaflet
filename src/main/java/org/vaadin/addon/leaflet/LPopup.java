@@ -11,7 +11,7 @@ import com.vividsolutions.jts.geom.Geometry;
 /**
  * Standalone Popup to be displayed on the map.
  */
-public class LPopup extends AbstractLeafletLayer {
+public class LPopup extends AbstractLeafletDivOverlay {
 
     @Override
     protected LeafletPopupState getState() {
@@ -45,27 +45,9 @@ public class LPopup extends AbstractLeafletLayer {
     public LPopup(com.vividsolutions.jts.geom.Point jtsPoint) {
     	this(JTSUtil.toLeafletPoint(jtsPoint));
     }
-    
+
     public LPopup setContent(String htmlContent) {
-        getState().htmlContent = htmlContent;
-        return this;
-    }
-    
-    public String getContent() {
-        return getState(false).htmlContent;
-    }
-    
-    @Override
-    protected LeafletPopupState getState(boolean markAsDirty) {
-    	return (LeafletPopupState) super.getState(markAsDirty);
-    }
-
-    public void setPoint(Point p) {
-        getState().point = p;
-    }
-
-    public Point getPoint() {
-        return getState().point;
+        return (LPopup) super.setContent(htmlContent);
     }
 
     public void close() {

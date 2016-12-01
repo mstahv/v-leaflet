@@ -8,9 +8,11 @@ public class LeafletMarkerState extends AbstractLeafletComponentState {
 	public Point iconAnchor;
 	public String divIcon;
 	public String title;
+	public String tooltip;
+	public TooltipState tooltipState;
 	public String popup;
 	public PopupState popupState;
 	public Boolean draggable;
     public Integer zIndexOffset;
-	
+
 }

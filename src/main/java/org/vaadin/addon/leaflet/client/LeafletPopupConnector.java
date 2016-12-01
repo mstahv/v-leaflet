@@ -62,7 +62,7 @@ public class LeafletPopupConnector extends
                         getState().point.getLon());
 
                 PopupOptions options = popupOptionsFor(getState().popupState, LeafletPopupConnector.this);
-                popup = Popup.create().create(options).setLatLng(latlng);
+                popup = (Popup) Popup.create().create(options).setLatLng(latlng);
                 popup.setContent(getState().htmlContent);
                 if (getState().popupState.closeButton || getState().popupState.closeOnClick) {
                     // Non closeble are closed from server side, no need for
@@ -76,7 +76,7 @@ public class LeafletPopupConnector extends
                     });
                 }
                 popup.addTo(getMap());
-                
+
                 Element content = popup.getContentNode();
                 DOM.sinkEvents(content, com.google.gwt.user.client.Event.ONCLICK);
                 DOM.setEventListener(content, new EventListener() {
