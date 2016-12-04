@@ -36,6 +36,8 @@ public class FontawesomeMarkerAndSVGInMarker extends AbstractTest {
 
         LMarker lMarker = new LMarker(61, 22);
         lMarker.setIcon(FontAwesome.BEER);
+        lMarker.setPopup("FontAwesome marker popup with anchor");
+        lMarker.setPopupAnchor(new Point(0, -45));
         map.addComponent(lMarker);
         
         LCircleMarker lCircleMarker = new LCircleMarker(61,22, 2);
@@ -48,6 +50,8 @@ public class FontawesomeMarkerAndSVGInMarker extends AbstractTest {
 "</svg>";
         lMarker2.setIconSize(new Point(100, 100));
         lMarker2.setIconAnchor(new Point(50, 50));
+        lMarker2.setPopup("Custom svg popup with anchor");
+        lMarker2.setPopupAnchor(new Point(0, -40));
         lMarker2.addStyleName("v-leaflet-custom-svg");
         lMarker2.setDivIcon(svgCode);
         lMarker2.addClickListener(new LeafletClickListener() {

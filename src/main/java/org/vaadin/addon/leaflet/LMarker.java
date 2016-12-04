@@ -79,6 +79,10 @@ public class LMarker extends AbstractLeafletLayer {
         getState().iconAnchor = point;
     }
 
+    public void setPopupAnchor(Point point) {
+        getState().popupAnchor = point;
+    }
+
     public void setTitle(String title) {
         getState().title = title;
     }
