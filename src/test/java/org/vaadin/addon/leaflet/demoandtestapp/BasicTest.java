@@ -113,6 +113,7 @@ public class BasicTest extends AbstractTest {
 		leafletMarker.addClickListener(listener);
 		leafletMarker.setTitle("this is marker one!");
 		leafletMarker.setPopup("Hello <b>Vaadin World</b>!");
+		leafletMarker.setPopupAnchor(new Point(-28, -26));
 		
 		leafletMap.addComponent(leafletMarker);
 		leafletMap.setAttributionPrefix("Powered by Leaflet with v-leaflet");

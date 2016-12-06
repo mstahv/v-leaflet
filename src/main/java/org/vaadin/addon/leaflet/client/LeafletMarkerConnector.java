@@ -145,6 +145,11 @@ public class LeafletMarkerConnector extends
         } else if (urlReference != null) {
             IconOptions iconOptions = IconOptions.create();
             iconOptions.setIconUrl(urlReference.getURL());
+            if (getState().popupAnchor != null) {
+                iconOptions.setPopupAnchor(Point.create(
+                        getState().popupAnchor.getLat(),
+                        getState().popupAnchor.getLon()));
+            }
             if (getState().iconAnchor != null) {
                 iconOptions.setIconAnchor(Point.create(
                         getState().iconAnchor.getLat(),
@@ -235,6 +240,11 @@ public class LeafletMarkerConnector extends
     }
 
     private void configureIconSize(DivIconOptions divIconOptions) {
+        if (getState().popupAnchor != null) {
+            divIconOptions.setPopupAnchor(Point.create(
+                    getState().popupAnchor.getLat(),
+                    getState().popupAnchor.getLon()));
+        }
         if (getState().iconAnchor != null) {
             divIconOptions.setIconAnchor(Point.create(
                     getState().iconAnchor.getLat(),
