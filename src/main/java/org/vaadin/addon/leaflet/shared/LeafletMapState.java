@@ -18,12 +18,13 @@ package org.vaadin.addon.leaflet.shared;
 
 import com.vaadin.shared.AbstractComponentState;
 import com.vaadin.shared.Connector;
+import com.vaadin.shared.ui.AbstractComponentContainerState;
 
 /**
  * 
  * @author mattitahvonenitmill
  */
-public class LeafletMapState extends AbstractComponentState {
+public class LeafletMapState extends AbstractComponentContainerState{
 	
 	public Point center;
 	public Double zoomLevel;

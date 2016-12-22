@@ -29,7 +29,7 @@ public abstract class AbstractJTSField<T extends Geometry> extends
 		void configure(AbstractJTSField<?> field);
 
 	}
-
+	private T value;
 	private static Configurator defaultConfigurator = new Configurator() {
 
 		@Override
@@ -94,7 +94,7 @@ public abstract class AbstractJTSField<T extends Geometry> extends
 
 	public AbstractJTSField() {
 		super();
-		setValidationVisible(false);
+		setRequiredIndicatorVisible(false);
 		setSizeFull();
 	}
 
@@ -125,13 +125,18 @@ public abstract class AbstractJTSField<T extends Geometry> extends
 	}
 
 	@Override
-	protected void setInternalValue(T newValue) {
-		super.setInternalValue(newValue);
+	protected void doSetValue(T newValue) {
+		this.value = newValue;
 		if (newValue == null) {
 			prepareDrawing();
 		} else {
 			prepareEditing();
 		}
+	}
+
+	@Override
+	public T getValue() {
+		return value;
 	}
 
 	protected abstract void prepareEditing();
@@ -167,7 +172,7 @@ public abstract class AbstractJTSField<T extends Geometry> extends
 		if(readOnly == true) {
 			prepareViewing();
 		} else {
-			if(getInternalValue() == null) {
+			if(getValue() == null) {
 				prepareDrawing();
 			} else {
 				prepareEditing();
