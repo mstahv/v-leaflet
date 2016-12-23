@@ -710,7 +710,7 @@ public class LMap extends AbstractComponentContainer {
     }
 
     @Override
-    protected boolean isReadOnly() {
+    public boolean isReadOnly() {
         return super.isReadOnly();
     }
 

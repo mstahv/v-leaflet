@@ -1,12 +1,13 @@
 package org.vaadin.addon.leaflet.demoandtestapp;
 
+import java.util.Arrays;
 import java.util.Date;
 
+import com.vaadin.data.BeanBinder;
+import com.vaadin.data.ValidationException;
 import org.vaadin.addon.leaflet.util.PointField;
 import org.vaadin.addonhelpers.AbstractTest;
 
-import com.vaadin.data.fieldgroup.BeanFieldGroup;
-import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -131,10 +132,10 @@ public class JtsPointFieldTest extends AbstractTest {
         editorform.setExpandRatio(jtsFields, 1);
 
         // TODO switch to helper in Vaadin when available http://dev.vaadin.com/ticket/13068
-        final BeanFieldGroup<JtsPojo> beanFieldGroup = new BeanFieldGroup<JtsPojo>(
+        final BeanBinder<JtsPojo> beanBinder = new BeanBinder<>(
                 JtsPojo.class);
-        beanFieldGroup.setItemDataSource(pojo);
-        beanFieldGroup.bindMemberFields(this);
+        beanBinder.readBean(pojo);
+        beanBinder.bindInstanceFields(this);
 
         HorizontalLayout buttonLayout = new HorizontalLayout();
         buttonLayout.addComponent(new Button("Save", new ClickListener() {
@@ -142,10 +143,10 @@ public class JtsPointFieldTest extends AbstractTest {
             @Override
             public void buttonClick(ClickEvent event) {
                 try {
-                    beanFieldGroup.commit();
+                    beanBinder.writeBean(pojo);
                     display.setValue(pojo.toString());
-                } catch (CommitException e) {
-                    e.printStackTrace();
+                } catch (ValidationException e) {
+                    System.err.println("Validation errors:" +Arrays.toString( e.getBeanValidationErrors().toArray()));
                 }
             }
         }));
@@ -153,7 +154,7 @@ public class JtsPointFieldTest extends AbstractTest {
         buttonLayout.addComponent(new Button("Toggle read only", new ClickListener() {
             @Override
             public void buttonClick(ClickEvent event) {
-                beanFieldGroup.setReadOnly(!beanFieldGroup.isReadOnly());
+                beanBinder.setReadOnly(!beanFieldGroup.isReadOnly());
             }
         }));
 
@@ -161,7 +162,7 @@ public class JtsPointFieldTest extends AbstractTest {
             @Override
             public void buttonClick(ClickEvent event) {
                 pojo = new JtsPojo();
-                beanFieldGroup.setItemDataSource(pojo);
+                beanBinder.readBean(pojo);
                 display.setValue(pojo.toString());
             }
         }));
@@ -171,7 +172,7 @@ public class JtsPointFieldTest extends AbstractTest {
             public void buttonClick(ClickEvent event) {
                 pojo = new JtsPojo();
                 pojo.setPoint(JTSUtil.toPoint(new org.vaadin.addon.leaflet.shared.Point(61, 22)));
-                beanFieldGroup.setItemDataSource(pojo);
+                beanBinder.readBean(pojo);
                 display.setValue(pojo.toString());
             }
         }));
