@@ -7,18 +7,27 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
-import org.junit.Assert;
+
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 @Theme("valo")
 public abstract class AbstractTest extends UI {
 
     protected VerticalLayout content;
+    public static Map<Class<? extends AbstractTest>, List<com.vaadin.server.ErrorEvent>> allErrors
+            = new ConcurrentHashMap<>();
 
     public AbstractTest() {
         content = new VerticalLayout();
         setContent(content);
-        setErrorHandler(
-                errorEvent -> Assert.fail(getClass().getName() + ":" + errorEvent.getThrowable().toString())
+        setErrorHandler(event -> {
+                    List<com.vaadin.server.ErrorEvent> errorEvents =
+                            allErrors.computeIfAbsent(getClass(), clazz -> new CopyOnWriteArrayList<>());
+                    errorEvents.add(event);
+                }
         );
     }
 
@@ -33,7 +42,6 @@ public abstract class AbstractTest extends UI {
      * Sets the size of the content. Override to change from
      * {@link Sizeable#setSizeFull()}
      *
-     * @param content
      */
     public void setContentSize(Component content) {
         content.setSizeFull();
@@ -43,7 +51,12 @@ public abstract class AbstractTest extends UI {
 
     @Override
     protected void init(VaadinRequest request) {
-        setup();
+        try {
+            setup();
+        } catch (Throwable e) {
+            getErrorHandler().error(new com.vaadin.server.ErrorEvent(e));
+            throw e;
+        }
         String description = getDescription();
         if (description != null && !description.trim().isEmpty()) {
             Notification.show(description,

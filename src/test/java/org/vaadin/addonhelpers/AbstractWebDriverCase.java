@@ -9,8 +9,8 @@ import org.junit.BeforeClass;
  */
 public class AbstractWebDriverCase extends AbstractBaseWebDriverCase {
 
-    protected static final int TESTPORT = 5678;
-    protected static final String BASEURL = "http://localhost:" + TESTPORT
+    protected static final int TEST_PORT = 5678;
+    protected static final String BASE_URL = "http://localhost:" + TEST_PORT
             + "/";
     public AbstractWebDriverCase() {
         super();
@@ -19,7 +19,7 @@ public class AbstractWebDriverCase extends AbstractBaseWebDriverCase {
     @BeforeClass
     public static void startServer() {
         try {
-            server = new TServer().startServer(TESTPORT);
+            server = new TServer().startServer(TEST_PORT);
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

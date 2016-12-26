@@ -18,14 +18,13 @@ package org.vaadin.addonhelpers;
 import com.vaadin.server.UIClassSelectionEvent;
 import com.vaadin.server.UIProvider;
 import com.vaadin.ui.UI;
-import org.vaadin.addon.leaflet.demoandtestapp.CustomProjection;
 
 /**
  *
  */
 public class AbstractUIProviderImpl extends UIProvider {
 
-    Class<? extends UI> dirtyHack;
+    Class<? extends UI> dirtyHack = ListTestUI.class;
     
     @Override
     public Class<? extends UI> getUIClass(UIClassSelectionEvent event) {
@@ -41,8 +40,8 @@ public class AbstractUIProviderImpl extends UIProvider {
         }
         if (!"".equals(name) && !name.contains(".ico") && name.matches("[A-Za-z0-9.]*")) {
             try {
-                String className = name;
-                Class<? extends UI> forName = (Class<? extends UI>) Class.forName(className);
+                @SuppressWarnings("unchecked")
+                Class<? extends UI> forName = (Class<? extends UI>) Class.forName(name);
                 if (forName != null) {
                     dirtyHack = forName;
                     return forName;
@@ -52,8 +51,8 @@ public class AbstractUIProviderImpl extends UIProvider {
                 e.printStackTrace();
             }
         }
-        dirtyHack = CustomProjection.class;
-        return CustomProjection.class;
+        dirtyHack = ListTestUI.class;
+        return dirtyHack;
     }
     
 }

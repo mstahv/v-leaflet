@@ -2,6 +2,7 @@ package org.vaadin.addon.leaflet;
 
 import com.vaadin.shared.Registration;
 import org.vaadin.addon.leaflet.shared.Crs;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -48,7 +49,7 @@ public class LMap extends AbstractComponentContainer {
 
     private boolean rendered = false;
 
-    private List<Component> components = new ArrayList<Component>();
+    private List<Component> components = new ArrayList<>();
 
     private Bounds bounds;
 
@@ -126,8 +127,8 @@ public class LMap extends AbstractComponentContainer {
      * Add a base layer with given name.
      *
      * @param baseLayer
-     * @param name to be used in LayerControl, null if layer should not be
-     * displayed in the layer control
+     * @param name      to be used in LayerControl, null if layer should not be
+     *                  displayed in the layer control
      */
     public void addBaseLayer(LeafletLayer baseLayer, String name) {
         addLayer(baseLayer);
@@ -295,6 +296,7 @@ public class LMap extends AbstractComponentContainer {
                 LeafletContextMenuListener.METHOD);
     }
 
+    @SuppressWarnings("unused")
     public Registration addBaseLayerChangeListener(LeafletBaseLayerChangeListener listener) {
         return addListener("baselayerchange", LeafletBaseLayerChangeEvent.class, listener,
                 LeafletBaseLayerChangeListener.METHOD);
@@ -356,7 +358,7 @@ public class LMap extends AbstractComponentContainer {
     }
 
     public Geometry getContentBounds() {
-        Collection<Geometry> gc = new ArrayList<Geometry>();
+        Collection<Geometry> gc = new ArrayList<>();
         for (Component c : this) {
             LeafletLayer l = (LeafletLayer) c;
             Geometry geometry = l.getGeometry();
@@ -372,7 +374,7 @@ public class LMap extends AbstractComponentContainer {
 
     /**
      * @param values
-     * @deprecated, use addControl() instead
+     * @deprecated use addControl() instead
      */
     @Deprecated
     public void setControls(List<Control> values) {
@@ -461,14 +463,14 @@ public class LMap extends AbstractComponentContainer {
      * a, b, c, d parameters). For the meaning of the affine transform
      * parameters, see: http://leafletjs.com/reference.html#transformation.
      *
-     * @param name Name for the new Crs.
+     * @param name       Name for the new Crs.
      * @param projection Name of the projection for this new Crs. It needs to be
-     * the name of a valid projection defined in L.Projection (LonLat,
-     * SphericalMercator, Mercator).
-     * @param a transformation parameter a
-     * @param b transformation parameter b
-     * @param c transformation parameter c
-     * @param d transformation parameter d
+     *                   the name of a valid projection defined in L.Projection (LonLat,
+     *                   SphericalMercator, Mercator).
+     * @param a          transformation parameter a
+     * @param b          transformation parameter b
+     * @param c          transformation parameter c
+     * @param d          transformation parameter d
      */
     public void setCustomCrs(String name, String projection, double a, double b, double c, double d) {
         getState().newCrsName = name;
@@ -525,12 +527,13 @@ public class LMap extends AbstractComponentContainer {
             getZoomControl().setEnabled(readWriteState.lZoom);
         }
 
-        super.setReadOnly(readOnly);
+        if (readOnly != isReadOnly()) {
+            getState().readOnly = readOnly;
+        }
     }
 
     /**
-     * @see
-     * <a href="http://leafletjs.com/reference-1.0.0.html#map-dragging">Leaflet.js
+     * @see <a href="http://leafletjs.com/reference-1.0.0.html#map-dragging">Leaflet.js
      * doc</a>
      */
     public void setDraggingEnabled(boolean dragging) {
@@ -541,18 +544,17 @@ public class LMap extends AbstractComponentContainer {
     }
 
     ;
-	
-	/**
+
+    /**
      * @see <a href="http://leafletjs.com/reference-1.0.0.html#map-dragging">Leaflet.js doc</a>
      */
-	public boolean isDraggingEnabled() {
+    public boolean isDraggingEnabled() {
         Boolean dragging = getState(false).dragging;
         return dragging != null ? dragging : true;
     }
 
     /**
-     * @see
-     * <a href="http://leafletjs.com/reference-1.0.0.html#map-touchzoom">Leaflet.js
+     * @see <a href="http://leafletjs.com/reference-1.0.0.html#map-touchzoom">Leaflet.js
      * doc</a>
      */
     public void setTouchZoomEnabled(boolean touchZoom) {
@@ -563,18 +565,17 @@ public class LMap extends AbstractComponentContainer {
     }
 
     ;
-	
-	/**
+
+    /**
      * @see <a href="http://leafletjs.com/reference-1.0.0.html#map-touchzoom">Leaflet.js doc</a>
      */
-	public boolean isTouchZoomEnabled() {
+    public boolean isTouchZoomEnabled() {
         Boolean touchZoom = getState(false).touchZoom;
         return touchZoom != null ? touchZoom : true;
     }
 
     /**
-     * @see
-     * <a href="http://leafletjs.com/reference-1.0.0.html#map-doubleclickzoom">Leaflet.js
+     * @see <a href="http://leafletjs.com/reference-1.0.0.html#map-doubleclickzoom">Leaflet.js
      * doc</a>
      */
     public void setDoubleClickZoomEnabled(boolean doubleClickZoom) {
@@ -585,18 +586,17 @@ public class LMap extends AbstractComponentContainer {
     }
 
     ;
-	
-	/**
+
+    /**
      * @see <a href="http://leafletjs.com/reference-1.0.0.html#map-doubleclickzoom">Leaflet.js doc</a>
      */
-	public boolean isDoubleZoomEnabled() {
+    public boolean isDoubleZoomEnabled() {
         Boolean doubleClickZoom = getState(false).doubleClickZoom;
         return doubleClickZoom != null ? doubleClickZoom : true;
     }
 
     /**
-     * @see
-     * <a href="http://leafletjs.com/reference-1.0.0.html#map-boxzoom">Leaflet.js
+     * @see <a href="http://leafletjs.com/reference-1.0.0.html#map-boxzoom">Leaflet.js
      * doc</a>
      */
     public void setBoxZoomEnabled(boolean boxZoom) {
@@ -607,18 +607,17 @@ public class LMap extends AbstractComponentContainer {
     }
 
     ;
-	
-	/**
+
+    /**
      * @see <a href="http://leafletjs.com/reference-1.0.0.html#map-boxzoom">Leaflet.js doc</a>
      */
-	public boolean isBoxZoomEnabled() {
+    public boolean isBoxZoomEnabled() {
         Boolean boxZoom = getState(false).boxZoom;
         return boxZoom != null ? boxZoom : true;
     }
 
     /**
-     * @see
-     * <a href="http://leafletjs.com/reference-1.0.0.html#map-scrollwheelzoom">Leaflet.js
+     * @see <a href="http://leafletjs.com/reference-1.0.0.html#map-scrollwheelzoom">Leaflet.js
      * doc</a>
      */
     public void setScrollWheelZoomEnabled(boolean scrollWheelZoom) {
@@ -629,18 +628,17 @@ public class LMap extends AbstractComponentContainer {
     }
 
     ;
-	
-	/**
+
+    /**
      * @see <a href="http://leafletjs.com/reference-1.0.0.html#map-scrollwheelzoom">Leaflet.js doc</a>
      */
-	public boolean isScrollWheelZoomEnabled() {
+    public boolean isScrollWheelZoomEnabled() {
         Boolean scrollWheelZoom = getState(false).scrollWheelZoom;
         return scrollWheelZoom != null ? scrollWheelZoom : true;
     }
 
     /**
-     * @see
-     * <a href="http://leafletjs.com/reference-1.0.0.html#map-keyboard">Leaflet.js
+     * @see <a href="http://leafletjs.com/reference-1.0.0.html#map-keyboard">Leaflet.js
      * doc</a>
      */
     public void setKeyboardEnabled(boolean keyboard) {
@@ -651,11 +649,11 @@ public class LMap extends AbstractComponentContainer {
     }
 
     ;
-	
-	/**
+
+    /**
      * @see <a href="http://leafletjs.com/reference-1.0.0.html#map-keyboard">Leaflet.js doc</a>
      */
-	public boolean isKeyboardZoomEnabled() {
+    public boolean isKeyboardZoomEnabled() {
         Boolean keyboard = getState(false).keyboard;
         return keyboard != null ? keyboard : true;
     }
@@ -670,10 +668,10 @@ public class LMap extends AbstractComponentContainer {
     /**
      * Tries to detect the users geolocation.
      *
-     * @param watch true if location should be updated continuously
+     * @param watch        true if location should be updated continuously
      * @param highaccuracy true if high accuracy should be requested
-     * @param updateView true if the viewport should be centered to the latest
-     * position, with appropriate zoom level
+     * @param updateView   true if the viewport should be centered to the latest
+     *                     position, with appropriate zoom level
      */
     public void locate(boolean watch, boolean highaccuracy, boolean updateView) {
         getRpcProxy(LeafletMapClientRpc.class).locate(watch, highaccuracy, updateView);
@@ -688,9 +686,9 @@ public class LMap extends AbstractComponentContainer {
 
     /**
      * @param millis the minimum interval in milliseconds that server side gets
-     * notified about the new location (via LeafletLocateListener), if watch
-     * option is used. Can be handy if you want to limit the amount of client
-     * server traffic. The default is 5000ms.
+     *               notified about the new location (via LeafletLocateListener), if watch
+     *               option is used. Can be handy if you want to limit the amount of client
+     *               server traffic. The default is 5000ms.
      */
     public void setMinLocatationUpdateInterval(int millis) {
         getState().minLocateInterval = millis;
@@ -702,8 +700,8 @@ public class LMap extends AbstractComponentContainer {
      * latency and extra client-server communication.
      *
      * @param layers that should be updated, only LMarker, LCircle and
-     * LCircleMarker are currently supported. If the layer is of type LCircle,
-     * the radius is set to accuracy of the location event
+     *               LCircleMarker are currently supported. If the layer is of type LCircle,
+     *               the radius is set to accuracy of the location event
      */
     public void setLayersToUpdateOnLocate(AbstractLeafletLayer... layers) {
         getState().updateLayersOnLocate = layers;
@@ -711,7 +709,8 @@ public class LMap extends AbstractComponentContainer {
 
     @Override
     public boolean isReadOnly() {
-        return super.isReadOnly();
+        Boolean readOnly = getState(false).readOnly;
+        return readOnly != null && readOnly;
     }
 
 }
