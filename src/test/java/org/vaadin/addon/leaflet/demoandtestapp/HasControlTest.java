@@ -163,17 +163,13 @@ public class HasControlTest extends AbstractTest {
 		base.setValue(baseLayers.get(0));
 
 		
-		base.addValueChangeListener(new HasValue.ValueChangeListener<LayerWrapper>() {
-			
-			@Override
-			public void valueChange(ValueChangeEvent<LayerWrapper> event) {
-				currentBaseMap.setActive(false);
-				LayerWrapper lw = (LayerWrapper) event.getValue();
-				lw.getLayer().setActive(true);
-				currentBaseMap = lw.getLayer();
-				trayNotify("Switched base map to " + lw.getDescription());
-			}
-		});
+		base.addValueChangeListener(event -> {
+            currentBaseMap.setActive(false);
+            LayerWrapper lw = event.getValue();
+            lw.getLayer().setActive(true);
+            currentBaseMap = lw.getLayer();
+            trayNotify("Switched base map to " + lw.getDescription());
+        });
 		
 		for (LayerWrapper lw : baseLayers) {
 			//map.addBaseLayer(lw.getLayer(), lw.getDescription());

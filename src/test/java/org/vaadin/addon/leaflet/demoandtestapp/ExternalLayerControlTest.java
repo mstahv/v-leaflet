@@ -116,20 +116,16 @@ public class ExternalLayerControlTest extends AbstractTest {
         List<LayerWrapper> baseLayers = getBaseLayers();
         currentBaseMap = baseLayers.get(0).getLayer();
 
-        RadioButtonGroup<LayerWrapper> base = new RadioButtonGroup<LayerWrapper>("Base maps", baseLayers);
+        RadioButtonGroup<LayerWrapper> base = new RadioButtonGroup<>("Base maps", baseLayers);
         base.setValue(baseLayers.get(0));
 
 
-        base.addValueChangeListener(new HasValue.ValueChangeListener<LayerWrapper>() {
-
-            @Override
-            public void valueChange(ValueChangeEvent<LayerWrapper> event) {
-                currentBaseMap.setActive(false);
-                LayerWrapper lw = (LayerWrapper) event.getValue();
-                lw.getLayer().setActive(true);
-                currentBaseMap = lw.getLayer();
-                trayNotify("Switched base map to " + lw.getDescription());
-            }
+        base.addValueChangeListener(event -> {
+            currentBaseMap.setActive(false);
+            LayerWrapper lw = event.getValue();
+            lw.getLayer().setActive(true);
+            currentBaseMap = lw.getLayer();
+            trayNotify("Switched base map to " + lw.getDescription());
         });
 
         for (LayerWrapper lw : baseLayers) {

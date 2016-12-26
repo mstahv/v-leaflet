@@ -16,12 +16,10 @@ public class MarkerZIndexOffset extends AbstractTest {
         return "Test removing marker.";
     }
 
-    private LMap leafletMap;
-
     @Override
     public Component getTestComponent() {
 
-        leafletMap = new LMap();
+        LMap leafletMap = new LMap();
         leafletMap.setWidth("300px");
         leafletMap.setHeight("300px");
         leafletMap.setCenter(0, 0);

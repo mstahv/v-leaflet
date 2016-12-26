@@ -16,11 +16,8 @@
 package org.vaadin.addon.leaflet.shared;
 
 
-import com.vaadin.shared.AbstractComponentState;
-import com.vaadin.shared.AbstractFieldState;
 import com.vaadin.shared.Connector;
 import com.vaadin.shared.ui.AbstractComponentContainerState;
-import com.vaadin.ui.AbstractComponentContainer;
 
 /**
  * 
