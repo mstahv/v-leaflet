@@ -44,7 +44,7 @@ public class PointField extends AbstractJTSField<Point> {
 
     @Override
     protected void prepareDrawing() {
-        if(marker != null) {
+        if (marker != null) {
             map.removeComponent(marker);
             marker = null;
         }
@@ -53,12 +53,20 @@ public class PointField extends AbstractJTSField<Point> {
 
     @Override
     protected void prepareViewing() {
-        drawRegistration.remove();
-    	clickRegistration.remove();
-    	if(markerRegisration != null) {
-    		markerRegisration.remove();
-    	}
+        if (drawRegistration != null) {
+            drawRegistration.remove();
+            drawRegistration = null;
+        }
+        if (clickRegistration != null) {
+            clickRegistration.remove();
+            clickRegistration = null;
+        }
+        if (markerRegisration != null) {
+            markerRegisration.remove();
+            markerRegisration = null;
+        }
     }
+
     protected LMarker getMarker() {
         return marker;
     }
@@ -69,10 +77,13 @@ public class PointField extends AbstractJTSField<Point> {
         public void onClick(LeafletClickEvent event) {
             org.vaadin.addon.leaflet.shared.Point point = event.getPoint();
             setValue(getCrsTranslator().toModel(JTSUtil.toPoint(point)));
-            clickRegistration.remove();
+            if (clickRegistration != null) {
+                clickRegistration.remove();
+                clickRegistration = null;
+            }
         }
     };
-    
+
     private final LeafletClickListener editClickListener = new LeafletClickListener() {
         @Override
         public void onClick(LeafletClickEvent event) {
@@ -81,7 +92,7 @@ public class PointField extends AbstractJTSField<Point> {
             marker.setPoint(event.getPoint());
         }
     };
-    
+
     private final DragEndListener editDragEndListener = new DragEndListener() {
         @Override
         public void dragEnd(DragEndEvent event) {
