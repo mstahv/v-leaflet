@@ -1,7 +1,7 @@
 package org.vaadin.addon.leaflet.shared;
 
-import com.vaadin.shared.AbstractComponentState;
+import com.vaadin.shared.ui.AbstractComponentContainerState;
 
-public class AbstractLeafletComponentState extends AbstractComponentState {
+public class AbstractLeafletComponentState extends AbstractComponentContainerState {
     public Boolean active;
 }

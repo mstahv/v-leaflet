@@ -56,7 +56,6 @@ public class LayerGroupOrdering extends AbstractTest {
             Point center = new Point(32.32, 34.85);
             setCenter(center);
             setZoomLevel(9);
-            setImmediate(true);
 
             blues = new LLayerGroup();
             addComponent(blues);

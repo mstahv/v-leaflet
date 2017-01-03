@@ -3,6 +3,7 @@ package org.vaadin.addon.leaflet.demoandtestapp;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import com.vaadin.data.HasValue;
 import org.vaadin.addon.leaflet.AbstractLeafletLayer;
 import org.vaadin.addon.leaflet.LCircle;
 import org.vaadin.addon.leaflet.LLayerGroup;
@@ -18,8 +19,7 @@ import org.vaadin.addon.leaflet.shared.Bounds;
 import org.vaadin.addon.leaflet.shared.Control;
 import org.vaadin.addon.leaflet.shared.Point;
 
-import com.vaadin.data.Property.ValueChangeEvent;
-import com.vaadin.data.Property.ValueChangeListener;
+import com.vaadin.data.HasValue.ValueChangeEvent;
 import com.vaadin.server.ClassResource;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -181,20 +181,14 @@ public class LayerGroupTest extends AbstractTest {
 
         showLayerGroupCB = new CheckBox(
                 "Show first layer (switch on/off from server side)");
-        showLayerGroupCB.setImmediate(true);
         showLayerGroupCB.setValue(true);
         content.addComponentAsFirst(showLayerGroupCB);
 
-        showLayerGroupCB.addValueChangeListener(new ValueChangeListener() {
+        showLayerGroupCB.addValueChangeListener(new HasValue.ValueChangeListener<Boolean>() {
 
             @Override
-            public void valueChange(ValueChangeEvent event) {
-                Object value = event.getProperty().getValue();
-                if (value == null) {
-                    return;
-                }
-                boolean show = (Boolean) value;
-                if (show) {
+            public void valueChange(ValueChangeEvent<Boolean> event) {
+                if (event.getValue()) {
                     if (!leafletMap.hasComponent(llg)) {
                         leafletMap.addComponent(llg);
                     }
