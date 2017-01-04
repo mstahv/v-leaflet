@@ -89,6 +89,10 @@ public abstract class AbstractLeafletVector extends AbstractLeafletLayer {
         getState().clickable = clickable;
     }
 
+    public void setNonBubblingEvents(String[] nonBubblingEvents) {
+        getState().nonBubblingEvents = nonBubblingEvents;
+    }
+
     public void setTooltip(String tooltip) {
         getState().tooltip = tooltip;
     }
