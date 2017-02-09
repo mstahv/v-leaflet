@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.vaadin.data.HasValue;
+import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.*;
 import org.vaadin.addon.leaflet.LMap;
 import org.vaadin.addon.leaflet.LTileLayer;
@@ -11,7 +12,6 @@ import org.vaadin.addon.leaflet.control.LLayers;
 import org.vaadin.addon.leaflet.control.LScale;
 
 import com.vaadin.data.HasValue.ValueChangeEvent;
-import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Notification.Type;
 import org.vaadin.addonhelpers.AbstractTest;
 
@@ -54,25 +54,21 @@ public class HasControlTest extends AbstractTest {
 		
 		HorizontalLayout hl = new HorizontalLayout();
 		CheckBox useLLayers = new CheckBox("Use LLayers control", false);
-		useLLayers.addValueChangeListener(new HasValue.ValueChangeListener<Boolean>() {
-			
-			@Override
-			public void valueChange(ValueChangeEvent<Boolean> event) {
-				boolean checked = event.getValue();
-				if (checked) {
-					LLayers lc = new LLayers();
-					map.addControl(lc);
-					for (LayerWrapper lw : baseLayers) {
-						lc.addBaseLayer(lw.getLayer(), lw.getDescription());
-					}
-					for (LayerWrapper lw : overLays) {
-						lc.addOverlay(lw.getLayer(), lw.getDescription());
-					}
-				} else {
-					map.removeControl(map.getLayersControl());
-				}
-			}
-		});
+		useLLayers.addValueChangeListener((HasValue.ValueChangeListener<Boolean>) event -> {
+            boolean checked = event.getValue();
+            if (checked) {
+                LLayers lc = new LLayers();
+                map.addControl(lc);
+                for (LayerWrapper lw : baseLayers) {
+                    lc.addBaseLayer(lw.getLayer(), lw.getDescription());
+                }
+                for (LayerWrapper lw : overLays) {
+                    lc.addOverlay(lw.getLayer(), lw.getDescription());
+                }
+            } else {
+                map.removeControl(map.getLayersControl());
+            }
+        });
 		hl.addComponents(l,setupBaseMaps(), setupOverlays(), useLLayers);
 		
 		content.addComponentAsFirst(hl);
@@ -190,7 +186,7 @@ public class HasControlTest extends AbstractTest {
 		tf.setUrl("http://{s}.tile.thunderforest.com/transport/{z}/{x}/{y}.png");
 		tf.setAttributionString("Tiles Courtesy of <a href=\"http://www.thunderforest.com/\" target=\"_blank\">Thunderforest</a>" + 
 								"&nbspand OpenStreetMap contributors");
-		tf.setSubDomains(new String[]{"a", "b", "c"});
+		tf.setSubDomains("a", "b", "c");
 		tf.setActive(true);
 		
 		return Arrays.asList(new LayerWrapper("ThunderForest Transport ", tf), new LayerWrapper("USGS Aerial", aer));

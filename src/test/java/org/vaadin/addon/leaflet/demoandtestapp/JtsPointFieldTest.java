@@ -1,8 +1,8 @@
 package org.vaadin.addon.leaflet.demoandtestapp;
 
-import com.vaadin.data.BeanBinder;
+import com.vaadin.data.Binder;
 import com.vaadin.data.ValidationException;
-import com.vaadin.shared.ui.label.ContentMode;
+import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Component;
@@ -169,7 +169,7 @@ public class JtsPointFieldTest extends AbstractTest {
         return horizontalLayout;
     }
 
-    private static class JtsPojoBeanBinder extends BeanBinder<JtsPojo> {
+    private static class JtsPojoBeanBinder extends Binder<JtsPojo> {
         private boolean readOnly = false;
         public JtsPojoBeanBinder() {
             super(JtsPojo.class);
