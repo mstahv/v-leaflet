@@ -4,18 +4,17 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.vaadin.data.HasValue;
+import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.*;
 import org.vaadin.addon.leaflet.LMap;
 import org.vaadin.addon.leaflet.LTileLayer;
 
-import com.vaadin.data.HasValue.ValueChangeEvent;
-import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Notification.Type;
 import org.vaadin.addonhelpers.AbstractTest;
 
 public class ExternalLayerControlTest extends AbstractTest {
 
-    String attrUSGS = "Tiles courtesy of U.S. Geological Survey";
+    private static String attrUSGS = "Tiles courtesy of U.S. Geological Survey";
 
     private LMap map;
     private LTileLayer currentBaseMap;
@@ -146,7 +145,7 @@ public class ExternalLayerControlTest extends AbstractTest {
         tf.setUrl("http://{s}.tile.thunderforest.com/transport/{z}/{x}/{y}.png");
         tf.setAttributionString("Tiles Courtesy of <a href=\"http://www.thunderforest.com/\" target=\"_blank\">Thunderforest</a>" +
                 "&nbspand OpenStreetMap contributors");
-        tf.setSubDomains(new String[]{"a", "b", "c"});
+        tf.setSubDomains("a", "b", "c");
         tf.setActive(true);
 
         return Arrays.asList(new LayerWrapper("ThunderForest Transport ", tf), new LayerWrapper("USGS Aerial", aer));

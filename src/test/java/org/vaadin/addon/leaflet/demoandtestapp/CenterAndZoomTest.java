@@ -1,11 +1,11 @@
 package org.vaadin.addon.leaflet.demoandtestapp;
 
 
+import com.vaadin.shared.ui.ContentMode;
 import org.vaadin.addon.leaflet.LMap;
 import org.vaadin.addon.leaflet.LMarker;
 import org.vaadin.addon.leaflet.LTileLayer;
 
-import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Component;
