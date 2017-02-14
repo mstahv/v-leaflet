@@ -126,7 +126,7 @@ public class LMap extends AbstractComponentContainer {
     /**
      * Add a base layer with given name.
      *
-     * @param baseLayer
+     * @param baseLayer the layer to be added
      * @param name      to be used in LayerControl, null if layer should not be
      *                  displayed in the layer control
      */
@@ -373,13 +373,13 @@ public class LMap extends AbstractComponentContainer {
     }
 
     /**
-     * @param values
+     * @param controls the list of controls to be shown
      * @deprecated use addControl() instead
      */
     @Deprecated
-    public void setControls(List<Control> values) {
-        if (values != null) {
-            for (Control control : values) {
+    public void setControls(List<Control> controls) {
+        if (controls != null) {
+            for (Control control : controls) {
                 switch (control) {
                     case zoom:
                         addControl(new LZoom());
@@ -415,7 +415,7 @@ public class LMap extends AbstractComponentContainer {
     /**
      * Sets the area into where the viewport is restricted.
      *
-     * @param bounds
+     * @param bounds the bounds of where the viewport of the map should be limited to
      */
     public void setMaxBounds(Bounds bounds) {
         getState(!rendered).maxBounds = bounds;
@@ -428,7 +428,7 @@ public class LMap extends AbstractComponentContainer {
     /**
      * Sets the area into where the viewport is restricted.
      *
-     * @param bounds
+     * @param bounds the bounds of where the viewport of the map should be limited to
      */
     public void setMaxBounds(Geometry bounds) {
         setMaxBounds(JTSUtil.getBounds(bounds));
@@ -481,6 +481,7 @@ public class LMap extends AbstractComponentContainer {
         getState().newCrsD = d;
     }
 
+
     /**
      * Adds and uses a new Crs definition and makes it immediately available for
      * use inside a Map. The new Crs extends Crs.Simple, uses a plat-carré projection with the
@@ -488,6 +489,10 @@ public class LMap extends AbstractComponentContainer {
      * parameters, see: http://leafletjs.com/reference.html#transformation.
      *
      * @param name Name for the new Crs.
+     * @param min_x the minimum x value
+     * @param min_y the minimum y value
+     * @param max_x the maximum x value
+     * @param max_y the maximum y value
      * @param a transformation parameter a
      * @param b transformation parameter b
      * @param c transformation parameter c
@@ -560,6 +565,8 @@ public class LMap extends AbstractComponentContainer {
     /**
      * @see <a href="http://leafletjs.com/reference-1.0.0.html#map-dragging">Leaflet.js
      * doc</a>
+     *
+     * @param dragging true if dragging map should be possible
      */
     public void setDraggingEnabled(boolean dragging) {
         getState(!rendered).dragging = dragging;
@@ -572,6 +579,8 @@ public class LMap extends AbstractComponentContainer {
 
     /**
      * @see <a href="http://leafletjs.com/reference-1.0.0.html#map-dragging">Leaflet.js doc</a>
+     *
+     * @return true if dragging is enabled
      */
     public boolean isDraggingEnabled() {
         Boolean dragging = getState(false).dragging;
@@ -581,6 +590,8 @@ public class LMap extends AbstractComponentContainer {
     /**
      * @see <a href="http://leafletjs.com/reference-1.0.0.html#map-touchzoom">Leaflet.js
      * doc</a>
+     *
+     * @param touchZoom true if touch zoom should be enabled
      */
     public void setTouchZoomEnabled(boolean touchZoom) {
         getState(!rendered).touchZoom = touchZoom;
@@ -593,6 +604,8 @@ public class LMap extends AbstractComponentContainer {
 
     /**
      * @see <a href="http://leafletjs.com/reference-1.0.0.html#map-touchzoom">Leaflet.js doc</a>
+     *
+     * @return true if touch zoom should be enabled
      */
     public boolean isTouchZoomEnabled() {
         Boolean touchZoom = getState(false).touchZoom;
@@ -602,6 +615,8 @@ public class LMap extends AbstractComponentContainer {
     /**
      * @see <a href="http://leafletjs.com/reference-1.0.0.html#map-doubleclickzoom">Leaflet.js
      * doc</a>
+     *
+     * @param doubleClickZoom true if double click zooming should be enabled
      */
     public void setDoubleClickZoomEnabled(boolean doubleClickZoom) {
         getState(!rendered).doubleClickZoom = doubleClickZoom;
@@ -614,6 +629,8 @@ public class LMap extends AbstractComponentContainer {
 
     /**
      * @see <a href="http://leafletjs.com/reference-1.0.0.html#map-doubleclickzoom">Leaflet.js doc</a>
+     *
+     * @return true if double click zooming is enabled
      */
     public boolean isDoubleZoomEnabled() {
         Boolean doubleClickZoom = getState(false).doubleClickZoom;
@@ -623,6 +640,8 @@ public class LMap extends AbstractComponentContainer {
     /**
      * @see <a href="http://leafletjs.com/reference-1.0.0.html#map-boxzoom">Leaflet.js
      * doc</a>
+     *
+     * @param boxZoom true if box zoom mode should be enabled
      */
     public void setBoxZoomEnabled(boolean boxZoom) {
         getState(!rendered).boxZoom = boxZoom;
@@ -635,6 +654,8 @@ public class LMap extends AbstractComponentContainer {
 
     /**
      * @see <a href="http://leafletjs.com/reference-1.0.0.html#map-boxzoom">Leaflet.js doc</a>
+     *
+     * @return true if box zoom mode is enabled
      */
     public boolean isBoxZoomEnabled() {
         Boolean boxZoom = getState(false).boxZoom;
@@ -644,6 +665,8 @@ public class LMap extends AbstractComponentContainer {
     /**
      * @see <a href="http://leafletjs.com/reference-1.0.0.html#map-scrollwheelzoom">Leaflet.js
      * doc</a>
+     *
+     * @param scrollWheelZoom true if zooming with scroll wheel should be enabled
      */
     public void setScrollWheelZoomEnabled(boolean scrollWheelZoom) {
         getState(!rendered).scrollWheelZoom = scrollWheelZoom;
@@ -656,6 +679,8 @@ public class LMap extends AbstractComponentContainer {
 
     /**
      * @see <a href="http://leafletjs.com/reference-1.0.0.html#map-scrollwheelzoom">Leaflet.js doc</a>
+     *
+     * @return true if scroll wheel zoom is enabled
      */
     public boolean isScrollWheelZoomEnabled() {
         Boolean scrollWheelZoom = getState(false).scrollWheelZoom;
@@ -665,6 +690,8 @@ public class LMap extends AbstractComponentContainer {
     /**
      * @see <a href="http://leafletjs.com/reference-1.0.0.html#map-keyboard">Leaflet.js
      * doc</a>
+     *
+     * @param keyboard true if keyboard usage should be enabled
      */
     public void setKeyboardEnabled(boolean keyboard) {
         getState(!rendered).keyboard = keyboard;
@@ -677,6 +704,8 @@ public class LMap extends AbstractComponentContainer {
 
     /**
      * @see <a href="http://leafletjs.com/reference-1.0.0.html#map-keyboard">Leaflet.js doc</a>
+     *
+     * @return true if keyboard zoom is enabled
      */
     public boolean isKeyboardZoomEnabled() {
         Boolean keyboard = getState(false).keyboard;
@@ -694,12 +723,12 @@ public class LMap extends AbstractComponentContainer {
      * Tries to detect the users geolocation.
      *
      * @param watch        true if location should be updated continuously
-     * @param highaccuracy true if high accuracy should be requested
+     * @param highAccuracy true if high accuracy should be requested
      * @param updateView   true if the viewport should be centered to the latest
      *                     position, with appropriate zoom level
      */
-    public void locate(boolean watch, boolean highaccuracy, boolean updateView) {
-        getRpcProxy(LeafletMapClientRpc.class).locate(watch, highaccuracy, updateView);
+    public void locate(boolean watch, boolean highAccuracy, boolean updateView) {
+        getRpcProxy(LeafletMapClientRpc.class).locate(watch, highAccuracy, updateView);
     }
 
     /**

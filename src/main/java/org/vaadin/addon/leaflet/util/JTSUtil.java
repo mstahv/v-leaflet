@@ -28,7 +28,7 @@ public class JTSUtil {
      *
      * @param geom {@link Geometry}
      *
-     * @return
+     * @return the layer built based on JTS {@link Geometry}
      */
     public static LeafletLayer toLayer(Geometry geom) {
         Collection<LeafletLayer> layers = toLayers(geom);
@@ -49,7 +49,7 @@ public class JTSUtil {
      *
      * @param geom {@link Geometry}
      *
-     * @return
+     * @return a collection of layers built from JTS {@link Geometry}
      */
     public static Collection<LeafletLayer> toLayers(Geometry geom) {
 
@@ -108,8 +108,8 @@ public class JTSUtil {
      * Translates between a {@link com.vividsolutions.jts.geom.Point} and a
      * {@link LMarker}
      *
-     * @param point
-     * @return
+     * @param point the point to be translated into marker
+     * @return LMarker in given JTS Point
      */
     public static LMarker toLMarker(com.vividsolutions.jts.geom.Point point) {
         LMarker lMarker = new LMarker();
@@ -124,8 +124,8 @@ public class JTSUtil {
      * Translates between a JTS {@link LineString} and a v-leaflet
      * {@link Polyline}
      *
-     * @param lineString
-     * @return
+     * @param lineString the linestring to be converted into polyline
+     * @return LPolyline with points form given {@link LineString}
      */
     public static LPolyline toPolyline(LineString lineString) {
 
@@ -138,8 +138,8 @@ public class JTSUtil {
     /**
      * Translates between a JTS {@link Polygon} and a v-leaflet {@link LPolygon}
      *
-     * @param polygon
-     * @return
+     * @param polygon the JTS polygon to be translated into polygon layer
+     * @return LPolygon with points form given {@link Polygon}
      */
     public static LPolygon toPolygon(Polygon polygon) {
         Point[] exterior = toLeafletPointArray(polygon.getExteriorRing());
@@ -154,11 +154,11 @@ public class JTSUtil {
      * Translates between a JTS {@link LinearRing} and a v-leaflet
      * {@link LPolygon}
      *
-     * @param polygon
-     * @return
+     * @param linearRing the JTS linearring to be translated to polygon layer
+     * @return LPolygon with points form given {@link LinearRing}
      */
-    public static LPolygon toPolygon(LinearRing polygon) {
-        Coordinate[] coords = polygon.getCoordinates();
+    public static LPolygon toPolygon(LinearRing linearRing) {
+        Coordinate[] coords = linearRing.getCoordinates();
         Point[] points = toPointArray(coords);
 
         LPolygon lPolygon = new LPolygon(points);
@@ -169,8 +169,8 @@ public class JTSUtil {
      * Translates between an array of v-leaflet {@link Point}s and JTS
      * {@link Coordinate}s
      *
-     * @param coords
-     * @return
+     * @param coords the coordinate array to be translated into v-leaflet projects internal Point data type
+     * @return point array from given JTS {@link Coordinate}s
      */
     public static Point[] toPointArray(Coordinate[] coords) {
         Point[] points = new Point[coords.length];
@@ -294,9 +294,9 @@ public class JTSUtil {
     
     /**
      * Translates between a WKT representation of a geometry and a  JTS {@link Geometry}
-     * @param wellKnownText
-     * @return
-     * @throws ParseException 
+     * @param wellKnownText the WKT String to be converted into JTS {@link Geometry}
+     * @return JTS Geometry from given WKT String
+     * @throws ParseException if WKT string cannot be parsed
      */
     private static Geometry toGeometry(String wellKnownText) throws ParseException {
        WKTReader wktReader = new WKTReader(getGeometryFactory()); 	     

@@ -19,7 +19,7 @@ import com.vividsolutions.jts.geom.Geometry;
  * modify the global configuration strategy with
  * {@link #setDefaultConfigurator(Configurator)}
  * 
- * @param <T>
+ * @param <T> the JTS Geometry type of the field
  */
 public abstract class AbstractJTSField<T extends Geometry> extends
 		CustomField<T> {
@@ -46,7 +46,7 @@ public abstract class AbstractJTSField<T extends Geometry> extends
 	/**
 	 * Sets the default strategy to configure {@link AbstractJTSField}s.
 	 * 
-	 * @param configurator
+	 * @param configurator the strategy to configure JTS fields
 	 */
 	public static void setDefaultConfigurator(Configurator configurator) {
 		if (configurator == null) {

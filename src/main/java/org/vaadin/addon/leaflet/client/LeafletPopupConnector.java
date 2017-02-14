@@ -130,7 +130,7 @@ public class LeafletPopupConnector extends
     }
 
     /**
-     * Returns the map from the root of the hierarchy *
+     * @return the map from the root of the hierarchy *
      */
     public Map getMap() {
     	if(map == null) {

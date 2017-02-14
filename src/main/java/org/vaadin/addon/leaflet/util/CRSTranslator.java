@@ -8,7 +8,7 @@ public interface CRSTranslator<T extends Geometry> {
 	 * Converts a geometry to a CRS suitable for Leaflet (WGS84 aka
 	 * EPSG:4326)
 	 * 
-	 * @param geom
+	 * @param geom the geometry to be translated
 	 * @return geometry transformed to EPSG:4326
 	 */
 	T toPresentation(T geom);
@@ -17,8 +17,8 @@ public interface CRSTranslator<T extends Geometry> {
 	 * Converts geometry coming from V-Leaflet (in WGS84 aka EPSG:4326) to
 	 * another CRS for model.
 	 * 
-	 * @param geom
-	 * @return
+	 * @param geom the geometry to be translated
+	 * @return the translated geometry
 	 */
 	T toModel(T geom);
 }

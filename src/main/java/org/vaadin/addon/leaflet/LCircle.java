@@ -21,8 +21,8 @@ public class LCircle extends AbstractLeafletVector {
 
     /**
      *
-     * @param lat
-     * @param lon
+     * @param lat the latitude of the center of the circle
+     * @param lon the longitude of the center of the circle
      * @param radius the radius in meters, note that this is approximate,
      * especially small zoom levels.
      */
@@ -33,7 +33,7 @@ public class LCircle extends AbstractLeafletVector {
 
     /**
      * 
-     * @param point
+     * @param point the center of the circle
      * @param radius the radius in meters, note that this is approximate,
      * especially small zoom levels.
      */
@@ -44,7 +44,7 @@ public class LCircle extends AbstractLeafletVector {
 
     /**
      * 
-     * @param jtsPoint
+     * @param jtsPoint the center of the circle
      * @param radius the radius in meters, note that this is approximate,
      * especially small zoom levels.
      */
