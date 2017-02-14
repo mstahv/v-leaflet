@@ -282,9 +282,17 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector
              * used if nothing specified.
              */
             if (getState().newCrsName != null) {
+                if (getState().newCrsProjection != null) {
                 options.setCrs(Crs.add(getState().newCrsName, getState().newCrsProjection,
                         getState().newCrsA, getState().newCrsB,
                         getState().newCrsC, getState().newCrsD));
+                } else {
+                    options.setCrs(Crs.add(getState().newCrsName,
+                            getState().newCrsMinX, getState().newCrsMinY,
+                            getState().newCrsMaxX, getState().newCrsMaxY,
+                            getState().newCrsA, getState().newCrsB,
+                            getState().newCrsC, getState().newCrsD));
+                }
             } else if (getState().crsName != null) {
                 options.setCrs(Crs.byName(getState().crsName));
             }
