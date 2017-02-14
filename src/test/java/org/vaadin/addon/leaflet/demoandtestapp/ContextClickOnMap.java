@@ -55,6 +55,9 @@ public class ContextClickOnMap extends AbstractTest {
             }
         });
 
+        //prevent bubbling of events to DOM parents(like the map)
+        polygon.setNonBubblingEvents(new String[]{"click", "contextmenu"});
+
         leafletMap.addContextMenuListener(new LeafletContextMenuListener() {
             @Override
             public void onContextMenu(LeafletContextMenuEvent event) {

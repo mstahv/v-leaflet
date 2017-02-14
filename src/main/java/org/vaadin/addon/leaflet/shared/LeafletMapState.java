@@ -49,7 +49,11 @@ public class LeafletMapState extends AbstractComponentContainerState {
 	public double newCrsB;
 	public double newCrsC;
 	public double newCrsD;
-	
+	public double newCrsMinX;
+	public double newCrsMinY;
+	public double newCrsMaxX;
+	public double newCrsMaxY;
+
 	public Boolean dragging;
 	public Boolean touchZoom;
 	public Boolean doubleClickZoom;

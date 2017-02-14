@@ -481,6 +481,31 @@ public class LMap extends AbstractComponentContainer {
         getState().newCrsD = d;
     }
 
+    /**
+     * Adds and uses a new Crs definition and makes it immediately available for
+     * use inside a Map. The new Crs extends Crs.Simple, uses a plat-carré projection with the
+     * extents given by the min_* and max_* parameters. For the meaning of the affine transform
+     * parameters, see: http://leafletjs.com/reference.html#transformation.
+     *
+     * @param name Name for the new Crs.
+     * @param a transformation parameter a
+     * @param b transformation parameter b
+     * @param c transformation parameter c
+     * @param d transformation parameter d
+     */
+    public void setCustomCrs(String name, double min_x, double min_y, double max_x, double max_y,
+            double a, double b, double c, double d) {
+        getState().newCrsName = name;
+        getState().newCrsMinX = min_x;
+        getState().newCrsMinY = min_y;
+        getState().newCrsMaxX = max_x;
+        getState().newCrsMaxY = max_y;
+        getState().newCrsA = a;
+        getState().newCrsB = b;
+        getState().newCrsC = c;
+        getState().newCrsD = d;
+    }
+
     private BasicMap customMapOptions;
 
     public void setCustomInitOption(String key, boolean b) {
