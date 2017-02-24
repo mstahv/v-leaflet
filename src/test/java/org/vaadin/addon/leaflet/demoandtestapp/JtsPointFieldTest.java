@@ -5,6 +5,7 @@ import com.vaadin.data.ValidationException;
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.DateField;
 import com.vaadin.ui.HorizontalLayout;
@@ -126,11 +127,11 @@ public class JtsPointFieldTest extends AbstractTest {
         jtsFields.setCaption("JTS fiels:");
         jtsFields.setSizeFull();
         editorform.addComponents(new HorizontalLayout(name, date), jtsFields
-        // ,polygon
+                // ,polygon
         );
         editorform.setExpandRatio(jtsFields, 1);
 
-        final JtsPojoBeanBinder beanBinder = new JtsPojoBeanBinder();
+        final Binder<JtsPojo> beanBinder = new Binder<>(JtsPojo.class);
         beanBinder.readBean(pojo);
         beanBinder.bindInstanceFields(this);
 
@@ -140,12 +141,13 @@ public class JtsPointFieldTest extends AbstractTest {
                 beanBinder.writeBean(pojo);
                 display.setValue(pojo.toString());
             } catch (ValidationException e) {
-                System.err.println("Validation errors:" +Arrays.toString( e.getBeanValidationErrors().toArray()));
+                System.err.println("Validation errors:" + Arrays.toString(e.getBeanValidationErrors().toArray()));
             }
         }));
 
-        buttonLayout.addComponent(new Button("Toggle read only",
-                (ClickListener) event -> beanBinder.setReadOnly(!beanBinder.isReadOnly())));
+        CheckBox roCheckBox = new CheckBox("Read only", false);
+        roCheckBox.addValueChangeListener(event -> beanBinder.setReadOnly(event.getValue()));
+        buttonLayout.addComponent(roCheckBox);
 
         buttonLayout.addComponent(new Button("Assign new empty bean", (ClickListener) event -> {
             pojo = new JtsPojo();
@@ -169,21 +171,4 @@ public class JtsPointFieldTest extends AbstractTest {
         return horizontalLayout;
     }
 
-    private static class JtsPojoBeanBinder extends Binder<JtsPojo> {
-        private boolean readOnly = false;
-        public JtsPojoBeanBinder() {
-            super(JtsPojo.class);
-        }
-
-        public boolean isReadOnly() {
-            return readOnly;
-        }
-
-        public void setReadOnly(boolean readOnly) {
-            for (BindingImpl<JtsPojo, ?, ?> pojoBinding : getBindings()) {
-                pojoBinding.getField().setReadOnly(readOnly);
-            }
-            this.readOnly = readOnly;
-        }
-    }
 }
