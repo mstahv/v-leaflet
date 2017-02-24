@@ -28,11 +28,13 @@ public class TextOnMap extends AbstractTest {
 		leafletMap.setZoomLevel(2);
         
         LMarker m = new LMarker(0,0);
+        m.setStyleName("mycustomclassname"); // <- this becomes's to div icon's class names
         m.setDivIcon("Hello <strong>world</strong>!");
         // define the size for the html box
         m.setIconSize(new Point(80,20));
         leafletMap.addLayer(m);
-        
+
+
 		return leafletMap;
 	}
 }
