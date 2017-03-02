@@ -37,8 +37,8 @@ public class CenterAndZoomTest extends AbstractTest {
 		map.setCenter(40, -105.2);
 		map.setZoomLevel(6);
 		LTileLayer tf = new LTileLayer();
-		tf.setUrl("http://{s}.tile.thunderforest.com/transport/{z}/{x}/{y}.png");
-		tf.setAttributionString("Tiles Courtesy of <a href=\"http://www.thunderforest.com/\" target=\"_blank\">Thunderforest</a>" + 
+		tf.setUrl("https://{s}.tile.thunderforest.com/transport/{z}/{x}/{y}.png");
+		tf.setAttributionString("Tiles Courtesy of <a href=\"https://www.thunderforest.com/\" target=\"_blank\">Thunderforest</a>" +
 								"&nbspand OpenStreetMap contributors");
 		tf.setSubDomains(new String[]{"a", "b", "c"});
 		tf.setActive(true);

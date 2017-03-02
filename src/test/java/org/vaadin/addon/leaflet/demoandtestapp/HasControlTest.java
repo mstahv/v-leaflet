@@ -77,12 +77,12 @@ public class HasControlTest extends AbstractTest {
 	private Component setupOverlays() {
 		// These are actually basemaps, but we'll dial down the opacity to use as overlays.
 		LayerWrapper shl = createOverlay(
-				"http://basemap.nationalmap.gov/ArcGIS/rest/services/USGSShadedReliefOnly/MapServer/tile/{z}/{y}/{x}",
+				"https://basemap.nationalmap.gov/ArcGIS/rest/services/USGSShadedReliefOnly/MapServer/tile/{z}/{y}/{x}",
 				"USGS Shaded Relief "
 		);
 		
 		LayerWrapper cl = createOverlay(
-				"http://basemap.nationalmap.gov/ArcGIS/rest/services/TNM_Contours/MapServer/tile/{z}/{y}/{x}",
+				"https://basemap.nationalmap.gov/ArcGIS/rest/services/TNM_Contours/MapServer/tile/{z}/{y}/{x}",
 				"USGS Contours"
 		);
 		
@@ -178,13 +178,13 @@ public class HasControlTest extends AbstractTest {
 	private List<LayerWrapper> getBaseLayers() {
 		
 		LTileLayer aer = new LTileLayer();
-		aer.setUrl("http://basemap.nationalmap.gov/ArcGIS/rest/services/USGSImageryOnly/MapServer/tile/{z}/{y}/{x}");
+		aer.setUrl("https://basemap.nationalmap.gov/ArcGIS/rest/services/USGSImageryOnly/MapServer/tile/{z}/{y}/{x}");
 		aer.setAttributionString(attrUSGS);
 		aer.setActive(false);
 		
 		LTileLayer tf = new LTileLayer();
-		tf.setUrl("http://{s}.tile.thunderforest.com/transport/{z}/{x}/{y}.png");
-		tf.setAttributionString("Tiles Courtesy of <a href=\"http://www.thunderforest.com/\" target=\"_blank\">Thunderforest</a>" + 
+		tf.setUrl("https://{s}.tile.thunderforest.com/transport/{z}/{x}/{y}.png");
+		tf.setAttributionString("Tiles Courtesy of <a href=\"https://www.thunderforest.com/\" target=\"_blank\">Thunderforest</a>" +
 								"&nbspand OpenStreetMap contributors");
 		tf.setSubDomains("a", "b", "c");
 		tf.setActive(true);

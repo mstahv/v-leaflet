@@ -49,7 +49,7 @@ public class MapInWindowIssue19 extends AbstractTest {
 		AbstractLeafletLayer[] layers = new AbstractLeafletLayer[] {
 			createTileLayer(
 				"OSM",
-				"http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+				"https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
 				"a", "b", "c")
 		};
 		addLayers(map, layers);
