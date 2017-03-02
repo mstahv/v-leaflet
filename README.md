@@ -97,7 +97,7 @@ The UiRunner class has a main method that you can launch. It opens an embedded j
 
 From command line one can launch it with easily with correct classpath with maven exec plugin:
 ```
-mvn -e exec:java -Dexec.mainClass="org.vaadin.addon.leaflet.demoandtestapp.util.UiRunner" -Dexec.classpathScope=test
+mvn -e exec:java@test
 ```
 
 Tests are loaded via reflection on each page load. Accessing http://localhost:9998/BasicTest will load a new instance of test class org.vaadin.addon.leaflet.demoandtestapp.BasicTest

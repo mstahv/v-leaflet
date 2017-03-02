@@ -180,6 +180,25 @@
                 </configuration>
             </plugin>
 
+            <!-- Easy start of development server -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.5.0</version>
+                <executions>
+                    <execution>
+                        <id>test</id>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                        <configuration>
+                            <mainClass>org.vaadin.addon.leaflet.demoandtestapp.util.UiRunner</mainClass>
+                            <classpathScope>test</classpathScope>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
         </plugins>
 
         <resources>
@@ -236,7 +255,7 @@
                         </excludes>
                     </configuration>
                 </plugin>
-                <!--This plugin's configuration is used to store Eclipse m2e settings 
+                <!--This plugin's configuration is used to store Eclipse m2e settings
                 only. It has no influence on the Maven build itself. -->
                 <plugin>
                     <groupId>org.eclipse.m2e</groupId>
