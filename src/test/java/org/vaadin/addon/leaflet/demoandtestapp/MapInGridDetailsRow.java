@@ -35,7 +35,7 @@ public class MapInGridDetailsRow extends AbstractTest {
             final LMap leafletMap = new LMap();
             final LTileLayer baselayer = new LTileLayer();
             baselayer.setAttributionString("OpenStreetMap");
-            baselayer.setUrl("http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png");
+            baselayer.setUrl("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png");
             leafletMap.addLayer(baselayer);
             leafletMap.setWidth("100%");
             leafletMap.setHeight("100px");

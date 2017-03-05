@@ -29,7 +29,7 @@ public class SimpleMarkerTest extends AbstractTest {
 		leafletMap = new LMap();
 
 		LTileLayer pk = new LTileLayer();
-		pk.setUrl("http://{s}.kartat.kapsi.fi/peruskartta/{z}/{x}/{y}.png");
+		pk.setUrl("https://{s}.kartat.kapsi.fi/peruskartta/{z}/{x}/{y}.png");
 		pk.setAttributionString("Maanmittauslaitos, hosted by kartat.kapsi.fi");
 		pk.setMaxZoom(18);
 		pk.setSubDomains("tile2");
