@@ -38,8 +38,8 @@ public class LMarker extends AbstractLeafletLayer {
         return (LeafletMarkerState) super.getState();
     }
 
-    public LMarker(double lat, double lon) {
-    	this();
+    public LMarker(final double lat, final double lon) {
+        this();
         getState().point = new Point(lat, lon);
     }
 
@@ -55,16 +55,17 @@ public class LMarker extends AbstractLeafletLayer {
 
     }
 
-    public LMarker(Point point) {
-    	this();
+    public LMarker(final Point point) {
+        this();
         getState().point = point;
     }
     
-    public LMarker(com.vividsolutions.jts.geom.Point jtsPoint) {
-    	this(JTSUtil.toLeafletPoint(jtsPoint));
+
+    public LMarker(final com.vividsolutions.jts.geom.Point jtsPoint) {
+        this(JTSUtil.toLeafletPoint(jtsPoint));
     }
 
-    public void setPoint(Point p) {
+    public void setPoint(final Point p) {
         getState().point = p;
     }
 
@@ -72,27 +73,39 @@ public class LMarker extends AbstractLeafletLayer {
         return getState().point;
     }
 
-    public void setIconSize(Point point) {
+    public void setIconSize(final Point point) {
         getState().iconSize = point;
     }
 
-    public void setIconAnchor(Point point) {
+    public void setIconAnchor(final Point point) {
         getState().iconAnchor = point;
     }
 
-    public void setPopupAnchor(Point point) {
+    public void setIconPathFill(final String pathFill) {
+        getState().iconPathFill = pathFill;
+    }
+
+    public void setIconPathStroke(final String pathStroke) {
+        getState().iconPathStroke = pathStroke;
+    }
+
+    public void setIconTextFill(final String textFill) {
+        getState().iconTextFill = textFill;
+    }
+
+    public void setPopupAnchor(final Point point) {
         getState().popupAnchor = point;
     }
 
-    public void setTitle(String title) {
+    public void setTitle(final String title) {
         getState().title = title;
     }
 
-    public void setTooltip(String tooltip) {
+    public void setTooltip(final String tooltip) {
         getState().tooltip = tooltip;
     }
 
-    public void setTooltipState(TooltipState tooltipState) {
+    public void setTooltipState(final TooltipState tooltipState) {
         getState().tooltipState = tooltipState;
     }
 
@@ -104,15 +117,15 @@ public class LMarker extends AbstractLeafletLayer {
         getRpcProxy(LeafletMarkerClientRpc.class).closeTooltip();
     }
 
-    public void setDivIcon(String divIcon) {
+    public void setDivIcon(final String divIcon) {
         getState().divIcon = divIcon;
     }
 
-    public void setPopup(String popup) {
+    public void setPopup(final String popup) {
         getState().popup = popup;
     }
 
-    public void setPopupState(PopupState popupState){
+    public void setPopupState(final PopupState popupState) {
         getState().popupState = popupState;
     }
 

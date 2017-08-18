@@ -65,6 +65,15 @@ public class FontawesomeMarkerAndSVGInMarker extends AbstractTest {
         LCircleMarker lCircleMarker2 = new LCircleMarker(62,23, 2);
         map.addComponent(lCircleMarker2);
 
+        LMarker lMarker3 = new LMarker(60.1698560, 24.9383790);
+        lMarker3.setIcon(FontAwesome.GOOGLE);
+        lMarker3.setIconTextFill("#F00");
+        lMarker3.setIconPathFill("#666");
+        lMarker3.setIconPathStroke("#000");
+        lMarker3.setPopup("Configurable FontAwesome marker popup with anchor");
+        lMarker3.setPopupAnchor(new Point(0, -45));
+        map.addComponent(lMarker3);
+
         map.zoomToContent();
 
         layout.addComponent(map);
