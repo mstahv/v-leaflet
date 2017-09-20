@@ -1,30 +1,13 @@
 package org.vaadin.addon.leaflet;
 
-import org.vaadin.addon.leaflet.shared.Bounds;
 import org.vaadin.addon.leaflet.shared.LeafletTileLayerState;
-import org.vaadin.addon.leaflet.shared.LeafletTileLayerServerRpc;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.vaadin.addon.leaflet.shared.EventId;
-
-import com.vividsolutions.jts.geom.Geometry;
-
-public class LTileLayer extends AbstractLeafletLayer {
+public class LTileLayer extends LGridLayer {
 
     public LTileLayer() {
         super();
-        registerRpc(new LeafletTileLayerServerRpc() {
-            @Override
-            public void onLoading() {
-                fireEvent(new LeafletLoadingEvent(LTileLayer.this));
-            }
-
-            @Override
-            public void onLoad() {
-                fireEvent(new LeafletLoadEvent(LTileLayer.this));
-            }
-        });
     }
 
     public LTileLayer(String url) {
@@ -43,14 +26,6 @@ public class LTileLayer extends AbstractLeafletLayer {
 
     public void setUrl(String url) {
         getState().url = url;
-    }
-
-    public String getAttributionString() {
-        return getState().attributionString;
-    }
-
-    public void setAttributionString(String attributionString) {
-        getState().attributionString = attributionString;
     }
 
     public Boolean getDetectRetina() {
@@ -84,14 +59,6 @@ public class LTileLayer extends AbstractLeafletLayer {
     public void setMaxZoom(Integer maxZoom) {
         getState().maxZoom = maxZoom;
     }
-    
-    public Integer getMaxNativeZoom() {
-        return getState().maxNativeZoom;
-    }
-
-    public void setMaxNativeZoom(Integer maxNativeZoom) {
-        getState().maxNativeZoom = maxNativeZoom;
-    }
 
     public String[] getSubDomains() {
         return getState().subDomains;
@@ -99,38 +66,6 @@ public class LTileLayer extends AbstractLeafletLayer {
 
     public void setSubDomains(String... string) {
         getState().subDomains = string;
-    }
-
-    public Double getOpacity() {
-        return getState().opacity;
-    }
-
-    public void setOpacity(Double opacity) {
-        getState().opacity = opacity;
-    }
-
-    public Integer getZindex() {
-        return getState().zIndex;
-    }
-
-    public void setZindex(int zIndex) {
-        getState().zIndex = zIndex;
-    }
-
-    public Boolean getNoWrap() {
-        return getState().noWrap;
-    }
-
-    public void setNoWrap(Boolean noWrap) {
-        getState().noWrap = noWrap;
-    }
-    
-    public void setBounds(Bounds bounds) {
-        getState().bounds = bounds;
-    }
-
-    public Bounds getBounds() {
-        return getState().bounds;
     }
 
     public Map<String, String> getCustomOptions() {
@@ -146,20 +81,5 @@ public class LTileLayer extends AbstractLeafletLayer {
             getState().customOptions = new HashMap<String, String>();
         }
         getState().customOptions.put(optionName, optionValue);
-    }
-
-    @Override
-    public Geometry getGeometry() {
-        return null;
-    }
-
-    public void addLoadListener(LeafletLoadListener listener) {
-        addListener(EventId.LOAD, LeafletLoadEvent.class, listener,
-                LeafletLoadListener.METHOD);
-    }
-
-    public void addLoadingListener(LeafletLoadingListener listener) {
-        addListener(EventId.LOADING, LeafletLoadingEvent.class, listener,
-                LeafletLoadingListener.METHOD);
     }
 }
