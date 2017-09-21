@@ -106,14 +106,25 @@ public class LeafletMarkerConnector extends
         URLReference urlReference = getState().resources.get("icon");
         String divIcon = getState().divIcon;
         if (urlReference != null && urlReference.getURL().startsWith("fonticon://")) {
+            String pathFill = getState().iconPathFill != null ? getState().iconPathFill : "#44AEEA";
+            String pathStroke = getState().iconPathStroke != null ? getState().iconPathStroke : "#005FA8";
+            String textFill = getState().iconTextFill != null ? getState().iconTextFill : "#fff";
+
             // fonticons have special handling
             com.vaadin.client.ui.Icon vIcon = getIcon();
             String fontAwesomeChar = vIcon.getElement().getInnerText();
             StringBuilder svgSb = new StringBuilder();
-            // TODO make this configurable, consider making also possible to 
+            // TODO make this configurable, consider making also possible to
             // use configurable SVG marker without fontawesome icon in marker
-            svgSb.append("<svg width=\"25px\" height=\"40px\"><path fill=\"#44AEEA\" stroke=\"#005FA8\" d=\"M12.544,0.5C5.971,0.5,0.5,6.24,0.5,12.416c0,2.777,1.564,6.308,2.694,8.745\n"
-                    + "L12.5,38.922l9.262-17.761c1.13-2.438,2.738-5.791,2.738-8.745C24.5,6.24,19.117,0.5,12.544,0.5L12.544,0.5z\"/><text fill=\"#fff\" x=\"12.5\" y=\"20\" text-anchor=\"middle\" font-size=\"16\" class=\"");
+            svgSb.append("<svg width=\"25px\" height=\"40px\"><path fill=\"");
+            svgSb.append(pathFill);
+            svgSb.append("\" stroke=\"");
+            svgSb.append(pathStroke);
+            svgSb.append("\" d=\"M12.544,0.5C5.971,0.5,0.5,6.24,0.5,12.416c0,2.777,1.564,6.308,2.694,8.745\n"
+                    + "L12.5,38.922l9.262-17.761c1.13-2.438,2.738-5.791,2.738-8.745C24.5,6.24,19.117,0.5,12.544,0.5L12.544,0.5z\"/>");
+            svgSb.append("<text fill=\"");
+            svgSb.append(textFill);
+            svgSb.append("\" x=\"12.5\" y=\"20\" text-anchor=\"middle\" font-size=\"16\" class=\"");
             svgSb.append(vIcon.getStyleName());
             svgSb.append("\">");
             svgSb.append(fontAwesomeChar);
