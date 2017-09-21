@@ -131,7 +131,10 @@ public class LeafletMarkerConnector extends
             svgSb.append("</text></svg>");
 
             DivIconOptions divIconOptions = DivIconOptions.create();
-            divIconOptions.setClassName("v-leaflet-custom-svg");
+            divIconOptions.setClassName("v-leaflet-custom-svg ");
+            if(ComponentStateUtil.hasStyles(getState())) {
+                divIconOptions.setClassName(divIconOptions.getClassName() + String.join(" ", getState().styles));
+            }
             divIconOptions.setHtml(svgSb.toString());
             divIconOptions.setIconSize(Point.create(25, 40));
             divIconOptions.setIconAnchor(Point.create(12.5, 40));
@@ -144,11 +147,7 @@ public class LeafletMarkerConnector extends
             DivIconOptions divIconOptions = DivIconOptions.create();
             configureIconSize(divIconOptions);
             if (ComponentStateUtil.hasStyles(getState())) {
-                StringBuilder builder = new StringBuilder();
-                for (String style : getState().styles) {
-                    builder.append(style).append(" ");
-                }
-                divIconOptions.setClassName(builder.toString());
+                divIconOptions.setClassName(String.join(" ", getState().styles));
             }
             divIconOptions.setHtml(divIcon);
             DivIcon icon = DivIcon.create(divIconOptions);
@@ -170,6 +169,9 @@ public class LeafletMarkerConnector extends
                 iconOptions.setIconSize(Point.create(
                         getState().iconSize.getLat(),
                         getState().iconSize.getLon()));
+            }
+            if (ComponentStateUtil.hasStyles(getState())) {
+                iconOptions.setClassName(String.join(" ", getState().styles));
             }
             Icon icon = Icon.create(iconOptions);
             options.setIcon(icon);

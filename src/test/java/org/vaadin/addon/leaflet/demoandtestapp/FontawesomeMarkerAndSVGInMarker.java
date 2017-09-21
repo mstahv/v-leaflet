@@ -36,8 +36,9 @@ public class FontawesomeMarkerAndSVGInMarker extends AbstractTest {
 
         LMarker lMarker = new LMarker(61, 22);
         lMarker.setIcon(FontAwesome.BEER);
-        lMarker.setPopup("FontAwesome marker popup with anchor");
+        lMarker.setPopup("FontAwesome marker popup with anchor beer");
         lMarker.setPopupAnchor(new Point(0, -45));
+        lMarker.addStyleName("beer");
         map.addComponent(lMarker);
         
         LCircleMarker lCircleMarker = new LCircleMarker(61,22, 2);
