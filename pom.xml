@@ -9,7 +9,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <vaadin.version>7.7.3</vaadin.version>
-        <geotools.version>10.2</geotools.version>
+        <geotools.version>16.3</geotools.version>
     </properties>
 
     <organization>
