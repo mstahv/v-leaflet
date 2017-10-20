@@ -118,6 +118,16 @@ public class BasicTest extends AbstractTest {
 		leafletMap.addComponent(leafletMarker);
 		leafletMap.setAttributionPrefix("Powered by Leaflet with v-leaflet");
 
+		LPolyline roadOverlay = new LPolyline(new Point(61.42, 21.245),
+				new Point(60.4655, 22.321), new Point(60.45, 22.307));
+		leafletMap.addOverlay(roadOverlay, "Road overlay");
+
+		LMarker point1 = new LMarker(61.441, 21.2442);
+		LMarker point2 = new LMarker(61.445, 21.2441);
+		LMarker point3 = new LMarker(61.447, 21.2445);
+		LLayerGroup layerGroup = new LLayerGroup(point1, point2, point3);
+		leafletMap.addOverlay(layerGroup, "Points overlay");
+
 		leafletMap.addBaseLayer(new LOpenStreetMapLayer(), "CloudMade");
 
 		// This will make everything sharper on "retina devices", but also text
@@ -132,6 +142,27 @@ public class BasicTest extends AbstractTest {
 		pk.setDetectRetina(true);
 
 		leafletMap.addBaseLayer(pk, "Peruskartta");
+
+		leafletMap.addBaseLayerChangeListener(new LeafletBaseLayerChangeListener() {
+			@Override
+			public void onBaseLayerChange(LeafletBaseLayerChangeEvent event) {
+				Notification.show(event.getName() + " base layer was activated!");
+			}
+		});
+
+		leafletMap.addOverlayAddListener(new LeafletOverlayAddListener() {
+			@Override
+			public void onOverlayAdd(LeafletOverlayAddEvent event) {
+				Notification.show(event.getName() + " overlay was added!");
+			}
+		});
+
+		leafletMap.addOverlayRemoveListener(new LeafletOverlayRemoveListener() {
+			@Override
+			public void onOverlayRemove(LeafletOverlayRemoveEvent event) {
+				Notification.show(event.getName() + " overlay was removed!");
+			}
+		});
 
 		leafletMap.addClickListener(listener);
 

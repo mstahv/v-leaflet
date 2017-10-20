@@ -82,6 +82,16 @@ public class LMap extends AbstractComponentContainer {
             }
 
             @Override
+            public void onOverlayAdd(String name) {
+                fireEvent(new LeafletOverlayAddEvent(LMap.this, name));
+            }
+
+            @Override
+            public void onOverlayRemove(String name) {
+                fireEvent(new LeafletOverlayRemoveEvent(LMap.this, name));
+            }
+
+            @Override
             public void onLocate(Point location, Double accuracy, Double altitude) {
                 fireEvent(new LeafletLocateEvent(LMap.this, location, accuracy, altitude));
             }
@@ -300,6 +310,16 @@ public class LMap extends AbstractComponentContainer {
     public Registration addBaseLayerChangeListener(LeafletBaseLayerChangeListener listener) {
         return addListener("baselayerchange", LeafletBaseLayerChangeEvent.class, listener,
                 LeafletBaseLayerChangeListener.METHOD);
+    }
+
+    public Registration addOverlayAddListener(LeafletOverlayAddListener listener) {
+        return addListener("overlayadd", LeafletOverlayAddEvent.class, listener,
+                LeafletOverlayAddListener.METHOD);
+    }
+
+    public Registration addOverlayRemoveListener(LeafletOverlayRemoveListener listener) {
+        return addListener("overlayremove", LeafletOverlayRemoveEvent.class, listener,
+                LeafletOverlayRemoveListener.METHOD);
     }
 
     public void setCenter(Bounds bounds) {
