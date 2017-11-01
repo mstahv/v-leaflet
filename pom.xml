@@ -315,6 +315,16 @@
             </snapshots>
         </repository>
         <repository>
+            <id>viritin</id>
+            <url>http://virit.in/maven2/</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+        <repository>
             <id>vaadin-prereleases</id>
             <name>Vaadin Pre-releases</name>
             <url>https://maven.vaadin.com/vaadin-prereleases</url>
