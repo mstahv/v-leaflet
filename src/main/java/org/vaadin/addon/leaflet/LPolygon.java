@@ -26,10 +26,6 @@ public class LPolygon extends AbstractLeafletVector {
         setPoints(points);
     }
 
-    public LPolygon(LinearRing jtsLinearRing) {
-        this(JTSUtil.toLeafletPointArray(jtsLinearRing));
-    }
-
     public LPolygon(Polygon polygon) {
         setGeometry(polygon);
     }
