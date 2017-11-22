@@ -50,7 +50,12 @@ public class LPolyline extends AbstractLeafletVector {
 
     @Override
     public Geometry getGeometry() {
-        return JTSUtil.toLineString(this);
+        final LineString line = JTSUtil.toLineString(this);
+        if(line.isSimple() && line.isClosed())
+        {
+          return JTSUtil.toLinearRing(this);
+        }
+        return line;
     }
 
     public void setGeometry(LineString lineString) {
