@@ -31,6 +31,7 @@ import org.vaadin.addon.leaflet.shared.Point;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Widget;
@@ -337,8 +338,8 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector
                 zoom = getState().zoomLevel;
             }
             options.setZoom(zoom);
-            map = Map.create(getWidget().getElement().getFirstChildElement(),
-                    options);
+            final Element mapElement = getWidget().getElement().getFirstChildElement();
+            map = createMap(mapElement, options);
             if (getState().attributionPrefix != null) {
                 map.getAttributionControl().setPrefix(
                         getState().attributionPrefix);
@@ -452,6 +453,10 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector
 
         updateChildrens();
 
+    }
+
+    protected Map createMap(final Element mapElement, MapOptions options) {
+        return Map.create(mapElement, options);
     }
 
     protected void reportViewPortToServer() {
