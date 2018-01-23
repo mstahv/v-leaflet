@@ -19,6 +19,11 @@ public class LCircle extends AbstractLeafletVector {
         return (LeafletCircleState) super.getState();
     }
 
+    @Override
+    protected LeafletCircleState getState(boolean markAsDirty) {
+        return (LeafletCircleState) super.getState(markAsDirty);
+    }
+
     /**
      *
      * @param lat the latitude of the center of the circle
@@ -66,16 +71,21 @@ public class LCircle extends AbstractLeafletVector {
     }
 
     public Point getPoint() {
-        return getState().point;
+        return getState(false).point;
     }
 
     public double getRadius() {
-        return getState().radius;
+        return getState(false).radius;
     }
 
     @Override
     public Geometry getGeometry() {
         return JTSUtil.toPoint(getPoint());
+    }
+
+    public void setPointAndRadiusWithoutRepaint(double radius, Point latLng) {
+        getState(false).radius = radius;
+        getState(false).point = latLng;
     }
 
 }

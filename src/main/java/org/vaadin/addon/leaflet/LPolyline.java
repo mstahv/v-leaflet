@@ -35,7 +35,7 @@ public class LPolyline extends AbstractLeafletVector {
     }
 
     public void setPoints(Point... array) {
-        points = new PointArray(Arrays.asList(array));
+        setPointsWithoutRepaint(array);
         markAsDirty();
     }
 
@@ -44,6 +44,10 @@ public class LPolyline extends AbstractLeafletVector {
         markAsDirty();
     }
 
+    public void setPointsWithoutRepaint(Point...  points) {
+        this.points = new PointArray(points);
+    }
+    
     public Point[] getPoints() {
         return points.toArray(new Point[points.size()]);
     }
@@ -57,6 +61,10 @@ public class LPolyline extends AbstractLeafletVector {
         setPoints(JTSUtil.toLeafletPointArray(lineString));
     }
     
+    public void setGeometryWithoutRepaint(LineString lineString) {
+        setPointsWithoutRepaint(JTSUtil.toLeafletPointArray(lineString));
+    }
+
     /**
      * Removes all null values from the geometry.
      */

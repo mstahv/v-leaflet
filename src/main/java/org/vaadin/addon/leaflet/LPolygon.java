@@ -33,8 +33,20 @@ public class LPolygon extends AbstractLeafletVector {
     public LPolygon(Polygon polygon) {
         setGeometry(polygon);
     }
-    
+
     public LPolygon setGeometry(Polygon polygon) {
+        setGeometryWithoutRepaint(polygon);
+        markAsDirty();
+        return this;
+    }
+
+    /**
+     * Sets the geometry without triggering repaint on the client side. Can be used
+     * by add-ons that modify vector on the client side
+     * 
+     * @param polygon the geometry
+     */
+    public void setGeometryWithoutRepaint(Polygon polygon) {
         Point[] exterior = toLeafletPointArray(polygon.getExteriorRing());
         PointMultiArray pointMultiArray = new PointMultiArray();
         pointMultiArray.add(new PointArray(exterior));
@@ -42,8 +54,6 @@ public class LPolygon extends AbstractLeafletVector {
             pointMultiArray.add(new PointArray(toLeafletPointArray(polygon.getInteriorRingN(i))));
         }
         points = pointMultiArray;
-        markAsDirty();
-        return this;
     }
 
     @Override
@@ -97,13 +107,12 @@ public class LPolygon extends AbstractLeafletVector {
     public List<PointArray> getHoles() {
         return points.subList(1, points.size());
     }
-    
+
     /**
      * Removes all null values from the geometry.
      */
     public void sanitizeGeometry() {
         points.sanitize();
     }
-
 
 }
