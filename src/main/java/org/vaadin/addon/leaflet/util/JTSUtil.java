@@ -215,8 +215,8 @@ public class JTSUtil {
         return toLineString(points);
     }
 
-    public static LinearRing toLinearRing(LPolygon polygon) {
-        Point[] points = polygon.getPoints();
+    public static LinearRing toLinearRing(LPolyline polyline) {
+        Point[] points = polyline.getPoints();
         if(points.length == 0) {
             return null;
         }
