@@ -47,7 +47,8 @@ public class GeoJSONExample extends AbstractTest {
         try {
             long currentTimeMillis = System.currentTimeMillis();
             // Look ma, no proxy needed, how cool is that!
-            FeatureCollection fc = io.readFeatureCollection(new URL("http://eric.clst.org/wupl/Stuff/gz_2010_us_040_00_500k.json").openStream());
+            
+            FeatureCollection fc = io.readFeatureCollection(new URL("http://eric.clst.org/assets/wiki/uploads/Stuff/gz_2010_us_040_00_500k.json").openStream());
             Logger.getLogger(GeoJSONExample.class.getName()).severe("Download in " + (System.currentTimeMillis() - currentTimeMillis));
             currentTimeMillis = System.currentTimeMillis();
 
