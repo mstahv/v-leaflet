@@ -174,7 +174,7 @@
                 <configuration>
                     <drivers>
                         <driver>
-                            <name>chromedriver</name>
+                            <name>geckodriver</name>
                         </driver>
                     </drivers>
                 </configuration>

@@ -8,11 +8,11 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.vaadin.addonhelpers.TListUi;
 import org.vaadin.addonhelpers.automated.AbstractWebDriverCase;
 
 import java.util.List;
+import org.openqa.selenium.firefox.FirefoxDriver;
 
 public class SimpleTest extends AbstractWebDriverCase {
 
@@ -41,6 +41,6 @@ public class SimpleTest extends AbstractWebDriverCase {
 
 	@Override
 	protected void startBrowser() {
-		startBrowser(new ChromeDriver());
+		startBrowser(new FirefoxDriver());
 	}
 }
