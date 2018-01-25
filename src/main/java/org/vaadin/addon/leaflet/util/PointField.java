@@ -26,7 +26,7 @@ public class PointField extends AbstractJTSField<Point> {
     }
 
     @Override
-    protected void prepareEditing() {
+    protected void prepareEditing(boolean userOriginatedValueChangeEvent) {
         if (marker == null) {
             marker = new LMarker(JTSUtil.toLeafletPoint(getCrsTranslator()
                     .toPresentation(getValue())));

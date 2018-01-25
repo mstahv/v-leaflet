@@ -123,6 +123,14 @@ public abstract class AbstractJTSField<T extends Geometry> extends
 			getConfigurator().configure(this);
 		}
 	}
+    
+    private boolean userOriginatedSetValueEvent;
+
+    @Override
+    protected boolean setValue(T value, boolean userOriginated) {
+        userOriginatedSetValueEvent = userOriginated;
+        return super.setValue(value, userOriginated); //To change body of generated methods, choose Tools | Templates.
+    }
 
 	@Override
 	protected void doSetValue(T newValue) {
@@ -130,7 +138,7 @@ public abstract class AbstractJTSField<T extends Geometry> extends
 		if (newValue == null) {
 			prepareDrawing();
 		} else {
-			prepareEditing();
+			prepareEditing(userOriginatedSetValueEvent);
 		}
 	}
 
@@ -139,7 +147,7 @@ public abstract class AbstractJTSField<T extends Geometry> extends
 		return value;
 	}
 
-	protected abstract void prepareEditing();
+	protected abstract void prepareEditing(boolean userOriginatedValueChange);
 
 	protected abstract void prepareDrawing();
 
@@ -175,7 +183,7 @@ public abstract class AbstractJTSField<T extends Geometry> extends
 			if(getValue() == null) {
 				prepareDrawing();
 			} else {
-				prepareEditing();
+				prepareEditing(false);
 			}
 		}
 	}
