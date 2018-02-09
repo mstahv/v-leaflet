@@ -1,6 +1,8 @@
 package org.vaadin.addon.leaflet;
 
 import com.vaadin.shared.Registration;
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.GeometryFactory;
 import org.vaadin.addon.leaflet.shared.Crs;
 
 import java.util.ArrayList;
@@ -24,8 +26,6 @@ import com.vaadin.server.Extension;
 import com.vaadin.shared.MouseEventDetails;
 import com.vaadin.ui.AbstractComponentContainer;
 import com.vaadin.ui.Component;
-import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.geom.GeometryFactory;
 import org.vaadin.addon.leaflet.jsonmodels.BasicMap;
 
 /**
@@ -271,7 +271,7 @@ public class LMap extends AbstractComponentContainer {
         setCenter(center, null);
     }
 
-    public void setCenter(com.vividsolutions.jts.geom.Point jtsPoint) {
+    public void setCenter(org.locationtech.jts.geom.Point jtsPoint) {
         Point point = new Point();
         point.setLat(jtsPoint.getY());
         point.setLon(jtsPoint.getX());

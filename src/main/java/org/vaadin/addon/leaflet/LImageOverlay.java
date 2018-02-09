@@ -1,10 +1,10 @@
 package org.vaadin.addon.leaflet;
 
 import com.vaadin.server.Resource;
+import org.locationtech.jts.geom.Geometry;
 import org.vaadin.addon.leaflet.shared.Point;
 import org.vaadin.addon.leaflet.util.JTSUtil;
 
-import com.vividsolutions.jts.geom.Geometry;
 import org.vaadin.addon.leaflet.shared.Bounds;
 import org.vaadin.addon.leaflet.shared.LeafletImageOverlayState;
 

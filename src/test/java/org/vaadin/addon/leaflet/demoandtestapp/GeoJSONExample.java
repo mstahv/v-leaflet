@@ -2,8 +2,6 @@ package org.vaadin.addon.leaflet.demoandtestapp;
 
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Notification;
-import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.simplify.DouglasPeuckerSimplifier;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -13,6 +11,8 @@ import java.util.logging.Logger;
 import org.geotools.feature.FeatureCollection;
 import org.geotools.feature.FeatureIterator;
 import org.geotools.geojson.feature.FeatureJSON;
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.simplify.DouglasPeuckerSimplifier;
 import org.opengis.feature.Feature;
 import org.vaadin.addon.leaflet.LMap;
 import org.vaadin.addon.leaflet.LPolygon;
@@ -47,7 +47,7 @@ public class GeoJSONExample extends AbstractTest {
         try {
             long currentTimeMillis = System.currentTimeMillis();
             // Look ma, no proxy needed, how cool is that!
-            
+
             FeatureCollection fc = io.readFeatureCollection(new URL("http://eric.clst.org/assets/wiki/uploads/Stuff/gz_2010_us_040_00_500k.json").openStream());
             Logger.getLogger(GeoJSONExample.class.getName()).severe("Download in " + (System.currentTimeMillis() - currentTimeMillis));
             currentTimeMillis = System.currentTimeMillis();

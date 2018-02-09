@@ -1,12 +1,12 @@
 package org.vaadin.addon.leaflet.util;
 
+import org.locationtech.jts.geom.Geometry;
 import org.vaadin.addon.leaflet.LMap;
 import org.vaadin.addon.leaflet.LTileLayer;
 
 import com.vaadin.client.ui.Field;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
-import com.vividsolutions.jts.geom.Geometry;
 
 /**
  * Abstract base class for re-usable Vaadin {@link Field}s that edit JTS types

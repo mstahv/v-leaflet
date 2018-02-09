@@ -5,7 +5,6 @@ import com.vaadin.ui.AbsoluteLayout;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
-import com.vividsolutions.jts.geom.Geometry;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.Collection;
@@ -14,6 +13,7 @@ import java.util.logging.Logger;
 import org.geotools.feature.FeatureCollection;
 import org.geotools.feature.FeatureIterator;
 import org.geotools.geojson.feature.FeatureJSON;
+import org.locationtech.jts.geom.Geometry;
 import org.opengis.feature.Feature;
 import org.vaadin.addon.leaflet.AbstractLeafletVector;
 import org.vaadin.addon.leaflet.LLayerGroup;
@@ -41,6 +41,7 @@ public class ChoroplethExample extends AbstractTest {
         leafletMap.addLayer(new LOpenStreetMapLayer());
         leafletMap.setView(37.8, -96.0, 4.0);
 
+
         /*
          * Reading from geojson here, but typically you'd just query
          * your DB directly for the data.
@@ -53,28 +54,29 @@ public class ChoroplethExample extends AbstractTest {
 
             FeatureIterator iterator = fc.features();
             try {
-                while (iterator.hasNext()) {
-                    Feature feature = iterator.next();
-                    
-                    final String name = feature.getProperty("name").getValue().toString();
-                    final Double density = (Double) feature.getProperty("density").getValue();
-                    System.out.println("State " + name + " read!");
-                    Geometry geometry = (Geometry) feature.getDefaultGeometryProperty().getValue();
-
-                    // Using a helper create v-leaflet components from geojson
-                    Collection<LeafletLayer> toLayers = JTSUtil.toLayers(geometry);
-                    for (LeafletLayer l : toLayers) {
-                        leafletMap.addComponent(l);
-                        if (l instanceof AbstractLeafletVector) {
-                            configureFeature(l, density, name);
-                        } else if (l instanceof LLayerGroup) {
-                            LLayerGroup g = (LLayerGroup) l;
-                            for (Component component : g) {
-                                configureFeature((LeafletLayer) component, density, name);
-                            }
-                        }
-                    }
-                }
+                //fixme geotools still uses pre-location tech jts
+//                while (iterator.hasNext()) {
+//                    Feature feature = iterator.next();
+//
+//                    final String name = feature.getProperty("name").getValue().toString();
+//                    final Double density = (Double) feature.getProperty("density").getValue();
+//                    System.out.println("State " + name + " read!");
+//                    Geometry geometry = (Geometry) feature.getDefaultGeometryProperty().getValue();
+//
+//                    // Using a helper create v-leaflet components from geojson
+//                    Collection<LeafletLayer> toLayers = JTSUtil.toLayers(geometry);
+//                    for (LeafletLayer l : toLayers) {
+//                        leafletMap.addComponent(l);
+//                        if (l instanceof AbstractLeafletVector) {
+//                            configureFeature(l, density, name);
+//                        } else if (l instanceof LLayerGroup) {
+//                            LLayerGroup g = (LLayerGroup) l;
+//                            for (Component component : g) {
+//                                configureFeature((LeafletLayer) component, density, name);
+//                            }
+//                        }
+//                    }
+//                }
             } finally {
                 iterator.close();
             }

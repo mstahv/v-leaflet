@@ -1,6 +1,6 @@
 package org.vaadin.addon.leaflet;
 
-import com.vividsolutions.jts.geom.Geometry;
+import org.locationtech.jts.geom.Geometry;
 import org.vaadin.addon.leaflet.shared.LeafletTooltipState;
 import org.vaadin.addon.leaflet.shared.Point;
 import org.vaadin.addon.leaflet.shared.TooltipState;
@@ -31,7 +31,7 @@ public class LTooltip extends AbstractLeafletDivOverlay {
         return (LMap) getParent();
     }
 
-    public LTooltip(com.vividsolutions.jts.geom.Point jtsPoint) {
+    public LTooltip(org.locationtech.jts.geom.Point jtsPoint) {
         this(JTSUtil.toLeafletPoint(jtsPoint));
     }
 
