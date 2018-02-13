@@ -392,6 +392,24 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector
                 }
             });
 
+            map.addOverlayAddListener(new OverlayAddListener() {
+                @Override
+                public void onOverlayAdd(LayersControlEvent event) {
+                    if (hasEventListener("overlayadd")) {
+                        rpc.onOverlayAdd(event.getName());
+                    }
+                }
+            });
+
+            map.addOverlayRemoveListener(new OverlayRemoveListener() {
+                @Override
+                public void onOverlayRemove(LayersControlEvent event) {
+                    if (hasEventListener("overlayremove")) {
+                        rpc.onOverlayRemove(event.getName());
+                    }
+                }
+            });
+
             MoveEndListener moveEndListener = new MoveEndListener() {
 
                 @Override
