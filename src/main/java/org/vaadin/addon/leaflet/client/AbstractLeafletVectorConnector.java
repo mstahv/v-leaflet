@@ -1,6 +1,5 @@
 package org.vaadin.addon.leaflet.client;
 
-import com.google.gwt.core.client.JsArrayString;
 import org.vaadin.addon.leaflet.shared.AbstractLeafletVectorState;
 import org.vaadin.addon.leaflet.shared.LeafletMarkerClientRpc;
 import com.google.gwt.core.client.JsonUtils;
@@ -62,12 +61,8 @@ public abstract class AbstractLeafletVectorConnector<T extends AbstractLeafletVe
 		AbstractLeafletVectorState s = getState();
 		O o = JsonUtils.safeEval(s.vectorStyleJson);
 
-		if (s.nonBubblingEvents != null) {
-			JsArrayString eventsJsArray = JsArrayString.createArray().cast();
-			for (String event : s.nonBubblingEvents) {
-				eventsJsArray.push(event);
-			}
-			o.setNonBubblingEvents(eventsJsArray);
+		if (s.bubblingMouseEvents != null) {
+            o.setBubblingMouseEvents(s.bubblingMouseEvents);
 		}
 
 		if (s.clickable != null) {
