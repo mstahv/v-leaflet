@@ -351,7 +351,14 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector
                         b.getNorthEastLon());
                 LatLng southWest = LatLng.create(b.getSouthWestLat(),
                         b.getSouthWestLon());
-                map.fitBounds(LatLngBounds.create(southWest, northEast));
+                // With certain Vaadin layouts, like SplitPanel, the size is not
+                // fixed properly yet, so defer the fitBounds call
+                Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+                    @Override
+                    public void execute() {
+                        map.fitBounds(LatLngBounds.create(southWest, northEast));
+                    }
+                });
             }
 
             map.addClickListener(new ClickListener() {
