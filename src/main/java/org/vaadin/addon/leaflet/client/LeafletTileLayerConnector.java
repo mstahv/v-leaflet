@@ -24,7 +24,9 @@ public class LeafletTileLayerConnector extends
     protected TileLayerOptions createOptions() {
         TileLayerOptions o = TileLayerOptions.create();
         LeafletTileLayerState s = getState();
-        o.setAttribution(s.attributionString);
+        if (s.attributionString != null) {
+            o.setAttribution(s.attributionString);
+        }
         if (s.detectRetina != null && s.detectRetina) {
             o.setDetectRetina(true);
         }
