@@ -22,7 +22,9 @@ public class LeafletGridLayerConnector extends AbstractLeafletLayerConnector<Gri
         GridLayerOptions o = GridLayerOptions.create();
         LeafletGridLayerState s = getState();
 
-        o.setAttribution(s.attributionString);
+        if (s.attributionString != null) {
+            o.setAttribution(s.attributionString);
+        }
         if (s.minNativeZoom != null) {
             o.setMinNativeZoom(s.minNativeZoom);
         }
