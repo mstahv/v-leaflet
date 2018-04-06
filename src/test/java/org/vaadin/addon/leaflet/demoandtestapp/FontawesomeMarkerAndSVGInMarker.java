@@ -1,6 +1,7 @@
 package org.vaadin.addon.leaflet.demoandtestapp;
 
 
+import com.vaadin.server.ExternalResource;
 import com.vaadin.server.FontAwesome;
 import org.vaadin.addon.leaflet.LMap;
 import org.vaadin.addon.leaflet.LMarker;
@@ -16,6 +17,8 @@ import org.vaadin.addon.leaflet.shared.Point;
 import org.vaadin.addonhelpers.AbstractTest;
 
 public class FontawesomeMarkerAndSVGInMarker extends AbstractTest {
+
+    String svgMarker = "<svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' width='512px' height='512px' viewBox='0 0 512 512' style='enable-background:new 0 0 512 512;'><g><path fill='FILLCOLOR' d='M256,0c-70.703,0-128,57.313-128,128c0,51.5,30.563,95.563,74.375,115.875L256,512l53.625-268.125 C353.438,223.563,384,179.5,384,128C384,57.313,326.688,0,256,0z M256,192c-35.344,0-64-28.656-64-64s28.656-64,64-64 s64,28.656,64,64S291.344,192,256,192z'/> </g> </svg>";
 
     @Override
     public String getDescription() {
@@ -36,17 +39,19 @@ public class FontawesomeMarkerAndSVGInMarker extends AbstractTest {
 
         LMarker lMarker = new LMarker(61, 22);
         lMarker.setIcon(FontAwesome.BEER);
-        lMarker.setPopup("FontAwesome marker popup with anchor");
+        lMarker.setPopup("FontAwesome marker popup with anchor beer");
         lMarker.setPopupAnchor(new Point(0, -45));
+        lMarker.addStyleName("beer");
         map.addComponent(lMarker);
         
         LCircleMarker lCircleMarker = new LCircleMarker(61,22, 2);
         map.addComponent(lCircleMarker);
-        
+
+        getPage().getStyles().add(".v-leaflet-custom-svg circle {stroke: blue;}");
 
         LMarker lMarker2 = new LMarker(62, 23);
         String svgCode = "<svg width=\"100\" height=\"100\">\n" +
-"  <circle cx=\"50\" cy=\"50\" r=\"40\" stroke=\"green\" stroke-width=\"4\" fill=\"yellow\" />\n" +
+"  <circle cx=\"50\" cy=\"50\" r=\"40\" stroke-width=\"4\" fill=\"yellow\" />\n" +
 "</svg>";
         lMarker2.setIconSize(new Point(100, 100));
         lMarker2.setIconAnchor(new Point(50, 50));
@@ -73,6 +78,16 @@ public class FontawesomeMarkerAndSVGInMarker extends AbstractTest {
         lMarker3.setPopup("Configurable FontAwesome marker popup with anchor");
         lMarker3.setPopupAnchor(new Point(0, -45));
         map.addComponent(lMarker3);
+
+        LMarker svgDataUrlMarker = new LMarker(62, 24);
+        // Note that styling is not easy this way as css don't hook into images
+        svgDataUrlMarker.addStyleName("red");
+        svgDataUrlMarker.setIcon(new ExternalResource("data:image/svg+xml;utf8," + svgMarker.replace("FILLCOLOR", "red")));
+        svgDataUrlMarker.setIconSize(new Point(50, 50));
+        svgDataUrlMarker.setIconAnchor(new Point(25, 50));
+
+        map.addComponent(svgDataUrlMarker);
+
 
         map.zoomToContent();
 

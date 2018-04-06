@@ -1,6 +1,6 @@
 package org.vaadin.addon.leaflet.demoandtestapp;
 
-import com.vaadin.data.Property;
+import com.vaadin.data.HasValue;
 import org.vaadin.addon.leaflet.LMap;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Notification;
@@ -33,13 +33,9 @@ public class FractionalZoom extends AbstractTest {
         slider.setMin(1);
         slider.setMax(16);
         slider.setResolution(1);
-        slider.addValueChangeListener(new Property.ValueChangeListener() {
-            
-            @Override
-            public void valueChange(Property.ValueChangeEvent event) {
-                leafletMap.setZoomLevel(slider.getValue());
-                Notification.show("Zoom level: " + slider.getValue(), Notification.Type.TRAY_NOTIFICATION);
-            }
+        slider.addValueChangeListener((HasValue.ValueChangeListener<Double>) event -> {
+            leafletMap.setZoomLevel(event.getValue());
+            Notification.show("Zoom level: " + event.getValue(), Notification.Type.TRAY_NOTIFICATION);
         });
         
         return new VerticalLayout(leafletMap, slider);

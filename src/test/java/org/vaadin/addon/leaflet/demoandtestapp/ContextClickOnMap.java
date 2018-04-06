@@ -55,8 +55,8 @@ public class ContextClickOnMap extends AbstractTest {
             }
         });
 
-        //prevent bubbling of events to DOM parents(like the map)
-        polygon.setNonBubblingEvents(new String[]{"click", "contextmenu"});
+        // prevent bubbling of events to DOM parents(like the map)
+        polygon.setBubblingMouseEvents(false);
 
         leafletMap.addContextMenuListener(new LeafletContextMenuListener() {
             @Override
@@ -75,7 +75,7 @@ public class ContextClickOnMap extends AbstractTest {
             @Override
             public void onClick(LeafletClickEvent event) {
                 if (event.getMouseEvent().getButton() == MouseEventDetails.MouseButton.LEFT) {
-                    Notification.show("Std Click at polygon at " + event.toString() + ". Use context click to add marker.");
+                    Notification.show("Std Click on map at " + event.toString() + ". Use context click to add marker.");
                 }
             }
         });

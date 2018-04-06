@@ -8,12 +8,11 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import org.vaadin.addonhelpers.TListUi;
 import org.vaadin.addonhelpers.automated.AbstractWebDriverCase;
 
-import com.vaadin.data.Container;
+import java.util.List;
+import org.openqa.selenium.firefox.FirefoxDriver;
 
 public class SimpleTest extends AbstractWebDriverCase {
 
@@ -23,10 +22,9 @@ public class SimpleTest extends AbstractWebDriverCase {
 
         driver.manage().timeouts().implicitlyWait(2000, TimeUnit.MILLISECONDS);
         
-        Container listTestClasses = TListUi.listTestClasses();
-        for (Object id : listTestClasses.getItemIds()) {
-			Class clazz = (Class) listTestClasses.getItem(id)
-					.getItemProperty("clazz").getValue();
+        List<TListUi.TestDetails> listTestClasses = TListUi.listTestClasses();
+        for (TListUi.TestDetails td : listTestClasses) {
+			Class clazz = td.getClazz();
 			
 			driver.get(BASEURL + clazz.getName() + "?debug");
 			waitForLoading();
@@ -43,6 +41,6 @@ public class SimpleTest extends AbstractWebDriverCase {
 
 	@Override
 	protected void startBrowser() {
-		startBrowser(new ChromeDriver());
+		startBrowser(new FirefoxDriver());
 	}
 }

@@ -19,7 +19,7 @@ import com.vividsolutions.jts.geom.Geometry;
  * modify the global configuration strategy with
  * {@link #setDefaultConfigurator(Configurator)}
  * 
- * @param <T>
+ * @param <T> the JTS Geometry type of the field
  */
 public abstract class AbstractJTSField<T extends Geometry> extends
 		CustomField<T> {
@@ -29,13 +29,13 @@ public abstract class AbstractJTSField<T extends Geometry> extends
 		void configure(AbstractJTSField<?> field);
 
 	}
-
+	private T value;
 	private static Configurator defaultConfigurator = new Configurator() {
 
 		@Override
 		public void configure(AbstractJTSField<?> field) {
 			LTileLayer layer = new LTileLayer(
-					"http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png");
+					"https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png");
 			layer.setAttributionString("© OpenStreetMap contributors");
 			field.getMap().addLayer(layer);
             // hardcoded support for Leaflet.Editable
@@ -46,7 +46,7 @@ public abstract class AbstractJTSField<T extends Geometry> extends
 	/**
 	 * Sets the default strategy to configure {@link AbstractJTSField}s.
 	 * 
-	 * @param configurator
+	 * @param configurator the strategy to configure JTS fields
 	 */
 	public static void setDefaultConfigurator(Configurator configurator) {
 		if (configurator == null) {
@@ -94,7 +94,7 @@ public abstract class AbstractJTSField<T extends Geometry> extends
 
 	public AbstractJTSField() {
 		super();
-		setValidationVisible(false);
+		setRequiredIndicatorVisible(false);
 		setSizeFull();
 	}
 
@@ -123,18 +123,31 @@ public abstract class AbstractJTSField<T extends Geometry> extends
 			getConfigurator().configure(this);
 		}
 	}
+    
+    private boolean userOriginatedSetValueEvent;
+
+    @Override
+    protected boolean setValue(T value, boolean userOriginated) {
+        userOriginatedSetValueEvent = userOriginated;
+        return super.setValue(value, userOriginated); //To change body of generated methods, choose Tools | Templates.
+    }
 
 	@Override
-	protected void setInternalValue(T newValue) {
-		super.setInternalValue(newValue);
+	protected void doSetValue(T newValue) {
+		this.value = newValue;
 		if (newValue == null) {
 			prepareDrawing();
 		} else {
-			prepareEditing();
+			prepareEditing(userOriginatedSetValueEvent);
 		}
 	}
 
-	protected abstract void prepareEditing();
+	@Override
+	public T getValue() {
+		return value;
+	}
+
+	protected abstract void prepareEditing(boolean userOriginatedValueChange);
 
 	protected abstract void prepareDrawing();
 
@@ -167,10 +180,10 @@ public abstract class AbstractJTSField<T extends Geometry> extends
 		if(readOnly == true) {
 			prepareViewing();
 		} else {
-			if(getInternalValue() == null) {
+			if(getValue() == null) {
 				prepareDrawing();
 			} else {
-				prepareEditing();
+				prepareEditing(false);
 			}
 		}
 	}

@@ -2,20 +2,14 @@ package org.vaadin.addon.leaflet.shared;
 
 import java.util.Map;
 
-public class LeafletTileLayerState extends AbstractLeafletComponentState {
+public class LeafletTileLayerState extends LeafletGridLayerState {
 
     public String url;
-    public String attributionString;
     public Boolean detectRetina;
     public Boolean tms;
     public Integer minZoom;
     public Integer maxZoom;
-    public Integer maxNativeZoom;
     public String[] subDomains;
-    public Double opacity;
-    public Integer zIndex;
-    public Boolean noWrap;
-    public Bounds bounds;
     public Map<String, String> customOptions;
     
 }

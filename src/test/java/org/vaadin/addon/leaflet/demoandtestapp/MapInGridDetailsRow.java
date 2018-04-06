@@ -1,15 +1,11 @@
 package org.vaadin.addon.leaflet.demoandtestapp;
 
-import com.vaadin.event.ItemClickEvent;
-import com.vaadin.event.ItemClickEvent.ItemClickListener;
-import org.vaadin.addon.leaflet.LMap;
-
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Grid;
-import com.vaadin.ui.Grid.DetailsGenerator;
-import com.vaadin.ui.Grid.RowReference;
-import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.components.grid.DetailsGenerator;
+import com.vaadin.ui.components.grid.ItemClickListener;
+import org.vaadin.addon.leaflet.LMap;
 import org.vaadin.addon.leaflet.LMarker;
 import org.vaadin.addon.leaflet.LTileLayer;
 import org.vaadin.addonhelpers.AbstractTest;
@@ -25,41 +21,32 @@ public class MapInGridDetailsRow extends AbstractTest {
     public Component getTestComponent() {
         VerticalLayout vl = new VerticalLayout();
         vl.setSizeFull();
-        final Grid grid = new Grid();
+        final Grid<String> grid = new Grid<>();
         grid.setSizeFull();
 
         // Define some columns
-        grid.addColumn("name", String.class);
-        grid.addColumn("born", String.class);
+        grid.addColumn(r -> r).setCaption("Name");
+        grid.addColumn(r -> "").setCaption("Born");
 
         // Add some data rows
-        grid.addRow("Nicolaus Copernicus", "");
-        grid.addRow("Galileo Galilei", "");
-        grid.addRow("Johannes Kepler", "");
+        grid.setItems("Nicolaus Copernicus","Galileo Galilei", "Johannes Kepler");
 
-        grid.setDetailsGenerator(new DetailsGenerator() {
-            public Component getDetails(RowReference rowReference) {
-                final LMap leafletMap = new LMap();
-                final LTileLayer baselayer = new LTileLayer();
-                baselayer.setAttributionString("OpenStreetMap");
-                baselayer.setUrl("http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png");
-                leafletMap.addLayer(baselayer);
-                leafletMap.setWidth("100%");
-                leafletMap.setHeight("100px");
-                leafletMap.setZoomLevel(3);
-                LMarker leafletMarker = new LMarker(-21.54, 30.76);
-                leafletMap.addComponent(leafletMarker);
-                leafletMap.zoomToContent();
-                return leafletMap;
-            }
+        grid.setDetailsGenerator((DetailsGenerator<String>) s -> {
+            final LMap leafletMap = new LMap();
+            final LTileLayer baselayer = new LTileLayer();
+            baselayer.setAttributionString("OpenStreetMap");
+            baselayer.setUrl("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png");
+            leafletMap.addLayer(baselayer);
+            leafletMap.setWidth("100%");
+            leafletMap.setHeight("100px");
+            leafletMap.setZoomLevel(3);
+            LMarker leafletMarker = new LMarker(-21.54, 30.76);
+            leafletMap.addComponent(leafletMarker);
+            leafletMap.zoomToContent();
+            return leafletMap;
         });
 
-        grid.addItemClickListener(new ItemClickListener() {
-            public void itemClick(ItemClickEvent event) {
-                Object itemId = event.getItemId();
-                grid.setDetailsVisible(itemId, !grid.isDetailsVisible(itemId));
-            }
-        });
+        grid.addItemClickListener((ItemClickListener<String>) event -> grid.setDetailsVisible(event.getItem(), !grid.isDetailsVisible(event.getItem())));
         vl.addComponent(grid);
 
         return vl;

@@ -87,7 +87,7 @@ Tests written for this add-on are automatically executed during build but only r
 mvn test
 ```
 
-To demonstrate how properly test you add-on the project has example of a simple unit test and a bit more advanced TestBench (or WebDriver) test to stress the whole chain from browser to server and back. TestBench is highly suggested (especially the soon to be released version 3), but one can so simple stuff with plain Selenium2 as well. The project has TestBench version commented out as its license might not fit for all developers if they have no Vaadin Pro Account subscription.
+To demonstrate how properly test you add-on the project has example of a simple unit test and a bit more advanced TestBench (or WebDriver) test to stress the whole chain from browser to server and back. TestBench is highly suggested (especially the soon to be released version 3), but one can so simple stuff with plain Selenium3 as well. The project has TestBench version commented out as its license might not fit for all developers if they have no Vaadin Pro Account subscription.
 
 Unit tests can be written with tool of choice (maven supports most of them). JUnit is already configured.
 
@@ -97,7 +97,7 @@ The UiRunner class has a main method that you can launch. It opens an embedded j
 
 From command line one can launch it with easily with correct classpath with maven exec plugin:
 ```
-mvn -e exec:java -Dexec.mainClass="org.vaadin.addon.leaflet.demoandtestapp.util.UiRunner" -Dexec.classpathScope=test
+mvn -e exec:java@test
 ```
 
 Tests are loaded via reflection on each page load. Accessing http://localhost:9998/BasicTest will load a new instance of test class org.vaadin.addon.leaflet.demoandtestapp.BasicTest

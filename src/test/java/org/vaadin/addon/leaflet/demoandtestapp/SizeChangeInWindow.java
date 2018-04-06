@@ -25,7 +25,6 @@ public class SizeChangeInWindow extends AbstractTest {
     	
     	      map.addBaseLayer(new LOpenStreetMapLayer(), "OpenStreetMap");
     	  
-    	      map.setImmediate( true );
     	      map.setSizeFull();
     	      
     	      
