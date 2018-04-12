@@ -3,8 +3,9 @@ package org.vaadin.addon.leaflet.demoandtestapp;
 import java.util.Arrays;
 import java.util.List;
 
-import com.vaadin.data.HasValue;
-import com.vaadin.shared.ui.ContentMode;
+import com.vaadin.data.Property.ValueChangeListener;
+import com.vaadin.data.Property.ValueChangeEvent;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import org.vaadin.addon.leaflet.LMap;
 import org.vaadin.addon.leaflet.LTileLayer;
@@ -90,12 +91,16 @@ public class ExternalLayerControlTest extends AbstractTest {
         return c;
     }
 
-    private HasValue.ValueChangeListener ovListener = (HasValue.ValueChangeListener<Boolean>) event -> {
-        CheckBox cb = (CheckBox) event.getComponent();
-        boolean checked = event.getValue();
-        LayerWrapper lw = (LayerWrapper) cb.getData();
-        lw.getLayer().setActive(checked);
-        trayNotify("Layer " + cb.getCaption() + " should now be " + (checked ? "" : "not") + " visible");
+    private ValueChangeListener ovListener = new ValueChangeListener() {
+
+        @Override
+        public void valueChange(ValueChangeEvent event) {
+            CheckBox cb = (CheckBox) event.getProperty();
+            boolean checked = cb.getValue();
+            LayerWrapper lw = (LayerWrapper) cb.getData();
+            lw.getLayer().setActive(checked);
+            trayNotify("Layer " + cb.getCaption() + " should now be " + (checked ? "" : "not") + " visible");
+        }
     };
 
     private LayerWrapper createOverlay(String url, String desc) {
@@ -115,16 +120,20 @@ public class ExternalLayerControlTest extends AbstractTest {
         List<LayerWrapper> baseLayers = getBaseLayers();
         currentBaseMap = baseLayers.get(0).getLayer();
 
-        RadioButtonGroup<LayerWrapper> base = new RadioButtonGroup<>("Base maps", baseLayers);
+        OptionGroup base = new OptionGroup("Base maps", baseLayers);
         base.setValue(baseLayers.get(0));
 
 
-        base.addValueChangeListener(event -> {
-            currentBaseMap.setActive(false);
-            LayerWrapper lw = event.getValue();
-            lw.getLayer().setActive(true);
-            currentBaseMap = lw.getLayer();
-            trayNotify("Switched base map to " + lw.getDescription());
+        base.addValueChangeListener(new ValueChangeListener() {
+
+            @Override
+            public void valueChange(ValueChangeEvent event) {
+                currentBaseMap.setActive(false);
+                LayerWrapper lw = (LayerWrapper) event.getProperty().getValue();
+                lw.getLayer().setActive(true);
+                currentBaseMap = lw.getLayer();
+                trayNotify("Switched base map to " + lw.getDescription());
+            }
         });
 
         for (LayerWrapper lw : baseLayers) {

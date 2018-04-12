@@ -347,9 +347,9 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector
 
             if (getState().zoomToExtent != null) {
                 Bounds b = getState().zoomToExtent;
-                LatLng northEast = LatLng.create(b.getNorthEastLat(),
+                final LatLng northEast = LatLng.create(b.getNorthEastLat(),
                         b.getNorthEastLon());
-                LatLng southWest = LatLng.create(b.getSouthWestLat(),
+                final LatLng southWest = LatLng.create(b.getSouthWestLat(),
                         b.getSouthWestLon());
                 // With certain Vaadin layouts, like SplitPanel, the size is not
                 // fixed properly yet, so defer the fitBounds call

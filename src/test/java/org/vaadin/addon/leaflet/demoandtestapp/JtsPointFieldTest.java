@@ -1,8 +1,8 @@
 package org.vaadin.addon.leaflet.demoandtestapp;
 
-import com.vaadin.data.Binder;
-import com.vaadin.data.ValidationException;
-import com.vaadin.shared.ui.ContentMode;
+import com.vaadin.data.fieldgroup.BeanFieldGroup;
+import com.vaadin.data.fieldgroup.FieldGroup;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.CheckBox;
@@ -21,7 +21,7 @@ import org.vaadin.addon.leaflet.util.JTSUtil;
 import org.vaadin.addon.leaflet.util.PointField;
 import org.vaadin.addonhelpers.AbstractTest;
 
-import java.time.LocalDate;
+import java.util.Date;
 import java.util.Arrays;
 
 @SuppressWarnings("unused")
@@ -30,7 +30,7 @@ public class JtsPointFieldTest extends AbstractTest {
     public static class JtsPojo {
 
         private String name;
-        private LocalDate date;
+        private Date date;
         private Point point;
         private LineString lineString;
         private LinearRing linearRing;
@@ -44,11 +44,11 @@ public class JtsPointFieldTest extends AbstractTest {
             this.name = name;
         }
 
-        public LocalDate getDate() {
+        public Date getDate() {
             return date;
         }
 
-        public void setDate(LocalDate date) {
+        public void setDate(Date date) {
             this.date = date;
         }
 
@@ -131,35 +131,49 @@ public class JtsPointFieldTest extends AbstractTest {
         );
         editorform.setExpandRatio(jtsFields, 1);
 
-        final Binder<JtsPojo> beanBinder = new Binder<>(JtsPojo.class);
-        beanBinder.readBean(pojo);
-        beanBinder.bindInstanceFields(this);
+        // TODO switch to helper in Vaadin when available http://dev.vaadin.com/ticket/13068
+        final BeanFieldGroup<JtsPojo> beanFieldGroup = new BeanFieldGroup<JtsPojo>(
+                JtsPojo.class);
+        beanFieldGroup.setItemDataSource(pojo);
+        beanFieldGroup.bindMemberFields(this);
 
         HorizontalLayout buttonLayout = new HorizontalLayout();
-        buttonLayout.addComponent(new Button("Save", (ClickListener) event -> {
-            try {
-                beanBinder.writeBean(pojo);
-                display.setValue(pojo.toString());
-            } catch (ValidationException e) {
-                System.err.println("Validation errors:" + Arrays.toString(e.getBeanValidationErrors().toArray()));
+        buttonLayout.addComponent(new Button("Save", new ClickListener() {
+
+            public void buttonClick(Button.ClickEvent event) {
+                try {
+                    beanFieldGroup.commit();
+                    display.setValue(pojo.toString());
+                } catch (FieldGroup.CommitException e) {
+                    e.printStackTrace();
+                }
             }
         }));
 
-        CheckBox roCheckBox = new CheckBox("Read only", false);
-        roCheckBox.addValueChangeListener(event -> beanBinder.setReadOnly(event.getValue()));
-        buttonLayout.addComponent(roCheckBox);
-
-        buttonLayout.addComponent(new Button("Assign new empty bean", (ClickListener) event -> {
-            pojo = new JtsPojo();
-            beanBinder.readBean(pojo);
-            display.setValue(pojo.toString());
+        buttonLayout.addComponent(new Button("Toggle read only", new ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent event) {
+                beanFieldGroup.setReadOnly(!beanFieldGroup.isReadOnly());
+            }
         }));
 
-        buttonLayout.addComponent(new Button("Assign bean with preset data", (ClickListener) event -> {
-            pojo = new JtsPojo();
-            pojo.setPoint(JTSUtil.toPoint(new org.vaadin.addon.leaflet.shared.Point(61, 22)));
-            beanBinder.readBean(pojo);
-            display.setValue(pojo.toString());
+        buttonLayout.addComponent(new Button("Assign new empty bean", new ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent event) {
+                pojo = new JtsPojo();
+                beanFieldGroup.setItemDataSource(pojo);
+                display.setValue(pojo.toString());
+            }
+        }));
+
+        buttonLayout.addComponent(new Button("Assign bean with preset data", new ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent event) {
+                pojo = new JtsPojo();
+                pojo.setPoint(JTSUtil.toPoint(new org.vaadin.addon.leaflet.shared.Point(61, 22)));
+                beanFieldGroup.setItemDataSource(pojo);
+                display.setValue(pojo.toString());
+            }
         }));
 
         editorform.addComponent(buttonLayout);

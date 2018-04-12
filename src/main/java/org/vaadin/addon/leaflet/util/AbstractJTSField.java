@@ -19,7 +19,7 @@ import com.vividsolutions.jts.geom.Geometry;
  * modify the global configuration strategy with
  * {@link #setDefaultConfigurator(Configurator)}
  * 
- * @param <T> the JTS Geometry type of the field
+ * @param <T>
  */
 public abstract class AbstractJTSField<T extends Geometry> extends
 		CustomField<T> {
@@ -29,7 +29,7 @@ public abstract class AbstractJTSField<T extends Geometry> extends
 		void configure(AbstractJTSField<?> field);
 
 	}
-	private T value;
+
 	private static Configurator defaultConfigurator = new Configurator() {
 
 		@Override
@@ -94,7 +94,7 @@ public abstract class AbstractJTSField<T extends Geometry> extends
 
 	public AbstractJTSField() {
 		super();
-		setRequiredIndicatorVisible(false);
+		setValidationVisible(false);
 		setSizeFull();
 	}
 
@@ -123,31 +123,18 @@ public abstract class AbstractJTSField<T extends Geometry> extends
 			getConfigurator().configure(this);
 		}
 	}
-    
-    private boolean userOriginatedSetValueEvent;
-
-    @Override
-    protected boolean setValue(T value, boolean userOriginated) {
-        userOriginatedSetValueEvent = userOriginated;
-        return super.setValue(value, userOriginated); //To change body of generated methods, choose Tools | Templates.
-    }
 
 	@Override
-	protected void doSetValue(T newValue) {
-		this.value = newValue;
+	protected void setInternalValue(T newValue) {
+		super.setInternalValue(newValue);
 		if (newValue == null) {
 			prepareDrawing();
 		} else {
-			prepareEditing(userOriginatedSetValueEvent);
+			prepareEditing();
 		}
 	}
 
-	@Override
-	public T getValue() {
-		return value;
-	}
-
-	protected abstract void prepareEditing(boolean userOriginatedValueChange);
+	protected abstract void prepareEditing();
 
 	protected abstract void prepareDrawing();
 
@@ -180,10 +167,10 @@ public abstract class AbstractJTSField<T extends Geometry> extends
 		if(readOnly == true) {
 			prepareViewing();
 		} else {
-			if(getValue() == null) {
+			if(getInternalValue() == null) {
 				prepareDrawing();
 			} else {
-				prepareEditing(false);
+				prepareEditing();
 			}
 		}
 	}

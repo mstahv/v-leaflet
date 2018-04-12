@@ -4,8 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
-import com.vaadin.data.HasValue;
-import com.vaadin.shared.Registration;
+import com.vaadin.data.Property;
 import org.vaadin.addon.leaflet.LMap;
 import org.vaadin.addon.leaflet.LPolyline;
 import org.vaadin.addon.leaflet.LeafletClickEvent;
@@ -15,7 +14,6 @@ import org.vaadin.addon.leaflet.LeafletMoveEndListener;
 import org.vaadin.addon.leaflet.shared.Bounds;
 import org.vaadin.addon.leaflet.shared.Point;
 
-import com.vaadin.data.HasValue.ValueChangeEvent;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -28,8 +26,6 @@ import org.vaadin.addon.leaflet.LOpenStreetMapLayer;
 import org.vaadin.addonhelpers.AbstractTest;
 
 public class DynamicChanges extends AbstractTest {
-
-    private Registration registration;
 
     @Override
     public String getDescription() {
@@ -148,13 +144,14 @@ public class DynamicChanges extends AbstractTest {
         };
 
         final CheckBox checkBox = new CheckBox("Toggle move listener");
-        checkBox.addValueChangeListener(new HasValue.ValueChangeListener<Boolean>() {
+        checkBox.setImmediate(true);
+        checkBox.addValueChangeListener(new Property.ValueChangeListener() {
             @Override
-            public void valueChange(ValueChangeEvent<Boolean> event) {
-                if (event.getValue()) {
-                    registration = leafletMap.addMoveEndListener(moveEndListener);
-                } else if (registration != null) {
-                    registration.remove();
+            public void valueChange(Property.ValueChangeEvent event) {
+                if (checkBox.getValue()) {
+                    leafletMap.addMoveEndListener(moveEndListener);
+                } else {
+                    leafletMap.removeMoveEndListener(moveEndListener);
                 }
 
             }

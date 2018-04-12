@@ -2,13 +2,13 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.vaadin.addon</groupId>
     <artifactId>v-leaflet</artifactId>
-    <version>1.0.6-SNAPSHOT</version>
+    <version>1.0.7-SNAPSHOT</version>
     <name>V-Leaflet</name>
     <packaging>bundle</packaging>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <vaadin.version>7.7.3</vaadin.version>
+        <vaadin.version>7.7.9</vaadin.version>
         <geotools.version>16.3</geotools.version>
     </properties>
 
@@ -247,7 +247,7 @@
                         <!-- If you do lots of e.g. plain css changes and don't wish to use 
                         hosted mode, you can force compile easily with uncommenting following rule -->
                         <!-- 						<force>true</force> -->
-                        <strict>true</strict>
+                        <!--<strict>true</strict>-->
                     </configuration>
                 </plugin>
                 <plugin>

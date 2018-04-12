@@ -1,8 +1,6 @@
 package org.vaadin.addon.leaflet;
 
-import com.vaadin.shared.Registration;
 import org.vaadin.addon.leaflet.shared.Crs;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -49,7 +47,7 @@ public class LMap extends AbstractComponentContainer {
 
     private boolean rendered = false;
 
-    private List<Component> components = new ArrayList<>();
+    private List<Component> components = new ArrayList<Component>();
 
     private Bounds bounds;
 
@@ -286,40 +284,49 @@ public class LMap extends AbstractComponentContainer {
         }
     }
 
-    public Registration addLocateListener(LeafletLocateListener listener) {
-        return addListener("locate", LeafletLocateEvent.class, listener,
+    public void addLocateListener(LeafletLocateListener listener) {
+        addListener("locate", LeafletLocateEvent.class, listener,
                 LeafletLocateListener.METHOD);
     }
 
-    public Registration addClickListener(LeafletClickListener listener) {
-        return addListener("click", LeafletClickEvent.class, listener,
+    public void removeLocateListener(LeafletLocateListener listener) {
+        removeListener("locate", LeafletLocateEvent.class, listener);
+    }
+
+    public void addClickListener(LeafletClickListener listener) {
+        addListener("click", LeafletClickEvent.class, listener,
                 LeafletClickListener.METHOD);
     }
 
-    public Registration addMoveEndListener(LeafletMoveEndListener moveEndListener) {
-        return addListener("moveend", LeafletMoveEndEvent.class, moveEndListener,
+    public void removeClickListener(LeafletClickListener listener) {
+        removeListener("click", LeafletClickEvent.class, listener);
+    }
+
+    public void addMoveEndListener(LeafletMoveEndListener moveEndListener) {
+        addListener("moveend", LeafletMoveEndEvent.class, moveEndListener,
                 LeafletMoveEndListener.METHOD);
     }
 
-    public Registration addContextMenuListener(LeafletContextMenuListener listener) {
-        return addListener("contextmenu", LeafletContextMenuEvent.class, listener,
+    public void removeMoveEndListener(LeafletMoveEndListener moveEndListener) {
+        removeListener("moveend", LeafletMoveEndEvent.class, moveEndListener);
+    }
+
+    public void addContextMenuListener(LeafletContextMenuListener listener) {
+        addListener("contextmenu", LeafletContextMenuEvent.class, listener,
                 LeafletContextMenuListener.METHOD);
     }
 
-    @SuppressWarnings("unused")
-    public Registration addBaseLayerChangeListener(LeafletBaseLayerChangeListener listener) {
-        return addListener("baselayerchange", LeafletBaseLayerChangeEvent.class, listener,
+    public void removeContextMenuListener(LeafletContextMenuListener listener) {
+        removeListener("contextmenu", LeafletContextMenuEvent.class, listener);
+    }
+
+    public void addBaseLayerChangeListener(LeafletBaseLayerChangeListener listener) {
+        addListener("baselayerchange", LeafletBaseLayerChangeEvent.class, listener,
                 LeafletBaseLayerChangeListener.METHOD);
     }
 
-    public Registration addOverlayAddListener(LeafletOverlayAddListener listener) {
-        return addListener("overlayadd", LeafletOverlayAddEvent.class, listener,
-                LeafletOverlayAddListener.METHOD);
-    }
-
-    public Registration addOverlayRemoveListener(LeafletOverlayRemoveListener listener) {
-        return addListener("overlayremove", LeafletOverlayRemoveEvent.class, listener,
-                LeafletOverlayRemoveListener.METHOD);
+    public void removeBaseLayerChangeListener(LeafletBaseLayerChangeListener listener) {
+        removeListener("baselayerchange", LeafletBaseLayerChangeEvent.class, listener);
     }
 
     public void addOverlayAddListener(LeafletOverlayAddListener listener) {

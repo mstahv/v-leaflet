@@ -2,7 +2,6 @@ package org.vaadin.addon.leaflet;
 
 import java.lang.reflect.Method;
 
-import com.vaadin.shared.Registration;
 import org.vaadin.addon.leaflet.shared.DragEndServerRpc;
 import org.vaadin.addon.leaflet.shared.LeafletMarkerClientRpc;
 import org.vaadin.addon.leaflet.shared.LeafletMarkerState;
@@ -137,11 +136,15 @@ public class LMarker extends AbstractLeafletLayer {
         getRpcProxy(LeafletMarkerClientRpc.class).closePopup();
     }
     
-	public Registration addDragEndListener(DragEndListener listener) {
-		return addListener("dragend", DragEndEvent.class, listener,
+	public void addDragEndListener(DragEndListener listener) {
+		addListener("dragend", DragEndEvent.class, listener,
 				DragEndListener.METHOD);
 	}
 	
+	public void removeDragEndListener(DragEndListener listener) {
+		removeListener("dragend", DragEndEvent.class, listener);
+	}
+
 	@Override
 	public Geometry getGeometry() {
 		return JTSUtil.toPoint(this);

@@ -3,6 +3,7 @@ package org.vaadin.addon.leaflet.testbenchtests;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
+import com.vaadin.data.Container;
 import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.By;
@@ -21,10 +22,11 @@ public class SimpleTest extends AbstractWebDriverCase {
         startBrowser();
 
         driver.manage().timeouts().implicitlyWait(2000, TimeUnit.MILLISECONDS);
-        
-        List<TListUi.TestDetails> listTestClasses = TListUi.listTestClasses();
-        for (TListUi.TestDetails td : listTestClasses) {
-			Class clazz = td.getClazz();
+
+		Container listTestClasses = TListUi.listTestClasses();
+        for (Object id : listTestClasses.getItemIds()) {
+			Class clazz = (Class) listTestClasses.getItem(id)
+					.getItemProperty("clazz").getValue();
 			
 			driver.get(BASEURL + clazz.getName() + "?debug");
 			waitForLoading();

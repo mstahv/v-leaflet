@@ -3,15 +3,14 @@ package org.vaadin.addon.leaflet.demoandtestapp;
 import java.util.Arrays;
 import java.util.List;
 
-import com.vaadin.data.HasValue;
-import com.vaadin.shared.ui.ContentMode;
+import com.vaadin.data.Property;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import org.vaadin.addon.leaflet.LMap;
 import org.vaadin.addon.leaflet.LTileLayer;
 import org.vaadin.addon.leaflet.control.LLayers;
 import org.vaadin.addon.leaflet.control.LScale;
 
-import com.vaadin.data.HasValue.ValueChangeEvent;
 import com.vaadin.ui.Notification.Type;
 import org.vaadin.addonhelpers.AbstractTest;
 
@@ -54,20 +53,24 @@ public class HasControlTest extends AbstractTest {
 		
 		HorizontalLayout hl = new HorizontalLayout();
 		CheckBox useLLayers = new CheckBox("Use LLayers control", false);
-		useLLayers.addValueChangeListener((HasValue.ValueChangeListener<Boolean>) event -> {
-            boolean checked = event.getValue();
-            if (checked) {
-                LLayers lc = new LLayers();
-                map.addControl(lc);
-                for (LayerWrapper lw : baseLayers) {
-                    lc.addBaseLayer(lw.getLayer(), lw.getDescription());
-                }
-                for (LayerWrapper lw : overLays) {
-                    lc.addOverlay(lw.getLayer(), lw.getDescription());
-                }
-            } else {
-                map.removeControl(map.getLayersControl());
-            }
+		useLLayers.addValueChangeListener(new Property.ValueChangeListener() {
+			@Override
+			public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
+				CheckBox cb = (CheckBox) valueChangeEvent.getProperty();
+				boolean checked = cb.getValue();
+				if (checked) {
+					LLayers lc = new LLayers();
+					map.addControl(lc);
+					for (LayerWrapper lw : baseLayers) {
+						lc.addBaseLayer(lw.getLayer(), lw.getDescription());
+					}
+					for (LayerWrapper lw : overLays) {
+						lc.addOverlay(lw.getLayer(), lw.getDescription());
+					}
+				} else {
+					map.removeControl(map.getLayersControl());
+				}
+			}
         });
 		hl.addComponents(l,setupBaseMaps(), setupOverlays(), useLLayers);
 		
@@ -109,21 +112,22 @@ public class HasControlTest extends AbstractTest {
 
 	private CheckBox createOverLayCheckBox(LayerWrapper lw) {
 		CheckBox c = new CheckBox(lw.getDescription(), false);
+		c.setImmediate(true);
 		c.setData(lw);
 		c.addValueChangeListener(ovListener);
 		
 		return c;
 	}
-	
-	private HasValue.ValueChangeListener<Boolean> ovListener = new HasValue.ValueChangeListener<Boolean>() {
+
+	private Property.ValueChangeListener ovListener = new Property.ValueChangeListener() {
 		
 		@Override
-		public void valueChange(ValueChangeEvent<Boolean> event) {
+		public void valueChange(Property.ValueChangeEvent event) {
 			String hasControls = "has LLayers? " + map.hasControl(LLayers.class) +
 					"\nhas Scale? " + map.hasControl(LScale.class);
 			Notification.show(hasControls);
-			CheckBox cb = (CheckBox) event.getComponent();
-			boolean checked = event.getValue();
+			CheckBox cb = (CheckBox) event.getProperty();
+			boolean checked = cb.getValue();
 			LayerWrapper lw = (LayerWrapper) cb.getData();
 			if (checked) {
 				lw.getLayer().setActive(true);
@@ -155,17 +159,21 @@ public class HasControlTest extends AbstractTest {
 		baseLayers = getBaseLayers();
 		currentBaseMap = baseLayers.get(0).getLayer();
 
-		RadioButtonGroup<LayerWrapper> base = new RadioButtonGroup<>("Base maps", baseLayers);
+		OptionGroup base = new OptionGroup("Base maps", baseLayers);
 		base.setValue(baseLayers.get(0));
 
 		
-		base.addValueChangeListener(event -> {
-            currentBaseMap.setActive(false);
-            LayerWrapper lw = event.getValue();
-            lw.getLayer().setActive(true);
-            currentBaseMap = lw.getLayer();
-            trayNotify("Switched base map to " + lw.getDescription());
-        });
+		base.addValueChangeListener(new Property.ValueChangeListener() {
+
+			@Override
+			public void valueChange(Property.ValueChangeEvent event) {
+				currentBaseMap.setActive(false);
+				LayerWrapper lw = (LayerWrapper) event.getProperty().getValue();
+				lw.getLayer().setActive(true);
+				currentBaseMap = lw.getLayer();
+				trayNotify("Switched base map to " + lw.getDescription());
+			}
+		});
 		
 		for (LayerWrapper lw : baseLayers) {
 			//map.addBaseLayer(lw.getLayer(), lw.getDescription());

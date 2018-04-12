@@ -1,6 +1,6 @@
 package org.vaadin.addon.leaflet.demoandtestapp;
 
-import com.vaadin.shared.ui.ContentMode;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.AbsoluteLayout;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
