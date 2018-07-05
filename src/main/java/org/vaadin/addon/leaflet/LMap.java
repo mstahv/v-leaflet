@@ -28,6 +28,7 @@ import com.vaadin.ui.Component;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryFactory;
 import org.vaadin.addon.leaflet.jsonmodels.BasicMap;
+import org.vaadin.addon.leaflet.jsonmodels.ZoomPanOptions;
 
 /**
  *
@@ -258,7 +259,7 @@ public class LMap extends AbstractComponentContainer {
             getState(!rendered).zoomLevel = zoom;
         }
         if (rendered) {
-            getRpcProxy(LeafletMapClientRpc.class).setCenter(lat, lon, zoom);
+            getRpcProxy(LeafletMapClientRpc.class).setCenter(lat, lon, zoom, null);
         }
     }
 
@@ -288,13 +289,17 @@ public class LMap extends AbstractComponentContainer {
         point.setLon(jtsPoint.getX());
         setCenter(point);
     }
-
-    public void setZoomLevel(double zoomLevel) {
+    
+    public void setZoomLevel(double zoomLevel, ZoomPanOptions zoomPanOptions) {
         getState(!rendered).zoomLevel = zoomLevel;
         if (rendered) {
             getRpcProxy(LeafletMapClientRpc.class).setCenter(null, null,
-                    zoomLevel);
+                    zoomLevel, zoomPanOptions.toString());
         }
+    }
+
+    public void setZoomLevel(double zoomLevel) {
+        setZoomLevel(zoomLevel, null);
     }
 
     public Registration addLocateListener(LeafletLocateListener listener) {

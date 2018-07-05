@@ -15,6 +15,7 @@
  */
 package org.vaadin.addon.leaflet.client;
 
+import com.google.gwt.core.client.JavaScriptObject;
 import com.vaadin.shared.Connector;
 import org.peimari.gleaflet.client.*;
 import org.vaadin.addon.leaflet.shared.LeafletMapClientRpc;
@@ -99,7 +100,7 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector
         registerRpc(LeafletMapClientRpc.class, new LeafletMapClientRpc() {
 
             @Override
-            public void setCenter(Double lat, Double lon, Double zoom) {
+            public void setCenter(Double lat, Double lon, Double zoom, String zoomPanOptionsJson) {
                 VConsole.log("To be center : " + lat + " " + lon + " ");
                 if (zoom == null) {
                     zoom = map.getZoom();
@@ -110,7 +111,11 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector
                 } else {
                     center = LatLng.create(lat, lon);
                 }
-                map.setView(center, zoom);
+                if(zoomPanOptionsJson != null) {
+                    map.setView(center, zoom, JSONParser.parseStrict(zoomPanOptionsJson).isObject().getJavaScriptObject());
+                } else {
+                    map.setView(center, zoom);
+                }
             }
 
             @Override
