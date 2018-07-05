@@ -220,6 +220,12 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector
                 map.setTouchZoom(touchZoom);
             }
 
+            @Override
+            public void translate(int x, int y) {
+                LatLng latLng = map.containerPointToLatLng(org.peimari.gleaflet.client.Point.create(x, y));
+                rpc.onTranslate(new Point(latLng.getLatitude(), latLng.getLongitude()));
+            }
+
         });
 
         getLayoutManager().addElementResizeListener(getWidget().getElement(),

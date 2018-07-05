@@ -17,5 +17,7 @@ public interface LeafletMapClientRpc extends ClientRpc {
     void setKeyboard(boolean keyboard);
     void locate(boolean watch, boolean highaccuracy, boolean updateView);
     void stopLocate();
+    public void translate(int x, int y);
+    
 
 }

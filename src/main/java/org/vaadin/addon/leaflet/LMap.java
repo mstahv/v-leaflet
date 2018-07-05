@@ -21,6 +21,7 @@ import org.vaadin.addon.leaflet.shared.Point;
 import org.vaadin.addon.leaflet.util.JTSUtil;
 
 import com.vaadin.server.Extension;
+import com.vaadin.server.SerializableConsumer;
 import com.vaadin.shared.MouseEventDetails;
 import com.vaadin.ui.AbstractComponentContainer;
 import com.vaadin.ui.Component;
@@ -32,6 +33,8 @@ import org.vaadin.addon.leaflet.jsonmodels.BasicMap;
  *
  */
 public class LMap extends AbstractComponentContainer {
+
+    private SerializableConsumer<Point> translationCallback;
 
     class State {
 
@@ -100,6 +103,14 @@ public class LMap extends AbstractComponentContainer {
             public void onLocateError(String error, int code) {
                 // TODO
                 error.length();
+            }
+            
+            @Override
+            public void onTranslate(Point p) {
+                if(translationCallback != null) {
+                    translationCallback.accept(p);                    
+                    translationCallback = null;
+                }
             }
 
         });
@@ -785,6 +796,25 @@ public class LMap extends AbstractComponentContainer {
     public boolean isReadOnly() {
         Boolean readOnly = getState(false).readOnly;
         return readOnly != null && readOnly;
+    }
+
+    /**
+     * Translates given parameters (x/y pixel coordinates relative to the map)
+     * to actual coordinates on the client side and passes the values to the callback.
+     * <p>
+     * Note, only one callback is allowed at once.
+     * 
+     * @param x the x pixel coordinate
+     * @param y the y pixel coordinate
+     * @param callback the callback to notify when translation is done
+     */
+    public void translatePixelCoordinates(int x, int y, SerializableConsumer<Point> callback) {
+        if(translationCallback == null) {
+            getRpcProxy(LeafletMapClientRpc.class).translate(x, y);
+            translationCallback = callback;
+        } else {
+            throw new IllegalStateException("Only one active call to translatePixelCoordinates is allowed");
+        }
     }
 
 }

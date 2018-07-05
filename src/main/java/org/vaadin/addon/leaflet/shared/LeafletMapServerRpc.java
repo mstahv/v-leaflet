@@ -43,5 +43,7 @@ public interface LeafletMapServerRpc extends ServerRpc {
 	void onLocate(Point location, Double accuracy, Double altitude);
 
 	void onLocateError(String error, int code);
+    
+    void onTranslate(Point point);
 
 }
