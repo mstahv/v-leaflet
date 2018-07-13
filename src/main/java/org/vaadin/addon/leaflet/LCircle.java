@@ -19,10 +19,15 @@ public class LCircle extends AbstractLeafletVector {
         return (LeafletCircleState) super.getState();
     }
 
+    @Override
+    protected LeafletCircleState getState(boolean markAsDirty) {
+        return (LeafletCircleState) super.getState(markAsDirty);
+    }
+
     /**
      *
-     * @param lat
-     * @param lon
+     * @param lat the latitude of the center of the circle
+     * @param lon the longitude of the center of the circle
      * @param radius the radius in meters, note that this is approximate,
      * especially small zoom levels.
      */
@@ -33,7 +38,7 @@ public class LCircle extends AbstractLeafletVector {
 
     /**
      * 
-     * @param point
+     * @param point the center of the circle
      * @param radius the radius in meters, note that this is approximate,
      * especially small zoom levels.
      */
@@ -44,7 +49,7 @@ public class LCircle extends AbstractLeafletVector {
 
     /**
      * 
-     * @param jtsPoint
+     * @param jtsPoint the center of the circle
      * @param radius the radius in meters, note that this is approximate,
      * especially small zoom levels.
      */
@@ -66,16 +71,21 @@ public class LCircle extends AbstractLeafletVector {
     }
 
     public Point getPoint() {
-        return getState().point;
+        return getState(false).point;
     }
 
     public double getRadius() {
-        return getState().radius;
+        return getState(false).radius;
     }
 
     @Override
     public Geometry getGeometry() {
         return JTSUtil.toPoint(getPoint());
+    }
+
+    public void setPointAndRadiusWithoutRepaint(double radius, Point latLng) {
+        getState(false).radius = radius;
+        getState(false).point = latLng;
     }
 
 }

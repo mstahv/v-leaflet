@@ -34,9 +34,8 @@ public class FractionalZoom extends AbstractTest {
         slider.setMax(16);
         slider.setResolution(1);
         slider.addValueChangeListener(new Property.ValueChangeListener() {
-            
             @Override
-            public void valueChange(Property.ValueChangeEvent event) {
+            public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
                 leafletMap.setZoomLevel(slider.getValue());
                 Notification.show("Zoom level: " + slider.getValue(), Notification.Type.TRAY_NOTIFICATION);
             }

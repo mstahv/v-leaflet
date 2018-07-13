@@ -1,11 +1,11 @@
 package org.vaadin.addon.leaflet.demoandtestapp;
 
 
+import com.vaadin.shared.ui.label.ContentMode;
 import org.vaadin.addon.leaflet.LMap;
 import org.vaadin.addon.leaflet.LMarker;
 import org.vaadin.addon.leaflet.LTileLayer;
 
-import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Component;
@@ -37,8 +37,8 @@ public class CenterAndZoomTest extends AbstractTest {
 		map.setCenter(40, -105.2);
 		map.setZoomLevel(6);
 		LTileLayer tf = new LTileLayer();
-		tf.setUrl("http://{s}.tile.thunderforest.com/transport/{z}/{x}/{y}.png");
-		tf.setAttributionString("Tiles Courtesy of <a href=\"http://www.thunderforest.com/\" target=\"_blank\">Thunderforest</a>" + 
+		tf.setUrl("https://{s}.tile.thunderforest.com/transport/{z}/{x}/{y}.png");
+		tf.setAttributionString("Tiles Courtesy of <a href=\"https://www.thunderforest.com/\" target=\"_blank\">Thunderforest</a>" +
 								"&nbspand OpenStreetMap contributors");
 		tf.setSubDomains(new String[]{"a", "b", "c"});
 		tf.setActive(true);

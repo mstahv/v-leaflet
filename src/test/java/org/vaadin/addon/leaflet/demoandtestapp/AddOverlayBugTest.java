@@ -41,7 +41,7 @@ public class AddOverlayBugTest extends AbstractTest {
         LOpenStreetMapLayer osm1 = new LOpenStreetMapLayer();
         osm1.setActive(false);
         lmap.addBaseLayer(osm1, "Base Layer 1");
-        LTileLayer osm2 = new LTileLayer("http://a.tile.thunderforest.com/cycle/{z}/{x}/{y}.png");
+        LTileLayer osm2 = new LTileLayer("https://a.tile.thunderforest.com/cycle/{z}/{x}/{y}.png");
         osm2.setAttributionString("© OpenStreetMap contributors. Tiles courtesy of Andy Allan");
         
         osm2.setActive(true);
@@ -53,7 +53,7 @@ public class AddOverlayBugTest extends AbstractTest {
             @Override
             public void buttonClick(ClickEvent event) {
 
-                ExternalResource url = new ExternalResource("http://www.lib.utexas.edu/maps/historical/newark_nj_1922.jpg");
+                ExternalResource url = new ExternalResource("https://www.lib.utexas.edu/maps/historical/newark_nj_1922.jpg");
                 LImageOverlay imageOverlay = new LImageOverlay(url, new Bounds(new Point(40.712216, -74.22655), new Point(40.773941, -74.12544)));
                 imageOverlay.setOpacity(0.5);
                 imageOverlay.setAttribution("University of Texas");

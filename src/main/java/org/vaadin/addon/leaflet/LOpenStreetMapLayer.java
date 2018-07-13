@@ -26,7 +26,7 @@ public class LOpenStreetMapLayer extends LTileLayer {
 
     public LOpenStreetMapLayer() {
         super("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png");
-        setAttributionString("Map data © <a href=\"http://openstreetmap.org\">OpenStreetMap</a> contributors");
+        setAttributionString("Map data © <a href=\"https://openstreetmap.org\">OpenStreetMap</a> contributors");
     }
 
 }

@@ -4,9 +4,10 @@ import org.vaadin.addon.leaflet.LMap;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.VerticalLayout;
-import org.apache.commons.lang3.mutable.MutableInt;
 import org.vaadin.addon.leaflet.LMarker;
 import org.vaadin.addonhelpers.AbstractTest;
+
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class MarkerZIndexOffset extends AbstractTest {
 
@@ -15,23 +16,21 @@ public class MarkerZIndexOffset extends AbstractTest {
         return "Test removing marker.";
     }
 
-    private LMap leafletMap;
-
     @Override
     public Component getTestComponent() {
 
-        leafletMap = new LMap();
+        LMap leafletMap = new LMap();
         leafletMap.setWidth("300px");
         leafletMap.setHeight("300px");
         leafletMap.setCenter(0, 0);
         leafletMap.setZoomLevel(2);
 
-        final MutableInt currentBase = new MutableInt(1000);
+        final AtomicInteger currentBase = new AtomicInteger(1000);
 
         final LMarker m = new LMarker(5, 5);
         m.setId("5 5");
         final LMarker m2 = new LMarker(9, 9);
-        m2.setZIndexOffset(currentBase.getValue());
+        m2.setZIndexOffset(currentBase.get());
         m2.setId("9 9");
 //        m.setZIndexOffset(currentBase.getValue());
 
@@ -44,9 +43,9 @@ public class MarkerZIndexOffset extends AbstractTest {
 
             @Override
             public void buttonClick(Button.ClickEvent event) {
-                m.setZIndexOffset(currentBase.getValue());
-                currentBase.add(1000);
-                m2.setZIndexOffset(currentBase.getValue());
+                m.setZIndexOffset(currentBase.get());
+                currentBase.addAndGet(1000);
+                m2.setZIndexOffset(currentBase.get());
             }
         });
 
@@ -55,9 +54,9 @@ public class MarkerZIndexOffset extends AbstractTest {
 
             @Override
             public void buttonClick(Button.ClickEvent event) {
-                m2.setZIndexOffset(currentBase.getValue());
-                currentBase.add(1000);
-                m.setZIndexOffset(currentBase.getValue());
+                m2.setZIndexOffset(currentBase.get());
+                currentBase.addAndGet(1000);
+                m.setZIndexOffset(currentBase.get());
             }
         });
 

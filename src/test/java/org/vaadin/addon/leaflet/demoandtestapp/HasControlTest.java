@@ -3,23 +3,15 @@ package org.vaadin.addon.leaflet.demoandtestapp;
 import java.util.Arrays;
 import java.util.List;
 
+import com.vaadin.data.Property;
+import com.vaadin.shared.ui.label.ContentMode;
+import com.vaadin.ui.*;
 import org.vaadin.addon.leaflet.LMap;
 import org.vaadin.addon.leaflet.LTileLayer;
 import org.vaadin.addon.leaflet.control.LLayers;
 import org.vaadin.addon.leaflet.control.LScale;
 
-import com.vaadin.data.Property.ValueChangeEvent;
-import com.vaadin.data.Property.ValueChangeListener;
-import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.CheckBox;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.Notification;
 import com.vaadin.ui.Notification.Type;
-import com.vaadin.ui.OptionGroup;
-import com.vaadin.ui.Panel;
-import com.vaadin.ui.VerticalLayout;
 import org.vaadin.addonhelpers.AbstractTest;
 
 public class HasControlTest extends AbstractTest {
@@ -61,11 +53,10 @@ public class HasControlTest extends AbstractTest {
 		
 		HorizontalLayout hl = new HorizontalLayout();
 		CheckBox useLLayers = new CheckBox("Use LLayers control", false);
-		useLLayers.addValueChangeListener(new ValueChangeListener() {
-			
+		useLLayers.addValueChangeListener(new Property.ValueChangeListener() {
 			@Override
-			public void valueChange(ValueChangeEvent event) {
-				CheckBox cb = (CheckBox) event.getProperty();
+			public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
+				CheckBox cb = (CheckBox) valueChangeEvent.getProperty();
 				boolean checked = cb.getValue();
 				if (checked) {
 					LLayers lc = new LLayers();
@@ -80,7 +71,7 @@ public class HasControlTest extends AbstractTest {
 					map.removeControl(map.getLayersControl());
 				}
 			}
-		});
+        });
 		hl.addComponents(l,setupBaseMaps(), setupOverlays(), useLLayers);
 		
 		content.addComponentAsFirst(hl);
@@ -89,12 +80,12 @@ public class HasControlTest extends AbstractTest {
 	private Component setupOverlays() {
 		// These are actually basemaps, but we'll dial down the opacity to use as overlays.
 		LayerWrapper shl = createOverlay(
-				"http://basemap.nationalmap.gov/ArcGIS/rest/services/USGSShadedReliefOnly/MapServer/tile/{z}/{y}/{x}",
+				"https://basemap.nationalmap.gov/ArcGIS/rest/services/USGSShadedReliefOnly/MapServer/tile/{z}/{y}/{x}",
 				"USGS Shaded Relief "
 		);
 		
 		LayerWrapper cl = createOverlay(
-				"http://basemap.nationalmap.gov/ArcGIS/rest/services/TNM_Contours/MapServer/tile/{z}/{y}/{x}",
+				"https://basemap.nationalmap.gov/ArcGIS/rest/services/TNM_Contours/MapServer/tile/{z}/{y}/{x}",
 				"USGS Contours"
 		);
 		
@@ -127,11 +118,11 @@ public class HasControlTest extends AbstractTest {
 		
 		return c;
 	}
-	
-	private ValueChangeListener ovListener = new ValueChangeListener() {
+
+	private Property.ValueChangeListener ovListener = new Property.ValueChangeListener() {
 		
 		@Override
-		public void valueChange(ValueChangeEvent event) {
+		public void valueChange(Property.ValueChangeEvent event) {
 			String hasControls = "has LLayers? " + map.hasControl(LLayers.class) +
 					"\nhas Scale? " + map.hasControl(LScale.class);
 			Notification.show(hasControls);
@@ -170,13 +161,12 @@ public class HasControlTest extends AbstractTest {
 
 		OptionGroup base = new OptionGroup("Base maps", baseLayers);
 		base.setValue(baseLayers.get(0));
-		base.setImmediate(true);
+
 		
-		
-		base.addValueChangeListener(new ValueChangeListener() {
-			
+		base.addValueChangeListener(new Property.ValueChangeListener() {
+
 			@Override
-			public void valueChange(ValueChangeEvent event) {
+			public void valueChange(Property.ValueChangeEvent event) {
 				currentBaseMap.setActive(false);
 				LayerWrapper lw = (LayerWrapper) event.getProperty().getValue();
 				lw.getLayer().setActive(true);
@@ -196,15 +186,15 @@ public class HasControlTest extends AbstractTest {
 	private List<LayerWrapper> getBaseLayers() {
 		
 		LTileLayer aer = new LTileLayer();
-		aer.setUrl("http://basemap.nationalmap.gov/ArcGIS/rest/services/USGSImageryOnly/MapServer/tile/{z}/{y}/{x}");
+		aer.setUrl("https://basemap.nationalmap.gov/ArcGIS/rest/services/USGSImageryOnly/MapServer/tile/{z}/{y}/{x}");
 		aer.setAttributionString(attrUSGS);
 		aer.setActive(false);
 		
 		LTileLayer tf = new LTileLayer();
-		tf.setUrl("http://{s}.tile.thunderforest.com/transport/{z}/{x}/{y}.png");
-		tf.setAttributionString("Tiles Courtesy of <a href=\"http://www.thunderforest.com/\" target=\"_blank\">Thunderforest</a>" + 
+		tf.setUrl("https://{s}.tile.thunderforest.com/transport/{z}/{x}/{y}.png");
+		tf.setAttributionString("Tiles Courtesy of <a href=\"https://www.thunderforest.com/\" target=\"_blank\">Thunderforest</a>" +
 								"&nbspand OpenStreetMap contributors");
-		tf.setSubDomains(new String[]{"a", "b", "c"});
+		tf.setSubDomains("a", "b", "c");
 		tf.setActive(true);
 		
 		return Arrays.asList(new LayerWrapper("ThunderForest Transport ", tf), new LayerWrapper("USGS Aerial", aer));

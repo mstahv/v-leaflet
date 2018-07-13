@@ -77,7 +77,7 @@ public abstract class AbstractControlConnector<T extends Control> extends
 	/**
 	 * Deferred state change where layers have been created and added
 	 * 
-	 * @param stateChangeEvent
+	 * @param stateChangeEvent the event
 	 */
 	protected void doStateChange(StateChangeEvent stateChangeEvent) {
 

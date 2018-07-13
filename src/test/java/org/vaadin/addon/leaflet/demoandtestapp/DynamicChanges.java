@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
+import com.vaadin.data.Property;
 import org.vaadin.addon.leaflet.LMap;
 import org.vaadin.addon.leaflet.LPolyline;
 import org.vaadin.addon.leaflet.LeafletClickEvent;
@@ -13,8 +14,6 @@ import org.vaadin.addon.leaflet.LeafletMoveEndListener;
 import org.vaadin.addon.leaflet.shared.Bounds;
 import org.vaadin.addon.leaflet.shared.Point;
 
-import com.vaadin.data.Property.ValueChangeEvent;
-import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -48,7 +47,7 @@ public class DynamicChanges extends AbstractTest {
             }
         }
     };
-    
+
     private LMap leafletMap;
     private LPolyline polyline = new LPolyline(new Point(60.44, 22.30),
             new Point(60.456, 22.304));
@@ -56,22 +55,22 @@ public class DynamicChanges extends AbstractTest {
     @Override
     public Component getTestComponent() {
         leafletMap = new LMap();
-        
+
         leafletMap.addBaseLayer(new LOpenStreetMapLayer(), "OSM");
-        
+
         leafletMap.addComponent(polyline);
-        
+
         leafletMap.zoomToExtent(new Bounds(polyline.getPoints()));
 
         return leafletMap;
     }
-    
+
     Random r = new Random(1);
 
     @Override
     protected void setup() {
         super.setup();
-        
+
         HorizontalLayout tools = new HorizontalLayout();
 
 
@@ -80,9 +79,9 @@ public class DynamicChanges extends AbstractTest {
 
             @Override
             public void buttonClick(ClickEvent event) {
-            	ArrayList<Point> arrayList = new ArrayList<Point>(Arrays.asList(polyline.getPoints()));
-            	arrayList.add(new Point(60 + r.nextInt(10), 20 + r.nextInt(10)));
-            	polyline.setPoints(arrayList.toArray(new Point[0]));
+                ArrayList<Point> arrayList = new ArrayList<Point>(Arrays.asList(polyline.getPoints()));
+                arrayList.add(new Point(60 + r.nextInt(10), 20 + r.nextInt(10)));
+                polyline.setPoints(arrayList.toArray(new Point[0]));
             }
         });
         tools.addComponent(button);
@@ -91,17 +90,17 @@ public class DynamicChanges extends AbstractTest {
         button.addClickListener(new ClickListener() {
             @Override
             public void buttonClick(ClickEvent event) {
-            	leafletMap.zoomToExtent(new Bounds(polyline.getPoints()));
+                leafletMap.zoomToExtent(new Bounds(polyline.getPoints()));
             }
         });
         tools.addComponent(button);
-        
+
         button = new Button("Center to last point ");
         button.addClickListener(new ClickListener() {
             @Override
             public void buttonClick(ClickEvent event) {
-            	Point[] points = polyline.getPoints();
-            	leafletMap.setCenter(points[points.length -1]);
+                Point[] points = polyline.getPoints();
+                leafletMap.setCenter(points[points.length - 1]);
             }
         });
         tools.addComponent(button);
@@ -110,53 +109,53 @@ public class DynamicChanges extends AbstractTest {
         button.addClickListener(new ClickListener() {
             @Override
             public void buttonClick(ClickEvent event) {
-            	Point[] points = polyline.getPoints();
-				leafletMap.zoomToExtent(new Bounds(points[points.length -1]));
+                Point[] points = polyline.getPoints();
+                leafletMap.zoomToExtent(new Bounds(points[points.length - 1]));
             }
         });
         tools.addComponent(button);
-        
+
         button = new Button("Show current zoom");
         button.addClickListener(new ClickListener() {
             @Override
             public void buttonClick(ClickEvent event) {
-            	Double zoomLevel = leafletMap.getZoomLevel();
-            	Notification.show("Zoomlevel is " + zoomLevel);
+                Double zoomLevel = leafletMap.getZoomLevel();
+                Notification.show("Zoomlevel is " + zoomLevel);
             }
         });
         tools.addComponent(button);
 
-        
+
         button = new Button("Show current center point");
         button.addClickListener(new ClickListener() {
             @Override
             public void buttonClick(ClickEvent event) {
-            	Notification.show("Center point is " + leafletMap.getCenter());
+                Notification.show("Center point is " + leafletMap.getCenter());
             }
         });
         tools.addComponent(button);
-        
+
 
         final LeafletMoveEndListener moveEndListener = new LeafletMoveEndListener() {
-			@Override
-			public void onMoveEnd(LeafletMoveEndEvent event) {
-				Notification.show("Moved or zoomed",Type.TRAY_NOTIFICATION);
-			}
-		};
-        
+            @Override
+            public void onMoveEnd(LeafletMoveEndEvent event) {
+                Notification.show("Moved or zoomed", Type.TRAY_NOTIFICATION);
+            }
+        };
+
         final CheckBox checkBox = new CheckBox("Toggle move listener");
         checkBox.setImmediate(true);
-        checkBox.addValueChangeListener(new ValueChangeListener() {
-			@Override
-			public void valueChange(ValueChangeEvent event) {
-				if(checkBox.getValue()) {
-					leafletMap.addMoveEndListener(moveEndListener);
-				} else {
-					leafletMap.removeMoveEndListener(moveEndListener);
-				}
-				
-			}
-		});
+        checkBox.addValueChangeListener(new Property.ValueChangeListener() {
+            @Override
+            public void valueChange(Property.ValueChangeEvent event) {
+                if (checkBox.getValue()) {
+                    leafletMap.addMoveEndListener(moveEndListener);
+                } else {
+                    leafletMap.removeMoveEndListener(moveEndListener);
+                }
+
+            }
+        });
         tools.addComponent(checkBox);
 
         content.addComponentAsFirst(tools);

@@ -109,7 +109,7 @@ public abstract class AbstractLeafletLayerConnector<T> extends
     }
 
     /**
-     * Returns the map from the root of the hierarchy *
+     * @return the map from the root of the hierarchy
      */
     public Map getMap() {
         LeafletMapConnector leafletMapConnector = getLeafletMapConnector();

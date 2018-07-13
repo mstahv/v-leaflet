@@ -27,7 +27,7 @@ public class ImageLayerOnOSM extends AbstractTest {
         leafletMap.addLayer(new LOpenStreetMapLayer());
 
         // Old map overlayed approximately over OSM map
-        ExternalResource url = new ExternalResource("http://www.lib.utexas.edu/maps/historical/newark_nj_1922.jpg");
+        ExternalResource url = new ExternalResource("https://www.lib.utexas.edu/maps/historical/newark_nj_1922.jpg");
         LImageOverlay imageOverlay = new LImageOverlay(url, new Bounds(new Point(40.712216, -74.22655),new Point(40.773941, -74.12544)));
         imageOverlay.setOpacity(0.5);
         imageOverlay.setAttribution("University of Texas");

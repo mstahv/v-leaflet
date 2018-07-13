@@ -30,16 +30,16 @@ public class PointField extends AbstractJTSField<Point> {
     protected void prepareEditing() {
         if (marker == null) {
             marker = new LMarker(JTSUtil.toLeafletPoint(getCrsTranslator()
-                    .toPresentation(getInternalValue())));	
+                    .toPresentation(getInternalValue())));
             map.addLayer(marker);
         } else {
             marker.setPoint(JTSUtil.toLeafletPoint(getCrsTranslator()
                     .toPresentation(getInternalValue())));
         }
-        
-        marker.addDragEndListener(editDragEndListener);        
+
+        marker.addDragEndListener(editDragEndListener);
 		map.addClickListener(editClickListener);
-        
+
 		map.zoomToContent();
     }
 
@@ -73,7 +73,7 @@ public class PointField extends AbstractJTSField<Point> {
             map.removeClickListener(drawListener);
         }
     };
-    
+
     private final LeafletClickListener editClickListener = new LeafletClickListener() {
         @Override
         public void onClick(LeafletClickEvent event) {
@@ -82,7 +82,7 @@ public class PointField extends AbstractJTSField<Point> {
             marker.setPoint(event.getPoint());
         }
     };
-    
+
     private final DragEndListener editDragEndListener = new DragEndListener() {
         @Override
         public void dragEnd(DragEndEvent event) {

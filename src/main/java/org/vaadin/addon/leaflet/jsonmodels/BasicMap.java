@@ -6,7 +6,7 @@ import java.util.HashMap;
 import static org.vaadin.addon.leaflet.jsonmodels.VectorStyle.mapper;
 
 /**
- * @author Matti Tahvonen <matti@vaadin.com>
+ * @author mstahv
  */
 public class BasicMap extends HashMap<String, Serializable> {
 

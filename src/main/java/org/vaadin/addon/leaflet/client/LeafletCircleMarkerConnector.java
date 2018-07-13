@@ -7,12 +7,10 @@ import org.peimari.gleaflet.client.ClickListener;
 import org.peimari.gleaflet.client.Layer;
 import org.peimari.gleaflet.client.LatLng;
 import org.peimari.gleaflet.client.MouseEvent;
-import org.vaadin.addon.leaflet.shared.Point;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.vaadin.client.MouseEventDetailsBuilder;
-import com.vaadin.client.Util;
 import com.vaadin.shared.ui.Connect;
 
 import org.peimari.gleaflet.client.MouseOutListener;

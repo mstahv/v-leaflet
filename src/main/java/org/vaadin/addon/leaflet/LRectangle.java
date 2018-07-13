@@ -35,9 +35,4 @@ public class LRectangle extends LPolygon {
     protected LeafletRectangleState getState() {
         return (LeafletRectangleState) super.getState();
     }
-
-    @Override
-    public Geometry getGeometry() {
-        return JTSUtil.toLinearRing(this);
-    }
 }

@@ -29,7 +29,7 @@ public class LayersTest extends AbstractTest {
 				.values())));
 
 		LWmsLayer baseLayerIgn = new LWmsLayer();
-		baseLayerIgn.setUrl("http://www.01.ign.es/wms-inspire/ign-base");
+		baseLayerIgn.setUrl("https://componentes.ign.es/wms-inspire/ign-base");
 		baseLayerIgn.setLayers("SombreadoPenBal");
 		baseLayerIgn.setTransparent(false);
 		baseLayerIgn.setFormat("image/jpeg");
@@ -37,13 +37,13 @@ public class LayersTest extends AbstractTest {
 		leafletMap.addBaseLayer(baseLayerIgn, "IGN");
 
 		LTileLayer baseLayerOsm = new LTileLayer();
-		baseLayerOsm.setUrl("http://{s}.tile.osm.org/{z}/{x}/{y}.png");
+		baseLayerOsm.setUrl("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png");
 		leafletMap.addBaseLayer(baseLayerOsm, "OSM");
 
 		LLayerGroup groupAreas = new LLayerGroup();
 
 		LWmsLayer layerWmsAreas = new LWmsLayer();
-		layerWmsAreas.setUrl("http://www.01.ign.es/wms-inspire/ign-base");
+		layerWmsAreas.setUrl("https://componentes.ign.es/wms-inspire/ign-base");
 		layerWmsAreas.setLayers("NucleosPob_mayores,LugarInteres");
 		layerWmsAreas.setTransparent(true);
 		layerWmsAreas.setFormat("image/png");
@@ -51,14 +51,14 @@ public class LayersTest extends AbstractTest {
 		groupAreas.addComponent(layerWmsAreas);
 
 		LWmsLayer layerWmsWater = new LWmsLayer();
-		layerWmsWater.setUrl("http://www.01.ign.es/wms-inspire/ign-base");
+		layerWmsWater.setUrl("https://componentes.ign.es/wms-inspire/ign-base");
 		layerWmsWater.setLayers("HY.PhysicalWaters.Waterbodies");
 		layerWmsWater.setTransparent(true);
 		layerWmsWater.setFormat("image/png");
 		groupAreas.addComponent(layerWmsWater);
 
 		LWmsLayer layerWmsStreets = new LWmsLayer();
-		layerWmsStreets.setUrl("http://www.01.ign.es/wms-inspire/ign-base");
+		layerWmsStreets.setUrl("https://componentes.ign.es/wms-inspire/ign-base");
 		layerWmsStreets
 				.setLayers("Autopista,Autopista_Autovia,VialUrbano,CarreteraAutonomica,"
 						+ "CarreteraConvencional,CarreteraNacional");

@@ -35,7 +35,7 @@ public abstract class AbstractJTSField<T extends Geometry> extends
 		@Override
 		public void configure(AbstractJTSField<?> field) {
 			LTileLayer layer = new LTileLayer(
-					"http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png");
+					"https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png");
 			layer.setAttributionString("© OpenStreetMap contributors");
 			field.getMap().addLayer(layer);
             // hardcoded support for Leaflet.Editable
@@ -46,7 +46,7 @@ public abstract class AbstractJTSField<T extends Geometry> extends
 	/**
 	 * Sets the default strategy to configure {@link AbstractJTSField}s.
 	 * 
-	 * @param configurator
+	 * @param configurator the strategy to configure JTS fields
 	 */
 	public static void setDefaultConfigurator(Configurator configurator) {
 		if (configurator == null) {

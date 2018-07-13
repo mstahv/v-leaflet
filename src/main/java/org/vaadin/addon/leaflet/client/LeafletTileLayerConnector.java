@@ -1,19 +1,14 @@
 package org.vaadin.addon.leaflet.client;
 
+import com.vaadin.shared.ui.Connect;
+import org.peimari.gleaflet.client.GridLayer;
+import org.peimari.gleaflet.client.GridLayerOptions;
+import org.peimari.gleaflet.client.TileLayer;
+import org.peimari.gleaflet.client.TileLayerOptions;
 import org.vaadin.addon.leaflet.shared.LeafletTileLayerState;
-import org.vaadin.addon.leaflet.shared.LeafletTileLayerServerRpc;
-import org.peimari.gleaflet.client.*;
-import org.vaadin.addon.leaflet.shared.EventId;
-
-import com.vaadin.client.communication.*;
-import com.vaadin.shared.ui.*;
 
 @Connect(org.vaadin.addon.leaflet.LTileLayer.class)
-public class LeafletTileLayerConnector extends
-        AbstractLeafletLayerConnector<TileLayerOptions> {
-
-    protected Layer layer;
-    protected LeafletTileLayerServerRpc tileLayerServerRpc = RpcProxy.create(LeafletTileLayerServerRpc.class, this);
+public class LeafletTileLayerConnector extends LeafletGridLayerConnector {
 
     @Override
     public LeafletTileLayerState getState() {
@@ -22,11 +17,9 @@ public class LeafletTileLayerConnector extends
 
     @Override
     protected TileLayerOptions createOptions() {
-        TileLayerOptions o = TileLayerOptions.create();
+        TileLayerOptions o = super.createOptions().cast();
         LeafletTileLayerState s = getState();
-        if (s.attributionString != null) {
-            o.setAttribution(s.attributionString);
-        }
+
         if (s.detectRetina != null && s.detectRetina) {
             o.setDetectRetina(true);
         }
@@ -39,24 +32,8 @@ public class LeafletTileLayerConnector extends
         if (s.maxZoom != null) {
             o.setMaxZoom(s.maxZoom);
         }
-        if (s.maxNativeZoom != null) {
-            o.setMaxNativeZoom(s.maxNativeZoom);
-        }
         if (s.tms != null && s.tms) {
             o.setTms(true);
-        }
-        if (s.opacity != null) {
-            o.setOpacity(s.opacity);
-        }
-        if (s.zIndex != null) {
-            o.setZindex(s.zIndex);
-        }
-        if (s.noWrap != null) {
-            o.setNoWrap(s.noWrap);
-        }
-        if (s.bounds != null) {
-            o.setBounds(LatLngBounds.create(LatLng.create(s.bounds.getSouthWestLat(), s.bounds.getSouthWestLon()),
-                    LatLng.create(s.bounds.getNorthEastLat(), s.bounds.getNorthEastLon())));
         }
         if (s.customOptions != null) {
             for (String keyName : s.customOptions.keySet()) {
@@ -67,38 +44,7 @@ public class LeafletTileLayerConnector extends
     }
 
     @Override
-    protected void update() {
-        if (layer != null) {
-            removeLayerFromParent();
-        }
-        TileLayerOptions o = createOptions();
-        layer = createTileLayer(o);
-        TileLayer tileLayer = (TileLayer) layer;
-        if (hasEventListener(EventId.LOAD)) {
-            tileLayer.addLoadListener(new LoadListener() {
-                @Override
-                public void onLoad(Event event) {
-                    tileLayerServerRpc.onLoad();
-                }
-            });
-        }
-        if (hasEventListener(EventId.LOADING)) {
-            tileLayer.addLoadingListener(new LoadingListener() {
-                @Override
-                public void onLoading(Event event) {
-                    tileLayerServerRpc.onLoading();
-                }
-            });
-        }
-        addToParent(layer);
-    }
-
-    protected TileLayer createTileLayer(TileLayerOptions o) {
-        return TileLayer.create(getState().url, o);
-    }
-
-    @Override
-    public Layer getLayer() {
-        return layer;
+    protected GridLayer createGridLayer(GridLayerOptions o) {
+        return TileLayer.create(getState().url, (TileLayerOptions) o);
     }
 }
