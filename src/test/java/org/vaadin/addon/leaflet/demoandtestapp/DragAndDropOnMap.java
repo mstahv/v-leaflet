@@ -16,21 +16,13 @@
 package org.vaadin.addon.leaflet.demoandtestapp;
 
 import com.vaadin.ui.dnd.DropTargetExtension;
-import com.vaadin.event.dd.DragAndDropEvent;
-import com.vaadin.event.dd.DropHandler;
-import com.vaadin.event.dd.TargetDetails;
-import com.vaadin.event.dd.acceptcriteria.AcceptAll;
-import com.vaadin.event.dd.acceptcriteria.AcceptCriterion;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.DragAndDropWrapper;
-import com.vaadin.ui.Notification;
-import com.vaadin.ui.Slider;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.dnd.DragSourceExtension;
 import com.vaadin.ui.dnd.event.DropEvent;
-import com.vaadin.ui.dnd.event.DropListener;
+import com.vaadin.ui.themes.ValoTheme;
 import org.vaadin.addon.leaflet.LMap;
 import org.vaadin.addon.leaflet.LMarker;
 import org.vaadin.addon.leaflet.LOpenStreetMapLayer;
@@ -61,6 +53,7 @@ public class DragAndDropOnMap extends AbstractTest {
         leafletMap.addLayer(new LOpenStreetMapLayer());
         
         Button button = new Button(FontAwesome.ANCHOR);
+        button.setStyleName(ValoTheme.BUTTON_BORDERLESS);
         
         DragSourceExtension dragFrom = new DragSourceExtension(button);
         dragFrom.setDragData("foo");
@@ -70,7 +63,9 @@ public class DragAndDropOnMap extends AbstractTest {
             int relativeX = event.getMouseEventDetails().getRelativeX();
             int relativeY = event.getMouseEventDetails().getRelativeY();
             leafletMap.translatePixelCoordinates(relativeX, relativeY, (Point p) -> {
-                leafletMap.addLayer(new LMarker(p));
+                final LMarker lMarker = new LMarker(p);
+                lMarker.setIcon(FontAwesome.ANCHOR);
+                leafletMap.addLayer(lMarker);
             });
             Object dragData = event.getDragSourceExtension().get().getDragData();
             System.err.println(dragData);
