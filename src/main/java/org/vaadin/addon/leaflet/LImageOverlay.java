@@ -33,6 +33,30 @@ public class LImageOverlay extends AbstractLeafletLayer {
         getState().opacity = opacity;
     }
 
+    /**
+     * @param alt text for the alt attribute of the image (useful for accessibility).
+     */
+    public void setAlt(String alt) {
+        getState().alt = alt;
+    }
+
+    /**
+     * Set if the image overlay will emit mouse events when clicked or hovered.
+     * @param interactive default is false
+     */
+    public void setInteractive(Boolean interactive) {
+        getState().interactive = interactive;
+    }
+
+    /**
+     * Set the explicit zIndex of the tile layer.
+     * @param zIndex number. Default is 1
+     */
+    public void setZIndex(Integer zIndex) {
+        getState().zIndex = zIndex;
+    }
+
+
     public void setAttribution(String attribution) {
         getState().attribution = attribution;
     }
