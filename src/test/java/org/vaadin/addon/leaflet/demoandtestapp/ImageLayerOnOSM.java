@@ -1,15 +1,11 @@
 package org.vaadin.addon.leaflet.demoandtestapp;
 
 import com.vaadin.server.ExternalResource;
-import org.vaadin.addon.leaflet.LMap;
-import org.vaadin.addon.leaflet.LPolyline;
+import com.vaadin.ui.Notification;
+import org.vaadin.addon.leaflet.*;
 import org.vaadin.addon.leaflet.shared.Point;
 
-import com.vaadin.server.Page;
 import com.vaadin.ui.Component;
-import org.vaadin.addon.leaflet.LCircleMarker;
-import org.vaadin.addon.leaflet.LImageOverlay;
-import org.vaadin.addon.leaflet.LOpenStreetMapLayer;
 import org.vaadin.addon.leaflet.shared.Bounds;
 import org.vaadin.addonhelpers.AbstractTest;
 
@@ -30,7 +26,32 @@ public class ImageLayerOnOSM extends AbstractTest {
         ExternalResource url = new ExternalResource("https://www.lib.utexas.edu/maps/historical/newark_nj_1922.jpg");
         LImageOverlay imageOverlay = new LImageOverlay(url, new Bounds(new Point(40.712216, -74.22655),new Point(40.773941, -74.12544)));
         imageOverlay.setOpacity(0.5);
+		imageOverlay.setInteractive(true);	//set true to emit mouse events
         imageOverlay.setAttribution("University of Texas");
+        imageOverlay.addClickListener(new LeafletClickListener() {
+			@Override
+			public void onClick(LeafletClickEvent event) {
+				Notification.show("Image overlay clicked!");
+			}
+		});
+        imageOverlay.addContextMenuListener(new LeafletContextMenuListener() {
+			@Override
+			public void onContextMenu(LeafletContextMenuEvent event) {
+				Notification.show("Image overlay context clicked!");
+			}
+		});
+        imageOverlay.addMouseOverListener(new LeafletMouseOverListener() {
+			@Override
+			public void onMouseOver(LeafletMouseOverEvent event) {
+				Notification.show("Mouse over image overlay!");
+			}
+		});
+        imageOverlay.addMouseOutListener(new LeafletMouseOutListener() {
+			@Override
+			public void onMouseOut(LeafletMouseOutEvent event) {
+				Notification.show("Mouse out of image overlay");
+			}
+		});
         leafletMap.addLayer(imageOverlay);
         
         leafletMap.zoomToContent();
