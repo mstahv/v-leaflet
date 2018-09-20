@@ -712,7 +712,23 @@ public class LMap extends AbstractComponentContainer {
         }
     }
 
-    ;
+    /**
+     * @see <a href="https://leafletjs.com/reference-1.3.2.html#map-zoomsnap">Leaflet.js doc</a>
+     *
+     * @param zoomSnap
+     */
+    public void setZoomSnap(Double zoomSnap) {
+        getState(!rendered).zoomSnap = zoomSnap;
+    }
+
+    /**
+     * @see <a href="https://leafletjs.com/reference-1.3.2.html#map-zoomdelta">Leaflet.js doc</a>
+     *
+     * @param zoomDelta
+     */
+    public void setZoomDelta(Double zoomDelta) {
+        getState(!rendered).zoomDelta = zoomDelta;
+    }
 
     /**
      * @see <a href="http://leafletjs.com/reference-1.0.0.html#map-scrollwheelzoom">Leaflet.js doc</a>
