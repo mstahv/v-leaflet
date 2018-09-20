@@ -1,3 +1,6 @@
+[![Published on Vaadin  Directory](https://img.shields.io/badge/Vaadin%20Directory-published-00b4f0.svg)](https://vaadin.com/directory/component/v-leaflet)
+[![Stars on vaadin.com/directory](https://img.shields.io/vaadin-directory/star/v-leaflet.svg)](https://vaadin.com/directory/component/v-leaflet)
+
 # V-Leaflet add-on project
 
 This is a Vaadin add-on that provides server side API for the amazing [LeafletJS](http://leafletjs.com). For usage examples see tests in this project. There is also a "full stack" usage example, but it only uses fraction of feature provided by this project.
