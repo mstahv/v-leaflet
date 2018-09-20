@@ -328,6 +328,14 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector
                 options.setScrollWheelZoom(getState().scrollWheelZoom);
             }
 
+            if (getState().zoomSnap != null) {
+                options.setZoomSnap(getState().zoomSnap);
+            }
+
+            if (getState().zoomDelta != null) {
+                options.setZoomDelta(getState().zoomDelta);
+            }
+
             if (getState().keyboard != null) {
                 options.setKeyboard(getState().keyboard);
             }

@@ -59,6 +59,8 @@ public class LeafletMapState extends AbstractComponentContainerState {
 	public Boolean doubleClickZoom;
 	public Boolean boxZoom;
 	public Boolean scrollWheelZoom;
+	public Double zoomSnap;
+	public Double zoomDelta;
 	public Boolean keyboard;
 	public Boolean readOnly;
 	public Connector[] updateLayersOnLocate;
