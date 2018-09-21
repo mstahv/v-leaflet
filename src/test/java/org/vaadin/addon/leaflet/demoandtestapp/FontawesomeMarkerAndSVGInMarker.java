@@ -79,6 +79,11 @@ public class FontawesomeMarkerAndSVGInMarker extends AbstractTest {
         lMarker3.setPopupAnchor(new Point(0, -45));
         map.addComponent(lMarker3);
 
+        LMarker characterAsIcon = new LMarker(60, 21);
+        characterAsIcon.setIcon("A1");
+        map.addComponent(characterAsIcon);
+
+
         LMarker svgDataUrlMarker = new LMarker(62, 24);
         // Note that styling is not easy this way as css don't hook into images
         svgDataUrlMarker.addStyleName("red");

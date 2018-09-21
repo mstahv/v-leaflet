@@ -18,8 +18,8 @@ import com.vividsolutions.jts.geom.Geometry;
  * A Marker displayed on LMap.
  */
 public class LMarker extends AbstractLeafletLayer {
-	
-	public static class DragEndEvent extends Event {
+
+    public static class DragEndEvent extends Event {
 
 		public DragEndEvent(LMarker source) {
 			super(source);
@@ -71,6 +71,18 @@ public class LMarker extends AbstractLeafletLayer {
 
     public Point getPoint() {
         return getState().point;
+    }
+
+    /**
+     * Sets character that is displayed inside the marker. This suits for simple
+     * situations, like annotating markers with characters or small numbers.
+     * <p>
+     * To show more versatile text on map, use DivIcon or custom SVG.
+     * </p>
+     * @param markerChar characters that are displayed inside marker symbol
+     */
+    public void setIcon(String markerChar) {
+        getState().markerChar = markerChar;
     }
 
     public void setIconSize(final Point point) {

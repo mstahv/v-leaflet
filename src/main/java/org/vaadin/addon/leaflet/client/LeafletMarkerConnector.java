@@ -105,14 +105,14 @@ public class LeafletMarkerConnector extends
 
         URLReference urlReference = getState().resources.get("icon");
         String divIcon = getState().divIcon;
-        if (urlReference != null && urlReference.getURL().startsWith("fonticon://")) {
+        boolean fontIconMarker = urlReference != null && urlReference.getURL().startsWith("fonticon://");
+        if (fontIconMarker || getState().markerChar != null) {
             String pathFill = getState().iconPathFill != null ? getState().iconPathFill : "#44AEEA";
             String pathStroke = getState().iconPathStroke != null ? getState().iconPathStroke : "#005FA8";
             String textFill = getState().iconTextFill != null ? getState().iconTextFill : "#fff";
 
-            // fonticons have special handling
-            com.vaadin.client.ui.Icon vIcon = getIcon();
-            String fontAwesomeChar = vIcon.getElement().getInnerText();
+            com.vaadin.client.ui.Icon vIcon;
+            String fontAwesomeChar = null;
             StringBuilder svgSb = new StringBuilder();
             // TODO make this configurable, consider making also possible to
             // use configurable SVG marker without fontawesome icon in marker
@@ -125,9 +125,17 @@ public class LeafletMarkerConnector extends
             svgSb.append("<text fill=\"");
             svgSb.append(textFill);
             svgSb.append("\" x=\"12.5\" y=\"20\" text-anchor=\"middle\" font-size=\"16\" class=\"");
-            svgSb.append(vIcon.getStyleName());
+            if(fontIconMarker) {
+                vIcon = getIcon();
+                fontAwesomeChar = vIcon.getElement().getInnerText();
+                svgSb.append(vIcon.getStyleName());
+            }
             svgSb.append("\">");
-            svgSb.append(fontAwesomeChar);
+            if(fontIconMarker) {
+                svgSb.append(fontAwesomeChar);
+            } else {
+                svgSb.append(getState().markerChar);
+            }
             svgSb.append("</text></svg>");
 
             DivIconOptions divIconOptions = DivIconOptions.create();
