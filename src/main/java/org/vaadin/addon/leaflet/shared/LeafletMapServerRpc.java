@@ -40,7 +40,7 @@ public interface LeafletMapServerRpc extends ServerRpc {
 	void onOverlayRemove(String name);
 
     @Delayed(lastOnly = true)
-	void onLocate(Point location, Double accuracy, Double altitude);
+	void onLocate(Point location, Double accuracy, Double altitude, Double speed);
 
 	void onLocateError(String error, int code);
     

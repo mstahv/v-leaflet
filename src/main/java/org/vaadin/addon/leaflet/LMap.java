@@ -95,8 +95,8 @@ public class LMap extends AbstractComponentContainer {
             }
 
             @Override
-            public void onLocate(Point location, Double accuracy, Double altitude) {
-                fireEvent(new LeafletLocateEvent(LMap.this, location, accuracy, altitude));
+            public void onLocate(Point location, Double accuracy, Double altitude, Double speed) {
+                fireEvent(new LeafletLocateEvent(LMap.this, location, accuracy, altitude, speed));
             }
 
             @Override

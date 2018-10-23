@@ -7,13 +7,15 @@ import org.vaadin.addon.leaflet.shared.Point;
 public class LeafletLocateEvent extends ConnectorEvent {
 	private final Double accuracy;
 	private final Double altitude;
+	private final Double speed;
 	private Point point;
 
-	public LeafletLocateEvent(ClientConnector source, Point p, Double a, Double altitude) {
+	public LeafletLocateEvent(ClientConnector source, Point p, Double a, Double altitude, Double speed) {
 		super(source);
 		this.point = p;
 		this.accuracy = a;
 		this.altitude = altitude;
+		this.speed = speed;
 	}
 	
 	public Point getPoint() {
@@ -27,6 +29,10 @@ public class LeafletLocateEvent extends ConnectorEvent {
 	public Double getAltitude() {
 		return altitude;
 	}
+
+    public Double getSpeed() {
+        return speed;
+    }
 
 	@Override
 	public String toString() {

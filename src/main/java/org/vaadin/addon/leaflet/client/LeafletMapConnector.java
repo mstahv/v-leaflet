@@ -173,7 +173,7 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector
                         @Override
                         public void onFound(LocationEvent event) {
                             if (hasEventListener("locate")) {
-                                rpc.onLocate(U.toPoint(event.getLatLng()), event.getAccuracy(), event.getAltitude());
+                                rpc.onLocate(U.toPoint(event.getLatLng()), event.getAccuracy(), event.getAltitude(), event.getSpeed());
                                 if(lazyTimer == null) {
                                     getConnection().getServerRpcQueue().flush();
                                     lazyTimer = new Timer(){
