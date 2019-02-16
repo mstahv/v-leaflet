@@ -16,7 +16,7 @@ public class LCircleMarker extends LCircle {
 		super(point, radiusInPixels);
 	}
 	
-	public LCircleMarker(com.vividsolutions.jts.geom.Point jtsPoint, double radiusInPixels) {
+	public LCircleMarker(org.locationtech.jts.geom.Point jtsPoint, double radiusInPixels) {
 		super(jtsPoint, radiusInPixels);
 	}
 

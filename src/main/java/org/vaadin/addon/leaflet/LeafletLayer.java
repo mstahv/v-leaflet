@@ -1,7 +1,7 @@
 package org.vaadin.addon.leaflet;
 
 import com.vaadin.ui.Component;
-import com.vividsolutions.jts.geom.Geometry;
+import org.locationtech.jts.geom.Geometry;
 
 /**
  * Marker interface to be implemented by all server side counterparts for

@@ -1,6 +1,6 @@
 package org.vaadin.addon.leaflet;
 
-import com.vividsolutions.jts.geom.Geometry;
+import org.locationtech.jts.geom.Geometry;
 import org.vaadin.addon.leaflet.shared.Bounds;
 import org.vaadin.addon.leaflet.shared.EventId;
 import org.vaadin.addon.leaflet.shared.LeafletGridLayerServerRpc;

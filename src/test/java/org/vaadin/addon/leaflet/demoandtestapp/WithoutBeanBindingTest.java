@@ -1,5 +1,9 @@
 package org.vaadin.addon.leaflet.demoandtestapp;
 
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.Point;
+import org.locationtech.jts.io.ParseException;
+import org.locationtech.jts.io.WKTReader;
 import org.vaadin.addon.leaflet.util.PointField;
 import org.vaadin.addonhelpers.AbstractTest;
 
@@ -9,10 +13,6 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.VerticalLayout;
-import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.geom.Point;
-import com.vividsolutions.jts.io.ParseException;
-import com.vividsolutions.jts.io.WKTReader;
 
 public class WithoutBeanBindingTest extends AbstractTest {
 	private WKTReader wkt = new WKTReader();

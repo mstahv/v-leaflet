@@ -1,8 +1,8 @@
 package org.vaadin.addon.leaflet.util;
 
-import com.vividsolutions.jts.geom.*;
-import com.vividsolutions.jts.io.ParseException;
-import com.vividsolutions.jts.io.WKTReader;
+import org.locationtech.jts.geom.*;
+import org.locationtech.jts.io.ParseException;
+import org.locationtech.jts.io.WKTReader;
 import org.peimari.gleaflet.client.Polyline;
 import org.vaadin.addon.leaflet.*;
 import org.vaadin.addon.leaflet.jsonmodels.PointArray;
@@ -84,16 +84,16 @@ public class JTSUtil {
             }
             layers.add(group);
 
-        } else if (geom instanceof com.vividsolutions.jts.geom.Point) {
+        } else if (geom instanceof org.locationtech.jts.geom.Point) {
 
-            com.vividsolutions.jts.geom.Point point = (com.vividsolutions.jts.geom.Point) geom;
+            org.locationtech.jts.geom.Point point = (org.locationtech.jts.geom.Point) geom;
             LMarker lMarker = toLMarker(point);
             layers.add(lMarker);
 
         } else if (geom instanceof MultiPoint) {
             LLayerGroup group = new LLayerGroup();
             for (int i = 0; i < geom.getNumGeometries(); i++) {
-                com.vividsolutions.jts.geom.Point point = (com.vividsolutions.jts.geom.Point) geom
+                org.locationtech.jts.geom.Point point = (org.locationtech.jts.geom.Point) geom
                         .getGeometryN(i);
                 LMarker lMarker = toLMarker(point);
                 group.addComponent(lMarker);
@@ -105,13 +105,13 @@ public class JTSUtil {
     }
 
     /**
-     * Translates between a {@link com.vividsolutions.jts.geom.Point} and a
+     * Translates between a {@link org.locationtech.jts.geom.Point} and a
      * {@link LMarker}
      *
      * @param point the point to be translated into marker
      * @return LMarker in given JTS Point
      */
-    public static LMarker toLMarker(com.vividsolutions.jts.geom.Point point) {
+    public static LMarker toLMarker(org.locationtech.jts.geom.Point point) {
         LMarker lMarker = new LMarker();
         Point lPoint = new Point();
         lPoint.setLat(point.getY());
@@ -261,19 +261,19 @@ public class JTSUtil {
         return factory;
     }
 
-    public static com.vividsolutions.jts.geom.Point toPoint(
+    public static org.locationtech.jts.geom.Point toPoint(
             org.vaadin.addon.leaflet.shared.Point p) {
-        com.vividsolutions.jts.geom.Point point = getGeometryFactory()
+        org.locationtech.jts.geom.Point point = getGeometryFactory()
                 .createPoint(new Coordinate(p.getLon(), p.getLat()));
         return point;
     }
 
-    public static com.vividsolutions.jts.geom.Point toPoint(LMarker lMarker) {
+    public static org.locationtech.jts.geom.Point toPoint(LMarker lMarker) {
         return toPoint(lMarker.getPoint());
     }
 
     public static org.vaadin.addon.leaflet.shared.Point toLeafletPoint(
-            com.vividsolutions.jts.geom.Point location) {
+            org.locationtech.jts.geom.Point location) {
         org.vaadin.addon.leaflet.shared.Point p = new org.vaadin.addon.leaflet.shared.Point(
                 location.getY(), location.getX());
         return p;
@@ -299,7 +299,7 @@ public class JTSUtil {
      * @throws ParseException if WKT string cannot be parsed
      */
     private static Geometry toGeometry(String wellKnownText) throws ParseException {
-       WKTReader wktReader = new WKTReader(getGeometryFactory()); 	     
+       WKTReader wktReader = new WKTReader(getGeometryFactory());
        return wktReader.read(wellKnownText);
     }
     

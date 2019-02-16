@@ -1,12 +1,13 @@
 package org.vaadin.addon.leaflet;
 
+import org.locationtech.jts.geom.Geometry;
 import org.vaadin.addon.leaflet.shared.LeafletPopupState;
 import org.vaadin.addon.leaflet.shared.PopupServerRpc;
 import org.vaadin.addon.leaflet.shared.Point;
 import org.vaadin.addon.leaflet.shared.PopupState;
 import org.vaadin.addon.leaflet.util.JTSUtil;
 
-import com.vividsolutions.jts.geom.Geometry;
+import org.locationtech.jts.geom.Geometry;
 
 /**
  * Standalone Popup to be displayed on the map.
@@ -42,7 +43,7 @@ public class LPopup extends AbstractLeafletDivOverlay {
         return (LMap) getParent();
     }
     
-    public LPopup(com.vividsolutions.jts.geom.Point jtsPoint) {
+    public LPopup(org.locationtech.jts.geom.Point jtsPoint) {
     	this(JTSUtil.toLeafletPoint(jtsPoint));
     }
 

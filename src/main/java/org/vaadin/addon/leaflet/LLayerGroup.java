@@ -4,18 +4,18 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.GeometryFactory;
 import org.vaadin.addon.leaflet.shared.LeafletLayerGroupState;
 
 import com.vaadin.ui.AbstractComponentContainer;
 import com.vaadin.ui.Component;
-import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.geom.GeometryFactory;
 import org.vaadin.addon.leaflet.shared.ILayerClientRpc;
 
 public class LLayerGroup extends AbstractComponentContainer implements
         LeafletLayer {
 
-    private List<Component> components = new ArrayList<Component>();
+    private List<Component> components = new ArrayList<>();
     private Boolean active;
 
     public LLayerGroup(Boolean active) {
@@ -83,7 +83,7 @@ public class LLayerGroup extends AbstractComponentContainer implements
 
     @Override
     public Geometry getGeometry() {
-        ArrayList<Geometry> gl = new ArrayList<Geometry>();
+        ArrayList<Geometry> gl = new ArrayList<>();
         for (Component c : this) {
             LeafletLayer l = (LeafletLayer) c;
             gl.add(l.getGeometry());

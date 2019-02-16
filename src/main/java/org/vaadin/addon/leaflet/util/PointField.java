@@ -1,11 +1,11 @@
 package org.vaadin.addon.leaflet.util;
 
 import com.vaadin.shared.Registration;
+import org.locationtech.jts.geom.Point;
 import org.vaadin.addon.leaflet.LMarker;
 import org.vaadin.addon.leaflet.LMarker.DragEndEvent;
 import org.vaadin.addon.leaflet.LMarker.DragEndListener;
 
-import com.vividsolutions.jts.geom.Point;
 import org.vaadin.addon.leaflet.LeafletClickEvent;
 import org.vaadin.addon.leaflet.LeafletClickListener;
 

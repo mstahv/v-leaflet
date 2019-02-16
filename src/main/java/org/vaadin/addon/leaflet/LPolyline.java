@@ -1,14 +1,14 @@
 package org.vaadin.addon.leaflet;
 
+import org.locationtech.jts.geom.Geometry;
 import org.vaadin.addon.leaflet.shared.LeafletPolylineState;
 import org.vaadin.addon.leaflet.jsonmodels.PointArray;
 import org.vaadin.addon.leaflet.shared.Point;
 import org.vaadin.addon.leaflet.util.JTSUtil;
 
-import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.geom.LineString;
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.LineString;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class LPolyline extends AbstractLeafletVector {
@@ -24,7 +24,7 @@ public class LPolyline extends AbstractLeafletVector {
         setPoints(points);
     }
 
-    public LPolyline(com.vividsolutions.jts.geom.LineString jtsLineString) {
+    public LPolyline(org.locationtech.jts.geom.LineString jtsLineString) {
         this(JTSUtil.toLeafletPointArray(jtsLineString));
     }
 
