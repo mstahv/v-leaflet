@@ -8,8 +8,8 @@ import org.vaadin.addon.leaflet.shared.LeafletLayerGroupState;
 
 import com.vaadin.ui.AbstractComponentContainer;
 import com.vaadin.ui.Component;
-import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.GeometryFactory;
 import org.vaadin.addon.leaflet.shared.ILayerClientRpc;
 
 public class LLayerGroup extends AbstractComponentContainer implements

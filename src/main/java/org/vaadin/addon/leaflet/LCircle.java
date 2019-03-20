@@ -4,7 +4,7 @@ import org.vaadin.addon.leaflet.shared.LeafletCircleState;
 import org.vaadin.addon.leaflet.shared.Point;
 import org.vaadin.addon.leaflet.util.JTSUtil;
 
-import com.vividsolutions.jts.geom.Geometry;
+import org.locationtech.jts.geom.Geometry;
 
 /**
  * A class for drawing circle overlays on a map.
@@ -53,7 +53,7 @@ public class LCircle extends AbstractLeafletVector {
      * @param radius the radius in meters, note that this is approximate,
      * especially small zoom levels.
      */
-    public LCircle(com.vividsolutions.jts.geom.Point jtsPoint, double radius) {
+    public LCircle(org.locationtech.jts.geom.Point jtsPoint, double radius) {
         this(JTSUtil.toLeafletPoint(jtsPoint), radius);
     }
 

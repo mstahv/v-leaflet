@@ -11,7 +11,7 @@ import org.vaadin.addon.leaflet.shared.Point;
 import org.vaadin.addon.leaflet.util.JTSUtil;
 
 import com.vaadin.util.ReflectTools;
-import com.vividsolutions.jts.geom.Geometry;
+import org.locationtech.jts.geom.Geometry;
 
 /**
  * A Marker displayed on LMap.
@@ -60,7 +60,7 @@ public class LMarker extends AbstractLeafletLayer {
     }
     
 
-    public LMarker(final com.vividsolutions.jts.geom.Point jtsPoint) {
+    public LMarker(final org.locationtech.jts.geom.Point jtsPoint) {
         this(JTSUtil.toLeafletPoint(jtsPoint));
     }
 
