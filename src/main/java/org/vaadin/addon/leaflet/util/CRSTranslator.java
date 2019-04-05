@@ -1,6 +1,6 @@
 package org.vaadin.addon.leaflet.util;
 
-import com.vividsolutions.jts.geom.Geometry;
+import org.locationtech.jts.geom.Geometry;
 
 public interface CRSTranslator<T extends Geometry> {
 

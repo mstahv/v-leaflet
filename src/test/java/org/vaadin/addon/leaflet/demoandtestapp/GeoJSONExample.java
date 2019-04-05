@@ -2,8 +2,8 @@ package org.vaadin.addon.leaflet.demoandtestapp;
 
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Notification;
-import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.simplify.DouglasPeuckerSimplifier;
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.simplify.DouglasPeuckerSimplifier;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
