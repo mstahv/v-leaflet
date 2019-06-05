@@ -22,6 +22,9 @@ public class LeafletGridLayerConnector extends AbstractLeafletLayerConnector<Gri
         GridLayerOptions o = GridLayerOptions.create();
         LeafletGridLayerState s = getState();
 
+        if (s.tileSize != null) {
+            o.setTileSize(s.tileSize);
+        }
         if (s.attributionString != null) {
             o.setAttribution(s.attributionString);
         }

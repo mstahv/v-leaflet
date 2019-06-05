@@ -27,6 +27,14 @@ public class LGridLayer extends AbstractLeafletLayer {
         return (LeafletGridLayerState) super.getState();
     }
 
+    public Integer getTileSize() {
+        return getState().tileSize;
+    }
+
+    public void setTileSize(Integer tileSize) {
+        getState().tileSize = tileSize;
+    }
+
     public String getAttributionString() {
         return getState().attributionString;
     }
