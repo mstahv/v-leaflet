@@ -10,6 +10,7 @@ public class LeafletTileLayerState extends LeafletGridLayerState {
     public Integer minZoom;
     public Integer maxZoom;
     public String[] subDomains;
+    public Integer zoomOffset;
     public Map<String, String> customOptions;
     
 }

@@ -35,6 +35,9 @@ public class LeafletTileLayerConnector extends LeafletGridLayerConnector {
         if (s.tms != null && s.tms) {
             o.setTms(true);
         }
+        if (s.zoomOffset != null) {
+            o.setZoomOffset(s.zoomOffset);
+        }
         if (s.customOptions != null) {
             for (String keyName : s.customOptions.keySet()) {
                 o.setCustomOption(keyName, s.customOptions.get(keyName));
