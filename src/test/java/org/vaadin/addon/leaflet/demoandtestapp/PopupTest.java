@@ -1,5 +1,6 @@
 package org.vaadin.addon.leaflet.demoandtestapp;
 
+import com.vaadin.annotations.StyleSheet;
 import com.vaadin.server.ClientConnector.DetachEvent;
 import java.util.LinkedList;
 import java.util.List;
@@ -22,6 +23,7 @@ import org.vaadin.addon.leaflet.LeafletClickListener;
 import org.vaadin.addon.leaflet.shared.PopupState;
 import org.vaadin.addonhelpers.AbstractTest;
 
+@StyleSheet({"testStyles.css"})
 public class PopupTest extends AbstractTest implements DetachListener {
 
 	private LMarker lMarker;
@@ -74,6 +76,10 @@ public class PopupTest extends AbstractTest implements DetachListener {
         popupState2.maxHeight = 30;
         lPopup2.setPopupState(popupState2);
         leafletMap.addComponent(lPopup2);
+
+        LPopup lPopup3 = new LPopup(60.4560, 22.310).setContent("Hi, i've got a custom style in magenta!");
+        lPopup3.setStyleName("popup-custom-style-test");
+        leafletMap.addComponent(lPopup3);
 
         lPopup.addClickListener(new LeafletClickListener() {
             @Override
