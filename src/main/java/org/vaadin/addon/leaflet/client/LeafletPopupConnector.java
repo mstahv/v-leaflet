@@ -2,6 +2,7 @@ package org.vaadin.addon.leaflet.client;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
+import com.vaadin.shared.ui.ComponentStateUtil;
 import org.peimari.gleaflet.client.*;
 import org.vaadin.addon.leaflet.shared.LeafletPopupState;
 import org.vaadin.addon.leaflet.shared.PopupServerRpc;
@@ -111,7 +112,7 @@ public class LeafletPopupConnector extends
         popupOptions.setAutoClose(popupState.autoClose);
         popupOptions.setKeepInView(popupState.keepInView);
         String stylename = c.getState().primaryStyleName;
-        if(c.getState().styles != null && !c.getState().styles.isEmpty()) {
+        if(ComponentStateUtil.hasStyles(c.getState())) {
             for(String s : c.getState().styles)
             stylename += " " + s; 
         }
