@@ -6,6 +6,7 @@ import com.vaadin.client.ServerConnector;
 import com.vaadin.client.VConsole;
 import com.vaadin.client.communication.StateChangeEvent;
 import com.vaadin.client.ui.AbstractComponentConnector;
+import com.vaadin.shared.ui.ComponentStateUtil;
 import com.vaadin.shared.ui.Connect;
 import org.peimari.gleaflet.client.*;
 import org.vaadin.addon.leaflet.shared.LeafletTooltipState;
@@ -88,6 +89,12 @@ public class LeafletTooltipConnector extends AbstractComponentConnector {
         if (tooltipState.opacity != null) {
             tooltipOptions.setOpacity(tooltipState.opacity);
         }
+        String stylename = c.getState().primaryStyleName;
+        if(ComponentStateUtil.hasStyles(c.getState())) {
+            for(String s : c.getState().styles)
+                stylename += " " + s;
+        }
+        tooltipOptions.setClassName(stylename);
         return tooltipOptions;
     }
 
