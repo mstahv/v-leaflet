@@ -2,7 +2,6 @@ package org.vaadin.addon.leaflet.client;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
-import com.vaadin.shared.ui.ComponentStateUtil;
 import org.peimari.gleaflet.client.*;
 import org.vaadin.addon.leaflet.shared.LeafletPopupState;
 import org.vaadin.addon.leaflet.shared.PopupServerRpc;
@@ -111,12 +110,8 @@ public class LeafletPopupConnector extends
         popupOptions.setCloseOnClick(popupState.closeOnClick);
         popupOptions.setAutoClose(popupState.autoClose);
         popupOptions.setKeepInView(popupState.keepInView);
-        String stylename = c.getState().primaryStyleName;
-        if(ComponentStateUtil.hasStyles(c.getState())) {
-            for(String s : c.getState().styles)
-            stylename += " " + s; 
-        }
-        popupOptions.setClassName(stylename);
+        String styleName = StyleUtil.getStyleNameFromComponentState(c.getState());
+        popupOptions.setClassName(styleName);
         if (popupState.offset != null) {
             popupOptions.setOffset(Point.create(popupState.offset.getLat(),
                     popupState.offset.getLon()));
