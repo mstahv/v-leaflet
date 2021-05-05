@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.geotools.feature.FeatureCollection;
@@ -14,11 +15,9 @@ import org.geotools.geojson.feature.FeatureJSON;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.simplify.DouglasPeuckerSimplifier;
 import org.opengis.feature.Feature;
-import org.vaadin.addon.leaflet.LMap;
-import org.vaadin.addon.leaflet.LPolygon;
-import org.vaadin.addon.leaflet.LeafletClickEvent;
-import org.vaadin.addon.leaflet.LeafletClickListener;
-import org.vaadin.addon.leaflet.LeafletLayer;
+import org.opengis.feature.GeometryAttribute;
+import org.opengis.feature.type.GeometryType;
+import org.vaadin.addon.leaflet.*;
 import org.vaadin.addon.leaflet.util.JTSUtil;
 import org.vaadin.addonhelpers.AbstractTest;
 
@@ -48,7 +47,7 @@ public class GeoJSONExample extends AbstractTest {
             long currentTimeMillis = System.currentTimeMillis();
             // Look ma, no proxy needed, how cool is that!
 
-            FeatureCollection fc = io.readFeatureCollection(new URL("http://eric.clst.org/assets/wiki/uploads/Stuff/gz_2010_us_040_00_500k.json").openStream());
+            FeatureCollection fc = io.readFeatureCollection(new URL("https://gist.githubusercontent.com/hrbrmstr/91ea5cc9474286c72838/raw/59421ff9b268ff0929b051ddafafbeb94a4c1910/continents.json").openStream());
             Logger.getLogger(GeoJSONExample.class.getName()).severe("Download in " + (System.currentTimeMillis() - currentTimeMillis));
             currentTimeMillis = System.currentTimeMillis();
 
@@ -56,8 +55,6 @@ public class GeoJSONExample extends AbstractTest {
             try {
                 while (iterator.hasNext()) {
                     Feature feature = iterator.next();
-                    final String name = feature.getProperty("NAME").getValue().toString();
-                    System.out.println("State " + name + " read!");
                     Geometry geometry = (Geometry) feature.getDefaultGeometryProperty().getValue();
 
                     // The geojson provided in example is rather complex (several megabytes)
@@ -70,15 +67,14 @@ public class GeoJSONExample extends AbstractTest {
                     Collection<LeafletLayer> toLayers = JTSUtil.toLayers(geometry);
                     for (LeafletLayer l : toLayers) {
                         leafletMap.addComponent(l);
-                        if (l instanceof LPolygon) {
-                            LPolygon lPolygon = (LPolygon) l;
-                            lPolygon.addClickListener(new LeafletClickListener() {
-
-                                @Override
-                                public void onClick(LeafletClickEvent event) {
-                                    Notification.show("That is " + name);
-                                }
-                            });
+                        if (l instanceof LLayerGroup) {
+                            LLayerGroup group = (LLayerGroup) l;
+                            Iterator<Component> components = group.getComponentIterator();
+                            while(components.hasNext()) {
+                                LPolygon lPolygon = (LPolygon) components.next();
+                                lPolygon.setStroke(false);
+                                lPolygon.setFillColor("brown");
+                            }
                         }
                     }
                 }
