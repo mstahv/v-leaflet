@@ -136,6 +136,8 @@ public class BasicTest extends AbstractTest {
 
 		LTileLayer pk = new LTileLayer();
 		pk.setUrl("https://{s}.kartat.kapsi.fi/peruskartta/{z}/{x}/{y}.png");
+		pk.setZoomOffset(0);
+		pk.setTileSize(256);
 		pk.setAttributionString("Maanmittauslaitos, hosted by kartat.kapsi.fi");
 		pk.setMaxZoom(18);
 		pk.setSubDomains("tile2");

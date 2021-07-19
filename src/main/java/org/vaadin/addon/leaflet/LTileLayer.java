@@ -68,6 +68,14 @@ public class LTileLayer extends LGridLayer {
         getState().subDomains = string;
     }
 
+    public Integer getZoomOffset() {
+        return getState().zoomOffset;
+    }
+
+    public void setZoomOffset(Integer zoomOffset) {
+        getState().zoomOffset = zoomOffset;
+    }
+
     public Map<String, String> getCustomOptions() {
         return getState().customOptions;
     }
