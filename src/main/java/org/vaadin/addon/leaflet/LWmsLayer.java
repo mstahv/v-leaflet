@@ -1,7 +1,7 @@
 package org.vaadin.addon.leaflet;
 
-import org.vaadin.addon.leaflet.shared.LeafletWmsLayerState;
 import org.vaadin.addon.leaflet.shared.Crs;
+import org.vaadin.addon.leaflet.shared.LeafletWmsLayerState;
 
 public class LWmsLayer extends LTileLayer {
 
@@ -67,10 +67,20 @@ public class LWmsLayer extends LTileLayer {
     }
 
 	public void setViewparams(String viewparams) {
-	   	getState().viewparams = viewparams;     
+	   	getState().viewparams = viewparams;
 	}
-	
+
 	public String getViewparams() {
 	   	return getState().viewparams;
 	}
+
+        public void setCQLFilter(String cqlFilter)
+        {
+           getState().cqlFilter = cqlFilter;
+        }
+
+        public String getCQLFilter()
+        {
+           return getState().cqlFilter;
+        }
 }

@@ -1,7 +1,11 @@
 package org.vaadin.addon.leaflet.client;
 
-import org.peimari.gleaflet.client.*;
+import org.peimari.gleaflet.client.Crs;
+import org.peimari.gleaflet.client.GridLayerOptions;
+import org.peimari.gleaflet.client.WmsLayer;
+import org.peimari.gleaflet.client.WmsLayerOptions;
 import org.vaadin.addon.leaflet.shared.LeafletWmsLayerState;
+
 import com.vaadin.shared.ui.Connect;
 
 @Connect(org.vaadin.addon.leaflet.LWmsLayer.class)
@@ -37,9 +41,13 @@ public class LeafletWmsLayerConnector extends LeafletTileLayerConnector {
 		if (s.viewparams != null) {
 			o.setViewparams(s.viewparams);
 		}
+                if (s.cqlFilter != null)
+                {
+                   o.setCQLFilter(s.cqlFilter);
+                }
 		return o;
 	}
-	
+
 	@Override
 	protected WmsLayer createGridLayer(GridLayerOptions o) {
 		return WmsLayer.create(getState().url, (WmsLayerOptions ) o);
