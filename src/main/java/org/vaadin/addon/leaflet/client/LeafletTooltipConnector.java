@@ -88,6 +88,8 @@ public class LeafletTooltipConnector extends AbstractComponentConnector {
         if (tooltipState.opacity != null) {
             tooltipOptions.setOpacity(tooltipState.opacity);
         }
+        String stylename = StyleUtil.getStyleNameFromComponentState(c.getState());
+        tooltipOptions.setClassName(stylename);
         return tooltipOptions;
     }
 

@@ -110,12 +110,8 @@ public class LeafletPopupConnector extends
         popupOptions.setCloseOnClick(popupState.closeOnClick);
         popupOptions.setAutoClose(popupState.autoClose);
         popupOptions.setKeepInView(popupState.keepInView);
-        String stylename = c.getState().primaryStyleName;
-        if(c.getState().styles != null && !c.getState().styles.isEmpty()) {
-            for(String s : c.getState().styles)
-            stylename += " " + s; 
-        }
-        popupOptions.setClassName(stylename);
+        String styleName = StyleUtil.getStyleNameFromComponentState(c.getState());
+        popupOptions.setClassName(styleName);
         if (popupState.offset != null) {
             popupOptions.setOffset(Point.create(popupState.offset.getLat(),
                     popupState.offset.getLon()));

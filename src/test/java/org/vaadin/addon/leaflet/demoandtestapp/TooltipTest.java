@@ -1,11 +1,13 @@
 package org.vaadin.addon.leaflet.demoandtestapp;
 
+import com.vaadin.annotations.StyleSheet;
 import com.vaadin.ui.Component;
 import org.vaadin.addon.leaflet.*;
 import org.vaadin.addon.leaflet.shared.Point;
 import org.vaadin.addon.leaflet.shared.TooltipState;
 import org.vaadin.addonhelpers.AbstractTest;
 
+@StyleSheet({"testStyles.css"})
 public class TooltipTest extends AbstractTest {
 
     @Override
@@ -25,7 +27,8 @@ public class TooltipTest extends AbstractTest {
         leafletMap.setCenter(60.4525, 22.301);
         leafletMap.setZoomLevel(15);
 
-        LTooltip tooltip1 = new LTooltip(60.4540, 22.275).setContent("Hi, I'm a standalone tooltip!");
+        LTooltip tooltip1 = new LTooltip(60.4540, 22.275).setContent("Hi, I'm a standalone tooltip in magenta!");
+        tooltip1.setPrimaryStyleName("tooltip-custom-style-test");
         leafletMap.addComponent(tooltip1);
 
         LMarker marker1 = new LMarker(60.4720, 22.271);
