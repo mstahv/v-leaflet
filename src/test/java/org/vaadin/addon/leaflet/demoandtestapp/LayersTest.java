@@ -3,12 +3,20 @@ package org.vaadin.addon.leaflet.demoandtestapp;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import org.vaadin.addon.leaflet.*;
+import org.vaadin.addon.leaflet.LLayerGroup;
+import org.vaadin.addon.leaflet.LMap;
+import org.vaadin.addon.leaflet.LTileLayer;
+import org.vaadin.addon.leaflet.LWmsLayer;
+import org.vaadin.addon.leaflet.LeafletLoadEvent;
+import org.vaadin.addon.leaflet.LeafletLoadListener;
+import org.vaadin.addon.leaflet.LeafletLoadingEvent;
+import org.vaadin.addon.leaflet.LeafletLoadingListener;
 import org.vaadin.addon.leaflet.shared.Control;
-
-import com.vaadin.ui.*;
-import com.vaadin.ui.Notification.Type;
 import org.vaadin.addonhelpers.AbstractTest;
+
+import com.vaadin.ui.Component;
+import com.vaadin.ui.Notification;
+import com.vaadin.ui.Notification.Type;
 
 public class LayersTest extends AbstractTest {
 
@@ -93,7 +101,7 @@ public class LayersTest extends AbstractTest {
 		      Notification.show("onLoanding", Type.TRAY_NOTIFICATION);
 		   }
 		});
-		
+
 		leafletMap.addOverlay(groupAreas,"Populated Areas & Water");
 		leafletMap.addOverlay(layerWmsStreets, "Streets");
 		leafletMap.addOverlay(layerWmsAbiesAlbaGermany, "Distribution of Abies Alba in Germany");
