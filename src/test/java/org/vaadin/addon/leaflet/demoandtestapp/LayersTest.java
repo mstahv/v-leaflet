@@ -113,7 +113,7 @@ public class LayersTest extends AbstractTest {
                 layerWmsAbiesAlbaGermanyMV.setStyles("polygon");
                 layerWmsAbiesAlbaGermanyMV.setCQLFilter("taxon=54870");
 
-		leafletMap.addOverlay(groupAreas,"Populated Areas & Water");
+    leafletMap.addOverlay(groupAreas,"Populated Areas & Water");
 		leafletMap.addOverlay(layerWmsStreets, "Streets");
 		leafletMap.addOverlay(layerWmsAbiesAlbaGermany, "Distribution of Abies Alba in Germany");
                 leafletMap.addOverlay(layerWmsAbiesAlbaGermanyMV,

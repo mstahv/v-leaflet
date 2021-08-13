@@ -23,7 +23,8 @@ public class LGridLayer extends AbstractLeafletLayer {
         });
     }
 
-    protected LeafletGridLayerState getState() {
+    @Override
+   protected LeafletGridLayerState getState() {
         return (LeafletGridLayerState) super.getState();
     }
 
@@ -81,6 +82,16 @@ public class LGridLayer extends AbstractLeafletLayer {
 
     public Bounds getBounds() {
         return getState().bounds;
+    }
+
+    public void setTileSize(int tileSize)
+    {
+       getState().tileSize = tileSize;
+    }
+
+    public int getTileSize()
+    {
+       return getState().tileSize;
     }
 
     @Override
