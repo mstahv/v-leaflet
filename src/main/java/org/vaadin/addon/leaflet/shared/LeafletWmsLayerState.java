@@ -9,4 +9,5 @@ public class LeafletWmsLayerState extends LeafletTileLayerState {
 	public String version;
     public String crsName;
     	public String viewparams;
+        public String cqlFilter;
 }

@@ -81,9 +81,9 @@ public class LayersTest extends AbstractTest {
 		layerWmsAbiesAlbaGermany.setOpacity(.6);
 		layerWmsAbiesAlbaGermany.setFormat("image/png");
 		layerWmsAbiesAlbaGermany.setActive(true);
-		// BOUNDS should be set to current view port, because of server side cluster at some scale level - but this is just for try viewparams 
+		// BOUNDS should be set to current view port, because of server side cluster at some scale level - but this is just for try viewparams
 		layerWmsAbiesAlbaGermany.setViewparams("TAXONMEANINGID:274;BOUNDS:POLYGON(( 9.44617309618379 54.84370034122247\\,9.44617309618379 50.86696466779405\\,18.301153563701007 50.86696466779405\\,18.301153563701007 54.84370034122247\\,9.44617309618379 54.84370034122247))");
-		
+
 		layerWmsAbiesAlbaGermany.addLoadListener(new LeafletLoadListener()
 		{
 		   @Override
@@ -92,7 +92,7 @@ public class LayersTest extends AbstractTest {
 		      Notification.show("onLoad", Type.TRAY_NOTIFICATION);
 		   }
 		});
-		
+
 		layerWmsAbiesAlbaGermany.addLoadingListener(new LeafletLoadingListener()
 		{
 		   @Override
@@ -102,10 +102,22 @@ public class LayersTest extends AbstractTest {
 		   }
 		});
 
-		leafletMap.addOverlay(groupAreas,"Populated Areas & Water");
+                LWmsLayer layerWmsAbiesAlbaGermanyMV = new LWmsLayer();
+                layerWmsAbiesAlbaGermanyMV.setUrl(
+                      "https://wms.test.infinitenature.org/geoserver/werbeo/wms?");
+                layerWmsAbiesAlbaGermanyMV.setLayers("mv-occ");
+                layerWmsAbiesAlbaGermanyMV.setTransparent(true);
+                layerWmsAbiesAlbaGermanyMV.setOpacity(.6);
+                layerWmsAbiesAlbaGermanyMV.setFormat("image/png");
+                layerWmsAbiesAlbaGermanyMV.setActive(true);
+                layerWmsAbiesAlbaGermanyMV.setStyles("polygon");
+                layerWmsAbiesAlbaGermanyMV.setCQLFilter("taxon=54870");
+
+    leafletMap.addOverlay(groupAreas,"Populated Areas & Water");
 		leafletMap.addOverlay(layerWmsStreets, "Streets");
 		leafletMap.addOverlay(layerWmsAbiesAlbaGermany, "Distribution of Abies Alba in Germany");
-
+                leafletMap.addOverlay(layerWmsAbiesAlbaGermanyMV,
+                      "Distribution of Abies Alba in Mecklenburg-Vorpommern");
 		return leafletMap;
 	}
 }
