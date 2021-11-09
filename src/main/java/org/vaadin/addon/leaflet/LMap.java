@@ -1,33 +1,32 @@
 package org.vaadin.addon.leaflet;
 
-import com.vaadin.shared.Registration;
-import org.locationtech.jts.geom.Geometry;
-import org.locationtech.jts.geom.GeometryFactory;
-import org.vaadin.addon.leaflet.shared.Crs;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import org.vaadin.addon.leaflet.shared.LeafletMapClientRpc;
-import org.vaadin.addon.leaflet.shared.LeafletMapServerRpc;
-import org.vaadin.addon.leaflet.shared.LeafletMapState;
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.GeometryFactory;
 import org.vaadin.addon.leaflet.control.AbstractControl;
 import org.vaadin.addon.leaflet.control.LLayers;
 import org.vaadin.addon.leaflet.control.LScale;
 import org.vaadin.addon.leaflet.control.LZoom;
+import org.vaadin.addon.leaflet.jsonmodels.BasicMap;
 import org.vaadin.addon.leaflet.shared.Bounds;
 import org.vaadin.addon.leaflet.shared.Control;
+import org.vaadin.addon.leaflet.shared.Crs;
+import org.vaadin.addon.leaflet.shared.LeafletMapClientRpc;
+import org.vaadin.addon.leaflet.shared.LeafletMapServerRpc;
+import org.vaadin.addon.leaflet.shared.LeafletMapState;
 import org.vaadin.addon.leaflet.shared.Point;
 import org.vaadin.addon.leaflet.util.JTSUtil;
 
 import com.vaadin.server.Extension;
 import com.vaadin.server.SerializableConsumer;
 import com.vaadin.shared.MouseEventDetails;
+import com.vaadin.shared.Registration;
 import com.vaadin.ui.AbstractComponentContainer;
 import com.vaadin.ui.Component;
-import org.vaadin.addon.leaflet.jsonmodels.BasicMap;
 
 /**
  *
@@ -104,11 +103,11 @@ public class LMap extends AbstractComponentContainer {
                 // TODO
                 error.length();
             }
-            
+
             @Override
             public void onTranslate(Point p) {
                 if(translationCallback != null) {
-                    translationCallback.accept(p);                    
+                    translationCallback.accept(p);
                     translationCallback = null;
                 }
             }
@@ -426,6 +425,11 @@ public class LMap extends AbstractComponentContainer {
 
     public Point getCenter() {
         return getState(false).center;
+    }
+
+    public Point getSize()
+    {
+       return getState(false).size;
     }
 
     public void setAttributionPrefix(String prefix) {
@@ -819,7 +823,7 @@ public class LMap extends AbstractComponentContainer {
      * to actual coordinates on the client side and passes the values to the callback.
      * <p>
      * Note, only one callback is allowed at once.
-     * 
+     *
      * @param x the x pixel coordinate
      * @param y the y pixel coordinate
      * @param callback the callback to notify when translation is done
