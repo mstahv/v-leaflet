@@ -34,7 +34,7 @@ import com.vaadin.ui.Component;
 public class LMap extends AbstractComponentContainer {
 
     private SerializableConsumer<Point> translationCallback;
-
+    private SerializableConsumer<Point> sizeCallback;
     class State {
 
         boolean dragging;
@@ -111,6 +111,16 @@ public class LMap extends AbstractComponentContainer {
                     translationCallback = null;
                 }
             }
+
+           @Override
+           public void onSize(double x, double y)
+           {
+              if (sizeCallback != null)
+              {
+                 sizeCallback.accept(new Point(x, y));
+                 sizeCallback = null;
+              }
+           }
 
         });
 
@@ -425,11 +435,6 @@ public class LMap extends AbstractComponentContainer {
 
     public Point getCenter() {
         return getState(false).center;
-    }
-
-    public Point getSize()
-    {
-       return getState(false).size;
     }
 
     public void setAttributionPrefix(String prefix) {
@@ -835,6 +840,19 @@ public class LMap extends AbstractComponentContainer {
         } else {
             throw new IllegalStateException("Only one active call to translatePixelCoordinates is allowed");
         }
+    }
+
+    public void getSize(SerializableConsumer<Point> callback)
+    {
+       if (sizeCallback == null)
+       {
+          getRpcProxy(LeafletMapClientRpc.class).getSize();
+          sizeCallback = callback;
+       } else
+       {
+          throw new IllegalStateException(
+                "Only one active call to getSize is allowed");
+       }
     }
 
 }

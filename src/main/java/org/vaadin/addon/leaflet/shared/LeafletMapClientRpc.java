@@ -4,7 +4,7 @@ package org.vaadin.addon.leaflet.shared;
 import com.vaadin.shared.communication.ClientRpc;
 
 public interface LeafletMapClientRpc extends ClientRpc {
-	
+
 	void setCenter(Double lat, Double lon, Double zoom);
     void flyTo(Double lat, Double lon, Double zoom);
 	void zoomToExtent(Bounds bounds);
@@ -18,6 +18,8 @@ public interface LeafletMapClientRpc extends ClientRpc {
     void locate(boolean watch, boolean highaccuracy, boolean updateView);
     void stopLocate();
     public void translate(int x, int y);
-    
+
+    void getSize();
+
 
 }

@@ -142,7 +142,8 @@ public class DynamicChanges extends AbstractTest {
 
         button = new Button("Show current size of the map");
         button.addClickListener(
-              event -> Notification.show("Size is " + leafletMap.getSize()));
+              (e) -> leafletMap
+                    .getSize(point -> Notification.show("Map size: " + point)));
         tools.addComponent(button);
 
         final LeafletMoveEndListener moveEndListener = new LeafletMoveEndListener() {

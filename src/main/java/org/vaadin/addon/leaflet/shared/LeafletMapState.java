@@ -34,7 +34,6 @@ public class LeafletMapState extends AbstractComponentContainerState {
     public Bounds maxBounds;
     public Integer minZoom;
     public Integer maxZoom;
-    public Point size;
 
     /* This should be replaced with a more decent api */
     public String customMapOptionsJson;
