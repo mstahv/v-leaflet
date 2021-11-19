@@ -4,9 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
-import com.vaadin.data.HasValue;
-import com.vaadin.shared.Registration;
 import org.vaadin.addon.leaflet.LMap;
+import org.vaadin.addon.leaflet.LOpenStreetMapLayer;
 import org.vaadin.addon.leaflet.LPolyline;
 import org.vaadin.addon.leaflet.LeafletClickEvent;
 import org.vaadin.addon.leaflet.LeafletClickListener;
@@ -14,8 +13,11 @@ import org.vaadin.addon.leaflet.LeafletMoveEndEvent;
 import org.vaadin.addon.leaflet.LeafletMoveEndListener;
 import org.vaadin.addon.leaflet.shared.Bounds;
 import org.vaadin.addon.leaflet.shared.Point;
+import org.vaadin.addonhelpers.AbstractTest;
 
+import com.vaadin.data.HasValue;
 import com.vaadin.data.HasValue.ValueChangeEvent;
+import com.vaadin.shared.Registration;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -24,8 +26,6 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Notification.Type;
-import org.vaadin.addon.leaflet.LOpenStreetMapLayer;
-import org.vaadin.addonhelpers.AbstractTest;
 
 public class DynamicChanges extends AbstractTest {
 
@@ -139,6 +139,12 @@ public class DynamicChanges extends AbstractTest {
         });
         tools.addComponent(button);
 
+
+        button = new Button("Show current size of the map");
+        button.addClickListener(
+              (e) -> leafletMap
+                    .getSize(point -> Notification.show("Map size: " + point)));
+        tools.addComponent(button);
 
         final LeafletMoveEndListener moveEndListener = new LeafletMoveEndListener() {
             @Override

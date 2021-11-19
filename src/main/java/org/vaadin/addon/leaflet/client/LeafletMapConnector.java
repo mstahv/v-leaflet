@@ -15,18 +15,41 @@
  */
 package org.vaadin.addon.leaflet.client;
 
-import com.vaadin.shared.Connector;
-import org.peimari.gleaflet.client.*;
-import org.vaadin.addon.leaflet.shared.LeafletMapClientRpc;
-import org.vaadin.addon.leaflet.shared.LeafletMapServerRpc;
-import org.vaadin.addon.leaflet.shared.LeafletMapState;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import org.peimari.gleaflet.client.BaseLayerChangeListener;
+import org.peimari.gleaflet.client.Circle;
+import org.peimari.gleaflet.client.CircleMarker;
+import org.peimari.gleaflet.client.ClickListener;
+import org.peimari.gleaflet.client.ContextMenuListener;
+import org.peimari.gleaflet.client.Crs;
+import org.peimari.gleaflet.client.ErrorEvent;
+import org.peimari.gleaflet.client.Event;
+import org.peimari.gleaflet.client.LatLng;
+import org.peimari.gleaflet.client.LatLngBounds;
+import org.peimari.gleaflet.client.Layer;
+import org.peimari.gleaflet.client.LayersControlEvent;
+import org.peimari.gleaflet.client.LocateOptions;
+import org.peimari.gleaflet.client.LocationErrorListener;
+import org.peimari.gleaflet.client.LocationEvent;
+import org.peimari.gleaflet.client.LocationFoundListener;
+import org.peimari.gleaflet.client.Map;
+import org.peimari.gleaflet.client.MapOptions;
+import org.peimari.gleaflet.client.Marker;
+import org.peimari.gleaflet.client.MouseEvent;
+import org.peimari.gleaflet.client.MoveEndListener;
+import org.peimari.gleaflet.client.OverlayAddListener;
+import org.peimari.gleaflet.client.OverlayRemoveListener;
+import org.peimari.gleaflet.client.Polyline;
 import org.peimari.gleaflet.client.control.Layers;
 import org.peimari.gleaflet.client.resources.LeafletResourceInjector;
 import org.vaadin.addon.leaflet.LMap;
 import org.vaadin.addon.leaflet.shared.Bounds;
+import org.vaadin.addon.leaflet.shared.LeafletMapClientRpc;
+import org.vaadin.addon.leaflet.shared.LeafletMapServerRpc;
+import org.vaadin.addon.leaflet.shared.LeafletMapState;
 import org.vaadin.addon.leaflet.shared.Point;
 
 import com.google.gwt.core.client.Scheduler;
@@ -45,9 +68,9 @@ import com.vaadin.client.communication.StateChangeEvent;
 import com.vaadin.client.ui.AbstractHasComponentsConnector;
 import com.vaadin.client.ui.layout.ElementResizeEvent;
 import com.vaadin.client.ui.layout.ElementResizeListener;
+import com.vaadin.shared.Connector;
 import com.vaadin.shared.MouseEventDetails;
 import com.vaadin.shared.ui.Connect;
-import java.util.Date;
 
 /**
  *
@@ -74,6 +97,12 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector
     @Override
     public LeafletMapState getState() {
         return (LeafletMapState) super.getState();
+    }
+
+    public Point getSize()
+    {
+       org.peimari.gleaflet.client.Point clientPoint = map.getSize();
+       return new Point(clientPoint.getY(), clientPoint.getX());
     }
 
     @Override
@@ -185,7 +214,7 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector
                                     lazyTimer.schedule(getState().minLocateInterval);
                                 }
                             }
-                            
+
                             if (getState().updateLayersOnLocate != null) {
                                 for (Connector c : getState().updateLayersOnLocate) {
                                     tryUpdateConnector(c, event);
@@ -225,6 +254,13 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector
                 LatLng latLng = map.containerPointToLatLng(org.peimari.gleaflet.client.Point.create(x, y));
                 rpc.onTranslate(new Point(latLng.getLatitude(), latLng.getLongitude()));
             }
+
+           @Override
+           public void getSize()
+           {
+              org.peimari.gleaflet.client.Point size = map.getSize();
+              rpc.onSize(size.getX(), size.getY());
+           }
 
         });
 
@@ -376,7 +412,8 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector
             }
 
             map.addClickListener(new ClickListener() {
-                public void onClick(MouseEvent event) {
+                @Override
+               public void onClick(MouseEvent event) {
                     if (hasEventListener("click")) {
 
                         // Add mouse details
@@ -449,7 +486,7 @@ public class LeafletMapConnector extends AbstractHasComponentsConnector
             map.addMoveEndListener(moveEndListener);
 
             if (getState().width != null && !getState().width.contains("%")) {
-                // fixed size for the leaflet map, report size manually to the 
+                // fixed size for the leaflet map, report size manually to the
                 // server
                 reportViewPortToServer();
             }

@@ -25,12 +25,12 @@ import com.vaadin.shared.communication.ServerRpc;
  * @author mstahv
  */
 public interface LeafletMapServerRpc extends ServerRpc {
-    
+
 	void onClick(Point location, MouseEventDetails details);
 
 	@Delayed(lastOnly=true)
 	void onMoveEnd(Bounds bounds, Point center, double zoomlevel);
-    
+
     void onContextMenu(Point location, MouseEventDetails details);
 
 	void onBaseLayerChange(String name);
@@ -43,7 +43,9 @@ public interface LeafletMapServerRpc extends ServerRpc {
 	void onLocate(Point location, Double accuracy, Double altitude, Double speed);
 
 	void onLocateError(String error, int code);
-    
+
     void onTranslate(Point point);
+
+    void onSize(double x, double y);
 
 }

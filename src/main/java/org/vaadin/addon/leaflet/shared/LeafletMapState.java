@@ -20,21 +20,21 @@ import com.vaadin.shared.Connector;
 import com.vaadin.shared.ui.AbstractComponentContainerState;
 
 /**
- * 
+ *
  * @author mattitahvonenitmill
  */
 public class LeafletMapState extends AbstractComponentContainerState {
-	
+
 	public Point center;
 	public Double zoomLevel;
 
 	public Bounds zoomToExtent;
-	
+
 	public String attributionPrefix = "Leaflet";
     public Bounds maxBounds;
     public Integer minZoom;
     public Integer maxZoom;
-    
+
     /* This should be replaced with a more decent api */
     public String customMapOptionsJson;
 
@@ -64,6 +64,6 @@ public class LeafletMapState extends AbstractComponentContainerState {
 	public Boolean keyboard;
 	public Boolean readOnly;
 	public Connector[] updateLayersOnLocate;
-    
+
     public int minLocateInterval = 5000;
 }
