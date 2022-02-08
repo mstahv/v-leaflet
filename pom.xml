@@ -12,6 +12,7 @@
         <geotools.version>20.2</geotools.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+    	<closeTestReports>true</closeTestReports>
     </properties>
 
     <organization>
