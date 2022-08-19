@@ -8,8 +8,8 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <vaadin.version>8.13.0</vaadin.version>
-        <geotools.version>20.2</geotools.version>
+        <vaadin.version>8.16.1</vaadin.version>
+        <geotools.version>27.1</geotools.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
@@ -46,12 +46,12 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>3.0.2</version>
+                <version>3.1.2</version>
                 <configuration>
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <!-- Implementation-Title and Implementation-Version come from the 
+                            <!-- Implementation-Title and Implementation-Version come from the
                             POM by default -->
                             <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
                         </manifest>
@@ -85,10 +85,10 @@
             </plugin>
 
 
-            <!-- This creates a zip file of jar and sources jar. When publishing in 
-            the Directory this makes sources available to maven users automatically. 
-            We could also use this to package required dependecies for those poor developer 
-            souls that still dont know how to use a build system that supports transient 
+            <!-- This creates a zip file of jar and sources jar. When publishing in
+            the Directory this makes sources available to maven users automatically.
+            We could also use this to package required dependecies for those poor developer
+            souls that still dont know how to use a build system that supports transient
             dependencies... -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -159,11 +159,11 @@
                     </execution>
                 </executions>
             </plugin>
-            
+
             <plugin>
                 <groupId>com.github.webdriverextensions</groupId>
                 <artifactId>webdriverextensions-maven-plugin</artifactId>
-                <version>3.1.1</version>
+                <version>3.3.0</version>
                 <executions>
                     <execution>
                         <goals>
@@ -203,7 +203,7 @@
 
         <resources>
             <resource>
-                <!-- This add sources, .gwt.xml files etc to jar from source directory. 
+                <!-- This add sources, .gwt.xml files etc to jar from source directory.
                 Not quite maven convention byt easieast to setup this way. -->
                 <directory>src/main/java</directory>
             </resource>
@@ -223,6 +223,14 @@
                         <goals>install assembly:single</goals>
                     </configuration>
                 </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>3.1.0</version>
+                    <configuration>
+                        <encoding>UTF-8</encoding>
+                    </configuration>
+                </plugin>
 
                 <!-- Compile widget set for integration testing -->
                 <plugin>
@@ -238,7 +246,7 @@
                         <draftCompile>true</draftCompile>
                         <style>PRETTY</style>
                         <module>org.vaadin.addon.leaflet.Widgetset</module>
-                        <!-- If you do lots of e.g. plain css changes and don't wish to use 
+                        <!-- If you do lots of e.g. plain css changes and don't wish to use
                         hosted mode, you can force compile easily with uncommenting following rule -->
                         <!-- 						<force>true</force> -->
                         <strict>true</strict>
@@ -248,8 +256,8 @@
                     <artifactId>maven-surefire-plugin</artifactId>
                     <configuration>
                         <excludes>
-                            <!-- Files here might match to naming convetions, but the are just 
-                            vaadin apps containing you add-on components in varios setups. We can ignore 
+                            <!-- Files here might match to naming convetions, but the are just
+                            vaadin apps containing you add-on components in varios setups. We can ignore
                             them from test. -->
                             <exclude>**/demoandtestapp/*</exclude>
                         </excludes>
@@ -309,7 +317,7 @@
             <releases>
                 <enabled>true</enabled>
             </releases>
-        </repository>        
+        </repository>
         <repository>
             <id>vaadin-snapshots</id>
             <url>https://oss.sonatype.org/content/repositories/vaadin-snapshots/</url>
@@ -360,15 +368,15 @@
             <groupId>org.peimari</groupId>
             <artifactId>g-leaflet</artifactId>
             <version>1.0.18</version>
-            <!-- Only needed during widgetset compilation, so provided scope would 
-            be great for this, but with it is left out from widgetset compilation by 
+            <!-- Only needed during widgetset compilation, so provided scope would
+            be great for this, but with it is left out from widgetset compilation by
             vaadin plugin -->
             <!-- <scope>provided</scope> -->
         </dependency>
         <dependency>
             <groupId>org.locationtech.jts</groupId>
             <artifactId>jts-core</artifactId>
-            <version>1.16.0</version>
+            <version>1.19.0</version>
         </dependency>
 
         <dependency>
@@ -387,7 +395,7 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.9.10.7</version>
+            <version>2.13.3</version>
         </dependency>
 
         <dependency>
@@ -397,12 +405,6 @@
             <scope>test</scope>
         </dependency>
 
-        <dependency>
-            <groupId>org.geotools</groupId>
-            <artifactId>gt-api</artifactId>
-            <version>${geotools.version}</version>
-            <scope>test</scope>
-        </dependency>
         <dependency>
             <groupId>org.geotools</groupId>
             <artifactId>gt-geojson</artifactId>
@@ -436,7 +438,7 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.12</version>
+            <version>4.13.1</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
