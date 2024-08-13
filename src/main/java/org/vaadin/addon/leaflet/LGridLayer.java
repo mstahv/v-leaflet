@@ -90,6 +90,14 @@ public class LGridLayer extends AbstractLeafletLayer {
     public Bounds getBounds() {
         return getState().bounds;
     }
+    
+    public String getAuthToken() {
+        return getState().authToken;
+    }
+
+    public void setAuthToken(String authToken) {
+        getState().authToken = authToken;
+    }
 
     @Override
     public Geometry getGeometry() {

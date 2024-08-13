@@ -10,4 +10,5 @@ public class LeafletGridLayerState extends AbstractLeafletComponentState {
     public Integer minNativeZoom;
     public Boolean noWrap;
     public String attributionString;
+    public String authToken;
 }

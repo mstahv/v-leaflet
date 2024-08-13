@@ -8,13 +8,13 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <vaadin.version>7.7.9</vaadin.version>
+        <vaadin.version>7.7.17</vaadin.version>
         <geotools.version>20.2</geotools.version>
     </properties>
 
     <organization>
         <name>Vaadin Community</name>
-        <url>http://vaadin.com/forum/</url>
+        <url>https://vaadin.com/forum/</url>
     </organization>
 
     <scm>
@@ -33,7 +33,7 @@
     <licenses>
         <license>
             <name>Apache 2</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
             <distribution>repo</distribution>
             <comments>A business-friendly OSS license</comments>
         </license>
@@ -301,7 +301,7 @@
         <dependency>
             <groupId>org.peimari</groupId>
             <artifactId>g-leaflet</artifactId>
-            <version>1.0.16</version>
+            <version>1.0.19</version>
             <!-- Only needed during widgetset compilation, so provided scope would 
             be great for this, but with it is left out from widgetset compilation by 
             vaadin plugin -->
@@ -382,7 +382,6 @@
             <version>4.10</version>
             <scope>test</scope>
         </dependency>
-        
 
     </dependencies>
 

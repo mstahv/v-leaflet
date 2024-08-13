@@ -42,7 +42,10 @@ public class LeafletWmsLayerConnector extends LeafletTileLayerConnector {
 	
 	@Override
 	protected WmsLayer createGridLayer(GridLayerOptions o) {
-		return WmsLayer.create(getState().url, (WmsLayerOptions ) o);
+		if (getState().authToken != null) {
+			return WmsLayer.create(getState().url, getState().authToken, getState().layers, (WmsLayerOptions ) o, getMap());
+		}
+		return WmsLayer.create(getState().url, (WmsLayerOptions ) o);		
 	}
 
 }
